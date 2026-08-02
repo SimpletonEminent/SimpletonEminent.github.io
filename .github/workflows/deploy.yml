@@ -26,10 +26,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Install, build, and upload your site
         uses: withastro/action@v3
-        # with:
-          # path: . # 存储库中 Astro 项目的根位置。（可选）
-          # node-version: 22 # 用于构建站点的特定 Node.js 版本,默认为 22。（可选）
-          # package-manager: pnpm@latest # 使用的包管理器,会根据 lockfile 自动检测。（可选）
+        with:
+          # Astro 7 要求 Node >= 22.12.0,必须显式指定,否则默认 Node 20 会构建失败
+          node-version: 22
 
   deploy:
     needs: build
