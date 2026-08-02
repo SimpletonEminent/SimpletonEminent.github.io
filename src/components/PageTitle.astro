@@ -1,0 +1,43 @@
+---
+// 自定义 PageTitle:在文章标题下方显示字数与阅读时间
+// 覆盖 Starlight 默认的 PageTitle.astro
+// remark 插件注入的字段位于 entry.rendered.metadata.frontmatter
+const entry = Astro.locals.starlightRoute.entry;
+const { title } = entry.data;
+
+const renderedFrontmatter = entry.rendered?.metadata?.frontmatter as Record<string, unknown> | undefined;
+const minutesRead = renderedFrontmatter?.minutesRead as string | undefined;
+const words = renderedFrontmatter?.words as number | undefined;
+---
+
+<h1 id="_top">{title}</h1>
+
+{
+  // 仅当插件注入了阅读数据时才显示
+  minutesRead && (
+    <p class="reading-time">
+      📖 {words ? `${words} 字` : ''}
+      {words && ' · '}
+      ⏱ {minutesRead}
+    </p>
+  )
+}
+
+<style>
+	@layer starlight.core {
+		h1 {
+			margin-top: 1rem;
+			font-size: var(--sl-text-h1);
+			line-height: var(--sl-line-height-headings);
+			font-weight: 600;
+			color: var(--sl-color-white);
+			margin-bottom: 0.25rem;
+		}
+
+		.reading-time {
+			margin: 0 0 1rem;
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-3);
+		}
+	}
+</style>

@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import starlight from '@astrojs/starlight';
 import remarkBreaks from 'remark-breaks';
+import { remarkReadingTime } from './remark-reading-time.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,10 +11,13 @@ export default defineConfig({
   site: 'https://SimpletonEminent.github.io',
 
   markdown: {
-    // Astro 7 默认使用 Sätteri 管道;要启用 remark 插件(remark-breaks),
+    // Astro 7 默认使用 Sätteri 管道;要启用 remark 插件,
     // 需显式切换到 unified() processor(官方推荐路径)
     processor: unified({
-      remarkPlugins: [remarkBreaks],
+      remarkPlugins: [
+        remarkBreaks,        // 单回车换行(排版偏好 #1)
+        remarkReadingTime,   // 自动计算字数和阅读时间
+      ],
     }),
   },
 
@@ -35,6 +39,11 @@ export default defineConfig({
 
       // 右侧目录(TOC):默认只收录 h2-h3,这里改为收录 h1-h4 全部
       tableOfContents: { minHeadingLevel: 1, maxHeadingLevel: 4 },
+
+      // 组件覆盖:在文章标题下方显示字数和阅读时间
+      components: {
+        PageTitle: './src/components/PageTitle.astro',
+      },
 
       sidebar: [
         // 首页
