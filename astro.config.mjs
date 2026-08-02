@@ -1,35 +1,51 @@
 // @ts-check
-
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
+import starlight from '@astrojs/starlight';
+import remarkBreaks from 'remark-breaks';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
-	integrations: [mdx(), sitemap()],
-	fonts: [
-		{
-			provider: fontProviders.local(),
-			name: 'Atkinson',
-			cssVariable: '--font-atkinson',
-			fallbacks: ['sans-serif'],
-			options: {
-				variants: [
-					{
-						src: ['./src/assets/fonts/atkinson-regular.woff'],
-						weight: 400,
-						style: 'normal',
-						display: 'swap',
-					},
-					{
-						src: ['./src/assets/fonts/atkinson-bold.woff'],
-						weight: 700,
-						style: 'normal',
-						display: 'swap',
-					},
-				],
-			},
-		},
-	],
+  // 部署到 GitHub Pages 个人主页站点(username.github.io),无需 base
+  site: 'https://SimpletonEminent.github.io',
+
+  markdown: {
+    // Astro 7 默认使用 Sätteri 管道;要启用 remark 插件(remark-breaks),
+    // 需显式切换到 unified() processor(官方推荐路径)
+    processor: unified({
+      remarkPlugins: [remarkBreaks],
+    }),
+  },
+
+  integrations: [
+    starlight({
+      title: '我的极简博客',
+      description: '基于 Astro + Starlight 的个人博客,记录技术学习与生活。',
+
+      // 单一强调色:现代简洁风格,覆盖 Starlight 默认紫色
+      customCss: ['./src/styles/theme.css'],
+
+      // 社交链接:暂时注释,未来添加时取消注释并填写真实链接
+      // social: [
+      //   { icon: 'github', label: 'GitHub', href: 'https://github.com/SimpletonEminent' },
+      // ],
+
+      // 内置搜索(Pagefind,默认开启,无需额外配置)
+      pagefind: true,
+
+      // 右侧目录(TOC):默认只收录 h2-h3,这里改为收录 h1-h4 全部
+      tableOfContents: { minHeadingLevel: 1, maxHeadingLevel: 4 },
+
+      sidebar: [
+        // 首页
+        { label: '🏠 首页', link: '/' },
+        // 博客文章(自动从 src/content/docs/blog/ 生成)
+        {
+          label: '📝 博客',
+          collapsed: false,
+          items: [{ autogenerate: { directory: 'blog' } }],
+        },
+      ],
+    }),
+  ],
 });

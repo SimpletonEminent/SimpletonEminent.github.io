@@ -1,0 +1,53 @@
+/* ============================================================
+ * 自定义主题:现代简洁 + 单一强调色(teal 青蓝)
+ * 覆盖 Starlight 默认紫色 --sl-color-accent-* 变量
+ * (暗色模式 + 亮色模式各一套)
+ * ============================================================ */
+
+/* --- 暗色模式(默认):teal 青蓝色系 --- */
+:root,
+::backdrop {
+  --sl-color-accent-low: hsl(173, 80%, 12%);   /* 深色背景下的 accent 底色 */
+  --sl-color-accent: hsl(173, 80%, 46%);        /* 主要强调色(链接、按钮) */
+  --sl-color-accent-high: hsl(173, 85%, 88%);   /* 高亮文本色 */
+}
+
+/* --- 亮色模式:teal 深色调 --- */
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  --sl-color-accent-high: hsl(173, 75%, 28%);   /* 深色强调(标题、链接) */
+  --sl-color-accent: hsl(173, 75%, 40%);        /* 主要强调色 */
+  --sl-color-accent-low: hsl(173, 80%, 90%);    /* 浅色底色(选中态) */
+}
+
+/* ============================================================
+ * 排版微调(来自文章「善后工作」部分)
+ * ============================================================ */
+
+/* 微调 #2:行内代码不强制截断换行,保持不拆词
+   代码块内的换行保持正常 */
+article code,
+p code {
+  white-space: normal !important;
+  word-break: keep-all !important;
+  overflow-wrap: break-word !important;
+}
+
+pre,
+pre code {
+  white-space: pre !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+/* 微调 #3:文章宽度放大,左右留白约 15%
+   让正文阅读区域更宽(替代默认较窄的排版) */
+main,
+article,
+.prose,
+.content {
+  width: 100% !important;
+  max-width: 70%; /* 左右间距占比 */
+  margin: auto;
+  padding: 3em 1em;
+}

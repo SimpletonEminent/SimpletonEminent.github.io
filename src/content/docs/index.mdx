@@ -1,0 +1,31 @@
+---
+title: 我的极简博客
+description: 基于 Astro + Starlight 的个人博客,记录技术学习与生活。
+template: splash
+hero:
+  title: 我的极简博客
+  tagline: 基于 Astro + Starlight 构建的个人博客。在这里记录技术学习、生活思考与折腾记录。
+  actions:
+    - text: 📚 开始阅读博客
+      icon: right-arrow
+      link: /blog/如何通过github-pages和astro构建个人博客/
+    - text: 查看 GitHub
+      icon: external
+      variant: minimal
+      link: https://github.com/SimpletonEminent
+---
+
+import { CardGrid, Card } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+  <Card title="Astro + Starlight" icon="rocket">
+    静态网站生成器 + 文档框架,零 JS 依赖、极致加载速度,开箱即用的
+    搜索 / 暗色模式 / 国际化。
+  </Card>
+  <Card title="Markdown 写作" icon="pencil">
+    用最朴素的 Markdown 写作,排版交给主题自动处理,专注内容本身。
+  </Card>
+  <Card title="GitHub Pages 部署" icon="github">
+    完全免费的静态托管,推送即发布,一条 GitHub Actions 全自动搞定。
+  </Card>
+</CardGrid>
