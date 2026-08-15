@@ -42,6 +42,23 @@ node scripts/enrich-metadata.mjs
 - 重复运行安全,不会覆盖你手写的 tags
 - 完成后 `npm run dev` 本地验证,或直接推线上
 
+### 3.5 一次成就检查(手动,标记全成就用)
+
+想知道哪些游戏已达成 100% 全成就、可在注释文件里标 `my_status: "perfect"` 时:
+
+```powershell
+cd D:\my-blog
+$env:STEAM_API_KEY = "<你的key>"
+$env:STEAM_ID = "<你的SteamID64>"
+node scripts/check-achievements.mjs
+# 可选:只检查单款(快速验证) node scripts/check-achievements.mjs --appid=1172470
+```
+
+- 逐款调用 `ISteamUserStats/GetPlayerAchievements/v1`,按 `achieved` 统计解锁/总数
+- 完整结果写入 `public/steam_achievements.json`(含 `unlocked`/`total`/`perfect`)
+- 控制台会单独打印「全成就候选」清单,核对后到注释文件标 `my_status: "perfect"`
+- 属一次性/手动工具,不进每日同步链路,不触碰注释文件
+
 ### 4. 手写注释(通关状态/短评/tags 特色词/长评链接)
 
 编辑 `src/data/steam_annotations.json`,按 appid 键添加:
