@@ -145,8 +145,15 @@ for (let r = 1; r < rows.length; r++) {
   const blogUrl = (row[idx.blog_url] ?? '').trim();
   if (blogUrl) ann.blog_url = blogUrl;
 
+  // 游玩年份:必须是 4 位数字年份(如 2024);非法值(如误填链接)警告并跳过,防止静默入库
   const playYear = (row[idx.play_year] ?? '').trim();
-  if (playYear) ann.play_year = playYear;
+  if (playYear) {
+    if (/^\d{4}$/.test(playYear)) {
+      ann.play_year = playYear;
+    } else {
+      warnings.push(`[${appid}] 游玩年份"${playYear}"非法(需 4 位数字年份,如 2024),已跳过不写入`);
+    }
+  }
 
   const platform = (row[idx.platform] ?? '').trim();
   if (platform) ann.platform = platform;

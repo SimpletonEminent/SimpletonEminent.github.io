@@ -742,8 +742,9 @@
       "深度策略"
     ],
     "my_status": "uncompleted",
-    "play_year": "/blog/hoi4-review",
-    "platform": "PC"
+    "play_year": "",
+    "platform": "PC",
+    "blog_url": "/blog/hoi4-review"
   },
   "394510": {
     "name_zh": "HELLDIVERS™ Dive Harder Edition",
@@ -1518,14 +1519,12 @@
     "name_zh": "Apex Legends™",
     "tags": [
       "动作",
-      "冒险",
-      "免费开玩",
-      "大逃杀",
-      "英雄射击"
+      "冒险"
     ],
     "release_date": "2020 年 11 月 4 日",
-    "my_status": "completed",
-    "my_review": "这是我玩得最久的游戏！"
+    "my_status": "perfect",
+    "my_review": "这是我玩得最久的游戏！",
+    "platform": "PC"
   },
   "1174180": {
     "name_zh": "Red Dead Redemption 2",
