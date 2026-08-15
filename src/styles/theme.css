@@ -10,6 +10,9 @@
   --sl-color-accent-low: hsl(173, 80%, 12%);   /* 深色背景下的 accent 底色 */
   --sl-color-accent: hsl(173, 80%, 46%);        /* 主要强调色(链接、按钮) */
   --sl-color-accent-high: hsl(173, 85%, 88%);   /* 高亮文本色 */
+
+  /* 内容区全宽:覆盖 Starlight 默认 45rem 列宽,消除右侧空白 */
+  --sl-content-width: 100%;
 }
 
 /* --- 亮色模式:teal 深色调 --- */
@@ -40,14 +43,15 @@ pre code {
   overflow-wrap: normal !important;
 }
 
-/* 微调 #3:文章宽度放大,左右留白约 15%
-   让正文阅读区域更宽(替代默认较窄的排版) */
+/* 微调 #3:文章宽度——全宽布局(替代原 70% 窄排版)
+   全局放宽,让画廊与博客都充分利用页面空间;
+   原 max-width: 70% 会造成右侧大面积空白,已弃用 */
 main,
 article,
 .prose,
 .content {
   width: 100% !important;
-  max-width: 70%; /* 左右间距占比 */
+  max-width: none;
   margin: auto;
   padding: 3em 1em;
 }

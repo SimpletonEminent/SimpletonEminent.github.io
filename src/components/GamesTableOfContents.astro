@@ -56,9 +56,33 @@ const sortPresets = isGamesRoute
 		}
 
 		.games-toc-list {
+			/* 固定高度 + 独立滚动:列表在可视区域内自己滚,不撑长整页 */
 			display: flex;
 			flex-direction: column;
 			gap: 0.125rem;
+			max-height: calc(100vh - 12rem);
+			overflow-y: auto;
+			padding-right: 0.25rem;
+			/* 细滚动条 + 明暗适配 */
+			scrollbar-width: thin;
+			scrollbar-color: var(--sl-color-gray-5) transparent;
+		}
+
+		.games-toc-list::-webkit-scrollbar {
+			width: 6px;
+		}
+
+		.games-toc-list::-webkit-scrollbar-track {
+			background: transparent;
+		}
+
+		.games-toc-list::-webkit-scrollbar-thumb {
+			background: var(--sl-color-gray-5);
+			border-radius: 999px;
+		}
+
+		.games-toc-list::-webkit-scrollbar-thumb:hover {
+			background: var(--sl-color-gray-4);
 		}
 
 		.games-toc-row {
