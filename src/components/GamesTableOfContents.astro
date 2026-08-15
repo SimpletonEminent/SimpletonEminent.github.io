@@ -16,8 +16,10 @@ const sortPresets = isGamesRoute
       recent: sortGames(games, 'recent', 'desc').map((g) => g.appid),
       status: sortGames(games, 'status', 'desc').map((g) => g.appid),
       release: sortGames(games, 'release', 'desc').map((g) => g.appid),
+      nameAsc: sortGames(games, 'nameAsc', 'asc').map((g) => g.appid),
+      nameDesc: sortGames(games, 'nameDesc', 'desc').map((g) => g.appid),
     }
-  : { playtime: [], recent: [], status: [], release: [] };
+  : { playtime: [], recent: [], status: [], release: [], nameAsc: [], nameDesc: [] };
 ---
 
 {

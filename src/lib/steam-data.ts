@@ -146,8 +146,8 @@ export function releaseYear(date: string): string {
   return m ? m[0] : '';
 }
 
-/** 排序维度:总时长 / 近两周 / 通关状态 / 发售年份 */
-export type SortKey = 'playtime' | 'recent' | 'status' | 'release';
+/** 排序维度:总时长 / 近两周 / 通关状态 / 发售年份 / 名称(独立方向) */
+export type SortKey = 'playtime' | 'recent' | 'status' | 'release' | 'nameAsc' | 'nameDesc';
 export type SortDir = 'asc' | 'desc';
 
 /** 通关状态权重:全成就 > 已通关 > 未通关 */
@@ -194,6 +194,14 @@ export function sortGames(games: MergedGame[], key: SortKey, dir: SortDir): Merg
       sorted.sort((a, b) => (yearOf(a) - yearOf(b)) * sign);
       break;
     }
+    case 'nameAsc':
+      // 游戏名称 A-Z:按英文名自然排序(localeCompare,中文按拼音)
+      sorted.sort((a, b) => String(a.name).localeCompare(String(b.name), 'zh-CN'));
+      break;
+    case 'nameDesc':
+      // 游戏名称 Z-A:英文名倒序
+      sorted.sort((a, b) => String(b.name).localeCompare(String(a.name), 'zh-CN'));
+      break;
   }
 
   return sorted;

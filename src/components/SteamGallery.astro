@@ -17,6 +17,8 @@ const sortPresets = {
   recent: sortGames(games, 'recent', 'desc'),
   status: sortGames(games, 'status', 'desc'),
   release: sortGames(games, 'release', 'desc'),
+  nameAsc: sortGames(games, 'nameAsc', 'asc'),
+  nameDesc: sortGames(games, 'nameDesc', 'desc'),
 };
 ---
 
@@ -35,6 +37,8 @@ const sortPresets = {
             <option value="recent">🔥 近期运行过</option>
             <option value="status">🏆 通关进度</option>
             <option value="release">📅 发售年份</option>
+            <option value="nameAsc">📝 名称 A-Z</option>
+            <option value="nameDesc">📝 名称 Z-A</option>
           </select>
         </div>
 
