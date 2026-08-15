@@ -5,7 +5,8 @@
       "动作"
     ],
     "release_date": "1998 年 11 月 19 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "220": {
     "name_zh": "Half-Life 2",
@@ -13,7 +14,9 @@
       "动作"
     ],
     "release_date": "2004 年 11 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "320": {
     "name_zh": "Half-Life 2: Deathmatch",
@@ -21,7 +24,8 @@
       "动作"
     ],
     "release_date": "2004 年 11 月 1 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "360": {
     "name_zh": "Half-Life Deathmatch: Source",
@@ -29,7 +33,8 @@
       "动作"
     ],
     "release_date": "2006 年 5 月 1 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "400": {
     "name_zh": "Portal",
@@ -37,7 +42,9 @@
       "动作"
     ],
     "release_date": "2007 年 10 月 10 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2021"
   },
   "440": {
     "name_zh": "Team Fortress 2",
@@ -46,7 +53,8 @@
       "免费开玩"
     ],
     "release_date": "2007 年 10 月 10 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "550": {
     "name_zh": "Left 4 Dead 2",
@@ -57,7 +65,9 @@
       "FPS"
     ],
     "release_date": "2009 年 11 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "570": {
     "name_zh": "刀塔2",
@@ -79,7 +89,9 @@
       "冒险"
     ],
     "release_date": "2011 年 4 月 18 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "730": {
     "name_zh": "反恐精英2",
@@ -90,9 +102,9 @@
       "战术射击"
     ],
     "my_status": "perfect",
-    "my_review": "手感依旧顺滑,但年纪大了反应跟不上了。",
+    "my_review": "有可能成为国际象棋一样的游戏",
     "blog_url": "",
-    "play_year": "2012",
+    "play_year": "2026",
     "platform": "PC",
     "release_date": "2017 年 9 月 15 日"
   },
@@ -102,7 +114,9 @@
       "休闲"
     ],
     "release_date": "2006 年 8 月 30 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "3590": {
     "name_zh": "Plants vs. Zombies GOTY Edition",
@@ -110,7 +124,9 @@
       "策略"
     ],
     "release_date": "2009 年 5 月 5 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "7670": {
     "name_zh": "BioShock™",
@@ -119,7 +135,8 @@
       "角色扮演"
     ],
     "release_date": "2007 年 8 月 21 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "8850": {
     "name_zh": "BioShock® 2",
@@ -127,7 +144,8 @@
       "动作"
     ],
     "release_date": "2010 年 2 月 9 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "8870": {
     "name_zh": "生化奇兵：无限 完全版",
@@ -135,7 +153,9 @@
       "动作"
     ],
     "release_date": "2013 年 3 月 25 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2021"
   },
   "10680": {
     "name_zh": "Aliens vs. Predator™",
@@ -143,7 +163,9 @@
       "动作"
     ],
     "release_date": "2010 年 2 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "17480": {
     "name_zh": "《命令与征服™：红色警戒 3》",
@@ -155,7 +177,9 @@
       "经典"
     ],
     "release_date": "2009 年 1 月 8 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "20900": {
     "name_zh": "The Witcher: Enhanced Edition Director's Cut",
@@ -164,7 +188,8 @@
       "角色扮演"
     ],
     "release_date": "2008 年 9 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "22380": {
     "name_zh": "Fallout: New Vegas",
@@ -176,7 +201,9 @@
       "CRPG"
     ],
     "release_date": "2010 年 10 月 21 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "24790": {
     "name_zh": "《命令与征服3：泰伯利亚战争》",
@@ -185,7 +212,9 @@
       "策略"
     ],
     "release_date": "2009 年 11 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "24800": {
     "name_zh": "《命令与征服：红色警戒 3》起义",
@@ -194,7 +223,8 @@
       "策略"
     ],
     "release_date": "2009 年 10 月 6 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "24810": {
     "name_zh": "命令与征服3: 凯恩之怒",
@@ -203,10 +233,12 @@
       "策略"
     ],
     "release_date": "2009 年 11 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "34270": {
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "40700": {
     "name_zh": "机械迷城 (Machinarium)",
@@ -215,7 +247,8 @@
       "独立"
     ],
     "release_date": "2009 年 10 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "43110": {
     "name_zh": "Metro 2033",
@@ -223,10 +256,12 @@
       "动作"
     ],
     "release_date": "2010 年 3 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "43160": {
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "47700": {
     "name_zh": "《命令与征服 4：泰伯利亚暮光》",
@@ -235,7 +270,8 @@
       "策略"
     ],
     "release_date": "2010 年 3 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "47780": {
     "name_zh": "Dead Space™ 2",
@@ -244,7 +280,9 @@
       "冒险"
     ],
     "release_date": "2011 年 1 月 27 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2021"
   },
   "94300": {
     "name_zh": "The Dream Machine: Chapter 1 & 2",
@@ -254,7 +292,8 @@
       "独立"
     ],
     "release_date": "2012 年 5 月 11 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "105600": {
     "name_zh": "Terraria",
@@ -267,7 +306,9 @@
       "建造"
     ],
     "release_date": "2011 年 5 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "203160": {
     "name_zh": "Tomb Raider Game of the Year",
@@ -276,7 +317,8 @@
       "冒险"
     ],
     "release_date": "2013 年 3 月 4 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "204450": {
     "name_zh": "Call of Juarez: Gunslinger",
@@ -284,7 +326,9 @@
       "动作"
     ],
     "release_date": "2013 年 5 月 22 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "205100": {
     "name_zh": "Dishonored",
@@ -296,7 +340,9 @@
       "第一人称"
     ],
     "release_date": "2012 年 10 月 9 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "212680": {
     "name_zh": "FTL: Faster Than Light",
@@ -306,7 +352,9 @@
       "策略"
     ],
     "release_date": "2012 年 9 月 14 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "218620": {
     "name_zh": "PAYDAY 2",
@@ -315,7 +363,8 @@
       "角色扮演"
     ],
     "release_date": "2013 年 8 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "220700": {
     "name_zh": "RPG Maker VX Ace",
@@ -328,7 +377,8 @@
       "游戏开发"
     ],
     "release_date": "2012 年 12 月 10 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "222730": {
     "name_zh": "Reus",
@@ -338,7 +388,8 @@
       "策略"
     ],
     "release_date": "2013 年 5 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "222880": {
     "name_zh": "Insurgency",
@@ -348,7 +399,9 @@
       "策略"
     ],
     "release_date": "2014 年 1 月 22 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2021"
   },
   "227300": {
     "name_zh": "Euro Truck Simulator 2",
@@ -357,7 +410,9 @@
       "模拟"
     ],
     "release_date": "2012 年 10 月 12 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "231430": {
     "name_zh": "Company of Heroes 2",
@@ -365,7 +420,8 @@
       "策略"
     ],
     "release_date": "2013 年 6 月 25 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "233860": {
     "name_zh": "Kenshi",
@@ -377,7 +433,9 @@
       "策略"
     ],
     "release_date": "2018 年 12 月 6 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "236850": {
     "name_zh": "Europa Universalis IV",
@@ -386,7 +444,9 @@
       "策略"
     ],
     "release_date": "2013 年 8 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "239140": {
     "name_zh": "Dying Light",
@@ -396,7 +456,9 @@
       "角色扮演"
     ],
     "release_date": "2015 年 1 月 26 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2020"
   },
   "242700": {
     "name_zh": "Injustice: Gods Among Us Ultimate Edition",
@@ -404,7 +466,8 @@
       "动作"
     ],
     "release_date": "2013 年 11 月 29 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "244210": {
     "name_zh": "神力科莎 Assetto Corsa",
@@ -415,7 +478,9 @@
       "体育"
     ],
     "release_date": "2014 年 12 月 19 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "247080": {
     "name_zh": "Crypt of the NecroDancer",
@@ -425,7 +490,9 @@
       "角色扮演"
     ],
     "release_date": "2015 年 4 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "252490": {
     "name_zh": "腐蚀",
@@ -447,7 +514,9 @@
       "策略"
     ],
     "release_date": "2015 年 3 月 10 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "257350": {
     "name_zh": "Baldur's Gate II: Enhanced Edition",
@@ -456,7 +525,9 @@
       "角色扮演"
     ],
     "release_date": "2013 年 11 月 15 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "271590": {
     "name_zh": "Grand Theft Auto V 传承版",
@@ -468,7 +539,9 @@
       "载具"
     ],
     "release_date": "2015 年 4 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "275850": {
     "name_zh": "No Man's Sky 无人深空",
@@ -477,7 +550,9 @@
       "冒险"
     ],
     "release_date": "2016 年 8 月 12 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "278080": {
     "name_zh": "真・三国无双７ with 猛将传",
@@ -485,7 +560,9 @@
       "动作"
     ],
     "release_date": "2014 年 5 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "278360": {
     "name_zh": "A Story About My Uncle",
@@ -495,7 +572,9 @@
       "独立"
     ],
     "release_date": "2014 年 5 月 28 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2019"
   },
   "281990": {
     "name_zh": "Stellaris",
@@ -507,7 +586,9 @@
       "深度策略"
     ],
     "release_date": "2016 年 5 月 9 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "282800": {
     "name_zh": "100% Orange Juice",
@@ -516,7 +597,8 @@
       "策略"
     ],
     "release_date": "2014 年 5 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "284160": {
     "name_zh": "BeamNG.drive",
@@ -526,7 +608,9 @@
       "抢先体验"
     ],
     "release_date": "2015 年 5 月 29 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "286160": {
     "name_zh": "Tabletop Simulator",
@@ -540,7 +624,9 @@
       "多人"
     ],
     "release_date": "2015 年 6 月 5 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "289070": {
     "name_zh": "Sid Meier’s Civilization® VI",
@@ -551,7 +637,9 @@
       "深度策略"
     ],
     "release_date": "2016 年 10 月 20 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "289690": {
     "name_zh": "LARA CROFT AND THE TEMPLE OF OSIRIS™",
@@ -560,7 +648,8 @@
       "冒险"
     ],
     "release_date": "2014 年 12 月 8 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "292030": {
     "name_zh": "巫师 3：狂猎",
@@ -571,7 +660,9 @@
       "剧情"
     ],
     "release_date": "2015 年 5 月 18 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "294100": {
     "name_zh": "边缘世界 RimWorld",
@@ -584,7 +675,9 @@
       "科幻"
     ],
     "release_date": "2018 年 10 月 17 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "297130": {
     "name_zh": "Titan Souls",
@@ -594,7 +687,8 @@
       "独立"
     ],
     "release_date": "2015 年 4 月 14 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "322170": {
     "name_zh": "Geometry Dash",
@@ -603,7 +697,9 @@
       "独立"
     ],
     "release_date": "2014 年 12 月 22 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "322330": {
     "name_zh": "饥荒联机版",
@@ -616,7 +712,9 @@
       "策略"
     ],
     "release_date": "2016 年 4 月 21 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "323190": {
     "name_zh": "冰汽时代",
@@ -625,7 +723,9 @@
       "策略"
     ],
     "release_date": "2018 年 4 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "335190": {
     "name_zh": "200% Mixed Juice!",
@@ -635,7 +735,8 @@
       "角色扮演"
     ],
     "release_date": "2015 年 10 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "346110": {
     "name_zh": "ARK: Survival Evolved",
@@ -647,7 +748,8 @@
       "角色扮演"
     ],
     "release_date": "2017 年 8 月 27 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "362890": {
     "name_zh": "Black Mesa",
@@ -657,7 +759,8 @@
       "独立"
     ],
     "release_date": "2020 年 3 月 6 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "365450": {
     "name_zh": "Hacknet",
@@ -666,7 +769,9 @@
       "模拟"
     ],
     "release_date": "2015 年 8 月 12 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2021"
   },
   "367520": {
     "name_zh": "Hollow Knight",
@@ -679,7 +784,9 @@
       "挑战"
     ],
     "release_date": "2017 年 2 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "374320": {
     "name_zh": "DARK SOULS™ III",
@@ -689,7 +796,9 @@
       "黑暗奇幻"
     ],
     "release_date": "2016 年 4 月 11 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "379720": {
     "name_zh": "DOOM",
@@ -697,7 +806,9 @@
       "动作"
     ],
     "release_date": "2016 年 5 月 12 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "383270": {
     "name_zh": "Hue",
@@ -706,7 +817,8 @@
       "独立"
     ],
     "release_date": "2016 年 8 月 30 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "390710": {
     "name_zh": "Acceleration of SUGURI 2",
@@ -715,7 +827,8 @@
       "独立"
     ],
     "release_date": "2018 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "391220": {
     "name_zh": "Rise of the Tomb Raider™",
@@ -724,7 +837,9 @@
       "冒险"
     ],
     "release_date": "2016 年 2 月 9 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2020"
   },
   "391540": {
     "name_zh": "Undertale",
@@ -733,7 +848,9 @@
       "角色扮演"
     ],
     "release_date": "2015 年 9 月 15 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "394360": {
     "tags": [
@@ -741,8 +858,8 @@
       "战争",
       "深度策略"
     ],
-    "my_status": "uncompleted",
-    "play_year": "",
+    "my_status": "completed",
+    "play_year": "2026",
     "platform": "PC",
     "blog_url": "/blog/hoi4-review"
   },
@@ -752,7 +869,9 @@
       "动作"
     ],
     "release_date": "2015 年 12 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "403640": {
     "name_zh": "Dishonored 2",
@@ -760,7 +879,9 @@
       "动作"
     ],
     "release_date": "2016 年 11 月 11 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "407530": {
     "name_zh": "ARK: The Survival Of The Fittest",
@@ -773,7 +894,8 @@
       "策略"
     ],
     "release_date": "2017 年 8 月 29 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "409710": {
     "name_zh": "生化奇兵 重制版",
@@ -782,7 +904,8 @@
       "角色扮演"
     ],
     "release_date": "2016 年 9 月 15 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "409720": {
     "name_zh": "生化奇兵2 重制版",
@@ -791,7 +914,8 @@
       "角色扮演"
     ],
     "release_date": "2016 年 9 月 15 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "413150": {
     "name_zh": "Stardew Valley",
@@ -801,7 +925,9 @@
       "模拟"
     ],
     "release_date": "2016 年 2 月 26 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "413410": {
     "name_zh": "Danganronpa: Trigger Happy Havoc",
@@ -809,7 +935,9 @@
       "冒险"
     ],
     "release_date": "2016 年 2 月 18 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "413420": {
     "name_zh": "Danganronpa 2: Goodbye Despair",
@@ -817,7 +945,9 @@
       "冒险"
     ],
     "release_date": "2016 年 4 月 18 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2021"
   },
   "418240": {
     "name_zh": "Shadow Tactics: Blades of the Shogun",
@@ -829,7 +959,9 @@
       "日本"
     ],
     "release_date": "2016 年 12 月 6 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "420740": {
     "name_zh": "The Deed",
@@ -838,7 +970,8 @@
       "角色扮演"
     ],
     "release_date": "2015 年 11 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "421120": {
     "name_zh": "银河历险记3 (Samorost 3)",
@@ -848,7 +981,8 @@
       "独立"
     ],
     "release_date": "2016 年 3 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "424840": {
     "name_zh": "Little Nightmares",
@@ -856,7 +990,8 @@
       "冒险"
     ],
     "release_date": "2017 年 4 月 27 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "431960": {
     "name_zh": "Wallpaper Engine：壁纸引擎",
@@ -869,7 +1004,9 @@
       "实用工具"
     ],
     "release_date": "2018 年 11 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "435120": {
     "name_zh": "Rusty Lake Hotel",
@@ -878,7 +1015,9 @@
       "独立"
     ],
     "release_date": "2016 年 1 月 29 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "435150": {
     "name_zh": "神界：原罪2 - 终极版",
@@ -891,7 +1030,9 @@
       "战术"
     ],
     "release_date": "2017 年 9 月 14 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "438100": {
     "name_zh": "VRChat",
@@ -905,7 +1046,9 @@
       "抢先体验"
     ],
     "release_date": "2017 年 2 月 1 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "441380": {
     "name_zh": "PAC-MAN™ CHAMPIONSHIP EDITION 2",
@@ -913,7 +1056,8 @@
       "休闲"
     ],
     "release_date": "2016 年 9 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "442070": {
     "name_zh": "Drawful 2",
@@ -923,7 +1067,8 @@
       "策略"
     ],
     "release_date": "2016 年 6 月 20 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "447040": {
     "name_zh": "Watch_Dogs® 2",
@@ -932,7 +1077,9 @@
       "冒险"
     ],
     "release_date": "2016 年 11 月 28 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "457140": {
     "name_zh": "缺氧",
@@ -941,7 +1088,9 @@
       "模拟"
     ],
     "release_date": "2019 年 7 月 30 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "464920": {
     "name_zh": "Surviving Mars",
@@ -950,7 +1099,8 @@
       "策略"
     ],
     "release_date": "2018 年 3 月 15 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "487370": {
     "name_zh": "Akin",
@@ -959,7 +1109,8 @@
       "独立"
     ],
     "release_date": "2016 年 6 月 6 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "489520": {
     "name_zh": "随从大师",
@@ -972,7 +1123,8 @@
       "免费开玩"
     ],
     "release_date": "2019 年 5 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "489630": {
     "name_zh": "Warhammer 40,000: Gladius - Relics of War",
@@ -980,7 +1132,8 @@
       "策略"
     ],
     "release_date": "2018 年 7 月 12 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "493340": {
     "name_zh": "过山车之星",
@@ -992,7 +1145,9 @@
       "策略"
     ],
     "release_date": "2016 年 11 月 17 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "493540": {
     "name_zh": "Figment",
@@ -1003,7 +1158,8 @@
       "独立"
     ],
     "release_date": "2017 年 9 月 22 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "503560": {
     "name_zh": "911 Operator",
@@ -1014,7 +1170,8 @@
       "策略"
     ],
     "release_date": "2017 年 2 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "524220": {
     "name_zh": "NieR:Automata™",
@@ -1026,7 +1183,9 @@
       "开放世界"
     ],
     "release_date": "2017 年 3 月 17 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "548430": {
     "name_zh": "深岩银河",
@@ -1034,7 +1193,9 @@
       "动作"
     ],
     "release_date": "2020 年 5 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "552500": {
     "name_zh": "Warhammer: Vermintide 2",
@@ -1044,7 +1205,8 @@
       "角色扮演"
     ],
     "release_date": "2018 年 3 月 8 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "555000": {
     "name_zh": "GOAT OF DUTY",
@@ -1053,7 +1215,8 @@
       "抢先体验"
     ],
     "release_date": "2019 年 7 月 10 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "578080": {
     "name_zh": "PUBG: BATTLEGROUNDS",
@@ -1064,7 +1227,9 @@
       "免费开玩"
     ],
     "release_date": "2017 年 12 月 21 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "582010": {
     "name_zh": "Monster Hunter: World",
@@ -1074,7 +1239,9 @@
       "开放世界"
     ],
     "release_date": "2018 年 8 月 8 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "588210": {
     "name_zh": "HELLION",
@@ -1085,7 +1252,8 @@
       "模拟"
     ],
     "release_date": "2019 年 10 月 21 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "594570": {
     "name_zh": "全面战争：战锤2",
@@ -1094,7 +1262,9 @@
       "策略"
     ],
     "release_date": "2017 年 9 月 28 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "601150": {
     "name_zh": "Devil May Cry 5",
@@ -1104,7 +1274,9 @@
       "恶魔狩猎"
     ],
     "release_date": "2019 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "606150": {
     "name_zh": "Moonlighter",
@@ -1114,7 +1286,8 @@
       "独立"
     ],
     "release_date": "2018 年 5 月 29 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "618140": {
     "name_zh": "Barro",
@@ -1124,7 +1297,8 @@
       "竞速"
     ],
     "release_date": "2018 年 3 月 28 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "628950": {
     "name_zh": "Nephise Begins",
@@ -1134,7 +1308,8 @@
       "独立"
     ],
     "release_date": "2017 年 4 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "632470": {
     "name_zh": "Disco Elysium - The Final Cut",
@@ -1142,7 +1317,9 @@
       "角色扮演"
     ],
     "release_date": "2019 年 10 月 15 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "638970": {
     "name_zh": "人中之龙０　誓约的场所",
@@ -1155,7 +1332,9 @@
       "剧情"
     ],
     "release_date": "2018 年 8 月 1 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "646570": {
     "name_zh": "Slay the Spire",
@@ -1166,7 +1345,9 @@
       "肉鸽"
     ],
     "release_date": "2019 年 1 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "648580": {
     "name_zh": "428: Shibuya Scramble",
@@ -1174,7 +1355,9 @@
       "冒险"
     ],
     "release_date": "2018 年 9 月 4 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "683320": {
     "name_zh": "GRIS",
@@ -1183,7 +1366,8 @@
       "独立"
     ],
     "release_date": "2018 年 12 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "699920": {
     "name_zh": "Despotism 3k",
@@ -1193,7 +1377,8 @@
       "策略"
     ],
     "release_date": "2018 年 11 月 8 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "701160": {
     "name_zh": "王国：两位君主",
@@ -1204,7 +1389,9 @@
       "策略"
     ],
     "release_date": "2018 年 12 月 11 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "702150": {
     "name_zh": "Project Mercury",
@@ -1213,7 +1400,8 @@
       "独立"
     ],
     "release_date": "2017 年 9 月 19 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "714010": {
     "name_zh": "Aimlabs",
@@ -1226,7 +1414,9 @@
       "免费开玩"
     ],
     "release_date": "2023 年 6 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "738520": {
     "name_zh": "呼吸边缘",
@@ -1237,7 +1427,8 @@
       "模拟"
     ],
     "release_date": "2021 年 2 月 25 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "746710": {
     "name_zh": "Cypher",
@@ -1245,7 +1436,9 @@
       "独立"
     ],
     "release_date": "2018 年 2 月 20 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "753640": {
     "name_zh": "Outer Wilds",
@@ -1254,10 +1447,13 @@
       "冒险"
     ],
     "release_date": "2020 年 6 月 18 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "760620": {
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "774171": {
     "name_zh": "Muse Dash",
@@ -1267,7 +1463,9 @@
       "独立"
     ],
     "release_date": "2019 年 6 月 19 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "774181": {
     "name_zh": "Rhythm Doctor 节奏医生",
@@ -1279,7 +1477,9 @@
       "免费开玩"
     ],
     "release_date": "2025 年 12 月 6 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "779340": {
     "name_zh": "全面战争：三国",
@@ -1288,7 +1488,9 @@
       "策略"
     ],
     "release_date": "2019 年 5 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "787480": {
     "name_zh": "Phoenix Wright: Ace Attorney Trilogy",
@@ -1296,7 +1498,9 @@
       "冒险"
     ],
     "release_date": "2019 年 4 月 9 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "813780": {
     "name_zh": "Age of Empires II: Definitive Edition",
@@ -1304,7 +1508,9 @@
       "策略"
     ],
     "release_date": "2019 年 11 月 14 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "814200": {
     "name_zh": "Simple Story - Alex",
@@ -1312,7 +1518,8 @@
       "冒险"
     ],
     "release_date": "2018 年 3 月 22 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "814380": {
     "name_zh": "Sekiro™: Shadows Die Twice - GOTY Edition",
@@ -1323,7 +1530,9 @@
       "忍者"
     ],
     "release_date": "2019 年 3 月 21 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "834530": {
     "name_zh": "人中之龙 极 [传承版]",
@@ -1333,7 +1542,9 @@
       "角色扮演"
     ],
     "release_date": "2019 年 2 月 19 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2020"
   },
   "863550": {
     "name_zh": "HITMAN™ 2",
@@ -1341,7 +1552,9 @@
       "动作"
     ],
     "release_date": "2018 年 11 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2018"
   },
   "895870": {
     "name_zh": "Project Wingman",
@@ -1351,7 +1564,9 @@
       "模拟"
     ],
     "release_date": "2020 年 12 月 1 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "927380": {
     "name_zh": "人中之龙 极２ [传承版]",
@@ -1361,7 +1576,9 @@
       "角色扮演"
     ],
     "release_date": "2019 年 5 月 9 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2020"
   },
   "939620": {
     "name_zh": "Pleasure Puzzle:Portrait 趣拼拼：肖像画",
@@ -1371,7 +1588,8 @@
       "模拟"
     ],
     "release_date": "2018 年 9 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "960170": {
     "name_zh": "DJMAX RESPECT V",
@@ -1383,7 +1601,9 @@
       "节奏"
     ],
     "release_date": "2020 年 3 月 11 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "976310": {
     "name_zh": "Mortal Kombat 11",
@@ -1391,7 +1611,9 @@
       "动作"
     ],
     "release_date": "2019 年 4 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "993090": {
     "name_zh": "Lossless Scaling",
@@ -1399,7 +1621,9 @@
       "实用工具"
     ],
     "release_date": "2018 年 12 月 28 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1030300": {
     "name_zh": "Hollow Knight: Silksong",
@@ -1409,7 +1633,9 @@
       "独立"
     ],
     "release_date": "2025 年 9 月 4 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1048100": {
     "name_zh": "Peekaboo",
@@ -1423,7 +1649,8 @@
       "模拟"
     ],
     "release_date": "2019 年 8 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "1054490": {
     "name_zh": "WINGSPAN (展翅翱翔)",
@@ -1432,7 +1659,9 @@
       "策略"
     ],
     "release_date": "2020 年 9 月 17 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1057090": {
     "name_zh": "Ori and the Will of the Wisps",
@@ -1440,7 +1669,9 @@
       "动作"
     ],
     "release_date": "2020 年 3 月 10 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "1071870": {
     "name_zh": "知只大冒险",
@@ -1452,7 +1683,9 @@
       "模拟"
     ],
     "release_date": "2020 年 3 月 26 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1091500": {
     "name_zh": "赛博朋克 2077",
@@ -1463,7 +1696,9 @@
       "第一人称"
     ],
     "release_date": "2020 年 12 月 9 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1128920": {
     "name_zh": "永恒空间2",
@@ -1474,7 +1709,9 @@
       "模拟"
     ],
     "release_date": "2023 年 4 月 6 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "1142710": {
     "name_zh": "全面战争：战锤3",
@@ -1483,7 +1720,9 @@
       "策略"
     ],
     "release_date": "2022 年 2 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1147550": {
     "name_zh": "不予播出 ( Not For Broadcast )",
@@ -1493,7 +1732,9 @@
       "模拟"
     ],
     "release_date": "2022 年 1 月 25 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2020"
   },
   "1158310": {
     "name_zh": "Crusader Kings III",
@@ -1505,7 +1746,9 @@
       "深度策略"
     ],
     "release_date": "2020 年 9 月 1 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1158500": {
     "name_zh": "Between Two Castles - Digital Edition",
@@ -1513,7 +1756,8 @@
       "策略"
     ],
     "release_date": "2019 年 11 月 15 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "1172470": {
     "name_zh": "Apex Legends™",
@@ -1523,8 +1767,9 @@
     ],
     "release_date": "2020 年 11 月 4 日",
     "my_status": "perfect",
-    "my_review": "这是我玩得最久的游戏！",
-    "platform": "PC"
+    "my_review": "运营败坏，可惜了",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1174180": {
     "name_zh": "Red Dead Redemption 2",
@@ -1536,7 +1781,9 @@
       "剧情"
     ],
     "release_date": "2019 年 12 月 5 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "1216710": {
     "name_zh": "全网公敌",
@@ -1546,7 +1793,9 @@
       "模拟"
     ],
     "release_date": "2021 年 2 月 2 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1222680": {
     "name_zh": "《Need for Speed™ Heat",
@@ -1557,7 +1806,9 @@
       "体育"
     ],
     "release_date": "2020 年 6 月 4 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "1237970": {
     "name_zh": "Titanfall® 2",
@@ -1565,7 +1816,9 @@
       "动作"
     ],
     "release_date": "2020 年 6 月 18 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2020"
   },
   "1238840": {
     "name_zh": "Battlefield™ 1",
@@ -1574,7 +1827,9 @@
       "大型多人在线"
     ],
     "release_date": "2020 年 6 月 11 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1245620": {
     "name_zh": "艾尔登法环",
@@ -1586,7 +1841,9 @@
       "黑暗奇幻"
     ],
     "release_date": "2022 年 2 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1252330": {
     "name_zh": "DEATHLOOP",
@@ -1594,7 +1851,9 @@
       "动作"
     ],
     "release_date": "2021 年 9 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "1289310": {
     "name_zh": "Helltaker",
@@ -1604,7 +1863,9 @@
       "独立"
     ],
     "release_date": "2020 年 5 月 11 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "1290490": {
     "name_zh": "UNBEATABLE [white label]",
@@ -1614,7 +1875,9 @@
       "独立"
     ],
     "release_date": "2021 年 5 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2022"
   },
   "1313140": {
     "name_zh": "咩咩启示录",
@@ -1625,7 +1888,9 @@
       "策略"
     ],
     "release_date": "2022 年 8 月 11 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1325200": {
     "name_zh": "仁王２ Complete Edition",
@@ -1636,7 +1901,9 @@
       "日式动作"
     ],
     "release_date": "2021 年 2 月 5 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1326470": {
     "name_zh": "Sons Of The Forest",
@@ -1647,7 +1914,9 @@
       "模拟"
     ],
     "release_date": "2024 年 2 月 22 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1329410": {
     "name_zh": "雀魂麻将",
@@ -1657,7 +1926,9 @@
       "免费开玩"
     ],
     "release_date": "2020 年 7 月 14 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1364780": {
     "name_zh": "Street Fighter 6",
@@ -1668,7 +1939,9 @@
       "电竞"
     ],
     "release_date": "2023 年 6 月 1 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1405500": {
     "name_zh": "黄昏的天使",
@@ -1677,7 +1950,9 @@
       "独立"
     ],
     "release_date": "2024 年 1 月 12 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1426210": {
     "name_zh": "双人成行",
@@ -1686,7 +1961,9 @@
       "冒险"
     ],
     "release_date": "2021 年 3 月 25 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1446780": {
     "name_zh": "MONSTER HUNTER RISE",
@@ -1696,7 +1973,9 @@
       "开放世界"
     ],
     "release_date": "2022 年 1 月 12 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1449850": {
     "name_zh": "Yu-Gi-Oh! Master Duel",
@@ -1708,7 +1987,9 @@
       "竞技"
     ],
     "release_date": "2022 年 1 月 18 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2023"
   },
   "1483870": {
     "name_zh": "Draw & Guess - 你画我猜",
@@ -1717,7 +1998,9 @@
       "独立"
     ],
     "release_date": "2021 年 3 月 12 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1493520": {
     "name_zh": "Beat Hazard 3",
@@ -1727,7 +2010,9 @@
       "独立"
     ],
     "release_date": "2024 年 6 月 22 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1507190": {
     "name_zh": "Machinika: Museum",
@@ -1737,7 +2022,8 @@
       "独立"
     ],
     "release_date": "2021 年 3 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "1536070": {
     "name_zh": "仙剑奇侠传三",
@@ -1745,7 +2031,9 @@
       "角色扮演"
     ],
     "release_date": "2021 年 4 月 14 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1562700": {
     "name_zh": "闪避刺客",
@@ -1755,7 +2043,9 @@
       "独立"
     ],
     "release_date": "2023 年 11 月 8 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1585220": {
     "name_zh": "Melatonin",
@@ -1764,7 +2054,9 @@
       "独立"
     ],
     "release_date": "2022 年 12 月 15 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1659040": {
     "name_zh": "HITMAN World of Assassination",
@@ -1776,7 +2068,9 @@
       "刺客"
     ],
     "release_date": "2022 年 1 月 20 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1771300": {
     "name_zh": "天国：拯救2",
@@ -1788,7 +2082,9 @@
       "中世纪"
     ],
     "release_date": "2025 年 2 月 4 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "1817230": {
     "name_zh": "Hi-Fi RUSH",
@@ -1796,7 +2092,9 @@
       "动作"
     ],
     "release_date": "2023 年 1 月 25 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1832640": {
     "name_zh": "Mirror 2: Project X",
@@ -1817,7 +2115,9 @@
       "策略"
     ],
     "release_date": "2024 年 5 月 28 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1888160": {
     "name_zh": "机战佣兵™VI 境界天火™",
@@ -1825,7 +2125,9 @@
       "动作"
     ],
     "release_date": "2023 年 8 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "1942280": {
     "name_zh": "土豆兄弟(Brotato)",
@@ -1836,7 +2138,9 @@
       "角色扮演"
     ],
     "release_date": "2023 年 6 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1966720": {
     "name_zh": "Lethal Company",
@@ -1847,7 +2151,9 @@
       "抢先体验"
     ],
     "release_date": "2023 年 10 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "1967430": {
     "name_zh": "Ghost Trick: Phantom Detective",
@@ -1856,7 +2162,9 @@
       "冒险"
     ],
     "release_date": "2023 年 6 月 29 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "2001120": {
     "name_zh": "双影奇境",
@@ -1865,7 +2173,9 @@
       "冒险"
     ],
     "release_date": "2025 年 3 月 6 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "2050650": {
     "name_zh": "Resident Evil 4",
@@ -1877,7 +2187,9 @@
       "第三人称"
     ],
     "release_date": "2023 年 3 月 23 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "2149010": {
     "name_zh": "小小梦魇 强化版",
@@ -1885,7 +2197,8 @@
       "冒险"
     ],
     "release_date": "2025 年 10 月 9 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "2187220": {
     "name_zh": "逆轉裁判456　王泥喜精選集",
@@ -1893,7 +2206,9 @@
       "冒险"
     ],
     "release_date": "2024 年 1 月 24 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "2215430": {
     "name_zh": "Ghost of Tsushima导演剪辑版",
@@ -1902,7 +2217,9 @@
       "冒险"
     ],
     "release_date": "2024 年 5 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "2229830": {
     "name_zh": "《命令与征服：秘密行动》",
@@ -1911,7 +2228,8 @@
       "策略"
     ],
     "release_date": "2024 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "2229840": {
     "name_zh": "《命令与征服：红色警戒, 反击战及灾后》",
@@ -1921,7 +2239,8 @@
       "策略"
     ],
     "release_date": "2024 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "2229850": {
     "name_zh": "《命令与征服：红色警戒 2 及尤里的复仇》",
@@ -1930,7 +2249,9 @@
       "策略"
     ],
     "release_date": "2024 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "2229870": {
     "name_zh": "《命令与征服：将军》",
@@ -1939,7 +2260,9 @@
       "策略"
     ],
     "release_date": "2024 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "2229880": {
     "name_zh": "《命令与征服：泰伯利亚之阳和火风暴》",
@@ -1948,7 +2271,8 @@
       "策略"
     ],
     "release_date": "2024 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "2229890": {
     "name_zh": "《命令与征服：变节者》",
@@ -1958,7 +2282,8 @@
       "策略"
     ],
     "release_date": "2024 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "2358720": {
     "name_zh": "黑神话：悟空",
@@ -1970,7 +2295,9 @@
       "神话"
     ],
     "release_date": "2024 年 8 月 19 日",
-    "my_status": "perfect"
+    "my_status": "perfect",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "2384580": {
     "name_zh": "真・三国无双 起源",
@@ -1981,7 +2308,9 @@
       "无双"
     ],
     "release_date": "2025 年 1 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "2401970": {
     "name_zh": "逆转检察官1&2 御剑精选集",
@@ -1989,7 +2318,9 @@
       "冒险"
     ],
     "release_date": "2024 年 9 月 5 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "2421410": {
     "name_zh": "全网公敌2 新世界",
@@ -1999,7 +2330,8 @@
       "模拟"
     ],
     "release_date": "2025 年 1 月 20 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "2427700": {
     "name_zh": "背包乱斗：福西法的宝藏 Backpack Battles",
@@ -2007,7 +2339,9 @@
       "策略"
     ],
     "release_date": "2025 年 6 月 13 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2024"
   },
   "2527500": {
     "name_zh": "米塔 MiSide",
@@ -2018,7 +2352,9 @@
       "模拟"
     ],
     "release_date": "2024 年 12 月 10 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "2592160": {
     "name_zh": "Dispatch 超英派遣中心",
@@ -2030,7 +2366,8 @@
       "策略"
     ],
     "release_date": "2025 年 10 月 22 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "2622380": {
     "name_zh": "艾尔登法环 黑夜君临",
@@ -2041,7 +2378,9 @@
       "狩猎"
     ],
     "release_date": "2025 年 5 月 29 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "2732960": {
     "name_zh": "《命令与征服：将军零点》",
@@ -2052,7 +2391,8 @@
       "策略"
     ],
     "release_date": "2024 年 3 月 7 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "2868840": {
     "name_zh": "Slay the Spire 2",
@@ -2064,7 +2404,9 @@
       "肉鸽"
     ],
     "release_date": "2026 年 3 月 5 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "2881650": {
     "name_zh": "前方高能",
@@ -2074,7 +2416,8 @@
       "独立"
     ],
     "release_date": "2024 年 4 月 1 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   },
   "3240220": {
     "name_zh": "Grand Theft Auto V 增强版",
@@ -2084,7 +2427,9 @@
       "竞速"
     ],
     "release_date": "2025 年 3 月 4 日",
-    "my_status": "uncompleted"
+    "my_status": "completed",
+    "platform": "PC",
+    "play_year": "2025"
   },
   "3527290": {
     "name_zh": "PEAK",
@@ -2094,7 +2439,9 @@
       "独立"
     ],
     "release_date": "2025 年 6 月 16 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC",
+    "play_year": "2026"
   },
   "3717340": {
     "name_zh": "人中之龙 极２",
@@ -2104,6 +2451,7 @@
       "角色扮演"
     ],
     "release_date": "2025 年 12 月 11 日",
-    "my_status": "uncompleted"
+    "my_status": "uncompleted",
+    "platform": "PC"
   }
 }
