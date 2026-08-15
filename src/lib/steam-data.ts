@@ -11,6 +11,8 @@ export interface SteamGame {
   name: string;
   playtime_hours: number;
   playtime_2weeks_hours: number;
+  /** 最后运行时间戳(Unix 秒),0 = 从未运行过 */
+  last_played: number;
   cover: string;
 }
 
@@ -164,7 +166,16 @@ export function sortGames(games: MergedGame[], key: SortKey, dir: SortDir): Merg
       sorted.sort((a, b) => (a.playtime_hours - b.playtime_hours) * sign);
       break;
     case 'recent':
-      sorted.sort((a, b) => (a.playtime_2weeks_hours - b.playtime_2weeks_hours) * sign);
+      // 近期运行过:按最后运行时间戳降序(最近运行的在前);从未运行过(0)排最后
+      sorted.sort((a, b) => {
+        const da = a.last_played ?? 0;
+        const db = b.last_played ?? 0;
+        if (da === 0 && db === 0) return b.playtime_hours - a.playtime_hours;
+        if (da === 0) return 1;
+        if (db === 0) return -1;
+        // 时间戳降序(大的=最近在前);不乘 sign,因为此维度固定为"最近在前"
+        return db - da;
+      });
       break;
     case 'status':
       // 按状态权重排序(desc = 全成就优先);同状态按总时长降序稳定排

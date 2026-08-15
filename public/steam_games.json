@@ -1,11 +1,12 @@
 {
-  "updatedAt": "2026-08-15T10:41:45.366Z",
+  "updatedAt": "2026-08-15T16:38:17.069Z",
   "games": [
     {
       "appid": 1172470,
       "name": "Apex Legends",
       "playtime_hours": 1077,
       "playtime_2weeks_hours": 2.5,
+      "last_played": 1786164087,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1172470/library_600x900.jpg"
     },
     {
@@ -13,6 +14,7 @@
       "name": "Hearts of Iron IV",
       "playtime_hours": 457.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1777571091,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
     {
@@ -20,6 +22,7 @@
       "name": "Sekiro™: Shadows Die Twice",
       "playtime_hours": 347.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1764864004,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/814380/library_600x900.jpg"
     },
     {
@@ -27,6 +30,7 @@
       "name": "RimWorld",
       "playtime_hours": 318.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1753517934,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/294100/library_600x900.jpg"
     },
     {
@@ -34,6 +38,7 @@
       "name": "Grand Theft Auto V Legacy",
       "playtime_hours": 207.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1745647980,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/271590/library_600x900.jpg"
     },
     {
@@ -41,6 +46,7 @@
       "name": "Counter-Strike 2",
       "playtime_hours": 204.7,
       "playtime_2weeks_hours": 6.1,
+      "last_played": 1786780899,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -48,6 +54,7 @@
       "name": "Monster Hunter: World",
       "playtime_hours": 191.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1747584929,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/582010/library_600x900.jpg"
     },
     {
@@ -55,6 +62,7 @@
       "name": "DARK SOULS™ III",
       "playtime_hours": 188.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1752765943,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/374320/library_600x900.jpg"
     },
     {
@@ -62,6 +70,7 @@
       "name": "Terraria",
       "playtime_hours": 169.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1769853760,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/105600/library_600x900.jpg"
     },
     {
@@ -69,6 +78,7 @@
       "name": "Red Dead Redemption 2",
       "playtime_hours": 153.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1672131204,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1174180/library_600x900.jpg"
     },
     {
@@ -76,6 +86,7 @@
       "name": "The Witcher 3: Wild Hunt",
       "playtime_hours": 143.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1673597225,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/292030/library_600x900.jpg"
     },
     {
@@ -83,6 +94,7 @@
       "name": "ELDEN RING",
       "playtime_hours": 141.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1768045465,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1245620/library_600x900.jpg"
     },
     {
@@ -90,6 +102,7 @@
       "name": "Stellaris",
       "playtime_hours": 136.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1775398923,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/281990/library_600x900.jpg"
     },
     {
@@ -97,6 +110,7 @@
       "name": "HITMAN World of Assassination",
       "playtime_hours": 135.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1763265908,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1659040/library_600x900.jpg"
     },
     {
@@ -104,6 +118,7 @@
       "name": "Devil May Cry 5",
       "playtime_hours": 128.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1765624384,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/601150/library_600x900.jpg"
     },
     {
@@ -111,6 +126,7 @@
       "name": "Black Myth: Wukong",
       "playtime_hours": 105.5,
       "playtime_2weeks_hours": 0.7,
+      "last_played": 1786205709,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
     },
     {
@@ -118,6 +134,7 @@
       "name": "MONSTER HUNTER RISE",
       "playtime_hours": 104.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1760533882,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
     },
     {
@@ -125,6 +142,7 @@
       "name": "Crusader Kings III",
       "playtime_hours": 104.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1777982212,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1158310/library_600x900.jpg"
     },
     {
@@ -132,6 +150,7 @@
       "name": "Divinity: Original Sin 2",
       "playtime_hours": 103.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1690270374,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/435150/library_600x900.jpg"
     },
     {
@@ -139,6 +158,7 @@
       "name": "Yu-Gi-Oh!  Master Duel",
       "playtime_hours": 100.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1692970185,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1449850/library_600x900.jpg"
     },
     {
@@ -146,6 +166,7 @@
       "name": "Cyberpunk 2077",
       "playtime_hours": 97.2,
       "playtime_2weeks_hours": 0.5,
+      "last_played": 1786199140,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
     },
     {
@@ -153,6 +174,7 @@
       "name": "Dishonored",
       "playtime_hours": 93.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1720531501,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/205100/library_600x900.jpg"
     },
     {
@@ -160,6 +182,7 @@
       "name": "Tabletop Simulator",
       "playtime_hours": 93.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1746196790,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/286160/library_600x900.jpg"
     },
     {
@@ -167,6 +190,7 @@
       "name": "Kingdom Come: Deliverance II",
       "playtime_hours": 82.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1780150838,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1771300/library_600x900.jpg"
     },
     {
@@ -174,6 +198,7 @@
       "name": "Hollow Knight",
       "playtime_hours": 80.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1756524057,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/367520/library_600x900.jpg"
     },
     {
@@ -181,6 +206,7 @@
       "name": "Left 4 Dead 2",
       "playtime_hours": 77.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1771246974,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/550/library_600x900.jpg"
     },
     {
@@ -188,6 +214,7 @@
       "name": "ELDEN RING NIGHTREIGN",
       "playtime_hours": 77.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1775922554,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2622380/library_600x900.jpg"
     },
     {
@@ -195,6 +222,7 @@
       "name": "Yakuza 0",
       "playtime_hours": 75.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1734962885,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/638970/library_600x900.jpg"
     },
     {
@@ -202,6 +230,7 @@
       "name": "Street Fighter™ 6",
       "playtime_hours": 72.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1769927786,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1364780/library_600x900.jpg"
     },
     {
@@ -209,6 +238,7 @@
       "name": "Shadow Tactics: Blades of the Shogun",
       "playtime_hours": 71.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1661393359,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/418240/library_600x900.jpg"
     },
     {
@@ -216,6 +246,7 @@
       "name": "Command & Conquer™ Red Alert™ 3",
       "playtime_hours": 69.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1746456494,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/17480/library_600x900.jpg"
     },
     {
@@ -223,6 +254,7 @@
       "name": "Slay the Spire 2",
       "playtime_hours": 64.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1782658558,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2868840/library_600x900.jpg"
     },
     {
@@ -230,6 +262,7 @@
       "name": "Fallout: New Vegas",
       "playtime_hours": 63.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1678289594,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/22380/library_600x900.jpg"
     },
     {
@@ -237,6 +270,7 @@
       "name": "Slay the Spire",
       "playtime_hours": 61.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1777119916,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/646570/library_600x900.jpg"
     },
     {
@@ -244,6 +278,7 @@
       "name": "DYNASTY WARRIORS: ORIGINS",
       "playtime_hours": 59.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1777633593,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2384580/library_600x900.jpg"
     },
     {
@@ -251,6 +286,7 @@
       "name": "Resident Evil 4",
       "playtime_hours": 57.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1772952743,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2050650/library_600x900.jpg"
     },
     {
@@ -258,6 +294,7 @@
       "name": "Sid Meier's Civilization VI",
       "playtime_hours": 57,
       "playtime_2weeks_hours": 0,
+      "last_played": 1781884396,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/289070/library_600x900.jpg"
     },
     {
@@ -265,6 +302,7 @@
       "name": "Nioh 2 – The Complete Edition",
       "playtime_hours": 55.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1774068657,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1325200/library_600x900.jpg"
     },
     {
@@ -272,6 +310,7 @@
       "name": "NieR:Automata™",
       "playtime_hours": 55.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1722839476,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/524220/library_600x900.jpg"
     },
     {
@@ -279,6 +318,7 @@
       "name": "DJMAX RESPECT V",
       "playtime_hours": 49.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1774017604,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/960170/library_600x900.jpg"
     },
     {
@@ -286,6 +326,7 @@
       "name": "Ghost of Tsushima DIRECTOR'S CUT",
       "playtime_hours": 49.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1748068244,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2215430/library_600x900.jpg"
     },
     {
@@ -293,6 +334,7 @@
       "name": "Phoenix Wright: Ace Attorney Trilogy",
       "playtime_hours": 48.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1676993243,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/787480/library_600x900.jpg"
     },
     {
@@ -300,6 +342,7 @@
       "name": "Hi-Fi RUSH",
       "playtime_hours": 48.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1709960333,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1817230/library_600x900.jpg"
     },
     {
@@ -307,6 +350,7 @@
       "name": "PUBG: BATTLEGROUNDS",
       "playtime_hours": 40.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1678976391,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/578080/library_600x900.jpg"
     },
     {
@@ -314,6 +358,7 @@
       "name": "Disco Elysium",
       "playtime_hours": 37.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1766896797,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/632470/library_600x900.jpg"
     },
     {
@@ -321,6 +366,7 @@
       "name": "Sword and Fairy 3",
       "playtime_hours": 36.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1721619418,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1536070/library_600x900.jpg"
     },
     {
@@ -328,6 +374,7 @@
       "name": "Titanfall® 2",
       "playtime_hours": 36.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1603785209,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1237970/library_600x900.jpg"
     },
     {
@@ -335,6 +382,7 @@
       "name": "Plants vs. Zombies: Game of the Year",
       "playtime_hours": 36.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1719565017,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/3590/library_600x900.jpg"
     },
     {
@@ -342,6 +390,7 @@
       "name": "Dishonored 2",
       "playtime_hours": 33.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1762092708,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
@@ -349,6 +398,7 @@
       "name": "DEATHLOOP",
       "playtime_hours": 33,
       "playtime_2weeks_hours": 0,
+      "last_played": 1663846085,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1252330/library_600x900.jpg"
     },
     {
@@ -356,6 +406,7 @@
       "name": "Watch_Dogs 2",
       "playtime_hours": 29.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1695453852,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/447040/library_600x900.jpg"
     },
     {
@@ -363,6 +414,7 @@
       "name": "EVERSPACE™ 2",
       "playtime_hours": 29,
       "playtime_2weeks_hours": 0,
+      "last_played": 1680866443,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1128920/library_600x900.jpg"
     },
     {
@@ -370,6 +422,7 @@
       "name": "Europa Universalis IV",
       "playtime_hours": 27.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1752999407,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/236850/library_600x900.jpg"
     },
     {
@@ -377,6 +430,7 @@
       "name": "Dying Light",
       "playtime_hours": 27.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1584865023,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/239140/library_600x900.jpg"
     },
     {
@@ -384,6 +438,7 @@
       "name": "Danganronpa 2: Goodbye Despair",
       "playtime_hours": 27.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1629958425,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/413420/library_600x900.jpg"
     },
     {
@@ -391,6 +446,7 @@
       "name": "Danganronpa: Trigger Happy Havoc",
       "playtime_hours": 26.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1668430240,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/413410/library_600x900.jpg"
     },
     {
@@ -398,6 +454,7 @@
       "name": "Euro Truck Simulator 2",
       "playtime_hours": 26.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1735995665,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/227300/library_600x900.jpg"
     },
     {
@@ -405,6 +462,7 @@
       "name": "Ori and the Will of the Wisps",
       "playtime_hours": 26.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1692973538,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1057090/library_600x900.jpg"
     },
     {
@@ -412,6 +470,7 @@
       "name": "Yakuza Kiwami 2 (Legacy)",
       "playtime_hours": 25.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1607062785,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/927380/library_600x900.jpg"
     },
     {
@@ -419,6 +478,7 @@
       "name": "Yakuza Kiwami (Legacy)",
       "playtime_hours": 24.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1605168576,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/834530/library_600x900.jpg"
     },
     {
@@ -426,6 +486,7 @@
       "name": "Oxygen Not Included",
       "playtime_hours": 23.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1739631227,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/457140/library_600x900.jpg"
     },
     {
@@ -433,6 +494,7 @@
       "name": "DYNASTY WARRIORS 8: Xtreme Legends Complete Edition",
       "playtime_hours": 23.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1746290082,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/278080/library_600x900.jpg"
     },
     {
@@ -440,6 +502,7 @@
       "name": "Wallpaper Engine",
       "playtime_hours": 23.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1785328601,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/431960/library_600x900.jpg"
     },
     {
@@ -447,6 +510,7 @@
       "name": "Cities: Skylines",
       "playtime_hours": 22.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1733670855,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/255710/library_600x900.jpg"
     },
     {
@@ -454,6 +518,7 @@
       "name": "BeamNG.drive",
       "playtime_hours": 22.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1775753084,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/284160/library_600x900.jpg"
     },
     {
@@ -461,6 +526,7 @@
       "name": "Total War: WARHAMMER III",
       "playtime_hours": 21.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1775270884,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1142710/library_600x900.jpg"
     },
     {
@@ -468,6 +534,7 @@
       "name": "Stardew Valley",
       "playtime_hours": 20,
       "playtime_2weeks_hours": 0,
+      "last_played": 1736950027,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/413150/library_600x900.jpg"
     },
     {
@@ -475,6 +542,7 @@
       "name": "SANABI",
       "playtime_hours": 19.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1722075421,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1562700/library_600x900.jpg"
     },
     {
@@ -482,6 +550,7 @@
       "name": "Hollow Knight: Silksong",
       "playtime_hours": 18.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1764690322,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1030300/library_600x900.jpg"
     },
     {
@@ -489,6 +558,7 @@
       "name": "雀魂麻将(MahjongSoul)",
       "playtime_hours": 18.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1740065685,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1329410/library_600x900.jpg"
     },
     {
@@ -496,6 +566,7 @@
       "name": "Total War: THREE KINGDOMS",
       "playtime_hours": 18,
       "playtime_2weeks_hours": 0,
+      "last_played": 1748533114,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/779340/library_600x900.jpg"
     },
     {
@@ -503,6 +574,7 @@
       "name": "Crypt of the NecroDancer",
       "playtime_hours": 16.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1741016679,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/247080/library_600x900.jpg"
     },
     {
@@ -510,6 +582,7 @@
       "name": "Mortal Kombat 11",
       "playtime_hours": 15.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1685722366,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/976310/library_600x900.jpg"
     },
     {
@@ -517,6 +590,7 @@
       "name": "Split Fiction",
       "playtime_hours": 15.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1748161165,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2001120/library_600x900.jpg"
     },
     {
@@ -524,6 +598,7 @@
       "name": "Muse Dash",
       "playtime_hours": 14.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1754921839,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/774171/library_600x900.jpg"
     },
     {
@@ -531,6 +606,7 @@
       "name": "Lossless Scaling",
       "playtime_hours": 14.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1755341015,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/993090/library_600x900.jpg"
     },
     {
@@ -538,6 +614,7 @@
       "name": "It Takes Two",
       "playtime_hours": 13.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1741425376,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1426210/library_600x900.jpg"
     },
     {
@@ -545,6 +622,7 @@
       "name": "Zuma Deluxe",
       "playtime_hours": 13.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1736871007,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/3330/library_600x900.jpg"
     },
     {
@@ -552,6 +630,7 @@
       "name": "DOOM",
       "playtime_hours": 12.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1781624618,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/379720/library_600x900.jpg"
     },
     {
@@ -559,6 +638,7 @@
       "name": "Sons Of The Forest",
       "playtime_hours": 12.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1768037780,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1326470/library_600x900.jpg"
     },
     {
@@ -566,6 +646,7 @@
       "name": "Half-Life 2",
       "playtime_hours": 12.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1658583102,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/220/library_600x900.jpg"
     },
     {
@@ -573,6 +654,7 @@
       "name": "Ace Attorney Investigations Collection",
       "playtime_hours": 12.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1776579311,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2401970/library_600x900.jpg"
     },
     {
@@ -580,6 +662,7 @@
       "name": "BioShock Infinite",
       "playtime_hours": 11.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1626670746,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/8870/library_600x900.jpg"
     },
     {
@@ -587,6 +670,7 @@
       "name": "Rise of the Tomb Raider",
       "playtime_hours": 11.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1599309091,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/391220/library_600x900.jpg"
     },
     {
@@ -594,6 +678,7 @@
       "name": "Deep Rock Galactic",
       "playtime_hours": 10.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1718782251,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/548430/library_600x900.jpg"
     },
     {
@@ -601,6 +686,7 @@
       "name": "Portal 2",
       "playtime_hours": 10.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1665833816,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/620/library_600x900.jpg"
     },
     {
@@ -608,6 +694,7 @@
       "name": "Need for Speed™ Heat ",
       "playtime_hours": 10.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1672132468,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1222680/library_600x900.jpg"
     },
     {
@@ -615,6 +702,7 @@
       "name": "428 Shibuya Scramble",
       "playtime_hours": 10.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1777972667,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/648580/library_600x900.jpg"
     },
     {
@@ -622,6 +710,7 @@
       "name": "Outer Wilds",
       "playtime_hours": 10.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1691664196,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/753640/library_600x900.jpg"
     },
     {
@@ -629,6 +718,7 @@
       "name": "Geometry Dash",
       "playtime_hours": 9.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1678937297,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/322170/library_600x900.jpg"
     },
     {
@@ -636,6 +726,7 @@
       "name": "Dead Space 2",
       "playtime_hours": 9.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1627537333,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/47780/library_600x900.jpg"
     },
     {
@@ -643,6 +734,7 @@
       "name": "Lethal Company",
       "playtime_hours": 8.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1708779830,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1966720/library_600x900.jpg"
     },
     {
@@ -650,6 +742,7 @@
       "name": "Grand Theft Auto V Enhanced",
       "playtime_hours": 8.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1750250761,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/3240220/library_600x900.jpg"
     },
     {
@@ -657,6 +750,7 @@
       "name": "Backpack Battles",
       "playtime_hours": 8.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1714485596,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2427700/library_600x900.jpg"
     },
     {
@@ -664,6 +758,7 @@
       "name": "Age of Empires II: Definitive Edition",
       "playtime_hours": 7.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1780850925,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/813780/library_600x900.jpg"
     },
     {
@@ -671,6 +766,7 @@
       "name": "Rhythm Doctor",
       "playtime_hours": 7.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1774081453,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/774181/library_600x900.jpg"
     },
     {
@@ -678,6 +774,7 @@
       "name": "Don't Starve Together",
       "playtime_hours": 7.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1769791336,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/322330/library_600x900.jpg"
     },
     {
@@ -685,6 +782,7 @@
       "name": "Frostpunk",
       "playtime_hours": 6.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1733670952,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/323190/library_600x900.jpg"
     },
     {
@@ -692,6 +790,7 @@
       "name": "Cult of the Lamb",
       "playtime_hours": 6.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1773331267,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1313140/library_600x900.jpg"
     },
     {
@@ -699,6 +798,7 @@
       "name": "Brotato",
       "playtime_hours": 6.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1721990901,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1942280/library_600x900.jpg"
     },
     {
@@ -706,6 +806,7 @@
       "name": "Call of Juarez Gunslinger",
       "playtime_hours": 6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1713777104,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/204450/library_600x900.jpg"
     },
     {
@@ -713,6 +814,7 @@
       "name": "Cypher",
       "playtime_hours": 5.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1744462833,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/746710/library_600x900.jpg"
     },
     {
@@ -720,6 +822,7 @@
       "name": "Battlefield™ 1",
       "playtime_hours": 5.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1746350443,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1238840/library_600x900.jpg"
     },
     {
@@ -727,6 +830,7 @@
       "name": "Aliens vs. Predator",
       "playtime_hours": 5.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1682747815,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/10680/library_600x900.jpg"
     },
     {
@@ -734,6 +838,7 @@
       "name": "Angel at Dusk",
       "playtime_hours": 5.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1719303039,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1405500/library_600x900.jpg"
     },
     {
@@ -741,6 +846,7 @@
       "name": "Cyber Manhunt",
       "playtime_hours": 5.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1723560878,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1216710/library_600x900.jpg"
     },
     {
@@ -748,6 +854,7 @@
       "name": "MiSide",
       "playtime_hours": 5.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1741433279,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2527500/library_600x900.jpg"
     },
     {
@@ -755,6 +862,7 @@
       "name": "Project Wingman",
       "playtime_hours": 5.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1732451147,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/895870/library_600x900.jpg"
     },
     {
@@ -762,6 +870,7 @@
       "name": "VRChat",
       "playtime_hours": 5.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1740246831,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/438100/library_600x900.jpg"
     },
     {
@@ -769,6 +878,7 @@
       "name": "FTL: Faster Than Light",
       "playtime_hours": 4.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1726063316,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/212680/library_600x900.jpg"
     },
     {
@@ -776,6 +886,7 @@
       "name": "Portal",
       "playtime_hours": 4.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1620130238,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/400/library_600x900.jpg"
     },
     {
@@ -783,6 +894,7 @@
       "name": "Assetto Corsa",
       "playtime_hours": 4.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1776004661,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/244210/library_600x900.jpg"
     },
     {
@@ -790,6 +902,7 @@
       "name": "Baldur's Gate II: Enhanced Edition",
       "playtime_hours": 4.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1771310120,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/257350/library_600x900.jpg"
     },
     {
@@ -797,6 +910,7 @@
       "name": "Undertale",
       "playtime_hours": 3.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1673007868,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/391540/library_600x900.jpg"
     },
     {
@@ -804,6 +918,7 @@
       "name": "Aimlabs",
       "playtime_hours": 3.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1777601708,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/714010/library_600x900.jpg"
     },
     {
@@ -811,6 +926,7 @@
       "name": "Command & Conquer: Red Alert™ 2 and Yuri’s Revenge™",
       "playtime_hours": 3.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1741437789,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2229850/library_600x900.jpg"
     },
     {
@@ -818,6 +934,7 @@
       "name": "Kingdom Two Crowns",
       "playtime_hours": 3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1749381463,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/701160/library_600x900.jpg"
     },
     {
@@ -825,6 +942,7 @@
       "name": "Biped",
       "playtime_hours": 2.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1741275765,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1071870/library_600x900.jpg"
     },
     {
@@ -832,6 +950,7 @@
       "name": "Rusty Lake Hotel",
       "playtime_hours": 2.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1648553510,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/435120/library_600x900.jpg"
     },
     {
@@ -839,6 +958,7 @@
       "name": "Planet Coaster",
       "playtime_hours": 2.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1735388140,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/493340/library_600x900.jpg"
     },
     {
@@ -846,6 +966,7 @@
       "name": "Melatonin",
       "playtime_hours": 2.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1710686358,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1585220/library_600x900.jpg"
     },
     {
@@ -853,6 +974,7 @@
       "name": "Apollo Justice: Ace Attorney Trilogy",
       "playtime_hours": 2.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1766507643,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2187220/library_600x900.jpg"
     },
     {
@@ -860,6 +982,7 @@
       "name": "PEAK",
       "playtime_hours": 2.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1772290474,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/3527290/library_600x900.jpg"
     },
     {
@@ -867,6 +990,7 @@
       "name": "Draw & Guess",
       "playtime_hours": 2.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1737987891,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1483870/library_600x900.jpg"
     },
     {
@@ -874,6 +998,7 @@
       "name": "Insurgency",
       "playtime_hours": 2.1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1613037945,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/222880/library_600x900.jpg"
     },
     {
@@ -881,6 +1006,7 @@
       "name": "Wingspan",
       "playtime_hours": 1.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1751125432,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1054490/library_600x900.jpg"
     },
     {
@@ -888,6 +1014,7 @@
       "name": "Total War: WARHAMMER II",
       "playtime_hours": 1.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1748865587,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/594570/library_600x900.jpg"
     },
     {
@@ -895,6 +1022,7 @@
       "name": "HITMAN™ 2",
       "playtime_hours": 1.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1544894716,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/863550/library_600x900.jpg"
     },
     {
@@ -902,6 +1030,7 @@
       "name": "Beat Hazard 3",
       "playtime_hours": 1.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1712124955,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1493520/library_600x900.jpg"
     },
     {
@@ -909,6 +1038,7 @@
       "name": "Not For Broadcast",
       "playtime_hours": 1.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1601901875,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1147550/library_600x900.jpg"
     },
     {
@@ -916,6 +1046,7 @@
       "name": "No Man's Sky",
       "playtime_hours": 1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1765294629,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/275850/library_600x900.jpg"
     },
     {
@@ -923,6 +1054,7 @@
       "name": "UNBEATABLE [white label]",
       "playtime_hours": 1,
       "playtime_2weeks_hours": 0,
+      "last_played": 1661514414,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1290490/library_600x900.jpg"
     },
     {
@@ -930,6 +1062,7 @@
       "name": "Hacknet",
       "playtime_hours": 0.9,
       "playtime_2weeks_hours": 0,
+      "last_played": 1619975575,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/365450/library_600x900.jpg"
     },
     {
@@ -937,6 +1070,7 @@
       "name": "Command & Conquer 3: Tiberium Wars™",
       "playtime_hours": 0.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1746352170,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/24790/library_600x900.jpg"
     },
     {
@@ -944,6 +1078,7 @@
       "name": "Command & Conquer™: Generals",
       "playtime_hours": 0.8,
       "playtime_2weeks_hours": 0,
+      "last_played": 1715499056,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2229870/library_600x900.jpg"
     },
     {
@@ -951,6 +1086,7 @@
       "name": "Helltaker",
       "playtime_hours": 0.7,
       "playtime_2weeks_hours": 0,
+      "last_played": 1675084196,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1289310/library_600x900.jpg"
     },
     {
@@ -958,6 +1094,7 @@
       "name": "Kenshi",
       "playtime_hours": 0.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1752162266,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/233860/library_600x900.jpg"
     },
     {
@@ -965,6 +1102,7 @@
       "name": "HELLDIVERS™",
       "playtime_hours": 0.6,
       "playtime_2weeks_hours": 0,
+      "last_played": 1739703006,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394510/library_600x900.jpg"
     },
     {
@@ -972,6 +1110,7 @@
       "name": "Ghost Trick: Phantom Detective",
       "playtime_hours": 0.5,
       "playtime_2weeks_hours": 0,
+      "last_played": 1737383191,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1967430/library_600x900.jpg"
     },
     {
@@ -979,6 +1118,7 @@
       "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
       "playtime_hours": 0.4,
       "playtime_2weeks_hours": 0,
+      "last_played": 1767016483,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
     {
@@ -986,6 +1126,7 @@
       "name": "Reus 2",
       "playtime_hours": 0.3,
       "playtime_2weeks_hours": 0,
+      "last_played": 1739697075,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1875060/library_600x900.jpg"
     },
     {
@@ -993,20 +1134,15 @@
       "name": "A Story About My Uncle",
       "playtime_hours": 0.2,
       "playtime_2weeks_hours": 0,
+      "last_played": 1552679315,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/278360/library_600x900.jpg"
-    },
-    {
-      "appid": 1832640,
-      "name": "Mirror 2: Project X",
-      "playtime_hours": 0.2,
-      "playtime_2weeks_hours": 0,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1832640/library_600x900.jpg"
     },
     {
       "appid": 70,
       "name": "Half-Life",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/70/library_600x900.jpg"
     },
     {
@@ -1014,6 +1150,7 @@
       "name": "Half-Life 2: Deathmatch",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/320/library_600x900.jpg"
     },
     {
@@ -1021,6 +1158,7 @@
       "name": "Half-Life Deathmatch: Source",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/360/library_600x900.jpg"
     },
     {
@@ -1028,6 +1166,7 @@
       "name": "Team Fortress 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/440/library_600x900.jpg"
     },
     {
@@ -1035,6 +1174,7 @@
       "name": "BioShock",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/7670/library_600x900.jpg"
     },
     {
@@ -1042,6 +1182,7 @@
       "name": "BioShock 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/8850/library_600x900.jpg"
     },
     {
@@ -1049,6 +1190,7 @@
       "name": "The Witcher: Enhanced Edition",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/20900/library_600x900.jpg"
     },
     {
@@ -1056,6 +1198,7 @@
       "name": "Command & Conquer™ Red Alert™ 3 - Uprising",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/24800/library_600x900.jpg"
     },
     {
@@ -1063,6 +1206,7 @@
       "name": "Command & Conquer 3: Kane's Wrath™",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/24810/library_600x900.jpg"
     },
     {
@@ -1070,6 +1214,7 @@
       "name": "SEGA Mega Drive & Genesis Classics",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/34270/library_600x900.jpg"
     },
     {
@@ -1077,6 +1222,7 @@
       "name": "Machinarium",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/40700/library_600x900.jpg"
     },
     {
@@ -1084,6 +1230,7 @@
       "name": "Metro 2033",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/43110/library_600x900.jpg"
     },
     {
@@ -1091,6 +1238,7 @@
       "name": "Metro: Last Light Complete Edition",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/43160/library_600x900.jpg"
     },
     {
@@ -1098,6 +1246,7 @@
       "name": "Command & Conquer™ 4 Tiberian Twilight",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/47700/library_600x900.jpg"
     },
     {
@@ -1105,6 +1254,7 @@
       "name": "The Dream Machine",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/94300/library_600x900.jpg"
     },
     {
@@ -1112,6 +1262,7 @@
       "name": "Tomb Raider",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/203160/library_600x900.jpg"
     },
     {
@@ -1119,6 +1270,7 @@
       "name": "PAYDAY 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/218620/library_600x900.jpg"
     },
     {
@@ -1126,6 +1278,7 @@
       "name": "RPG Maker VX Ace",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/220700/library_600x900.jpg"
     },
     {
@@ -1133,6 +1286,7 @@
       "name": "Reus",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/222730/library_600x900.jpg"
     },
     {
@@ -1140,6 +1294,7 @@
       "name": "Company of Heroes 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/231430/library_600x900.jpg"
     },
     {
@@ -1147,6 +1302,7 @@
       "name": "Injustice: Gods Among Us Ultimate Edition",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/242700/library_600x900.jpg"
     },
     {
@@ -1154,6 +1310,7 @@
       "name": "100% Orange Juice",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/282800/library_600x900.jpg"
     },
     {
@@ -1161,6 +1318,7 @@
       "name": "Lara Croft and the Temple of Osiris",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/289690/library_600x900.jpg"
     },
     {
@@ -1168,6 +1326,7 @@
       "name": "Titan Souls",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/297130/library_600x900.jpg"
     },
     {
@@ -1175,6 +1334,7 @@
       "name": "200% Mixed Juice!",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/335190/library_600x900.jpg"
     },
     {
@@ -1182,6 +1342,7 @@
       "name": "ARK: Survival Evolved",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/346110/library_600x900.jpg"
     },
     {
@@ -1189,6 +1350,7 @@
       "name": "Black Mesa",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/362890/library_600x900.jpg"
     },
     {
@@ -1196,6 +1358,7 @@
       "name": "Hue",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/383270/library_600x900.jpg"
     },
     {
@@ -1203,6 +1366,7 @@
       "name": "Acceleration of SUGURI 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/390710/library_600x900.jpg"
     },
     {
@@ -1210,6 +1374,7 @@
       "name": "ARK: Survival Of The Fittest",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/407530/library_600x900.jpg"
     },
     {
@@ -1217,6 +1382,7 @@
       "name": "BioShock Remastered",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/409710/library_600x900.jpg"
     },
     {
@@ -1224,6 +1390,7 @@
       "name": "BioShock 2 Remastered",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/409720/library_600x900.jpg"
     },
     {
@@ -1231,6 +1398,7 @@
       "name": "The Deed",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/420740/library_600x900.jpg"
     },
     {
@@ -1238,6 +1406,7 @@
       "name": "Samorost 3",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/421120/library_600x900.jpg"
     },
     {
@@ -1245,6 +1414,7 @@
       "name": "Little Nightmares",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/424840/library_600x900.jpg"
     },
     {
@@ -1252,6 +1422,7 @@
       "name": "PAC-MAN™ CHAMPIONSHIP EDITION 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/441380/library_600x900.jpg"
     },
     {
@@ -1259,6 +1430,7 @@
       "name": "Drawful 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/442070/library_600x900.jpg"
     },
     {
@@ -1266,6 +1438,7 @@
       "name": "Surviving Mars",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/464920/library_600x900.jpg"
     },
     {
@@ -1273,6 +1446,7 @@
       "name": "Akin",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/487370/library_600x900.jpg"
     },
     {
@@ -1280,6 +1454,7 @@
       "name": "Minion Masters",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/489520/library_600x900.jpg"
     },
     {
@@ -1287,6 +1462,7 @@
       "name": "Warhammer 40,000: Gladius - Relics of War",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/489630/library_600x900.jpg"
     },
     {
@@ -1294,6 +1470,7 @@
       "name": "Figment",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/493540/library_600x900.jpg"
     },
     {
@@ -1301,6 +1478,7 @@
       "name": "911 Operator",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/503560/library_600x900.jpg"
     },
     {
@@ -1308,6 +1486,7 @@
       "name": "Warhammer: Vermintide 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/552500/library_600x900.jpg"
     },
     {
@@ -1315,6 +1494,7 @@
       "name": "GOAT OF DUTY",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/555000/library_600x900.jpg"
     },
     {
@@ -1322,6 +1502,7 @@
       "name": "HELLION",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/588210/library_600x900.jpg"
     },
     {
@@ -1329,6 +1510,7 @@
       "name": "Moonlighter",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/606150/library_600x900.jpg"
     },
     {
@@ -1336,6 +1518,7 @@
       "name": "Barro",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/618140/library_600x900.jpg"
     },
     {
@@ -1343,6 +1526,7 @@
       "name": "Nephise Begins",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/628950/library_600x900.jpg"
     },
     {
@@ -1350,6 +1534,7 @@
       "name": "GRIS",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/683320/library_600x900.jpg"
     },
     {
@@ -1357,6 +1542,7 @@
       "name": "Despotism 3k",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/699920/library_600x900.jpg"
     },
     {
@@ -1364,6 +1550,7 @@
       "name": "Project Mercury",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/702150/library_600x900.jpg"
     },
     {
@@ -1371,6 +1558,7 @@
       "name": "Breathedge",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/738520/library_600x900.jpg"
     },
     {
@@ -1378,6 +1566,7 @@
       "name": "Deiland",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/760620/library_600x900.jpg"
     },
     {
@@ -1385,6 +1574,7 @@
       "name": "Simple Story - Alex",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/814200/library_600x900.jpg"
     },
     {
@@ -1392,6 +1582,7 @@
       "name": "趣拼拼：肖像画 Pleasure Puzzle:Portrait",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/939620/library_600x900.jpg"
     },
     {
@@ -1399,6 +1590,7 @@
       "name": "Peekaboo",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1048100/library_600x900.jpg"
     },
     {
@@ -1406,6 +1598,7 @@
       "name": "Between Two Castles - Digital Edition",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1158500/library_600x900.jpg"
     },
     {
@@ -1413,6 +1606,7 @@
       "name": "Machinika Museum",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1507190/library_600x900.jpg"
     },
     {
@@ -1420,6 +1614,7 @@
       "name": "Little Nightmares Enhanced Edition",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2149010/library_600x900.jpg"
     },
     {
@@ -1427,6 +1622,7 @@
       "name": "Command & Conquer™ and The Covert Operations™",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2229830/library_600x900.jpg"
     },
     {
@@ -1434,6 +1630,7 @@
       "name": "Command & Conquer: Red Alert™, Counterstrike™ and The Aftermath™",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2229840/library_600x900.jpg"
     },
     {
@@ -1441,6 +1638,7 @@
       "name": "Command & Conquer™ Tiberian Sun™ and Firestorm™",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2229880/library_600x900.jpg"
     },
     {
@@ -1448,6 +1646,7 @@
       "name": "Command & Conquer™: Renegade",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2229890/library_600x900.jpg"
     },
     {
@@ -1455,6 +1654,7 @@
       "name": "Cyber Manhunt 2: New World - The Hacking Simulator",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2421410/library_600x900.jpg"
     },
     {
@@ -1462,6 +1662,7 @@
       "name": "Dispatch",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
     {
@@ -1469,6 +1670,7 @@
       "name": "Command & Conquer™ Generals Zero Hour",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2732960/library_600x900.jpg"
     },
     {
@@ -1476,6 +1678,7 @@
       "name": "Content Warning",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2881650/library_600x900.jpg"
     },
     {
@@ -1483,6 +1686,7 @@
       "name": "Yakuza Kiwami 2",
       "playtime_hours": 0,
       "playtime_2weeks_hours": 0,
+      "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/3717340/library_600x900.jpg"
     }
   ]

@@ -70,6 +70,8 @@ async function main() {
         name: g.name,
         playtime_hours: hours(g.playtime_forever ?? 0),
         playtime_2weeks_hours: hours(recentGame?.playtime_2weeks ?? 0),
+        // 最后运行时间戳(Unix 秒),来自 GetOwnedGames 的 rtime_last_played;从未运行过为 0
+        last_played: g.rtime_last_played ?? 0,
         cover: `${COVER_BASE}/${g.appid}/library_600x900.jpg`,
       };
     })
