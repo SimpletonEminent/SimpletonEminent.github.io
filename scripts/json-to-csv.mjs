@@ -17,6 +17,7 @@ const OUT_FILE = 'steam.csv';
 const COLUMNS = [
   { key: 'appid', label: 'appid', readonly: true },
   { key: 'name', label: '游戏名(参考)', readonly: true },
+  { key: 'name_zh', label: '中文名(可编辑)' },
   { key: 'my_status', label: '通关状态', options: ['未通关', '已通关', '全成就'] },
   { key: 'my_review', label: '短评' },
   { key: 'blog_url', label: '长评链接' },
@@ -65,6 +66,7 @@ for (const game of games) {
   const values = {
     appid: game.appid,
     name: game.name,
+    name_zh: ann.name_zh ?? '',
     my_status: statusMap[ann.my_status] ?? '未通关',
     my_review: ann.my_review ?? '',
     blog_url: ann.blog_url ?? '',

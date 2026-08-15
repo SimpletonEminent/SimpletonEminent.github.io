@@ -87,10 +87,11 @@ if (rows.length < 2) {
   process.exit(1);
 }
 
-// 列名 → 键映射(中文表头 → 内部键)
+// 列名 → 键映射(中文表头剥离括号后缀后的短名 → 内部键)
 const HEADER_TO_KEY = {
   'appid': 'appid',
-  '游戏名(参考)': 'name',
+  '游戏名': 'name',
+  '中文名': 'name_zh',
   '通关状态': 'my_status',
   '短评': 'my_review',
   '长评链接': 'blog_url',
@@ -127,6 +128,10 @@ for (let r = 1; r < rows.length; r++) {
     continue; // 安全保护 1:只认已知 appid
   }
   const ann = annotations[appid] ?? {};
+
+  // 中文名:可编辑(enrich 脚本"已有字段跳过",用户修改优先)
+  const nameZh = (row[idx.name_zh] ?? '').trim();
+  if (nameZh) ann.name_zh = nameZh;
 
   // 通关状态:非法值回退未通关(安全保护 2)
   const status = (row[idx.my_status] ?? '').trim();

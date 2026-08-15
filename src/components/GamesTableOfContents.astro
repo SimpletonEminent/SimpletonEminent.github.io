@@ -30,7 +30,7 @@ const sortPresets = isGamesRoute
         {
           games.map((game) => (
             <button type="button" class="games-toc-row" data-appid={game.appid}>
-              <span class="games-toc-name">{game.name}</span>
+              <span class="games-toc-name" title={game.name}>{game.name_zh || game.name}</span>
               <span class="status-badge" data-status={game.my_status}>
                 {statusText(game.my_status)}
               </span>

@@ -54,12 +54,12 @@ const sortPresets = {
                 >
                   <img
                     src={game.cover}
-                    alt={game.name}
+                    alt={game.name_zh || game.name}
                     loading="lazy"
                     onerror={'this.onerror=null;this.src=\'https://placehold.co/600x900?text=No+Cover\';'}
                   />
                   <div class="card-info">
-                    <p class="card-name">{game.name}</p>
+                    <p class="card-name" title={game.name}>{game.name_zh || game.name}</p>
                     <div class="card-meta">
                       <span class="status-badge" data-status={game.my_status}>
                         {statusText(game.my_status)}
