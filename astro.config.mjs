@@ -40,14 +40,18 @@ export default defineConfig({
       // 右侧目录(TOC):默认只收录 h2-h3,这里改为收录 h1-h4 全部
       tableOfContents: { minHeadingLevel: 1, maxHeadingLevel: 4 },
 
-      // 组件覆盖:在文章标题下方显示字数和阅读时间
+      // 组件覆盖:文章标题下方显示字数和阅读时间;TOC 在 /games 路由替换为游戏列表(双向联动)
       components: {
         PageTitle: './src/components/PageTitle.astro',
+        TableOfContents: './src/components/GamesTableOfContents.astro',
+        MobileTableOfContents: './src/components/GamesMobileTableOfContents.astro',
       },
 
       sidebar: [
         // 首页
         { label: '🏠 首页', link: '/' },
+        // Steam 游戏画廊
+        { label: '🎮 游戏画廊', link: '/games' },
         // 博客文章(自动从 src/content/docs/blog/ 生成)
         {
           label: '📝 博客',

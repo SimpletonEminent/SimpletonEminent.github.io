@@ -1,0 +1,56 @@
+name: Update Steam Game Data
+
+on:
+  # 每日 UTC 02:00(北京 10:00)自动抓取
+  schedule:
+    - cron: '0 2 * * *'
+  # 支持手动触发(如刚打完游戏想立刻更新)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: steam-sync
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch Steam games data
+        run: node scripts/fetch-steam-games.mjs
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          STEAM_ID: ${{ secrets.STEAM_ID }}
+
+      - name: Commit and push updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/steam_games.json
+          # 无数据变化时不产生空提交
+          if git diff --cached --quiet; then
+            echo "数据无变化,跳过提交"
+            exit 0
+          fi
+          git commit -m "chore: 同步 Steam 游戏数据 $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push origin main
+          echo "已推送数据更新"
+
+      # GITHUB_TOKEN 提交的 commit 不会触发 on: push 的部署工作流,
+      # 因此显式触发 deploy.yml(其已配置 workflow_dispatch 触发源)
+      - name: Trigger deploy
+        if: success()
+        run: gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

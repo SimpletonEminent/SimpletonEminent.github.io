@@ -1,0 +1,1788 @@
+{
+  "70": {
+    "name_zh": "Half-Life",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "1998 年 11 月 19 日"
+  },
+  "220": {
+    "name_zh": "Half-Life 2",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2004 年 11 月 16 日"
+  },
+  "320": {
+    "name_zh": "Half-Life 2: Deathmatch",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2004 年 11 月 1 日"
+  },
+  "360": {
+    "name_zh": "Half-Life Deathmatch: Source",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2006 年 5 月 1 日"
+  },
+  "400": {
+    "name_zh": "Portal",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2007 年 10 月 10 日"
+  },
+  "440": {
+    "name_zh": "Team Fortress 2",
+    "tags": [
+      "动作",
+      "免费开玩"
+    ],
+    "release_date": "2007 年 10 月 10 日"
+  },
+  "550": {
+    "name_zh": "Left 4 Dead 2",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2009 年 11 月 16 日"
+  },
+  "570": {
+    "name_zh": "刀塔2",
+    "tags": [
+      "MOBA",
+      "竞技",
+      "联机对战"
+    ],
+    "my_status": "completed",
+    "my_review": "大学时期的天梯生涯,现在只偶尔打打活动模式。刀塔教会我的不只是游戏。",
+    "blog_url": "/blog/dota2-review",
+    "play_year": "2013",
+    "platform": "PC"
+  },
+  "620": {
+    "name_zh": "Portal 2",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2011 年 4 月 18 日"
+  },
+  "730": {
+    "name_zh": "反恐精英2",
+    "tags": [
+      "FPS",
+      "竞技",
+      "电竞"
+    ],
+    "my_status": "uncompleted",
+    "my_review": "手感依旧顺滑,但年纪大了反应跟不上了。",
+    "blog_url": "",
+    "play_year": "2012",
+    "platform": "PC",
+    "release_date": "2017 年 9 月 15 日"
+  },
+  "3330": {
+    "name_zh": "Zuma Deluxe",
+    "tags": [
+      "休闲"
+    ],
+    "release_date": "2006 年 8 月 30 日"
+  },
+  "3590": {
+    "name_zh": "Plants vs. Zombies GOTY Edition",
+    "tags": [
+      "策略"
+    ],
+    "release_date": "2009 年 5 月 5 日"
+  },
+  "7670": {
+    "name_zh": "BioShock™",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2007 年 8 月 21 日"
+  },
+  "8850": {
+    "name_zh": "BioShock® 2",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2010 年 2 月 9 日"
+  },
+  "8870": {
+    "name_zh": "生化奇兵：无限 完全版",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2013 年 3 月 25 日"
+  },
+  "10680": {
+    "name_zh": "Aliens vs. Predator™",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2010 年 2 月 16 日"
+  },
+  "17480": {
+    "name_zh": "《命令与征服™：红色警戒 3》",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2009 年 1 月 8 日"
+  },
+  "20900": {
+    "name_zh": "The Witcher: Enhanced Edition Director's Cut",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2008 年 9 月 16 日"
+  },
+  "22380": {
+    "name_zh": "Fallout: New Vegas",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2010 年 10 月 21 日"
+  },
+  "24790": {
+    "name_zh": "《命令与征服3：泰伯利亚战争》",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2009 年 11 月 13 日"
+  },
+  "24800": {
+    "name_zh": "《命令与征服：红色警戒 3》起义",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2009 年 10 月 6 日"
+  },
+  "24810": {
+    "name_zh": "命令与征服3: 凯恩之怒",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2009 年 11 月 13 日"
+  },
+  "40700": {
+    "name_zh": "机械迷城 (Machinarium)",
+    "tags": [
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2009 年 10 月 16 日"
+  },
+  "43110": {
+    "name_zh": "Metro 2033",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2010 年 3 月 16 日"
+  },
+  "47700": {
+    "name_zh": "《命令与征服 4：泰伯利亚暮光》",
+    "tags": [
+      "冒险",
+      "策略"
+    ],
+    "release_date": "2010 年 3 月 16 日"
+  },
+  "47780": {
+    "name_zh": "Dead Space™ 2",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2011 年 1 月 27 日"
+  },
+  "94300": {
+    "name_zh": "The Dream Machine: Chapter 1 & 2",
+    "tags": [
+      "冒险",
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2012 年 5 月 11 日"
+  },
+  "105600": {
+    "name_zh": "Terraria",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "角色扮演"
+    ],
+    "release_date": "2011 年 5 月 16 日"
+  },
+  "203160": {
+    "name_zh": "Tomb Raider Game of the Year",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2013 年 3 月 4 日"
+  },
+  "204450": {
+    "name_zh": "Call of Juarez: Gunslinger",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2013 年 5 月 22 日"
+  },
+  "205100": {
+    "name_zh": "Dishonored",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2012 年 10 月 9 日"
+  },
+  "212680": {
+    "name_zh": "FTL: Faster Than Light",
+    "tags": [
+      "独立",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2012 年 9 月 14 日"
+  },
+  "218620": {
+    "name_zh": "PAYDAY 2",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2013 年 8 月 13 日"
+  },
+  "220700": {
+    "name_zh": "RPG Maker VX Ace",
+    "tags": [
+      "冒险",
+      "角色扮演",
+      "设计和插画",
+      "教育",
+      "网络出版",
+      "游戏开发"
+    ],
+    "release_date": "2012 年 12 月 10 日"
+  },
+  "222730": {
+    "name_zh": "Reus",
+    "tags": [
+      "独立",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2013 年 5 月 16 日"
+  },
+  "222880": {
+    "name_zh": "Insurgency",
+    "tags": [
+      "动作",
+      "独立",
+      "策略"
+    ],
+    "release_date": "2014 年 1 月 22 日"
+  },
+  "227300": {
+    "name_zh": "Euro Truck Simulator 2",
+    "tags": [
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2012 年 10 月 12 日"
+  },
+  "231430": {
+    "name_zh": "Company of Heroes 2",
+    "tags": [
+      "策略"
+    ],
+    "release_date": "2013 年 6 月 25 日"
+  },
+  "233860": {
+    "name_zh": "Kenshi",
+    "tags": [
+      "动作",
+      "独立",
+      "角色扮演",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2018 年 12 月 6 日"
+  },
+  "236850": {
+    "name_zh": "Europa Universalis IV",
+    "tags": [
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2013 年 8 月 13 日"
+  },
+  "239140": {
+    "name_zh": "Dying Light",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2015 年 1 月 26 日"
+  },
+  "242700": {
+    "name_zh": "Injustice: Gods Among Us Ultimate Edition",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2013 年 11 月 29 日"
+  },
+  "244210": {
+    "name_zh": "神力科莎 Assetto Corsa",
+    "tags": [
+      "独立",
+      "竞速",
+      "模拟",
+      "体育"
+    ],
+    "release_date": "2014 年 12 月 19 日"
+  },
+  "247080": {
+    "name_zh": "Crypt of the NecroDancer",
+    "tags": [
+      "动作",
+      "独立",
+      "角色扮演"
+    ],
+    "release_date": "2015 年 4 月 23 日"
+  },
+  "252490": {
+    "name_zh": "腐蚀",
+    "tags": [
+      "生存",
+      "开放世界",
+      "沙盒"
+    ],
+    "my_status": "perfect",
+    "my_review": "和朋友度过的 300 小时基地时光,全成就达成。",
+    "blog_url": "/blog/rust-review",
+    "play_year": "2018",
+    "platform": "PC"
+  },
+  "255710": {
+    "name_zh": "Cities: Skylines",
+    "tags": [
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2015 年 3 月 10 日"
+  },
+  "257350": {
+    "name_zh": "Baldur's Gate II: Enhanced Edition",
+    "tags": [
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2013 年 11 月 15 日"
+  },
+  "271590": {
+    "name_zh": "Grand Theft Auto V 传承版",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2015 年 4 月 13 日"
+  },
+  "275850": {
+    "name_zh": "No Man's Sky 无人深空",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2016 年 8 月 12 日"
+  },
+  "278080": {
+    "name_zh": "真・三国无双７ with 猛将传",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2014 年 5 月 13 日"
+  },
+  "278360": {
+    "name_zh": "A Story About My Uncle",
+    "tags": [
+      "冒险",
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2014 年 5 月 28 日"
+  },
+  "281990": {
+    "name_zh": "Stellaris",
+    "tags": [
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2016 年 5 月 9 日"
+  },
+  "282800": {
+    "name_zh": "100% Orange Juice",
+    "tags": [
+      "独立",
+      "策略"
+    ],
+    "release_date": "2014 年 5 月 16 日"
+  },
+  "284160": {
+    "name_zh": "BeamNG.drive",
+    "tags": [
+      "竞速",
+      "模拟",
+      "抢先体验"
+    ],
+    "release_date": "2015 年 5 月 29 日"
+  },
+  "286160": {
+    "name_zh": "Tabletop Simulator",
+    "tags": [
+      "休闲",
+      "独立",
+      "角色扮演",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2015 年 6 月 5 日"
+  },
+  "289070": {
+    "name_zh": "Sid Meier’s Civilization® VI",
+    "tags": [
+      "策略"
+    ],
+    "release_date": "2016 年 10 月 20 日"
+  },
+  "289690": {
+    "name_zh": "LARA CROFT AND THE TEMPLE OF OSIRIS™",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2014 年 12 月 8 日"
+  },
+  "292030": {
+    "name_zh": "巫师 3：狂猎",
+    "tags": [
+      "角色扮演"
+    ],
+    "release_date": "2015 年 5 月 18 日"
+  },
+  "294100": {
+    "name_zh": "边缘世界 RimWorld",
+    "tags": [
+      "独立",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2018 年 10 月 17 日"
+  },
+  "297130": {
+    "name_zh": "Titan Souls",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2015 年 4 月 14 日"
+  },
+  "322170": {
+    "name_zh": "Geometry Dash",
+    "tags": [
+      "动作",
+      "独立"
+    ],
+    "release_date": "2014 年 12 月 22 日"
+  },
+  "322330": {
+    "name_zh": "饥荒联机版",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "角色扮演",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2016 年 4 月 21 日"
+  },
+  "323190": {
+    "name_zh": "冰汽时代",
+    "tags": [
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2018 年 4 月 24 日"
+  },
+  "335190": {
+    "name_zh": "200% Mixed Juice!",
+    "tags": [
+      "冒险",
+      "独立",
+      "角色扮演"
+    ],
+    "release_date": "2015 年 10 月 23 日"
+  },
+  "346110": {
+    "name_zh": "ARK: Survival Evolved",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "大型多人在线",
+      "角色扮演"
+    ],
+    "release_date": "2017 年 8 月 27 日"
+  },
+  "362890": {
+    "name_zh": "Black Mesa",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2020 年 3 月 6 日"
+  },
+  "365450": {
+    "name_zh": "Hacknet",
+    "tags": [
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2015 年 8 月 12 日"
+  },
+  "367520": {
+    "name_zh": "Hollow Knight",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2017 年 2 月 24 日"
+  },
+  "374320": {
+    "name_zh": "DARK SOULS™ III",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2016 年 4 月 11 日"
+  },
+  "379720": {
+    "name_zh": "DOOM",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2016 年 5 月 12 日"
+  },
+  "383270": {
+    "name_zh": "Hue",
+    "tags": [
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2016 年 8 月 30 日"
+  },
+  "390710": {
+    "name_zh": "Acceleration of SUGURI 2",
+    "tags": [
+      "动作",
+      "独立"
+    ],
+    "release_date": "2018 年 3 月 7 日"
+  },
+  "391220": {
+    "name_zh": "Rise of the Tomb Raider™",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2016 年 2 月 9 日"
+  },
+  "391540": {
+    "name_zh": "Undertale",
+    "tags": [
+      "独立",
+      "角色扮演"
+    ],
+    "release_date": "2015 年 9 月 15 日"
+  },
+  "394510": {
+    "name_zh": "HELLDIVERS™ Dive Harder Edition",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2015 年 12 月 7 日"
+  },
+  "403640": {
+    "name_zh": "Dishonored 2",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2016 年 11 月 11 日"
+  },
+  "407530": {
+    "name_zh": "ARK: The Survival Of The Fittest",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "大型多人在线",
+      "角色扮演",
+      "策略"
+    ],
+    "release_date": "2017 年 8 月 29 日"
+  },
+  "409710": {
+    "name_zh": "生化奇兵 重制版",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2016 年 9 月 15 日"
+  },
+  "409720": {
+    "name_zh": "生化奇兵2 重制版",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2016 年 9 月 15 日"
+  },
+  "413150": {
+    "name_zh": "Stardew Valley",
+    "tags": [
+      "独立",
+      "角色扮演",
+      "模拟"
+    ],
+    "release_date": "2016 年 2 月 26 日"
+  },
+  "413410": {
+    "name_zh": "Danganronpa: Trigger Happy Havoc",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2016 年 2 月 18 日"
+  },
+  "413420": {
+    "name_zh": "Danganronpa 2: Goodbye Despair",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2016 年 4 月 18 日"
+  },
+  "418240": {
+    "name_zh": "Shadow Tactics: Blades of the Shogun",
+    "tags": [
+      "独立",
+      "策略"
+    ],
+    "release_date": "2016 年 12 月 6 日"
+  },
+  "420740": {
+    "name_zh": "The Deed",
+    "tags": [
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2015 年 11 月 23 日"
+  },
+  "421120": {
+    "name_zh": "银河历险记3 (Samorost 3)",
+    "tags": [
+      "冒险",
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2016 年 3 月 24 日"
+  },
+  "424840": {
+    "name_zh": "Little Nightmares",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2017 年 4 月 27 日"
+  },
+  "431960": {
+    "name_zh": "Wallpaper Engine：壁纸引擎",
+    "tags": [
+      "休闲",
+      "独立",
+      "动画制作和建模",
+      "设计和插画",
+      "照片编辑",
+      "实用工具"
+    ],
+    "release_date": "2018 年 11 月 16 日"
+  },
+  "435120": {
+    "name_zh": "Rusty Lake Hotel",
+    "tags": [
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2016 年 1 月 29 日"
+  },
+  "435150": {
+    "name_zh": "神界：原罪2 - 终极版",
+    "tags": [
+      "冒险",
+      "角色扮演",
+      "策略"
+    ],
+    "release_date": "2017 年 9 月 14 日"
+  },
+  "438100": {
+    "name_zh": "VRChat",
+    "tags": [
+      "冒险",
+      "休闲",
+      "大型多人在线",
+      "模拟",
+      "体育",
+      "免费开玩",
+      "抢先体验"
+    ],
+    "release_date": "2017 年 2 月 1 日"
+  },
+  "441380": {
+    "name_zh": "PAC-MAN™ CHAMPIONSHIP EDITION 2",
+    "tags": [
+      "休闲"
+    ],
+    "release_date": "2016 年 9 月 13 日"
+  },
+  "442070": {
+    "name_zh": "Drawful 2",
+    "tags": [
+      "休闲",
+      "独立",
+      "策略"
+    ],
+    "release_date": "2016 年 6 月 20 日"
+  },
+  "447040": {
+    "name_zh": "Watch_Dogs® 2",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2016 年 11 月 28 日"
+  },
+  "457140": {
+    "name_zh": "缺氧",
+    "tags": [
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2019 年 7 月 30 日"
+  },
+  "464920": {
+    "name_zh": "Surviving Mars",
+    "tags": [
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2018 年 3 月 15 日"
+  },
+  "487370": {
+    "name_zh": "Akin",
+    "tags": [
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2016 年 6 月 6 日"
+  },
+  "489520": {
+    "name_zh": "随从大师",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "角色扮演",
+      "策略",
+      "免费开玩"
+    ],
+    "release_date": "2019 年 5 月 24 日"
+  },
+  "489630": {
+    "name_zh": "Warhammer 40,000: Gladius - Relics of War",
+    "tags": [
+      "策略"
+    ],
+    "release_date": "2018 年 7 月 12 日"
+  },
+  "493340": {
+    "name_zh": "过山车之星",
+    "tags": [
+      "动作",
+      "冒险",
+      "休闲",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2016 年 11 月 17 日"
+  },
+  "493540": {
+    "name_zh": "Figment",
+    "tags": [
+      "动作",
+      "冒险",
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2017 年 9 月 22 日"
+  },
+  "503560": {
+    "name_zh": "911 Operator",
+    "tags": [
+      "休闲",
+      "独立",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2017 年 2 月 24 日"
+  },
+  "524220": {
+    "name_zh": "NieR:Automata™",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2017 年 3 月 17 日"
+  },
+  "548430": {
+    "name_zh": "深岩银河",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2020 年 5 月 13 日"
+  },
+  "552500": {
+    "name_zh": "Warhammer: Vermintide 2",
+    "tags": [
+      "动作",
+      "独立",
+      "角色扮演"
+    ],
+    "release_date": "2018 年 3 月 8 日"
+  },
+  "555000": {
+    "name_zh": "GOAT OF DUTY",
+    "tags": [
+      "动作",
+      "抢先体验"
+    ],
+    "release_date": "2019 年 7 月 10 日"
+  },
+  "578080": {
+    "name_zh": "PUBG: BATTLEGROUNDS",
+    "tags": [
+      "动作",
+      "冒险",
+      "大型多人在线",
+      "免费开玩"
+    ],
+    "release_date": "2017 年 12 月 21 日"
+  },
+  "582010": {
+    "name_zh": "Monster Hunter: World",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2018 年 8 月 8 日"
+  },
+  "588210": {
+    "name_zh": "HELLION",
+    "tags": [
+      "动作",
+      "独立",
+      "大型多人在线",
+      "模拟"
+    ],
+    "release_date": "2019 年 10 月 21 日"
+  },
+  "594570": {
+    "name_zh": "全面战争：战锤2",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2017 年 9 月 28 日"
+  },
+  "601150": {
+    "name_zh": "Devil May Cry 5",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2019 年 3 月 7 日"
+  },
+  "606150": {
+    "name_zh": "Moonlighter",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2018 年 5 月 29 日"
+  },
+  "618140": {
+    "name_zh": "Barro",
+    "tags": [
+      "休闲",
+      "独立",
+      "竞速"
+    ],
+    "release_date": "2018 年 3 月 28 日"
+  },
+  "628950": {
+    "name_zh": "Nephise Begins",
+    "tags": [
+      "冒险",
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2017 年 4 月 24 日"
+  },
+  "632470": {
+    "name_zh": "Disco Elysium - The Final Cut",
+    "tags": [
+      "角色扮演"
+    ],
+    "release_date": "2019 年 10 月 15 日"
+  },
+  "638970": {
+    "name_zh": "人中之龙０　誓约的场所",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2018 年 8 月 1 日"
+  },
+  "646570": {
+    "name_zh": "Slay the Spire",
+    "tags": [
+      "独立",
+      "策略"
+    ],
+    "release_date": "2019 年 1 月 23 日"
+  },
+  "648580": {
+    "name_zh": "428: Shibuya Scramble",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2018 年 9 月 4 日"
+  },
+  "683320": {
+    "name_zh": "GRIS",
+    "tags": [
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2018 年 12 月 13 日"
+  },
+  "699920": {
+    "name_zh": "Despotism 3k",
+    "tags": [
+      "独立",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2018 年 11 月 8 日"
+  },
+  "701160": {
+    "name_zh": "王国：两位君主",
+    "tags": [
+      "冒险",
+      "独立",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2018 年 12 月 11 日"
+  },
+  "702150": {
+    "name_zh": "Project Mercury",
+    "tags": [
+      "动作",
+      "独立"
+    ],
+    "release_date": "2017 年 9 月 19 日"
+  },
+  "714010": {
+    "name_zh": "Aimlabs",
+    "tags": [
+      "动作",
+      "冒险",
+      "休闲",
+      "独立",
+      "模拟",
+      "免费开玩"
+    ],
+    "release_date": "2023 年 6 月 16 日"
+  },
+  "738520": {
+    "name_zh": "呼吸边缘",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2021 年 2 月 25 日"
+  },
+  "746710": {
+    "name_zh": "Cypher",
+    "tags": [
+      "独立"
+    ],
+    "release_date": "2018 年 2 月 20 日"
+  },
+  "753640": {
+    "name_zh": "Outer Wilds",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2020 年 6 月 18 日"
+  },
+  "774171": {
+    "name_zh": "Muse Dash",
+    "tags": [
+      "动作",
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2019 年 6 月 19 日"
+  },
+  "774181": {
+    "name_zh": "Rhythm Doctor 节奏医生",
+    "tags": [
+      "动作",
+      "休闲",
+      "独立",
+      "策略",
+      "免费开玩"
+    ],
+    "release_date": "2025 年 12 月 6 日"
+  },
+  "779340": {
+    "name_zh": "全面战争：三国",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2019 年 5 月 23 日"
+  },
+  "787480": {
+    "name_zh": "Phoenix Wright: Ace Attorney Trilogy",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2019 年 4 月 9 日"
+  },
+  "813780": {
+    "name_zh": "Age of Empires II: Definitive Edition",
+    "tags": [
+      "策略"
+    ],
+    "release_date": "2019 年 11 月 14 日"
+  },
+  "814200": {
+    "name_zh": "Simple Story - Alex",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2018 年 3 月 22 日"
+  },
+  "814380": {
+    "name_zh": "Sekiro™: Shadows Die Twice - GOTY Edition",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2019 年 3 月 21 日"
+  },
+  "834530": {
+    "name_zh": "人中之龙 极 [传承版]",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2019 年 2 月 19 日"
+  },
+  "863550": {
+    "name_zh": "HITMAN™ 2",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2018 年 11 月 13 日"
+  },
+  "895870": {
+    "name_zh": "Project Wingman",
+    "tags": [
+      "动作",
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2020 年 12 月 1 日"
+  },
+  "927380": {
+    "name_zh": "人中之龙 极２ [传承版]",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2019 年 5 月 9 日"
+  },
+  "939620": {
+    "name_zh": "Pleasure Puzzle:Portrait 趣拼拼：肖像画",
+    "tags": [
+      "休闲",
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2018 年 9 月 24 日"
+  },
+  "960170": {
+    "name_zh": "DJMAX RESPECT V",
+    "tags": [
+      "动作",
+      "休闲",
+      "体育"
+    ],
+    "release_date": "2020 年 3 月 11 日"
+  },
+  "976310": {
+    "name_zh": "Mortal Kombat 11",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2019 年 4 月 23 日"
+  },
+  "993090": {
+    "name_zh": "Lossless Scaling",
+    "tags": [
+      "实用工具"
+    ],
+    "release_date": "2018 年 12 月 28 日"
+  },
+  "1030300": {
+    "name_zh": "Hollow Knight: Silksong",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2025 年 9 月 4 日"
+  },
+  "1048100": {
+    "name_zh": "Peekaboo",
+    "tags": [
+      "动作",
+      "冒险",
+      "休闲",
+      "独立",
+      "大型多人在线",
+      "角色扮演",
+      "模拟"
+    ],
+    "release_date": "2019 年 8 月 7 日"
+  },
+  "1054490": {
+    "name_zh": "WINGSPAN (展翅翱翔)",
+    "tags": [
+      "独立",
+      "策略"
+    ],
+    "release_date": "2020 年 9 月 17 日"
+  },
+  "1057090": {
+    "name_zh": "Ori and the Will of the Wisps",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2020 年 3 月 10 日"
+  },
+  "1071870": {
+    "name_zh": "知只大冒险",
+    "tags": [
+      "动作",
+      "冒险",
+      "休闲",
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2020 年 3 月 26 日"
+  },
+  "1091500": {
+    "name_zh": "赛博朋克 2077",
+    "tags": [
+      "角色扮演"
+    ],
+    "release_date": "2020 年 12 月 9 日"
+  },
+  "1128920": {
+    "name_zh": "永恒空间2",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演",
+      "模拟"
+    ],
+    "release_date": "2023 年 4 月 6 日"
+  },
+  "1142710": {
+    "name_zh": "全面战争：战锤3",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2022 年 2 月 16 日"
+  },
+  "1147550": {
+    "name_zh": "不予播出 ( Not For Broadcast )",
+    "tags": [
+      "冒险",
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2022 年 1 月 25 日"
+  },
+  "1158310": {
+    "name_zh": "Crusader Kings III",
+    "tags": [
+      "角色扮演",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2020 年 9 月 1 日"
+  },
+  "1158500": {
+    "name_zh": "Between Two Castles - Digital Edition",
+    "tags": [
+      "策略"
+    ],
+    "release_date": "2019 年 11 月 15 日"
+  },
+  "1172470": {
+    "name_zh": "Apex Legends™",
+    "tags": [
+      "动作",
+      "冒险",
+      "免费开玩"
+    ],
+    "release_date": "2020 年 11 月 4 日"
+  },
+  "1174180": {
+    "name_zh": "Red Dead Redemption 2",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2019 年 12 月 5 日"
+  },
+  "1216710": {
+    "name_zh": "全网公敌",
+    "tags": [
+      "独立",
+      "角色扮演",
+      "模拟"
+    ],
+    "release_date": "2021 年 2 月 2 日"
+  },
+  "1222680": {
+    "name_zh": "《Need for Speed™ Heat",
+    "tags": [
+      "动作",
+      "冒险",
+      "竞速",
+      "体育"
+    ],
+    "release_date": "2020 年 6 月 4 日"
+  },
+  "1237970": {
+    "name_zh": "Titanfall® 2",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2020 年 6 月 18 日"
+  },
+  "1238840": {
+    "name_zh": "Battlefield™ 1",
+    "tags": [
+      "动作",
+      "大型多人在线"
+    ],
+    "release_date": "2020 年 6 月 11 日"
+  },
+  "1245620": {
+    "name_zh": "艾尔登法环",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2022 年 2 月 24 日"
+  },
+  "1252330": {
+    "name_zh": "DEATHLOOP",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2021 年 9 月 13 日"
+  },
+  "1289310": {
+    "name_zh": "Helltaker",
+    "tags": [
+      "冒险",
+      "免费开玩",
+      "独立"
+    ],
+    "release_date": "2020 年 5 月 11 日"
+  },
+  "1290490": {
+    "name_zh": "UNBEATABLE [white label]",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2021 年 5 月 7 日"
+  },
+  "1313140": {
+    "name_zh": "咩咩启示录",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "策略"
+    ],
+    "release_date": "2022 年 8 月 11 日"
+  },
+  "1325200": {
+    "name_zh": "仁王２ Complete Edition",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2021 年 2 月 5 日"
+  },
+  "1326470": {
+    "name_zh": "Sons Of The Forest",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "模拟"
+    ],
+    "release_date": "2024 年 2 月 22 日"
+  },
+  "1329410": {
+    "name_zh": "雀魂麻将",
+    "tags": [
+      "休闲",
+      "策略",
+      "免费开玩"
+    ],
+    "release_date": "2020 年 7 月 14 日"
+  },
+  "1364780": {
+    "name_zh": "Street Fighter 6",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2023 年 6 月 1 日"
+  },
+  "1405500": {
+    "name_zh": "黄昏的天使",
+    "tags": [
+      "动作",
+      "独立"
+    ],
+    "release_date": "2024 年 1 月 12 日"
+  },
+  "1426210": {
+    "name_zh": "双人成行",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2021 年 3 月 25 日"
+  },
+  "1446780": {
+    "name_zh": "MONSTER HUNTER RISE",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2022 年 1 月 12 日"
+  },
+  "1449850": {
+    "name_zh": "Yu-Gi-Oh! Master Duel",
+    "tags": [
+      "模拟",
+      "策略",
+      "免费开玩"
+    ],
+    "release_date": "2022 年 1 月 18 日"
+  },
+  "1483870": {
+    "name_zh": "Draw & Guess - 你画我猜",
+    "tags": [
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2021 年 3 月 12 日"
+  },
+  "1493520": {
+    "name_zh": "Beat Hazard 3",
+    "tags": [
+      "动作",
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2024 年 6 月 22 日"
+  },
+  "1507190": {
+    "name_zh": "Machinika: Museum",
+    "tags": [
+      "冒险",
+      "休闲",
+      "独立"
+    ],
+    "release_date": "2021 年 3 月 23 日"
+  },
+  "1536070": {
+    "name_zh": "仙剑奇侠传三",
+    "tags": [
+      "角色扮演"
+    ],
+    "release_date": "2021 年 4 月 14 日"
+  },
+  "1562700": {
+    "name_zh": "闪避刺客",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2023 年 11 月 8 日"
+  },
+  "1585220": {
+    "name_zh": "Melatonin",
+    "tags": [
+      "动作",
+      "独立"
+    ],
+    "release_date": "2022 年 12 月 15 日"
+  },
+  "1659040": {
+    "name_zh": "HITMAN World of Assassination",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2022 年 1 月 20 日"
+  },
+  "1771300": {
+    "name_zh": "天国：拯救2",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2025 年 2 月 4 日"
+  },
+  "1817230": {
+    "name_zh": "Hi-Fi RUSH",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2023 年 1 月 25 日"
+  },
+  "1832640": {
+    "name_zh": "Mirror 2: Project X",
+    "tags": [
+      "冒险",
+      "独立",
+      "角色扮演",
+      "抢先体验"
+    ],
+    "release_date": "2022 年 1 月 20 日"
+  },
+  "1875060": {
+    "name_zh": "造物主 2",
+    "tags": [
+      "独立",
+      "模拟",
+      "策略"
+    ],
+    "release_date": "2024 年 5 月 28 日"
+  },
+  "1888160": {
+    "name_zh": "机战佣兵™VI 境界天火™",
+    "tags": [
+      "动作"
+    ],
+    "release_date": "2023 年 8 月 24 日"
+  },
+  "1942280": {
+    "name_zh": "土豆兄弟(Brotato)",
+    "tags": [
+      "动作",
+      "休闲",
+      "独立",
+      "角色扮演"
+    ],
+    "release_date": "2023 年 6 月 23 日"
+  },
+  "1966720": {
+    "name_zh": "Lethal Company",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立",
+      "抢先体验"
+    ],
+    "release_date": "2023 年 10 月 23 日"
+  },
+  "1967430": {
+    "name_zh": "Ghost Trick: Phantom Detective",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2023 年 6 月 29 日"
+  },
+  "2001120": {
+    "name_zh": "双影奇境",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2025 年 3 月 6 日"
+  },
+  "2050650": {
+    "name_zh": "Resident Evil 4",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2023 年 3 月 23 日"
+  },
+  "2149010": {
+    "name_zh": "小小梦魇 强化版",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2025 年 10 月 9 日"
+  },
+  "2187220": {
+    "name_zh": "逆轉裁判456　王泥喜精選集",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2024 年 1 月 24 日"
+  },
+  "2215430": {
+    "name_zh": "Ghost of Tsushima导演剪辑版",
+    "tags": [
+      "动作",
+      "冒险"
+    ],
+    "release_date": "2024 年 5 月 16 日"
+  },
+  "2229830": {
+    "name_zh": "《命令与征服：秘密行动》",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2024 年 3 月 7 日"
+  },
+  "2229840": {
+    "name_zh": "《命令与征服：红色警戒, 反击战及灾后》",
+    "tags": [
+      "动作",
+      "角色扮演",
+      "策略"
+    ],
+    "release_date": "2024 年 3 月 7 日"
+  },
+  "2229850": {
+    "name_zh": "《命令与征服：红色警戒 2 及尤里的复仇》",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2024 年 3 月 7 日"
+  },
+  "2229870": {
+    "name_zh": "《命令与征服：将军》",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2024 年 3 月 7 日"
+  },
+  "2229880": {
+    "name_zh": "《命令与征服：泰伯利亚之阳和火风暴》",
+    "tags": [
+      "动作",
+      "策略"
+    ],
+    "release_date": "2024 年 3 月 7 日"
+  },
+  "2229890": {
+    "name_zh": "《命令与征服：变节者》",
+    "tags": [
+      "动作",
+      "冒险",
+      "策略"
+    ],
+    "release_date": "2024 年 3 月 7 日"
+  },
+  "2358720": {
+    "name_zh": "黑神话：悟空",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2024 年 8 月 19 日"
+  },
+  "2384580": {
+    "name_zh": "真・三国无双 起源",
+    "tags": [
+      "动作",
+      "角色扮演",
+      "策略"
+    ],
+    "release_date": "2025 年 1 月 16 日"
+  },
+  "2401970": {
+    "name_zh": "逆转检察官1&2 御剑精选集",
+    "tags": [
+      "冒险"
+    ],
+    "release_date": "2024 年 9 月 5 日"
+  },
+  "2421410": {
+    "name_zh": "全网公敌2 新世界",
+    "tags": [
+      "独立",
+      "角色扮演",
+      "模拟"
+    ],
+    "release_date": "2025 年 1 月 20 日"
+  },
+  "2427700": {
+    "name_zh": "背包乱斗：福西法的宝藏 Backpack Battles",
+    "tags": [
+      "策略"
+    ],
+    "release_date": "2025 年 6 月 13 日"
+  },
+  "2527500": {
+    "name_zh": "米塔 MiSide",
+    "tags": [
+      "冒险",
+      "独立",
+      "角色扮演",
+      "模拟"
+    ],
+    "release_date": "2024 年 12 月 10 日"
+  },
+  "2592160": {
+    "name_zh": "Dispatch 超英派遣中心",
+    "tags": [
+      "动作",
+      "冒险",
+      "休闲",
+      "独立",
+      "策略"
+    ],
+    "release_date": "2025 年 10 月 22 日"
+  },
+  "2622380": {
+    "name_zh": "艾尔登法环 黑夜君临",
+    "tags": [
+      "动作",
+      "角色扮演"
+    ],
+    "release_date": "2025 年 5 月 29 日"
+  },
+  "2732960": {
+    "name_zh": "《命令与征服：将军零点》",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演",
+      "策略"
+    ],
+    "release_date": "2024 年 3 月 7 日"
+  },
+  "2868840": {
+    "name_zh": "Slay the Spire 2",
+    "tags": [
+      "独立",
+      "策略",
+      "抢先体验"
+    ],
+    "release_date": "2026 年 3 月 5 日"
+  },
+  "2881650": {
+    "name_zh": "前方高能",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2024 年 4 月 1 日"
+  },
+  "3240220": {
+    "name_zh": "Grand Theft Auto V 增强版",
+    "tags": [
+      "动作",
+      "冒险",
+      "竞速"
+    ],
+    "release_date": "2025 年 3 月 4 日"
+  },
+  "3527290": {
+    "name_zh": "PEAK",
+    "tags": [
+      "动作",
+      "冒险",
+      "独立"
+    ],
+    "release_date": "2025 年 6 月 16 日"
+  },
+  "3717340": {
+    "name_zh": "人中之龙 极２",
+    "tags": [
+      "动作",
+      "冒险",
+      "角色扮演"
+    ],
+    "release_date": "2025 年 12 月 11 日"
+  }
+}

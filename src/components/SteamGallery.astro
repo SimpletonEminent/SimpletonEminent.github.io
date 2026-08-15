@@ -1,0 +1,678 @@
+---
+// Steam 游戏画廊:全宽卡片网格 + 点击展开气泡
+// 与右侧游戏列表(GamesTableOfContents,渲染在 Starlight 右栏)通过 CustomEvents 双向联动:
+//   - 监听 steam:select(右栏点击游戏行)→ 滚动定位该卡片并选中展开
+//   - 派发 steam:highlight(选中/收起)→ 右栏高亮/清除对应行
+// 数据由共享模块 src/lib/steam-data.ts 构建期读取合并,无运行时请求
+// 交互为原生 JS(define:vars 注入合并数据),无任何客户端框架
+import { loadMergedGames, formatHours, statusText, releaseYear } from '../lib/steam-data';
+
+const { updatedAt, games } = loadMergedGames();
+---
+
+<div class="steam-gallery not-content">
+  {
+    games.length === 0 ? (
+      <p class="empty">暂无游戏数据,正在等待下一次自动化同步...</p>
+    ) : (
+      <>
+        {updatedAt && <p class="updated-at">最后更新于 {updatedAt.slice(0, 10)}</p>}
+
+        <div class="gallery">
+          {
+            games.map((game) => (
+              <div class="card-item" data-appid={game.appid}>
+                <button
+                  type="button"
+                  class="card"
+                  aria-expanded="false"
+                  aria-controls={`bubble-${game.appid}`}
+                >
+                  <img
+                    src={game.cover}
+                    alt={game.name}
+                    loading="lazy"
+                    onerror={'this.onerror=null;this.src=\'https://placehold.co/600x900?text=No+Cover\';'}
+                  />
+                  <div class="card-info">
+                    <p class="card-name">{game.name}</p>
+                    <div class="card-meta">
+                      <span class="status-badge" data-status={game.my_status}>
+                        {statusText(game.my_status)}
+                      </span>
+                      <p class="card-playtime">
+                        <strong>{formatHours(game.playtime_hours)}</strong> 小时
+                      </p>
+                      {releaseYear(game.release_date) && (
+                        <p class="card-release">{releaseYear(game.release_date)}</p>
+                      )}
+                    </div>
+                  </div>
+                  <span class="card-badges" aria-hidden="true">
+                    {game.my_review && <span class="badge-icon" title="短评">💬</span>}
+                    {game.blog_url && <span class="badge-icon" title="深度评测">📄</span>}
+                  </span>
+                </button>
+
+                <div class="bubble" id={`bubble-${game.appid}`} hidden>
+                  <div class="bubble-inner">
+                    <div class="bubble-panel">
+                      <div class="bubble-content"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </>
+    )
+  }
+</div>
+
+<script is:inline define:vars={{ games }}>
+  (() => {
+    const gallery = document.querySelector('.steam-gallery');
+    if (!gallery) return;
+
+    const items = Array.from(gallery.querySelectorAll('.card-item'));
+    const itemByAppid = new Map();
+    const gameByAppid = new Map();
+
+    for (const item of items) {
+      itemByAppid.set(Number(item.dataset.appid), item);
+    }
+    // games 由 define:vars 在构建期注入为运行时变量,TS 静态检查无法感知
+    for (const game of games) {
+      gameByAppid.set(Number(game.appid), game);
+    }
+
+    const STATUS_TEXT = {
+      uncompleted: '未通关',
+      completed: '已通关',
+      perfect: '全成就🏆',
+    };
+    const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let activeAppid = null;
+    // 每项的收起隐藏定时器:openBubble 只清理自己那项的,
+    // 避免手风琴切换时取消掉前一项的隐藏,导致旧气泡残留
+    const closeTimers = new WeakMap();
+
+    function esc(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function formatHours(hours) {
+      const h = Number(hours) || 0;
+      const rounded = Math.round(h * 10) / 10;
+      return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+    }
+
+    // 从发售日期字符串提取年份(如 "2024 年 8 月 20 日" → "2024"),无则返回空串
+    function releaseYear(date) {
+      if (!date) return '';
+      const m = String(date).match(/\d{4}/);
+      return m ? m[0] : '';
+    }
+
+    function statusBadge(status) {
+      const key = STATUS_TEXT[status] !== undefined ? status : 'uncompleted';
+      return `<span class="status-badge" data-status="${key}">${STATUS_TEXT[key]}</span>`;
+    }
+
+    // 动态渲染气泡内容(innerHTML 注入,配合 :global() 样式)
+    function renderBubble(item, game) {
+      const content = item.querySelector('.bubble-content');
+      if (!content) return;
+
+      let html = '';
+
+      // Row 1 游戏名称:EN + CN 并列
+      html += '<div class="bubble-row">';
+      html += '<span class="bubble-label">游戏名称</span>';
+      html += '<span class="bubble-value">';
+      html += esc(game.name);
+      if (game.name_zh) {
+        html += `<span class="bubble-name-zh">${esc(game.name_zh)}</span>`;
+      }
+      html += '</span></div>';
+
+      // Row 2 游戏类型:标签胶囊,无标签时整行隐藏
+      if (Array.isArray(game.tags) && game.tags.length > 0) {
+        html += '<div class="bubble-row">';
+        html += '<span class="bubble-label">游戏类型</span>';
+        html += '<span class="bubble-value bubble-tags">';
+        html += game.tags.map((tag) => `<span class="tag-pill">${esc(tag)}</span>`).join('');
+        html += '</span></div>';
+      }
+
+      // Row 3 通关状态
+      html += '<div class="bubble-row">';
+      html += '<span class="bubble-label">通关状态</span>';
+      html += `<span class="bubble-value">${statusBadge(game.my_status)}</span></div>`;
+
+      // Row 4 数据详情
+      html += '<div class="bubble-row">';
+      html += '<span class="bubble-label">数据详情</span>';
+      html += '<span class="bubble-value">';
+      html += `<strong>总游玩 ${formatHours(game.playtime_hours)} 小时</strong>`;
+      html += '<span class="bubble-sep">·</span>';
+      html += `近两周 ${formatHours(game.playtime_2weeks_hours)} 小时`;
+      html += '</span></div>';
+
+      // Row 5 我的短评
+      html += '<div class="bubble-row">';
+      html += '<span class="bubble-label">我的短评</span>';
+      if (game.my_review) {
+        html += `<span class="bubble-value">${esc(game.my_review)}</span>`;
+      } else {
+        html += '<span class="bubble-value bubble-empty">暂无短评</span>';
+      }
+      html += '</div>';
+
+      // Row 6 深度评测:blog_url 为空时整行隐藏
+      if (game.blog_url) {
+        html += '<div class="bubble-row">';
+        html += '<span class="bubble-label">深度评测</span>';
+        html += '<span class="bubble-value">';
+        html += `<a class="bubble-link" href="${esc(game.blog_url)}">📄 查看我的深度评测</a>`;
+        html += '</span></div>';
+      }
+
+      // 底部:Steam 商店入口 + 元数据(发售年份/游玩年份/平台)
+      html += '<div class="bubble-footer">';
+      html += `<a class="store-link" href="https://store.steampowered.com/app/${game.appid}" target="_blank" rel="noopener noreferrer">前往 Steam 商店 ↗</a>`;
+      const meta = [];
+      const rYear = releaseYear(game.release_date);
+      if (rYear) meta.push(`发售年份: ${rYear}`);
+      if (game.play_year) meta.push(`游玩年份: ${esc(game.play_year)}`);
+      if (game.platform) meta.push(`平台: ${esc(game.platform)}`);
+      if (meta.length > 0) {
+        html += `<p class="bubble-meta">${meta.join(' · ')}</p>`;
+      }
+      html += '</div>';
+
+      content.innerHTML = html;
+    }
+
+    // 气泡锚定 .gallery:top = 该卡片底边 + 0.5rem 间距
+    // (.card-item 与 .card 均为静态定位,offsetParent 即 position:relative 的 .gallery)
+    function positionBubble(item) {
+      const bubble = item.querySelector('.bubble');
+      if (!bubble) return;
+      bubble.style.top = `${item.offsetTop + item.offsetHeight + 8}px`;
+    }
+
+    function openBubble(item, game) {
+      const bubble = item.querySelector('.bubble');
+      const card = item.querySelector('.card');
+      if (!bubble || !card) return;
+      // 同一项正在收起动画中:取消待触发的隐藏,直接重新展开
+      const pending = closeTimers.get(item);
+      if (pending) {
+        window.clearTimeout(pending);
+        closeTimers.delete(item);
+      }
+      bubble.hidden = false;
+      positionBubble(item);
+      renderBubble(item, game);
+      // 强制回流:让 0fr 基态先落地,再切 1fr 触发 grid-template-rows 过渡
+      void bubble.offsetHeight;
+      item.classList.add('expanded');
+      card.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeBubble(item) {
+      const bubble = item.querySelector('.bubble');
+      const card = item.querySelector('.card');
+      if (!bubble || !card) return;
+      item.classList.remove('expanded');
+      card.setAttribute('aria-expanded', 'false');
+      // 等收起动画结束后再真正隐藏,避免打断过渡
+      const timer = window.setTimeout(() => {
+        if (!item.classList.contains('expanded')) {
+          bubble.hidden = true;
+        }
+        closeTimers.delete(item);
+      }, 300);
+      closeTimers.set(item, timer);
+    }
+
+    function setSelected(item, on) {
+      const card = item.querySelector('.card');
+      if (card) card.classList.toggle('selected', on);
+    }
+
+    // 收起当前展开项并清除 TOC 高亮(再点同一卡片 / 点击外部共用)
+    function closeActive() {
+      if (activeAppid === null) return;
+      const item = itemByAppid.get(activeAppid);
+      if (item) {
+        closeBubble(item);
+        setSelected(item, false);
+      }
+      activeAppid = null;
+      dispatchHighlight(null);
+    }
+
+    // 通知右侧 TOC 高亮/清除对应行
+    function dispatchHighlight(appid) {
+      window.dispatchEvent(new CustomEvent('steam:highlight', { detail: { appid } }));
+    }
+
+    // 单开手风琴:点击同一项收起,点击不同项先收起旧的再展开新的
+    function selectItem(appid) {
+      if (activeAppid === appid) {
+        closeActive();
+        return;
+      }
+
+      if (activeAppid !== null) {
+        const prev = itemByAppid.get(activeAppid);
+        if (prev) {
+          closeBubble(prev);
+          setSelected(prev, false);
+        }
+      }
+
+      const item = itemByAppid.get(appid);
+      const game = gameByAppid.get(appid);
+      if (!item || !game) return;
+
+      openBubble(item, game);
+      setSelected(item, true);
+      activeAppid = appid;
+      dispatchHighlight(appid);
+    }
+
+    // 点击卡片 → 选中/收起(事件目标落在 .card 内才算,气泡内的链接不受影响)
+    const grid = gallery.querySelector('.gallery');
+    if (grid) {
+      grid.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        const card = target.closest('.card');
+        if (!(card instanceof HTMLElement)) return;
+        const item = card.closest('.card-item');
+        if (!(item instanceof HTMLElement)) return;
+        selectItem(Number(item.dataset.appid));
+      });
+    }
+
+    // 监听右栏 TOC 的 steam:select → 选中展开 + 平滑滚动定位
+    window.addEventListener('steam:select', (event) => {
+      const appid = event.detail?.appid;
+      if (appid === undefined || appid === null) return;
+      const id = Number(appid);
+      selectItem(id);
+      const item = itemByAppid.get(id);
+      if (item) {
+        item.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'center' });
+      }
+    });
+
+    // 气泡是浮层,可能盖住下方卡片:点击外部任意处 → 收起当前气泡。
+    // 卡片/TOC 内部的点击由各自的处理器接管,这里不重复处理。
+    document.addEventListener('click', (event) => {
+      if (activeAppid === null) return;
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const item = itemByAppid.get(activeAppid);
+      if (!item) return;
+      if (item.contains(target)) return;
+      if (target.closest('[data-games-toc]') || target.closest('[data-games-mobile-toc]')) return;
+      closeActive();
+    });
+
+    // 窗口缩放导致网格重排(列数变化)时,保持气泡贴在卡片下方
+    window.addEventListener('resize', () => {
+      if (activeAppid === null) return;
+      const item = itemByAppid.get(activeAppid);
+      if (item) positionBubble(item);
+    });
+  })();
+</script>
+
+<style>
+	@layer starlight.core {
+		/*
+		 * 根容器同时挂 not-content 类:Starlight 的 .sl-markdown-content 样式
+		 * (markdown.css)在所有选择器里都排除了 :where(.not-content *),
+		 * 因此本子树完全由下方 scoped 规则控制,卡片内部间距不会被覆盖。
+		 */
+		.steam-gallery {
+			margin-top: 1rem;
+		}
+
+		.updated-at {
+			margin: 0 0 1rem;
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-3);
+		}
+
+		.empty {
+			margin: 0;
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-3);
+		}
+
+		/* 全宽卡片网格(游戏列表已移至右栏 TOC 组件) */
+		.gallery {
+			position: relative; /* 作为浮层气泡的定位锚点 */
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+			gap: 1rem;
+			margin: 0;
+			padding: 0;
+		}
+
+		/*
+		 * 网格项保持原位:任何状态下都不改变 grid 布局(这是关键约束)。
+		 * 气泡改为绝对定位浮层,锚定 .gallery(见下方 .bubble),不再参与流式布局,
+		 * 因此 .card-item 保持静态即可,不需要 position:relative。
+		 */
+		.card-item {
+			margin: 0;
+			padding: 0;
+		}
+
+		/* 卡片:button 而非 a,拦截点击做展开联动,键盘可聚焦 */
+		.card {
+			display: block;
+			position: relative;
+			width: 100%;
+			padding: 0;
+			border: 1px solid var(--sl-color-hairline);
+			/* 注意:暗黑主题不存在 --sl-color-gray-7(仅亮色定义),必须用 gray-6(双主题都有) */
+			background: var(--sl-color-gray-6);
+			border-radius: 0.5rem;
+			overflow: hidden;
+			color: inherit;
+			text-align: left;
+			cursor: pointer;
+			font-family: inherit;
+			transition:
+				transform 0.2s ease,
+				box-shadow 0.2s ease,
+				border-color 0.2s ease,
+				background-color 0.2s ease;
+		}
+
+		.card:hover {
+			transform: scale(1.02);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+			border-color: color-mix(in srgb, var(--sl-color-accent) 40%, var(--sl-color-hairline));
+			background: color-mix(in srgb, var(--sl-color-accent) 6%, var(--sl-color-gray-6));
+		}
+
+		.card.selected {
+			border-color: var(--sl-color-accent);
+			box-shadow: 0 0 0 2px var(--sl-color-accent);
+		}
+
+		.card img {
+			display: block;
+			width: 100%;
+			aspect-ratio: 2 / 3;
+			object-fit: cover;
+			margin: 0;
+		}
+
+		/* 右上角角标:💬 短评 / 📄 深度评测 */
+		.card-badges {
+			position: absolute;
+			top: 0.375rem;
+			right: 0.375rem;
+			display: flex;
+			gap: 0.25rem;
+		}
+
+		.badge-icon {
+			width: 1.5rem;
+			height: 1.5rem;
+			display: grid;
+			place-items: center;
+			border-radius: 999px;
+			background: var(--sl-color-accent);
+			font-size: 0.75rem;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+		}
+
+		.card-info {
+			padding: 0.75rem;
+		}
+
+		.card-name {
+			margin: 0 0 0.375rem;
+			color: var(--sl-color-gray-1);
+			font-size: var(--sl-text-sm);
+			line-height: 1.3;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.card-meta {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 0.375rem;
+		}
+
+		.card-playtime {
+			margin: 0;
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-1);
+		}
+
+		/* 发售年份:小灰字,与时长并排 */
+		.card-release {
+			margin: 0;
+			font-size: var(--sl-text-2xs);
+			color: var(--sl-color-gray-3);
+			flex-shrink: 0;
+		}
+
+		/*
+		 * 状态徽章(卡片静态 + 气泡内动态通用)。
+		 * 气泡内容是 JS 动态插入的,不带 Astro scoped 属性,
+		 * 因此这里用 .steam-gallery :global(...) 让静态与动态元素都能命中。
+		 */
+		.steam-gallery :global(.status-badge) {
+			display: inline-block;
+			border-radius: 999px;
+			padding: 0.1em 0.6em;
+			font-size: var(--sl-text-xs);
+			line-height: 1.6;
+			white-space: nowrap;
+			vertical-align: middle;
+		}
+
+		.steam-gallery :global(.status-badge[data-status='uncompleted']) {
+			background: #374151;
+			color: #e5e7eb;
+		}
+
+		.steam-gallery :global(.status-badge[data-status='completed']) {
+			background: #1e3a5f;
+			color: #93c5fd;
+		}
+
+		.steam-gallery :global(.status-badge[data-status='perfect']) {
+			background: #78350f;
+			color: #fcd34d;
+		}
+
+		/* 浅色模式徽章加深,保证可读性(Starlight 默认深色,data-theme='light' 为覆盖) */
+		:root[data-theme='light'] .steam-gallery :global(.status-badge[data-status='uncompleted']) {
+			background: #e5e7eb;
+			color: #374151;
+		}
+
+		:root[data-theme='light'] .steam-gallery :global(.status-badge[data-status='completed']) {
+			background: #dbeafe;
+			color: #1d4ed8;
+		}
+
+		:root[data-theme='light'] .steam-gallery :global(.status-badge[data-status='perfect']) {
+			background: #fef3c7;
+			color: #92400e;
+		}
+
+		/*
+		 * 气泡:绝对定位浮层,锚定 .gallery(position:relative),
+		 * 水平铺满画廊整宽(left/right:0),top 由 JS 按卡片位置设置(openBubble → positionBubble)。
+		 * 高度用 grid-template-rows 0fr → 1fr 平滑展开(元素自身高度动画,与定位方式无关),
+		 * 因此它覆盖下方卡片也不会影响任何网格项的布局,卡片永远不会移动。
+		 * 注意 display:grid 会覆盖 UA 的 [hidden]{display:none},
+		 * 必须显式补回 .bubble[hidden],靠 JS 移除 hidden 来控制显示。
+		 */
+		.bubble {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0; /* 占位,openBubble 时按卡片位置重设 */
+			z-index: 20;
+			display: grid;
+			grid-template-rows: 0fr;
+			transition: grid-template-rows 0.25s ease;
+		}
+
+		.bubble[hidden] {
+			display: none;
+		}
+
+		.card-item.expanded .bubble {
+			grid-template-rows: 1fr;
+		}
+
+		.bubble-inner {
+			min-height: 0;
+			overflow: hidden;
+		}
+
+		.bubble-panel {
+			background: var(--sl-color-gray-6);
+			border: 1px solid var(--sl-color-hairline);
+			border-radius: 0.75rem;
+			padding: 1rem 1.25rem;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+		}
+
+		/* 以下均为 JS 动态插入的元素,必须 :global() 才能命中 scoped 样式 */
+		.bubble :global(.bubble-row) {
+			display: grid;
+			grid-template-columns: 5.5em 1fr;
+			gap: 0.75rem;
+			padding: 0.45rem 0;
+			border-bottom: 1px solid var(--sl-color-hairline);
+			align-items: baseline;
+		}
+
+		.bubble :global(.bubble-label) {
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-xs);
+			white-space: nowrap;
+		}
+
+		.bubble :global(.bubble-value) {
+			min-width: 0;
+			color: var(--sl-color-gray-1);
+			font-size: var(--sl-text-sm);
+			line-height: 1.6;
+			overflow-wrap: break-word;
+		}
+
+		.bubble :global(.bubble-name-zh) {
+			color: var(--sl-color-gray-3);
+			margin-left: 0.5rem;
+		}
+
+		.bubble :global(.bubble-tags) {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.375rem;
+		}
+
+		.bubble :global(.tag-pill) {
+			display: inline-block;
+			padding: 0.1em 0.6em;
+			border-radius: 999px;
+			background: color-mix(in srgb, var(--sl-color-gray-3) 18%, transparent);
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-xs);
+			white-space: nowrap;
+		}
+
+		.bubble :global(.bubble-empty) {
+			color: var(--sl-color-gray-3);
+			font-style: italic;
+		}
+
+		.bubble :global(.bubble-sep) {
+			margin: 0 0.5rem;
+			color: var(--sl-color-gray-3);
+		}
+
+		.bubble :global(.bubble-link) {
+			display: inline-block;
+			padding: 0.2em 0.8em;
+			border-radius: 0.375rem;
+			background: color-mix(in srgb, var(--sl-color-accent) 12%, transparent);
+			color: var(--sl-color-accent-high);
+			text-decoration: none;
+			font-size: var(--sl-text-sm);
+		}
+
+		.bubble :global(.bubble-link:hover) {
+			background: color-mix(in srgb, var(--sl-color-accent) 22%, transparent);
+		}
+
+		.bubble :global(.bubble-footer) {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.75rem;
+			margin-top: 0.75rem;
+			padding-top: 0.75rem;
+			border-top: 1px solid var(--sl-color-hairline);
+		}
+
+		.bubble :global(.store-link) {
+			display: inline-block;
+			padding: 0.3em 0.9em;
+			border: 1px solid var(--sl-color-hairline);
+			border-radius: 0.5rem;
+			color: var(--sl-color-gray-2);
+			text-decoration: none;
+			font-size: var(--sl-text-sm);
+			transition:
+				border-color 0.15s ease,
+				color 0.15s ease;
+		}
+
+		.bubble :global(.store-link:hover) {
+			border-color: var(--sl-color-accent);
+			color: var(--sl-color-accent-high);
+		}
+
+		.bubble :global(.bubble-meta) {
+			margin: 0;
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-xs);
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.card,
+			.bubble {
+				transition: none;
+			}
+		}
+	}
+</style>

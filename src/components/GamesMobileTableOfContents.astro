@@ -1,0 +1,212 @@
+---
+// 覆盖 Starlight 的移动端 TableOfContents:
+// - /games 路由 → 渲染折叠的游戏列表(替代 "On this page" 下拉),与卡片画廊联动
+// - 其他路由 → 渲染原生移动端 TOC
+import DefaultMobileTableOfContents from '@astrojs/starlight/components/MobileTableOfContents.astro';
+import { loadMergedGames, formatHours, statusText } from '../lib/steam-data';
+
+const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
+const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
+---
+
+{
+  isGamesRoute ? (
+    <nav class="games-mobile-toc" aria-label="游戏列表" data-games-mobile-toc>
+      <details>
+        <summary>
+          <span class="toggle">🎮 游戏列表</span>
+        </summary>
+        <div class="dropdown">
+          {
+            games.map((game) => (
+              <button type="button" class="games-mobile-row" data-appid={game.appid}>
+                <span class="games-mobile-name">{game.name}</span>
+                <span class="status-badge" data-status={game.my_status}>
+                  {statusText(game.my_status)}
+                </span>
+                <span class="games-mobile-playtime">{formatHours(game.playtime_hours)}h</span>
+              </button>
+            ))
+          }
+          {games.length === 0 && <p class="games-mobile-empty">暂无游戏数据</p>}
+        </div>
+      </details>
+    </nav>
+  ) : (
+    <DefaultMobileTableOfContents />
+  )
+}
+
+<style>
+	@layer starlight.core {
+		nav {
+			position: fixed;
+			z-index: var(--sl-z-index-toc);
+			top: calc(var(--sl-nav-height) - 1px);
+			inset-inline: 0;
+			border-top: 1px solid var(--sl-color-gray-5);
+			background-color: var(--sl-color-bg-nav);
+		}
+		@media (min-width: 50rem) {
+			nav {
+				inset-inline-start: var(--sl-content-inline-start, 0);
+			}
+		}
+
+		summary {
+			gap: 0.5rem;
+			align-items: center;
+			height: var(--sl-mobile-toc-height);
+			border-bottom: 1px solid var(--sl-color-hairline-shade);
+			padding: 0.5rem 1rem;
+			font-size: var(--sl-text-xs);
+			outline-offset: var(--sl-outline-offset-inside);
+			cursor: pointer;
+		}
+		summary::marker,
+		summary::-webkit-details-marker {
+			display: none;
+		}
+
+		.toggle {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.375rem;
+			color: var(--sl-color-white);
+			user-select: none;
+		}
+
+		.dropdown {
+			--border-top: 1px;
+			margin-top: calc(-1 * var(--border-top));
+			border: var(--border-top) solid var(--sl-color-gray-6);
+			border-top-color: var(--sl-color-hairline-shade);
+			max-height: calc(85vh - var(--sl-nav-height) - var(--sl-mobile-toc-height));
+			overflow-y: auto;
+			background-color: var(--sl-color-black);
+			box-shadow: var(--sl-shadow-md);
+			overscroll-behavior: contain;
+			padding: 0.5rem;
+		}
+
+		.games-mobile-row {
+			display: flex;
+			align-items: center;
+			gap: 0.375rem;
+			width: 100%;
+			padding: 0.35rem 0.5rem;
+			border: none;
+			border-radius: 0.375rem;
+			background: transparent;
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-xs);
+			text-align: left;
+			cursor: pointer;
+			font-family: inherit;
+		}
+
+		.games-mobile-row:hover {
+			color: var(--sl-color-white);
+			background: color-mix(in srgb, var(--sl-color-accent) 8%, transparent);
+		}
+
+		.games-mobile-row.active {
+			color: var(--sl-color-white);
+			background: color-mix(in srgb, var(--sl-color-accent) 14%, transparent);
+		}
+
+		.games-mobile-name {
+			flex: 1;
+			min-width: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.games-mobile-playtime {
+			flex-shrink: 0;
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-2xs);
+		}
+
+		.games-mobile-empty {
+			margin: 0;
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-xs);
+			padding: 0.5rem;
+		}
+
+		.games-mobile-toc :global(.status-badge) {
+			display: inline-block;
+			flex-shrink: 0;
+			border-radius: 999px;
+			padding: 0.05em 0.5em;
+			font-size: var(--sl-text-2xs);
+			line-height: 1.6;
+			white-space: nowrap;
+		}
+
+		.games-mobile-toc :global(.status-badge[data-status='uncompleted']) {
+			background: #374151;
+			color: #e5e7eb;
+		}
+
+		.games-mobile-toc :global(.status-badge[data-status='completed']) {
+			background: #1e3a5f;
+			color: #93c5fd;
+		}
+
+		.games-mobile-toc :global(.status-badge[data-status='perfect']) {
+			background: #78350f;
+			color: #fcd34d;
+		}
+
+		:root[data-theme='light'] .games-mobile-toc :global(.status-badge[data-status='uncompleted']) {
+			background: #e5e7eb;
+			color: #374151;
+		}
+
+		:root[data-theme='light'] .games-mobile-toc :global(.status-badge[data-status='completed']) {
+			background: #dbeafe;
+			color: #1d4ed8;
+		}
+
+		:root[data-theme='light'] .games-mobile-toc :global(.status-badge[data-status='perfect']) {
+			background: #fef3c7;
+			color: #92400e;
+		}
+	}
+</style>
+
+<script>
+	// 移动端联动:点击列表行 → 派发 steam:select;收到 steam:highlight → 高亮行并自动收起
+	const toc = document.querySelector('[data-games-mobile-toc]');
+	if (toc) {
+		const details = toc.querySelector('details');
+		const rows = Array.from(toc.querySelectorAll('.games-mobile-row')).filter(
+			(el): el is HTMLElement => el instanceof HTMLElement
+		);
+		const rowByAppid = new Map();
+		for (const row of rows) {
+			rowByAppid.set(Number(row.dataset.appid), row);
+		}
+
+		toc.addEventListener('click', (event) => {
+			const target = event.target;
+			if (!(target instanceof HTMLElement)) return;
+			const row = target.closest('.games-mobile-row');
+			if (!(row instanceof HTMLElement)) return;
+			window.dispatchEvent(
+				new CustomEvent('steam:select', { detail: { appid: Number(row.dataset.appid) } })
+			);
+			if (details) details.open = false; // 选择后收起折叠面板
+		});
+
+		window.addEventListener('steam:highlight', (event) => {
+			const appid = (event as CustomEvent).detail?.appid ?? null;
+			for (const [id, row] of rowByAppid) {
+				row.classList.toggle('active', id === appid);
+			}
+		});
+	}
+</script>
