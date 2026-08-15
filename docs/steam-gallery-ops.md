@@ -1,12 +1,30 @@
 # Steam 游戏画廊操作指南
 
-游戏画廊的数据管线由三部分组成,职责严格分离(见 ADR-0002/0005/0006):
+## 手动操作清单(一键速查)
+
+> 下表列出**需要你亲自执行**的操作。未列出的(如每日时长同步)全部自动,无需干预。
+
+| 时机 | 操作 | 命令/位置 | 耗时 |
+|---|---|---|---|
+| 买了新游戏后 | 补中文名/genres/发售日期 | 项目根目录运行 `node scripts/enrich-metadata.mjs` | 几分钟 |
+| 想更新成就进度 | 重查成就完成率/全成就 | 项目根目录运行 `node scripts/check-achievements.mjs`(需配置环境变量) | 约 5 分钟 |
+| 随时 | 标注通关状态/写短评/补特色标签 | 编辑注释文件(见下方第 4 节) | 按需 |
+| 写了长评后 | 在注释文件填 `blog_url` | 编辑注释文件 | 按需 |
+| 部署/推送 | 提交并推送代码 | 常规 git 提交流程 | 1 分钟 |
+
+**完全自动、无需操作**:每日时长同步(GitHub Actions cron)、线上部署、失败时保留旧数据。
+
+---
+
+## 数据管线
+
+游戏画廊的数据由三部分组成,职责严格分离(见 ADR-0002/0005/0006):
 
 | 文件 | 内容 | 谁写 | 何时更新 |
 |---|---|---|---|
 | `public/steam_games.json` | 自动数据:appid、英文名、总时长、近两周时长、封面 | `scripts/fetch-steam-games.mjs`(GitHub Actions 每日 cron) | 每日自动 |
+| `public/steam_achievements.json` | 成就数据:每款游戏的 unlocked/total 进度 | `scripts/check-achievements.mjs`(手动) | 手动按需 |
 | `src/data/steam_annotations.json` | **元数据 + 手写数据**:中文名、tags、通关状态、短评、长评链接、游玩年份、平台、发售日期 | 自动部分:`enrich-metadata.mjs`;手写部分:你自己编辑 | 按需 |
-| `src/data/steam_annotations.json`(同上) | — | — | — |
 
 ## 日常操作
 
@@ -19,9 +37,11 @@ GitHub Actions 每天 UTC 02:00(北京 10:00)运行 `update-steam-data.yml`:
 
 ### 2. 手动抓取最新时长(可选)
 
+> **进入项目根目录**后执行(所有脚本都从项目根目录运行):
+
 ```powershell
-cd D:\my-blog
-$env:STEAM_API_KEY = '<你的key>'
+# 先配置环境变量(secret 值来自 GitHub Actions Secrets 中的同名变量)
+$env:STEAM_API_KEY = '<你的key>'        # 与仓库 Secrets 中的配置保持一致
 $env:STEAM_ID = '<你的SteamID64>'
 node scripts/fetch-steam-games.mjs
 ```
@@ -33,28 +53,25 @@ node scripts/fetch-steam-games.mjs
 买了新游戏后,它的中文名 / genres 标签 / 发售日期需要补一次:
 
 ```powershell
-cd D:\my-blog
 node scripts/enrich-metadata.mjs
 ```
 
 - **增量式**:已有 `name_zh` / `tags` / `release_date` 的条目自动跳过,只处理缺失的(新游戏)
 - 每请求间隔 1.6s(限流保护),几十款新游戏约几分钟
 - 重复运行安全,不会覆盖你手写的 tags
-- 完成后 `npm run dev` 本地验证,或直接推线上
+- 完成后本地验证,或直接推线上
 
-### 3.5 一次成就检查(手动,标记全成就用)
+### 3.5 一次成就检查(手动,更新成就进度/标记全成就用)
 
-想知道哪些游戏已达成 100% 全成就、可在注释文件里标 `my_status: "perfect"` 时:
+想知道哪些游戏已达成 100% 全成就、或刷新成就进度时:
 
 ```powershell
-cd D:\my-blog
-$env:STEAM_API_KEY = "<你的key>"
-$env:STEAM_ID = "<你的SteamID64>"
+# 先配置环境变量(同第 2 节)
 node scripts/check-achievements.mjs
 # 可选:只检查单款(快速验证) node scripts/check-achievements.mjs --appid=1172470
 ```
 
-- 逐款调用 `ISteamUserStats/GetPlayerAchievements/v1`,按 `achieved` 统计解锁/总数
+- 逐款调用成就接口,按 `achieved` 统计解锁/总数
 - 完整结果写入 `public/steam_achievements.json`(含 `unlocked`/`total`/`perfect`)
 - 控制台会单独打印「全成就候选」清单,核对后到注释文件标 `my_status: "perfect"`
 - 属一次性/手动工具,不进每日同步链路,不触碰注释文件
@@ -82,7 +99,8 @@ node scripts/check-achievements.mjs
 
 ### 画廊显示规则
 
-- **0h 游戏不显示**:`playtime_hours <= 0` 的游戏(没玩过)被 `src/lib/steam-data.ts` 过滤,不出现在画廊和 Overview 列表。只有玩过的游戏才展示。
+- **0h 游戏不显示**:`playtime_hours <= 0` 的游戏(没玩过)被共享数据模块过滤,不出现在画廊和 Overview 列表。只有玩过的游戏才展示。
+- **成就进度行**:有成就系统的游戏在气泡内显示进度条(如 `26% (77/293)`),全成就显示 `100% 🏆`,无成就系统隐藏该行。
 - 过滤在共享数据层(`loadMergedGames`)统一执行,画廊与右侧列表行为一致。
 
 ### 5. 常见问题
@@ -94,13 +112,15 @@ node scripts/check-achievements.mjs
 | 卡片/气泡无背景(暗黑模式透明) | 组件曾误用 `--sl-color-gray-7`(暗黑不存在) | 已修复用 gray-6,不要改回 |
 | 中文名缺失 | enrich 未跑或该游戏无商店页 | 重跑 enrich |
 | 某游戏无发售日期(`无详情数据,跳过`) | 该游戏在国区(cc=cn)被锁区,appdetails 返回 success:false | 属正常现象;enrich 重跑时可用 `cc=us` 变体手动补(脚本默认 cn,锁区游戏如部分 Paradox 作品无法通过国区接口获取) |
+| 成就进度不更新 | 成就数据是静态文件,不会每日同步 | 重跑 `check-achievements.mjs` 刷新 |
 
 ## 数据流全景
 
 ```
 Steam Web API ──每日──▶ fetch-steam-games.mjs ──▶ public/steam_games.json(自动)
+Steam Web API ──手动──▶ check-achievements.mjs ──▶ public/steam_achievements.json(成就进度)
 Steam Store API ──按需──▶ enrich-metadata.mjs ─┐
-                                               ├─▶ src/data/steam_annotations.json(元数据+手写)
+                                                ├─▶ src/data/steam_annotations.json(元数据+手写)
 你手写(通关/短评/tags/blog)──────────────────────┘
                                    │ 构建期合并(loadMergedGames)
                                    ▼
