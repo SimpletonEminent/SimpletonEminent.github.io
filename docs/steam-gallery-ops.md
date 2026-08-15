@@ -78,7 +78,15 @@ node scripts/check-achievements.mjs
 
 ### 4. 手写注释(通关状态/短评/tags 特色词/长评链接)
 
-编辑 `src/data/steam_annotations.json`,按 appid 键添加:
+**推荐方式:表格化批量编辑(数百款游戏时)**
+1. 项目根目录运行 `npm run json-to-csv` → 生成 `steam.csv`(UTF-8,Excel/WPS 打开中文不乱码)
+2. 用 Excel/WPS 打开,表格含列:appid(只读)/ 游戏名(只读)/ 通关状态 / 短评 / 长评链接 / 游玩年份 / 平台 / 特色标签
+3. 批量填充:通关状态列直接下拉选(未通关/已通关/全成就),平台列下拉选(PC/PlayStation/Xbox/Switch),特色标签用分号分隔(如 `魂系;开放世界`)
+4. 填完保存为 CSV(UTF-8),放回项目根目录,运行 `npm run csv-to-json` → 合并写回注释文件
+
+**表格化安全机制**:只认已知 appid(新增行忽略)、非法状态回退未通关、自动字段(中文名/发售日期)永不触碰。`steam.csv` 是工作文件,已 gitignore 不入库。
+
+**手动单条编辑**(少量游戏时):直接编辑 `src/data/steam_annotations.json`,按 appid 键添加:
 
 ```json
 {
