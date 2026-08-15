@@ -165,7 +165,22 @@ const { updatedAt, games } = loadMergedGames();
       html += `近两周 ${formatHours(game.playtime_2weeks_hours)} 小时`;
       html += '</span></div>';
 
-      // Row 5 我的短评
+      // Row 5 成就进度:无成就系统(achievements 为 undefined)或总数为 0 时整行隐藏
+      if (game.achievements && game.achievements.total > 0) {
+        const { unlocked, total } = game.achievements;
+        const percent = Math.round((unlocked / total) * 100);
+        const trophy = percent === 100 ? ' 🏆' : '';
+        html += '<div class="bubble-row">';
+        html += '<span class="bubble-label">成就进度</span>';
+        html += '<span class="bubble-value">';
+        html += '<span class="achievement-wrap">';
+        html += `<span class="achievement-bar"><span class="achievement-fill" style="width:${esc(percent)}%"></span></span>`;
+        html += `<span class="achievement-text">${esc(percent)}% (${esc(unlocked)}/${esc(total)})${trophy}</span>`;
+        html += '</span></span>';
+        html += '</span></div>';
+      }
+
+      // Row 6 我的短评
       html += '<div class="bubble-row">';
       html += '<span class="bubble-label">我的短评</span>';
       if (game.my_review) {
@@ -606,6 +621,34 @@ const { updatedAt, games } = loadMergedGames();
 			background: color-mix(in srgb, var(--sl-color-gray-3) 18%, transparent);
 			color: var(--sl-color-gray-3);
 			font-size: var(--sl-text-xs);
+			white-space: nowrap;
+		}
+
+		.bubble :global(.achievement-wrap) {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.bubble :global(.achievement-bar) {
+			display: inline-block;
+			width: 120px;
+			height: 6px;
+			border-radius: 999px;
+			background: color-mix(in srgb, var(--sl-color-gray-3) 20%, transparent);
+			overflow: hidden;
+		}
+
+		.bubble :global(.achievement-fill) {
+			display: block;
+			height: 100%;
+			border-radius: 999px;
+			background: var(--sl-color-accent);
+		}
+
+		.bubble :global(.achievement-text) {
+			color: var(--sl-color-gray-1);
+			font-size: var(--sl-text-sm);
 			white-space: nowrap;
 		}
 

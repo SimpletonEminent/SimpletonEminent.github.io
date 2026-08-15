@@ -1,7 +1,8 @@
 // 共享数据加载模块:Steam 游戏画廊与右侧游戏列表(TOC)共用
 // - 自动数据:public/steam_games.json(每日同步脚本生成,全量覆盖)
 // - 手工注释:src/data/steam_annotations.json(用户维护,脚本永不触碰)
-// 两个 JSON 按 appid 合并,缺失字段补默认值,按总时长降序返回。
+// - 成就进度:public/steam_achievements.json(手动跑 check-achievements.mjs 生成)
+// 三个数据源按 appid 合并,过滤掉 0h 游戏,缺失字段补默认值,按总时长降序返回。
 
 import { readFileSync } from 'node:fs';
 
@@ -36,6 +37,20 @@ export interface MergedGame extends SteamGame {
   play_year: string;
   platform: string;
   release_date: string;
+  /** 成就进度(来自 check-achievements.mjs),无成就系统或未抓取时为 undefined */
+  achievements?: { unlocked: number; total: number };
+}
+
+/** 成就数据文件结构(public/steam_achievements.json) */
+interface SteamAchievementsData {
+  updatedAt?: string;
+  games: Array<{
+    appid: number;
+    hasStats: boolean;
+    unlocked?: number;
+    total?: number;
+    perfect?: boolean;
+  }>;
 }
 
 export interface SteamGamesData {
@@ -68,8 +83,26 @@ export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
     annotations = {};
   }
 
-  const merged: MergedGame[] = games.map((game) => {
+  // 成就进度:public/steam_achievements.json(手动重跑 check-achievements.mjs 生成)
+  let achievementMap = new Map<number, { unlocked: number; total: number }>();
+  try {
+    const raw = readFileSync('public/steam_achievements.json', 'utf-8');
+    const data = JSON.parse(raw) as SteamAchievementsData;
+    for (const g of data.games ?? []) {
+      if (g.hasStats && typeof g.unlocked === 'number' && typeof g.total === 'number') {
+        achievementMap.set(g.appid, { unlocked: g.unlocked, total: g.total });
+      }
+    }
+  } catch {
+    achievementMap = new Map();
+  }
+
+  // 过滤 0h 游戏:画廊只展示玩过的(用户明确要求,0 时长游戏不重要)
+  const filteredGames = games.filter((g) => (g.playtime_hours ?? 0) > 0);
+
+  const merged: MergedGame[] = filteredGames.map((game) => {
     const annotation = annotations[String(game.appid)] ?? {};
+    const achievements = achievementMap.get(game.appid);
     return {
       ...game,
       name_zh: annotation.name_zh ?? '',
@@ -80,6 +113,7 @@ export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
       play_year: annotation.play_year ?? '',
       platform: annotation.platform ?? '',
       release_date: annotation.release_date ?? '',
+      achievements,
     };
   });
 

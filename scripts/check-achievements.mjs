@@ -109,8 +109,10 @@ for (let i = 0; i < games.length; i++) {
       if (entry.perfect) perfectCount++;
     }
   } catch (err) {
-    console.error(`appid ${appid}(${name}) 查询失败:${err.message}`);
-    process.exit(1);
+    // 单款查询失败(如服务器 500)不应中断整批:记录后继续,汇总时可见
+    entry = { appid, name, hasStats: false, error: err.message };
+    console.warn(`appid ${appid}(${name}) 查询失败:${err.message},已跳过(可重跑补)`);
+    noStatsCount++;
   }
 
   results.push(entry);
