@@ -5,9 +5,19 @@
 //   - 派发 steam:highlight(选中/收起)→ 右栏高亮/清除对应行
 // 数据由共享模块 src/lib/steam-data.ts 构建期读取合并,无运行时请求
 // 交互为原生 JS(define:vars 注入合并数据),无任何客户端框架
-import { loadMergedGames, formatHours, statusText, releaseYear } from '../lib/steam-data';
+import { loadMergedGames, formatHours, statusText, releaseYear, sortGames } from '../lib/steam-data';
 
 const { updatedAt, games } = loadMergedGames();
+
+// 四种排序预设:构建期用共享 sortGames 预计算。客户端脚本为 is:inline,
+// 无法在运行时 import 模块(define:vars 只序列化 JSON),因此注入排序结果数组,
+// 客户端只按结果重排 DOM,不重复实现排序。方向固定 desc(见设计决策 Q1/Q3)。
+const sortPresets = {
+  playtime: sortGames(games, 'playtime', 'desc'),
+  recent: sortGames(games, 'recent', 'desc'),
+  status: sortGames(games, 'status', 'desc'),
+  release: sortGames(games, 'release', 'desc'),
+};
 ---
 
 <div class="steam-gallery not-content">
@@ -17,6 +27,16 @@ const { updatedAt, games } = loadMergedGames();
     ) : (
       <>
         {updatedAt && <p class="updated-at">最后更新于 {updatedAt.slice(0, 10)}</p>}
+
+        <div class="sort-toolbar">
+          <label for="sort-select">排序</label>
+          <select id="sort-select" class="sort-select">
+            <option value="playtime" selected>⌛ 总时长</option>
+            <option value="recent">🔥 近期最爱</option>
+            <option value="status">🏆 通关进度</option>
+            <option value="release">📅 发售年份</option>
+          </select>
+        </div>
 
         <div class="gallery">
           {
@@ -70,7 +90,7 @@ const { updatedAt, games } = loadMergedGames();
   }
 </div>
 
-<script is:inline define:vars={{ games }}>
+<script is:inline define:vars={{ games, sortPresets }}>
   (() => {
     const gallery = document.querySelector('.steam-gallery');
     if (!gallery) return;
@@ -94,6 +114,8 @@ const { updatedAt, games } = loadMergedGames();
     };
     const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let activeAppid = null;
+    // 当前排序状态:默认总时长降序,与初始渲染一致(Q2)
+    let currentSort = { key: 'playtime', dir: 'desc' };
     // 每项的收起隐藏定时器:openBubble 只清理自己那项的,
     // 避免手风琴切换时取消掉前一项的隐藏,导致旧气泡残留
     const closeTimers = new WeakMap();
@@ -319,6 +341,33 @@ const { updatedAt, games } = loadMergedGames();
       });
     }
 
+    // 排序:sortPresets 由 define:vars 注入(构建期 sortGames 预计算的四组 desc 顺序)。
+    // 按结果重排卡片 DOM —— appendChild 移动既有节点,不重建,监听器与 itemByAppid 映射保持有效。
+    function reorderGrid(key) {
+      const order = sortPresets[key];
+      if (!order) return;
+      closeActive(); // Q5:切换排序时收起当前气泡,清除选中与 TOC 高亮
+      const gridEl = gallery.querySelector('.gallery');
+      if (!gridEl) return;
+      for (const game of order) {
+        const item = itemByAppid.get(Number(game.appid));
+        if (item) gridEl.appendChild(item);
+      }
+      currentSort = { key, dir: 'desc' };
+      // 通知右侧 TOC 以相同顺序重排列表行
+      window.dispatchEvent(new CustomEvent('steam:sort', { detail: { key, dir: 'desc' } }));
+    }
+
+    // 排序下拉框:切换即重排(默认已选中 ⌛ 总时长,与初始渲染一致)
+    const sortSelect = gallery.querySelector('.sort-select');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', () => {
+        const key = sortSelect.value;
+        if (key === currentSort.key) return;
+        reorderGrid(key);
+      });
+    }
+
     // 监听右栏 TOC 的 steam:select → 选中展开 + 平滑滚动定位
     window.addEventListener('steam:select', (event) => {
       const appid = event.detail?.appid;
@@ -368,6 +417,35 @@ const { updatedAt, games } = loadMergedGames();
 			margin: 0 0 1rem;
 			font-size: var(--sl-text-sm);
 			color: var(--sl-color-gray-3);
+		}
+
+		/* 排序工具栏:常驻、紧凑 */
+		.sort-toolbar {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin: 0 0 1rem;
+		}
+
+		.sort-toolbar label {
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-3);
+		}
+
+		.sort-select {
+			padding: 0.3rem 0.6rem;
+			border: 1px solid var(--sl-color-hairline);
+			border-radius: 0.375rem;
+			background: var(--sl-color-gray-6);
+			color: var(--sl-color-gray-1);
+			font-size: var(--sl-text-sm);
+			font-family: inherit;
+			cursor: pointer;
+		}
+
+		.sort-select:focus-visible {
+			outline: 2px solid var(--sl-color-accent);
+			outline-offset: 1px;
 		}
 
 		.empty {

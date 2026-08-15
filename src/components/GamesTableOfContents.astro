@@ -3,10 +3,21 @@
 // - /games 路由 → 渲染游戏列表(替代 "On this page"),与卡片画廊双向联动
 // - 其他路由 → 渲染原生 TOC
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
-import { loadMergedGames, formatHours, statusText } from '../lib/steam-data';
+import { loadMergedGames, formatHours, statusText, sortGames } from '../lib/steam-data';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
 const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
+
+// 排序预设:与画廊组件同一实现预计算,客户端 script 无法 import 模块(define:vars 只序列化 JSON)
+// 因此这里用真实数据 sortGames 跑出 4 种排序后的 appid 顺序,注入客户端供 steam:sort 重排
+const sortPresets = isGamesRoute
+  ? {
+      playtime: sortGames(games, 'playtime', 'desc').map((g) => g.appid),
+      recent: sortGames(games, 'recent', 'desc').map((g) => g.appid),
+      status: sortGames(games, 'status', 'desc').map((g) => g.appid),
+      release: sortGames(games, 'release', 'desc').map((g) => g.appid),
+    }
+  : { playtime: [], recent: [], status: [], release: [] };
 ---
 
 {
@@ -141,20 +152,22 @@ const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
 	}
 </style>
 
-<script>
+<script is:inline define:vars={{ sortPresets }}>
 	// 联动协议:
 	// - 点击本列表行 → 派发 `steam:select`(detail: { appid }),画廊组件监听后滚动定位 + 展开气泡
 	// - 画廊组件选中卡片 → 派发 `steam:highlight`(detail: { appid }),本组件据此高亮对应行
 	// - 画廊组件收起 → 派发 `steam:highlight`(detail: { appid: null }),清除高亮
+	// - 画廊组件切换排序 → 派发 `steam:sort`(detail: { key, dir }),本组件按 sortPresets 重排
 	const toc = document.querySelector('[data-games-toc]');
 	if (toc) {
 		const rows = Array.from(toc.querySelectorAll('.games-toc-row')).filter(
-			(el): el is HTMLElement => el instanceof HTMLElement
+			(el) => el instanceof HTMLElement
 		);
 		const rowByAppid = new Map();
 		for (const row of rows) {
 			rowByAppid.set(Number(row.dataset.appid), row);
 		}
+		const list = toc.querySelector('.games-toc-list');
 
 		toc.addEventListener('click', (event) => {
 			const target = event.target;
@@ -167,9 +180,21 @@ const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
 		});
 
 		window.addEventListener('steam:highlight', (event) => {
-			const appid = (event as CustomEvent).detail?.appid ?? null;
+			const appid = event.detail?.appid ?? null;
 			for (const [id, row] of rowByAppid) {
 				row.classList.toggle('active', id === appid);
+			}
+		});
+
+		// 排序同步:画廊切换排序时,按预计算的 sortPresets 重排本列表的 DOM 行
+		window.addEventListener('steam:sort', (event) => {
+			const detail = event.detail ?? {};
+			const key = detail.key ?? 'playtime';
+			const order = sortPresets[key] ?? sortPresets.playtime;
+			if (!list || !Array.isArray(order)) return;
+			for (const appid of order) {
+				const row = rowByAppid.get(appid);
+				if (row) list.appendChild(row);
 			}
 		});
 	}

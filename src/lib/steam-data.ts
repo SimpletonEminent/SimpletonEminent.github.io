@@ -143,3 +143,47 @@ export function releaseYear(date: string): string {
   const m = String(date).match(/\d{4}/);
   return m ? m[0] : '';
 }
+
+/** 排序维度:总时长 / 近两周 / 通关状态 / 发售年份 */
+export type SortKey = 'playtime' | 'recent' | 'status' | 'release';
+export type SortDir = 'asc' | 'desc';
+
+/** 通关状态权重:全成就 > 已通关 > 未通关 */
+const STATUS_WEIGHT: Record<Status, number> = { perfect: 3, completed: 2, uncompleted: 1 };
+
+/**
+ * 共享排序逻辑:画廊与右侧 TOC 用同一实现,保证两侧顺序一致。
+ * 返回一个新数组,不修改入参。
+ */
+export function sortGames(games: MergedGame[], key: SortKey, dir: SortDir): MergedGame[] {
+  const sign = dir === 'desc' ? -1 : 1;
+  const sorted = [...games];
+
+  switch (key) {
+    case 'playtime':
+      sorted.sort((a, b) => (a.playtime_hours - b.playtime_hours) * sign);
+      break;
+    case 'recent':
+      sorted.sort((a, b) => (a.playtime_2weeks_hours - b.playtime_2weeks_hours) * sign);
+      break;
+    case 'status':
+      // 按状态权重排序(desc = 全成就优先);同状态按总时长降序稳定排
+      sorted.sort((a, b) => {
+        const byStatus = (STATUS_WEIGHT[a.my_status] - STATUS_WEIGHT[b.my_status]) * sign;
+        if (byStatus !== 0) return byStatus;
+        return b.playtime_hours - a.playtime_hours;
+      });
+      break;
+    case 'release': {
+      // 按发售年份排序(desc = 新游戏在前);无年份的排最后
+      const yearOf = (g: MergedGame) => {
+        const y = releaseYear(g.release_date);
+        return y ? Number(y) : Number.NEGATIVE_INFINITY;
+      };
+      sorted.sort((a, b) => (yearOf(a) - yearOf(b)) * sign);
+      break;
+    }
+  }
+
+  return sorted;
+}
