@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-08-17T03:07:23.041Z",
+  "updatedAt": "2026-08-18T03:03:11.580Z",
   "games": [
     {
       "appid": 1172470,
       "name": "Apex Legends",
       "playtime_hours": 1077,
-      "playtime_2weeks_hours": 2.5,
+      "playtime_2weeks_hours": 1.4,
       "last_played": 1786164087,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1172470/library_600x900.jpg"
     },
