@@ -626,7 +626,8 @@
     "release_date": "2015 年 6 月 5 日",
     "my_status": "completed",
     "platform": "PC",
-    "play_year": "2025"
+    "play_year": "2025",
+    "blog_url": "/blog/tts_review"
   },
   "289070": {
     "name_zh": "Sid Meier’s Civilization® VI",
@@ -1533,7 +1534,8 @@
     "release_date": "2019 年 3 月 21 日",
     "my_status": "perfect",
     "platform": "PC",
-    "play_year": "2025"
+    "play_year": "2025",
+    "blog_url": "/blog/sekiro_review"
   },
   "834530": {
     "name_zh": "人中之龙 极 [传承版]",
@@ -1604,7 +1606,8 @@
     "release_date": "2020 年 3 月 11 日",
     "my_status": "completed",
     "platform": "PC",
-    "play_year": "2026"
+    "play_year": "2026",
+    "blog_url": "/blog/djmax_review"
   },
   "976310": {
     "name_zh": "Mortal Kombat 11",
@@ -2046,7 +2049,8 @@
     "release_date": "2023 年 11 月 8 日",
     "my_status": "completed",
     "platform": "PC",
-    "play_year": "2024"
+    "play_year": "2024",
+    "blog_url": "/blog/sanabi_review"
   },
   "1585220": {
     "name_zh": "Melatonin",
