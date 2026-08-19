@@ -227,31 +227,21 @@ export function sortGames(games: MergedGame[], key: SortKey, dir: SortDir): Merg
 }
 
 /**
- * 徽章组合规则(ADR-0007),卡片 / 桌面 TOC / 移动 TOC / 气泡四处共用:
+ * 徽章组合规则(ADR-0007 v2),卡片 / 桌面 TOC / 移动 TOC / 气泡四处共用:
  * - 无段位 → 单徽章:游玩状态
- * - 有段位 且 状态为 已通关/全成就(单机含金量)或 暂退长草/已退役(状态本身有信息量)
- *   → 双徽章:游玩状态 + 段位
- * - 有段位 且 状态为 持续游玩/未通关 → 单徽章:段位(段位本身隐含"在玩")
+ * - 有段位 → 双徽章:游玩状态 + 段位(段位只是追加信息,绝不顶替游玩状态)
  */
 export type Badge =
   | { kind: 'status'; value: Status }
   | { kind: 'rank'; value: string };
 
-export function badgesFor(game: MergedGame): Badge[] {
+export function badgesFor(game: Pick<MergedGame, 'my_status' | 'my_rank'>): Badge[] {
   const rank = game.my_rank.trim();
   if (!rank) {
     return [{ kind: 'status', value: game.my_status }];
   }
-  const doubleBadge =
-    game.my_status === 'completed' ||
-    game.my_status === 'perfect' ||
-    game.my_status === 'hiatus' ||
-    game.my_status === 'retired';
-  if (doubleBadge) {
-    return [
-      { kind: 'status', value: game.my_status },
-      { kind: 'rank', value: rank },
-    ];
-  }
-  return [{ kind: 'rank', value: rank }];
+  return [
+    { kind: 'status', value: game.my_status },
+    { kind: 'rank', value: rank },
+  ];
 }

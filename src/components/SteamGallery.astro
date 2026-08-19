@@ -155,18 +155,14 @@ const sortPresets = {
       return m ? m[0] : '';
     }
 
-    // 徽章组合(与 steam-data.ts badgesFor 同一规则,ADR-0007;inline script 无法 import 模块)
+    // 徽章组合(与 steam-data.ts badgesFor 同一规则,ADR-0007 v2;inline script 无法 import 模块)
+    // 规则:游玩状态徽章永远显示;填了段位则追加段位徽章(段位绝不顶替状态)
     function badgesHtml(game) {
       const key = STATUS_TEXT[game.my_status] !== undefined ? game.my_status : 'uncompleted';
-      const rank = String(game.my_rank ?? '').trim();
-      if (!rank) {
-        return `<span class="status-badge" data-status="${key}">${STATUS_TEXT[key]}</span>`;
-      }
       const statusBadge = `<span class="status-badge" data-status="${key}">${STATUS_TEXT[key]}</span>`;
-      const rankBadge = `<span class="status-badge rank-badge">${esc(rank)}</span>`;
-      const doubleBadge =
-        key === 'completed' || key === 'perfect' || key === 'hiatus' || key === 'retired';
-      return doubleBadge ? statusBadge + rankBadge : rankBadge;
+      const rank = String(game.my_rank ?? '').trim();
+      if (!rank) return statusBadge;
+      return statusBadge + `<span class="status-badge rank-badge">${esc(rank)}</span>`;
     }
 
     // 动态渲染气泡内容(innerHTML 注入,配合 :global() 样式)
@@ -195,7 +191,7 @@ const sortPresets = {
         html += '</span></div>';
       }
 
-      // Row 3 游玩状态:六态徽章 + 段位双徽章规则(与卡片一致,ADR-0007)
+      // Row 3 游玩状态:六态徽章 + 段位追加徽章规则(与卡片一致,ADR-0007 v2)
       html += '<div class="bubble-row">';
       html += '<span class="bubble-label">游玩状态</span>';
       html += `<span class="bubble-value">${badgesHtml(game)}</span></div>`;
