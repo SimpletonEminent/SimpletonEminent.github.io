@@ -173,12 +173,13 @@ const sortPresets = {
         html += '</span></div>';
       }
 
-      // Row 3 游玩状态:徽章直接复制卡片已渲染结果(规则只存在于 steam-data.ts badgesFor,
-      // ADR-0007 v2;is:inline 脚本无法 import 模块,复制渲染结果而非重写规则,杜绝两处规则漂移)
+      // Row 3 游玩状态:徽章只复制卡片(.card)已渲染结果——查询范围必须限定在卡片,
+      // 不能是整个 .card-item(气泡旧内容也是 .status-badge,会被重复复制,每开一次翻倍)
+      // 规则只存在于 steam-data.ts badgesFor,ADR-0007 v2;is:inline 脚本无法 import 模块
       html += '<div class="bubble-row">';
       html += '<span class="bubble-label">游玩状态</span>';
       html += '<span class="bubble-value">';
-      for (const badge of item.querySelectorAll('.status-badge')) {
+      for (const badge of item.querySelector('.card').querySelectorAll('.status-badge')) {
         const dataStatus = badge.getAttribute('data-status');
         html += `<span class="${badge.className}"${dataStatus ? ` data-status="${dataStatus}"` : ''}>${esc(badge.textContent)}</span>`;
       }
