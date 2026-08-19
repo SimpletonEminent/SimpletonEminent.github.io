@@ -1,4 +1,4 @@
-﻿// 导回脚本:把编辑后的 steam.csv 转回注释文件(仅更新手写字段)
+// 导回脚本:把编辑后的 steam.csv 转回注释文件(仅更新手写字段)
 // 用法: node scripts/csv-to-json.mjs
 // 读取: steam.csv(项目根目录)
 // 写入: src/data/steam_annotations.json(合并更新,自动字段永不触碰)
@@ -13,7 +13,17 @@ const CSV_FILE = 'steam.csv';
 const GAMES_FILE = 'public/steam_games.json';
 const ANNOT_FILE = 'src/data/steam_annotations.json';
 
-const STATUS_VALUES = new Set(['未通关', '已通关', '全成就']);
+const STATUS_VALUES = new Set(['未通关', '已通关', '全成就', '持续游玩', '暂退长草', '已退役']);
+
+// 中文状态 → 内部枚举键(ADR-0007 六阶梯)
+const STATUS_TO_KEY = {
+  '未通关': 'uncompleted',
+  '已通关': 'completed',
+  '全成就': 'perfect',
+  '持续游玩': 'ongoing',
+  '暂退长草': 'hiatus',
+  '已退役': 'retired',
+};
 
 function parseCSV(text) {
   // 去掉 BOM
@@ -92,7 +102,8 @@ const HEADER_TO_KEY = {
   'appid': 'appid',
   '游戏名': 'name',
   '中文名': 'name_zh',
-  '通关状态': 'my_status',
+  '游玩状态': 'my_status',
+  '最高段位': 'my_rank',
   '短评': 'my_review',
   '长评链接': 'blog_url',
   '游玩年份': 'play_year',
@@ -103,7 +114,7 @@ const HEADER_TO_KEY = {
 const header = rows[0];
 const idx = {};
 for (let i = 0; i < header.length; i++) {
-  // 剥离选项提示后缀(如 "通关状态(未通关/已通关/全成就)" -> "通关状态")
+  // 剥离选项提示后缀(如 "游玩状态(未通关/已通关/全成就/...)" -> "游玩状态")
   const h = header[i].split('(')[0].trim();
   const key = HEADER_TO_KEY[h];
   if (key) idx[key] = i;
@@ -133,16 +144,20 @@ for (let r = 1; r < rows.length; r++) {
   const nameZh = (row[idx.name_zh] ?? '').trim();
   if (nameZh) ann.name_zh = nameZh;
 
-  // 通关状态:非法值回退未通关(安全保护 2)
+  // 游玩状态:非法值回退未通关(安全保护 2)
   const status = (row[idx.my_status] ?? '').trim();
   if (status) {
     if (STATUS_VALUES.has(status)) {
-      ann.my_status = status === '未通关' ? 'uncompleted' : status === '已通关' ? 'completed' : 'perfect';
+      ann.my_status = STATUS_TO_KEY[status];
     } else {
-      warnings.push(`[${appid}] 通关状态"${status}"非法,回退为未通关`);
+      warnings.push(`[${appid}] 游玩状态"${status}"非法,回退为未通关`);
       ann.my_status = 'uncompleted';
     }
   }
+
+  // 最高段位:自由文本,空 = 不覆盖
+  const myRank = (row[idx.my_rank] ?? '').trim();
+  if (myRank) ann.my_rank = myRank;
 
   const review = (row[idx.my_review] ?? '').trim();
   if (review) ann.my_review = review;

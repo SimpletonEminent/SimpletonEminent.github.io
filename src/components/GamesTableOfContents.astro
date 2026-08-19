@@ -3,7 +3,7 @@
 // - /games 路由 → 渲染游戏列表(替代 "On this page"),与卡片画廊双向联动
 // - 其他路由 → 渲染原生 TOC
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
-import { loadMergedGames, formatHours, statusText, sortGames } from '../lib/steam-data';
+import { loadMergedGames, formatHours, statusText, sortGames, badgesFor } from '../lib/steam-data';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
 const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
@@ -31,9 +31,15 @@ const sortPresets = isGamesRoute
           games.map((game) => (
             <button type="button" class="games-toc-row" data-appid={game.appid}>
               <span class="games-toc-name" title={game.name}>{game.name_zh || game.name}</span>
-              <span class="status-badge" data-status={game.my_status}>
-                {statusText(game.my_status)}
-              </span>
+              {badgesFor(game).map((badge) =>
+                badge.kind === 'status' ? (
+                  <span class="status-badge" data-status={badge.value}>
+                    {statusText(badge.value)}
+                  </span>
+                ) : (
+                  <span class="status-badge rank-badge">{badge.value}</span>
+                )
+              )}
               <span class="games-toc-playtime">{formatHours(game.playtime_hours)}h</span>
             </button>
           ))
@@ -161,6 +167,21 @@ const sortPresets = isGamesRoute
 			color: #fcd34d;
 		}
 
+		.games-toc :global(.status-badge[data-status='ongoing']) {
+			background: #4c1d95;
+			color: #e9d5ff;
+		}
+
+		.games-toc :global(.status-badge[data-status='hiatus']) {
+			background: #365314;
+			color: #d9f99d;
+		}
+
+		.games-toc :global(.status-badge[data-status='retired']) {
+			background: #1f2937;
+			color: #9ca3af;
+		}
+
 		:root[data-theme='light'] .games-toc :global(.status-badge[data-status='uncompleted']) {
 			background: #e5e7eb;
 			color: #374151;
@@ -174,6 +195,33 @@ const sortPresets = isGamesRoute
 		:root[data-theme='light'] .games-toc :global(.status-badge[data-status='perfect']) {
 			background: #fef3c7;
 			color: #92400e;
+		}
+
+		:root[data-theme='light'] .games-toc :global(.status-badge[data-status='ongoing']) {
+			background: #f3e8ff;
+			color: #6b21a8;
+		}
+
+		:root[data-theme='light'] .games-toc :global(.status-badge[data-status='hiatus']) {
+			background: #f7fee7;
+			color: #4d7c0f;
+		}
+
+		:root[data-theme='light'] .games-toc :global(.status-badge[data-status='retired']) {
+			background: #f3f4f6;
+			color: #6b7280;
+		}
+
+		.games-toc :global(.status-badge.rank-badge) {
+			background: rgba(6, 78, 59, 0.4);
+			color: #6ee7b7;
+			border: 1px solid rgba(6, 95, 70, 0.5);
+		}
+
+		:root[data-theme='light'] .games-toc :global(.status-badge.rank-badge) {
+			background: #ecfdf5;
+			color: #047857;
+			border: 1px solid #a7f3d0;
 		}
 	}
 </style>

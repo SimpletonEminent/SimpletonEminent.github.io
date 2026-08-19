@@ -5,7 +5,7 @@
 //   - 派发 steam:highlight(选中/收起)→ 右栏高亮/清除对应行
 // 数据由共享模块 src/lib/steam-data.ts 构建期读取合并,无运行时请求
 // 交互为原生 JS(define:vars 注入合并数据),无任何客户端框架
-import { loadMergedGames, formatHours, statusText, releaseYear, sortGames } from '../lib/steam-data';
+import { loadMergedGames, formatHours, statusText, releaseYear, sortGames, badgesFor } from '../lib/steam-data';
 
 const { updatedAt, games } = loadMergedGames();
 
@@ -61,9 +61,15 @@ const sortPresets = {
                   <div class="card-info">
                     <p class="card-name" title={game.name}>{game.name_zh || game.name}</p>
                     <div class="card-meta">
-                      <span class="status-badge" data-status={game.my_status}>
-                        {statusText(game.my_status)}
-                      </span>
+                      {badgesFor(game).map((badge) =>
+                        badge.kind === 'status' ? (
+                          <span class="status-badge" data-status={badge.value}>
+                            {statusText(badge.value)}
+                          </span>
+                        ) : (
+                          <span class="status-badge rank-badge">{badge.value}</span>
+                        )
+                      )}
                       <p class="card-playtime">
                         <strong>{formatHours(game.playtime_hours)}</strong> 小时
                       </p>
@@ -115,6 +121,9 @@ const sortPresets = {
       uncompleted: '未通关',
       completed: '已通关',
       perfect: '全成就🏆',
+      ongoing: '持续游玩 🎮',
+      hiatus: '暂退长草',
+      retired: '已退役',
     };
     const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let activeAppid = null;
@@ -146,9 +155,18 @@ const sortPresets = {
       return m ? m[0] : '';
     }
 
-    function statusBadge(status) {
-      const key = STATUS_TEXT[status] !== undefined ? status : 'uncompleted';
-      return `<span class="status-badge" data-status="${key}">${STATUS_TEXT[key]}</span>`;
+    // 徽章组合(与 steam-data.ts badgesFor 同一规则,ADR-0007;inline script 无法 import 模块)
+    function badgesHtml(game) {
+      const key = STATUS_TEXT[game.my_status] !== undefined ? game.my_status : 'uncompleted';
+      const rank = String(game.my_rank ?? '').trim();
+      if (!rank) {
+        return `<span class="status-badge" data-status="${key}">${STATUS_TEXT[key]}</span>`;
+      }
+      const statusBadge = `<span class="status-badge" data-status="${key}">${STATUS_TEXT[key]}</span>`;
+      const rankBadge = `<span class="status-badge rank-badge">${esc(rank)}</span>`;
+      const doubleBadge =
+        key === 'completed' || key === 'perfect' || key === 'hiatus' || key === 'retired';
+      return doubleBadge ? statusBadge + rankBadge : rankBadge;
     }
 
     // 动态渲染气泡内容(innerHTML 注入,配合 :global() 样式)
@@ -177,10 +195,10 @@ const sortPresets = {
         html += '</span></div>';
       }
 
-      // Row 3 通关状态
+      // Row 3 游玩状态:六态徽章 + 段位双徽章规则(与卡片一致,ADR-0007)
       html += '<div class="bubble-row">';
-      html += '<span class="bubble-label">通关状态</span>';
-      html += `<span class="bubble-value">${statusBadge(game.my_status)}</span></div>`;
+      html += '<span class="bubble-label">游玩状态</span>';
+      html += `<span class="bubble-value">${badgesHtml(game)}</span></div>`;
 
       // Row 4 数据详情
       html += '<div class="bubble-row">';
@@ -605,6 +623,24 @@ const sortPresets = {
 			color: #fcd34d;
 		}
 
+		/* 持续游玩:浅紫(ADR-0007) */
+		.steam-gallery :global(.status-badge[data-status='ongoing']) {
+			background: #4c1d95;
+			color: #e9d5ff;
+		}
+
+		/* 暂退长草:草绿 */
+		.steam-gallery :global(.status-badge[data-status='hiatus']) {
+			background: #365314;
+			color: #d9f99d;
+		}
+
+		/* 已退役:暗灰低对比,视觉上"退役" */
+		.steam-gallery :global(.status-badge[data-status='retired']) {
+			background: #1f2937;
+			color: #9ca3af;
+		}
+
 		/* 浅色模式徽章加深,保证可读性(Starlight 默认深色,data-theme='light' 为覆盖) */
 		:root[data-theme='light'] .steam-gallery :global(.status-badge[data-status='uncompleted']) {
 			background: #e5e7eb;
@@ -619,6 +655,34 @@ const sortPresets = {
 		:root[data-theme='light'] .steam-gallery :global(.status-badge[data-status='perfect']) {
 			background: #fef3c7;
 			color: #92400e;
+		}
+
+		:root[data-theme='light'] .steam-gallery :global(.status-badge[data-status='ongoing']) {
+			background: #f3e8ff;
+			color: #6b21a8;
+		}
+
+		:root[data-theme='light'] .steam-gallery :global(.status-badge[data-status='hiatus']) {
+			background: #f7fee7;
+			color: #4d7c0f;
+		}
+
+		:root[data-theme='light'] .steam-gallery :global(.status-badge[data-status='retired']) {
+			background: #f3f4f6;
+			color: #6b7280;
+		}
+
+		/* 段位徽章:翡翠绿 + 细边框,与游玩状态徽章区分(ADR-0007) */
+		.steam-gallery :global(.status-badge.rank-badge) {
+			background: rgba(6, 78, 59, 0.4);
+			color: #6ee7b7;
+			border: 1px solid rgba(6, 95, 70, 0.5);
+		}
+
+		:root[data-theme='light'] .steam-gallery :global(.status-badge.rank-badge) {
+			background: #ecfdf5;
+			color: #047857;
+			border: 1px solid #a7f3d0;
 		}
 
 		/*

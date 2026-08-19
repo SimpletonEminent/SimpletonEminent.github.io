@@ -4,7 +4,7 @@
 //
 // 设计要点(Q1-Q4 决策):
 // - 只含手写字段 + 只读参考列(appid/游戏名),自动字段(中文名/发售日期)不进表
-// - 通关状态预置三态、平台预置常用值(供 Excel 数据验证下拉)
+// - 游玩状态预置六阶梯、平台预置常用值(供 Excel 数据验证下拉)
 // - tags 用分号分隔,空 = 空数组
 // - 游玩年份为纯文本年份
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -18,7 +18,8 @@ const COLUMNS = [
   { key: 'appid', label: 'appid', readonly: true },
   { key: 'name', label: '游戏名(参考)', readonly: true },
   { key: 'name_zh', label: '中文名(可编辑)' },
-  { key: 'my_status', label: '通关状态', options: ['未通关', '已通关', '全成就'] },
+  { key: 'my_status', label: '游玩状态', options: ['未通关', '已通关', '全成就', '持续游玩', '暂退长草', '已退役'] },
+  { key: 'my_rank', label: '最高段位' },
   { key: 'my_review', label: '短评' },
   { key: 'blog_url', label: '长评链接' },
   { key: 'play_year', label: '游玩年份', options: ['2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'] },
@@ -62,12 +63,20 @@ rows.push(header);
 // 以游戏数据为基准(保证全部游戏都在表里),合并注释中的手写值
 for (const game of games) {
   const ann = annotations[String(game.appid)] ?? {};
-  const statusMap = { completed: '已通关', perfect: '全成就', uncompleted: '未通关' };
+  const statusMap = {
+    uncompleted: '未通关',
+    completed: '已通关',
+    perfect: '全成就',
+    ongoing: '持续游玩',
+    hiatus: '暂退长草',
+    retired: '已退役',
+  };
   const values = {
     appid: game.appid,
     name: game.name,
     name_zh: ann.name_zh ?? '',
     my_status: statusMap[ann.my_status] ?? '未通关',
+    my_rank: ann.my_rank ?? '',
     my_review: ann.my_review ?? '',
     blog_url: ann.blog_url ?? '',
     play_year: ann.play_year ?? '',

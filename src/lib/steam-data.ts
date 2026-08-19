@@ -19,16 +19,19 @@ export interface SteamGame {
 export interface Annotation {
   name_zh?: string;
   tags?: string[];
-  my_status?: 'uncompleted' | 'completed' | 'perfect';
+  my_status?: Status;
   my_review?: string;
   blog_url?: string;
   play_year?: string;
   platform?: string;
+  /** 竞技/网络游戏的历史最高段位(自由文本,如 "璀璨钻石 💎",空 = 未填写) */
+  my_rank?: string;
   /** 发售日期(来自 appdetails release_date.date,如 "2024 年 8 月 20 日") */
   release_date?: string;
 }
 
-export type Status = 'uncompleted' | 'completed' | 'perfect';
+/** 游玩状态六阶梯(ADR-0007):未通关 / 已通关 / 全成就 / 持续游玩 / 暂退长草 / 已退役 */
+export type Status = 'uncompleted' | 'completed' | 'perfect' | 'ongoing' | 'hiatus' | 'retired';
 
 export interface MergedGame extends SteamGame {
   name_zh: string;
@@ -38,6 +41,8 @@ export interface MergedGame extends SteamGame {
   blog_url: string;
   play_year: string;
   platform: string;
+  /** 历史最高段位,空串 = 未填写(ADR-0007) */
+  my_rank: string;
   release_date: string;
   /** 成就进度(来自 check-achievements.mjs),无成就系统或未抓取时为 undefined */
   achievements?: { unlocked: number; total: number };
@@ -114,6 +119,7 @@ export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
       blog_url: annotation.blog_url ?? '',
       play_year: annotation.play_year ?? '',
       platform: annotation.platform ?? '',
+      my_rank: annotation.my_rank ?? '',
       release_date: annotation.release_date ?? '',
       achievements,
     };
@@ -134,6 +140,12 @@ export function statusText(status: Status): string {
       return '已通关';
     case 'perfect':
       return '全成就🏆';
+    case 'ongoing':
+      return '持续游玩 🎮';
+    case 'hiatus':
+      return '暂退长草';
+    case 'retired':
+      return '已退役';
     default:
       return '未通关';
   }
@@ -146,12 +158,19 @@ export function releaseYear(date: string): string {
   return m ? m[0] : '';
 }
 
-/** 排序维度:总时长 / 近两周 / 通关状态 / 发售年份 / 名称(独立方向) */
+/** 排序维度:总时长 / 近两周 / 游玩状态 / 发售年份 / 名称(独立方向) */
 export type SortKey = 'playtime' | 'recent' | 'status' | 'release' | 'nameAsc' | 'nameDesc';
 export type SortDir = 'asc' | 'desc';
 
-/** 通关状态权重:全成就 > 已通关 > 未通关 */
-const STATUS_WEIGHT: Record<Status, number> = { perfect: 3, completed: 2, uncompleted: 1 };
+/** 游玩状态权重(ADR-0007 六阶梯):全成就 > 已通关 > 持续游玩 > 未通关 > 暂退长草 > 已退役 */
+const STATUS_WEIGHT: Record<Status, number> = {
+  perfect: 6,
+  completed: 5,
+  ongoing: 4,
+  uncompleted: 3,
+  hiatus: 2,
+  retired: 1,
+};
 
 /**
  * 共享排序逻辑:画廊与右侧 TOC 用同一实现,保证两侧顺序一致。
@@ -205,4 +224,34 @@ export function sortGames(games: MergedGame[], key: SortKey, dir: SortDir): Merg
   }
 
   return sorted;
+}
+
+/**
+ * 徽章组合规则(ADR-0007),卡片 / 桌面 TOC / 移动 TOC / 气泡四处共用:
+ * - 无段位 → 单徽章:游玩状态
+ * - 有段位 且 状态为 已通关/全成就(单机含金量)或 暂退长草/已退役(状态本身有信息量)
+ *   → 双徽章:游玩状态 + 段位
+ * - 有段位 且 状态为 持续游玩/未通关 → 单徽章:段位(段位本身隐含"在玩")
+ */
+export type Badge =
+  | { kind: 'status'; value: Status }
+  | { kind: 'rank'; value: string };
+
+export function badgesFor(game: MergedGame): Badge[] {
+  const rank = game.my_rank.trim();
+  if (!rank) {
+    return [{ kind: 'status', value: game.my_status }];
+  }
+  const doubleBadge =
+    game.my_status === 'completed' ||
+    game.my_status === 'perfect' ||
+    game.my_status === 'hiatus' ||
+    game.my_status === 'retired';
+  if (doubleBadge) {
+    return [
+      { kind: 'status', value: game.my_status },
+      { kind: 'rank', value: rank },
+    ];
+  }
+  return [{ kind: 'rank', value: rank }];
 }
