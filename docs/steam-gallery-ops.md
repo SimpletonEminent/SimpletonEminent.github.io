@@ -7,7 +7,7 @@
 | 时机 | 操作 | 命令/位置 | 耗时 |
 |---|---|---|---|
 | 买了新游戏后 | 补中文名/genres/发售日期 | 项目根目录运行 `node scripts/enrich-metadata.mjs` | 几分钟 |
-| 想更新成就进度 | 重查成就完成率/全成就 | 项目根目录运行 `node scripts/check-achievements.mjs`(需配置环境变量) | 约 5 分钟 |
+| 想更新成就进度/首次游玩(估) | 重查成就完成率/全成就/最早成就解锁时间 | 项目根目录运行 `node scripts/check-achievements.mjs`(需配置环境变量) | 约 5 分钟 |
 | 想预填游玩年份 | play_year 改为 Steam 最后运行年份 | 项目根目录运行 `npm run fill-play-year`(覆盖已有单年值;区间如 2021-2026 保留不覆盖) | 秒级 |
 | 随时 | 标注游玩状态/段位/写短评/补特色标签 | 编辑注释文件(见下方第 4 节)或 `npm run review` 交互录入(见 4.5 节) | 按需 |
 | 写了长评后 | 在注释文件填 `blog_url` | 编辑注释文件 | 按需 |
@@ -24,7 +24,7 @@
 | 文件 | 内容 | 谁写 | 何时更新 |
 |---|---|---|---|
 | `public/steam_games.json` | 自动数据:appid、英文名、总时长、近两周时长、封面 | `scripts/fetch-steam-games.mjs`(GitHub Actions 每日 cron) | 每日自动 |
-| `public/steam_achievements.json` | 成就数据:每款游戏的 unlocked/total 进度 | `scripts/check-achievements.mjs`(手动) | 手动按需 |
+| `public/steam_achievements.json` | 成就数据:每款游戏的 unlocked/total 进度 + firstUnlockAt(最早成就解锁时间,「首次游玩(估)」数据源,ADR-0008) | `scripts/check-achievements.mjs`(手动) | 手动按需 |
 | `src/data/steam_annotations.json` | **元数据 + 手写数据**:中文名、tags、游玩状态(六阶梯)、最高段位、短评、长评链接、游玩年份、平台、发售日期 | 自动部分:`enrich-metadata.mjs`;手写部分:你自己编辑 | 按需 |
 
 ## 日常操作
@@ -123,6 +123,7 @@ npm run review
 - **六阶梯游玩状态徽章**:未通关(灰)/ 已通关(蓝)/ 全成就(金)/ 持续游玩(浅紫)/ 暂退长草(草绿)/ 已退役(暗灰)。
 - **段位双徽章规则**(ADR-0007 v2):游玩状态徽章永远显示;填了 `my_rank` 的游戏追加段位徽章(翡翠绿带边框),状态 + 段位并排。无段位 → 只显示状态徽章。卡片、右侧 TOC、移动 TOC、气泡四处一致;气泡徽章直接复用卡片渲染结果,规则只存在于 `steam-data.ts`,无第二份实现。
 - **成就进度行**:有成就系统的游戏在气泡内显示进度条(如 `26% (77/293)`),全成就显示 `100% 🏆`,无成就系统隐藏该行。
+- **首次游玩(估)**:气泡底部元数据行,位于「发售年份」与「游玩年份」之间,格式 `YYYY-MM-DD`(北京时间),数据源为成就 API 最早解锁时间(`firstUnlockAt`,ADR-0008);无成就数据时自动省略。
 - **多维排序**:画廊顶部下拉框支持 4 种排序——总时长、近期运行(按 Steam 最后运行日期)、通关进度(六阶梯:全成就 > 已通关 > 持续游玩 > 未通关 > 暂退长草 > 已退役)、发售年份。切换时卡片与右侧列表同步重排。
 - **右侧列表独立滚动**:列表固定高度内自行滚动,不撑长整页;左侧卡片墙全宽铺满。
 - 过滤与排序在共享数据层(`loadMergedGames` + `sortGames`)统一执行,画廊与右侧列表行为一致。

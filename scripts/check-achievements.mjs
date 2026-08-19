@@ -1,9 +1,10 @@
-﻿// 一次性成就检查脚本:找出已 100% 全成就(perfect)的游戏
+// 一次性成就检查脚本:找出已 100% 全成就(perfect)的游戏
 // 用法(需要环境变量): STEAM_API_KEY=xxx STEAM_ID=xxx node scripts/check-achievements.mjs
 //   可选 --appid=1172470:仅检查指定游戏(快速验证用)
 //
 // 读取 public/steam_games.json 的游戏列表,逐款调用
-// ISteamUserStats/GetPlayerAchievements/v1 统计成就解锁情况,
+// ISteamUserStats/GetPlayerAchievements/v1 统计成就解锁情况,并记录最早成就解锁时间
+// (firstUnlockAt,Unix 秒)——「首次游玩(估)」的唯一数据源(ADR-0008)。
 // 完整结果写入 public/steam_achievements.json,并在控制台打印全成就清单。
 // 属一次性/手动工具,不进每日同步链路;注释文件的 my_status 仍由手工维护。
 
@@ -61,9 +62,16 @@ async function fetchAchievements(appid) {
         throw new Error(`HTTP ${res.status}`);
       }
       const list = Array.isArray(ps?.achievements) ? ps.achievements : [];
+      const unlocked = list.filter((a) => a.achieved === 1);
+      // 最早成就解锁时间(Unix 秒):已解锁成就中 unlocktime 的最小值;无已解锁或全为 0 → undefined
+      const firstUnlockAt = unlocked
+        .map((a) => a.unlocktime)
+        .filter((t) => typeof t === 'number' && t > 0)
+        .sort((a, b) => a - b)[0];
       return {
-        unlocked: list.filter((a) => a.achieved === 1).length,
+        unlocked: unlocked.length,
         total: list.length,
+        firstUnlockAt,
       };
     } catch (err) {
       lastErr = err;
@@ -105,6 +113,7 @@ for (let i = 0; i < games.length; i++) {
       entry.hasStats = true;
       entry.unlocked = r.unlocked;
       entry.total = r.total;
+      if (r.firstUnlockAt) entry.firstUnlockAt = r.firstUnlockAt;
       entry.perfect = r.total > 0 && r.unlocked === r.total;
       if (entry.perfect) perfectCount++;
     }

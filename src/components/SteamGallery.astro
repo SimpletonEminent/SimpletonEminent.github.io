@@ -147,6 +147,12 @@ const sortPresets = {
       return m ? m[0] : '';
     }
 
+    // 最早成就解锁时间(Unix 秒)→ YYYY-MM-DD(北京时间 UTC+8,中国无夏令时)
+    function firstPlayDate(ts) {
+      const d = new Date((Number(ts) || 0) * 1000 + 8 * 3600 * 1000);
+      return d.toISOString().slice(0, 10);
+    }
+
     // 动态渲染气泡内容(innerHTML 注入,配合 :global() 样式)
     function renderBubble(item, game) {
       const content = item.querySelector('.bubble-content');
@@ -234,6 +240,8 @@ const sortPresets = {
       const meta = [];
       const rYear = releaseYear(game.release_date);
       if (rYear) meta.push(`发售年份: ${rYear}`);
+      // 首次游玩(估):来自成就 API 最早解锁时间(ADR-0008),无成就数据时不显示
+      if (game.first_achievement_at) meta.push(`首次游玩(估): ${firstPlayDate(game.first_achievement_at)}`);
       if (game.play_year) meta.push(`游玩年份: ${esc(game.play_year)}`);
       if (game.platform) meta.push(`平台: ${esc(game.platform)}`);
       if (meta.length > 0) {

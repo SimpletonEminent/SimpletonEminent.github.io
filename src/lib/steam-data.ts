@@ -45,7 +45,9 @@ export interface MergedGame extends SteamGame {
   my_rank: string;
   release_date: string;
   /** 成就进度(来自 check-achievements.mjs),无成就系统或未抓取时为 undefined */
-  achievements?: { unlocked: number; total: number };
+  achievements?: { unlocked: number; total: number; firstUnlockAt?: number };
+  /** 最早成就解锁时间(Unix 秒,ADR-0008)——「首次游玩(估)」,无成就数据时 undefined */
+  first_achievement_at?: number;
 }
 
 /** 成就数据文件结构(public/steam_achievements.json) */
@@ -57,6 +59,8 @@ interface SteamAchievementsData {
     unlocked?: number;
     total?: number;
     perfect?: boolean;
+    /** 最早成就解锁时间(Unix 秒,ADR-0008),无则缺省 */
+    firstUnlockAt?: number;
   }>;
 }
 
@@ -91,13 +95,17 @@ export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
   }
 
   // 成就进度:public/steam_achievements.json(手动重跑 check-achievements.mjs 生成)
-  let achievementMap = new Map<number, { unlocked: number; total: number }>();
+  let achievementMap = new Map<number, { unlocked: number; total: number; firstUnlockAt?: number }>();
   try {
     const raw = readFileSync('public/steam_achievements.json', 'utf-8');
     const data = JSON.parse(raw) as SteamAchievementsData;
     for (const g of data.games ?? []) {
       if (g.hasStats && typeof g.unlocked === 'number' && typeof g.total === 'number') {
-        achievementMap.set(g.appid, { unlocked: g.unlocked, total: g.total });
+        achievementMap.set(g.appid, {
+          unlocked: g.unlocked,
+          total: g.total,
+          firstUnlockAt: typeof g.firstUnlockAt === 'number' ? g.firstUnlockAt : undefined,
+        });
       }
     }
   } catch {
@@ -122,6 +130,7 @@ export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
       my_rank: annotation.my_rank ?? '',
       release_date: annotation.release_date ?? '',
       achievements,
+      first_achievement_at: achievements?.firstUnlockAt,
     };
   });
 
