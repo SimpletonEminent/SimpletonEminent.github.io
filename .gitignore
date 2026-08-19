@@ -16,11 +16,10 @@ pnpm-debug.log*
 .DS_Store
 # VS Code
 .vscode/
-# Playwright 截图等测试产物
+# Playwright 测试产物
+.playwright-cli/
 .playwright-mcp/
-gallery-master-detail.png
-
-docs/achievement-report.json
-
-# CSV ���񻯱༭�����ļ�(�����)
+# 调试临时目录(agent 一次性脚本/日志)
+tmp/
+# CSV 表格化编辑工具生成的中间文件(不入库)
 steam.csv

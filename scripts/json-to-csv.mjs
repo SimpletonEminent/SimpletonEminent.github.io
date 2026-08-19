@@ -50,10 +50,6 @@ function esc(value) {
   return s;
 }
 
-function csvCell(c) {
-  return esc(c.options ? `${c.options.join('|')}|${c.value ?? ''}` : c.value ?? '');
-}
-
 // 首行:列名 + 选项提示(选项用 | 分隔,便于 Excel 识别)
 const header = COLUMNS.map((c) => (c.options ? `${c.label}(${c.options.join('/')})` : c.label)).join(',');
 
