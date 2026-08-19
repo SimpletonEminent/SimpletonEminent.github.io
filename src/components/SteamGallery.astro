@@ -117,14 +117,6 @@ const sortPresets = {
       gameByAppid.set(Number(game.appid), game);
     }
 
-    const STATUS_TEXT = {
-      uncompleted: '未通关',
-      completed: '已通关',
-      perfect: '全成就🏆',
-      ongoing: '持续游玩 🎮',
-      hiatus: '暂退长草',
-      retired: '已退役',
-    };
     const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let activeAppid = null;
     // 当前排序状态:默认总时长降序,与初始渲染一致(Q2)
@@ -155,16 +147,6 @@ const sortPresets = {
       return m ? m[0] : '';
     }
 
-    // 徽章组合(与 steam-data.ts badgesFor 同一规则,ADR-0007 v2;inline script 无法 import 模块)
-    // 规则:游玩状态徽章永远显示;填了段位则追加段位徽章(段位绝不顶替状态)
-    function badgesHtml(game) {
-      const key = STATUS_TEXT[game.my_status] !== undefined ? game.my_status : 'uncompleted';
-      const statusBadge = `<span class="status-badge" data-status="${key}">${STATUS_TEXT[key]}</span>`;
-      const rank = String(game.my_rank ?? '').trim();
-      if (!rank) return statusBadge;
-      return statusBadge + `<span class="status-badge rank-badge">${esc(rank)}</span>`;
-    }
-
     // 动态渲染气泡内容(innerHTML 注入,配合 :global() 样式)
     function renderBubble(item, game) {
       const content = item.querySelector('.bubble-content');
@@ -191,10 +173,16 @@ const sortPresets = {
         html += '</span></div>';
       }
 
-      // Row 3 游玩状态:六态徽章 + 段位追加徽章规则(与卡片一致,ADR-0007 v2)
+      // Row 3 游玩状态:徽章直接复制卡片已渲染结果(规则只存在于 steam-data.ts badgesFor,
+      // ADR-0007 v2;is:inline 脚本无法 import 模块,复制渲染结果而非重写规则,杜绝两处规则漂移)
       html += '<div class="bubble-row">';
       html += '<span class="bubble-label">游玩状态</span>';
-      html += `<span class="bubble-value">${badgesHtml(game)}</span></div>`;
+      html += '<span class="bubble-value">';
+      for (const badge of item.querySelectorAll('.status-badge')) {
+        const dataStatus = badge.getAttribute('data-status');
+        html += `<span class="${badge.className}"${dataStatus ? ` data-status="${dataStatus}"` : ''}>${esc(badge.textContent)}</span>`;
+      }
+      html += '</span></div>';
 
       // Row 4 数据详情
       html += '<div class="bubble-row">';
