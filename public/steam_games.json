@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-18T03:03:11.580Z",
+  "updatedAt": "2026-08-19T03:05:16.633Z",
   "games": [
     {
       "appid": 1172470,
@@ -92,9 +92,9 @@
     {
       "appid": 1245620,
       "name": "ELDEN RING",
-      "playtime_hours": 141.3,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1768045465,
+      "playtime_hours": 141.5,
+      "playtime_2weeks_hours": 0.2,
+      "last_played": 1787064082,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1245620/library_600x900.jpg"
     },
     {
