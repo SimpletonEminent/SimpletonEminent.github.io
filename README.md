@@ -50,16 +50,56 @@ pubDate: "2026-08-02"
 正文内容……
 ```
 
-写完后本地预览确认排版,再推送发布:
+写完后本地预览确认排版,按下方「[提交与推送(手动流程)](#提交与推送手动流程)」发布(推送即上线)。
+
+详细教程见博客文章
+[《如何优雅地构建个人博客网站》](https://SimpletonEminent.github.io/blog/如何通过github-pages和astro构建个人博客/)。
+
+## 🔄 提交与推送(手动流程)
+
+> **推送即上线**:GitHub Actions 会在 `main` 收到推送后自动构建部署,约 1 分钟后线上生效。提交前确认改动无误,推送前再想一遍。
+
+### 1. 提交前检查(推荐)
 
 ```bash
-git add .
-git commit -m "新增文章:xxx"
+npm test                 # 回归测试(徽章规则 / 游玩年份格式)
+npm run astro -- check   # 类型检查(期望 0 errors)
+npm run build            # 生产构建
+```
+
+### 2. 查看改动
+
+```bash
+git status               # 改动清单
+git diff                 # 具体差异(重点核对 src/data/steam_annotations.json 的手写数据)
+```
+
+### 3. 提交
+
+按主题**分开提交**(避免 `git add .` 一把梭),提交信息用中文,前缀标明类型:
+
+```bash
+git add src/data/steam_annotations.json    # 只改数据
+git commit -m "Apex 英雄:补充段位铂金"
+
+git add src/components/SteamGallery.astro  # 代码修复
+git commit -m "fix(steam-gallery): 气泡徽章重复累积"
+```
+
+常用前缀:`feat`(新功能)/ `fix`(修复)/ `refactor`(重构)/ `chore`(杂务)/ `docs`(文档)。
+
+### 4. 推送
+
+```bash
 git push
 ```
 
-约 1 分钟后线上生效。详细教程见博客文章
-[《如何优雅地构建个人博客网站》](https://SimpletonEminent.github.io/blog/如何通过github-pages和astro构建个人博客/)。
+### 注意事项
+
+- `src/data/steam_annotations.json` 是手写数据(游玩状态/段位/短评/游玩年份/平台),自动脚本永不触碰;提交前确认它就是你想上线的内容
+- `steam.csv`、`dist/`、`tmp/`、`.playwright-cli/` 已在 `.gitignore` 中,不会也不该入库
+- 改了脚本后先跑 `npm test`;改了画廊/样式后建议本地 `npm run dev` 肉眼确认
+- 推错了:个人站点无协作者,直接改完再推一次即可;撤回用 `git reset --soft HEAD~1`(未推送)或 `git revert`(已推送)
 
 ## 📦 项目结构
 
