@@ -6,7 +6,7 @@
 // - 只含手写字段 + 只读参考列(appid/游戏名),自动字段(中文名/发售日期)不进表
 // - 游玩状态预置六阶梯、平台预置常用值(供 Excel 数据验证下拉)
 // - tags 用分号分隔,空 = 空数组
-// - 游玩年份为纯文本年份
+// - 游玩年份为纯文本:单年(如 2024)或区间(如 2021-2026)
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const GAMES_FILE = 'public/steam_games.json';
@@ -22,7 +22,7 @@ const COLUMNS = [
   { key: 'my_rank', label: '最高段位' },
   { key: 'my_review', label: '短评' },
   { key: 'blog_url', label: '长评链接' },
-  { key: 'play_year', label: '游玩年份', options: ['2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'] },
+  { key: 'play_year', label: '游玩年份' },
   { key: 'platform', label: '平台', options: ['PC', 'PlayStation', 'Xbox', 'Switch'] },
   { key: 'tags', label: '特色标签(分号分隔)' },
 ];

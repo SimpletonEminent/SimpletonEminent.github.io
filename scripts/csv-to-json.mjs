@@ -8,6 +8,7 @@
 // 2. 非法状态值回退"未通关"并打印警告
 // 3. 自动字段(name_zh/release_date)绝不触碰
 import { readFileSync, writeFileSync } from 'node:fs';
+import { isValidPlayYear, PLAY_YEAR_HINT } from './lib/play-year.mjs';
 
 const CSV_FILE = 'steam.csv';
 const GAMES_FILE = 'public/steam_games.json';
@@ -165,13 +166,13 @@ for (let r = 1; r < rows.length; r++) {
   const blogUrl = (row[idx.blog_url] ?? '').trim();
   if (blogUrl) ann.blog_url = blogUrl;
 
-  // 游玩年份:必须是 4 位数字年份(如 2024);非法值(如误填链接)警告并跳过,防止静默入库
+  // 游玩年份:单年(如 2024)或区间(如 2021-2026);非法值(如误填链接)警告并跳过,防止静默入库
   const playYear = (row[idx.play_year] ?? '').trim();
   if (playYear) {
-    if (/^\d{4}$/.test(playYear)) {
+    if (isValidPlayYear(playYear)) {
       ann.play_year = playYear;
     } else {
-      warnings.push(`[${appid}] 游玩年份"${playYear}"非法(需 4 位数字年份,如 2024),已跳过不写入`);
+      warnings.push(`[${appid}] 游玩年份"${playYear}"非法(需 ${PLAY_YEAR_HINT}),已跳过不写入`);
     }
   }
 

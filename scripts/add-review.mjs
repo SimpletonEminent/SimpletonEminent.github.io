@@ -10,6 +10,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
+import { isValidPlayYear, PLAY_YEAR_HINT } from './lib/play-year.mjs';
 
 const GAMES_FILE = 'public/steam_games.json';
 const ANNOT_FILE = 'src/data/steam_annotations.json';
@@ -132,9 +133,9 @@ async function run() {
   const rank = (await ask('🎮 如果这是竞技/网络游戏,请输入你的历史最高段位 (直接回车跳过): ')).trim();
   const review = (await ask('短评内容 (直接回车跳过): ')).trim();
   const blogUrl = (await ask('长评链接 (直接回车跳过,注意用小写路由): ')).trim();
-  const playYear = (await ask('游玩年份 (直接回车跳过): ')).trim();
-  if (playYear && !/^\d{4}$/.test(playYear)) {
-    console.log(`游玩年份"${playYear}"非法(需 4 位数字年份),已跳过不写入`);
+  const playYear = (await ask('游玩年份 (直接回车跳过;单年如 2024 或区间如 2021-2026): ')).trim();
+  if (playYear && !isValidPlayYear(playYear)) {
+    console.log(`游玩年份"${playYear}"非法(需 ${PLAY_YEAR_HINT}),已跳过不写入`);
   }
   const platform = (await ask('平台 (直接回车默认 PC): ')).trim() || 'PC';
 
@@ -143,7 +144,7 @@ async function run() {
   if (rank) updates.my_rank = rank;
   if (review) updates.my_review = review;
   if (blogUrl) updates.blog_url = blogUrl;
-  if (playYear && /^\d{4}$/.test(playYear)) updates.play_year = playYear;
+  if (playYear && isValidPlayYear(playYear)) updates.play_year = playYear;
   if (platform) updates.platform = platform;
 
   annotations[appid] = { ...existing, ...updates };
