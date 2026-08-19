@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-08-15T16:10:03.124Z",
-  "total": 212,
+  "updatedAt": "2026-08-19T16:45:30.930Z",
+  "total": 211,
   "perfectCount": 11,
   "games": [
     {
@@ -9,6 +9,7 @@
       "hasStats": true,
       "unlocked": 12,
       "total": 12,
+      "firstUnlockAt": 1627788847,
       "perfect": true
     },
     {
@@ -17,6 +18,7 @@
       "hasStats": true,
       "unlocked": 77,
       "total": 293,
+      "firstUnlockAt": 1706243436,
       "perfect": false
     },
     {
@@ -25,6 +27,7 @@
       "hasStats": true,
       "unlocked": 34,
       "total": 34,
+      "firstUnlockAt": 1575165995,
       "perfect": true
     },
     {
@@ -38,6 +41,7 @@
       "hasStats": true,
       "unlocked": 25,
       "total": 77,
+      "firstUnlockAt": 1545487843,
       "perfect": false
     },
     {
@@ -46,6 +50,7 @@
       "hasStats": true,
       "unlocked": 1,
       "total": 1,
+      "firstUnlockAt": 1703695944,
       "perfect": true
     },
     {
@@ -54,6 +59,7 @@
       "hasStats": true,
       "unlocked": 55,
       "total": 100,
+      "firstUnlockAt": 1695722168,
       "perfect": false
     },
     {
@@ -62,6 +68,7 @@
       "hasStats": true,
       "unlocked": 43,
       "total": 43,
+      "firstUnlockAt": 1624137094,
       "perfect": true
     },
     {
@@ -70,6 +77,7 @@
       "hasStats": true,
       "unlocked": 113,
       "total": 137,
+      "firstUnlockAt": 1621177023,
       "perfect": false
     },
     {
@@ -78,6 +86,7 @@
       "hasStats": true,
       "unlocked": 26,
       "total": 51,
+      "firstUnlockAt": 1636695501,
       "perfect": false
     },
     {
@@ -86,6 +95,7 @@
       "hasStats": true,
       "unlocked": 78,
       "total": 78,
+      "firstUnlockAt": 1549433658,
       "perfect": true
     },
     {
@@ -94,6 +104,7 @@
       "hasStats": true,
       "unlocked": 36,
       "total": 42,
+      "firstUnlockAt": 1645755985,
       "perfect": false
     },
     {
@@ -102,6 +113,7 @@
       "hasStats": true,
       "unlocked": 63,
       "total": 219,
+      "firstUnlockAt": 1652882387,
       "perfect": false
     },
     {
@@ -110,6 +122,7 @@
       "hasStats": true,
       "unlocked": 56,
       "total": 83,
+      "firstUnlockAt": 1698944702,
       "perfect": false
     },
     {
@@ -118,6 +131,7 @@
       "hasStats": true,
       "unlocked": 49,
       "total": 55,
+      "firstUnlockAt": 1613468216,
       "perfect": false
     },
     {
@@ -126,6 +140,7 @@
       "hasStats": true,
       "unlocked": 81,
       "total": 81,
+      "firstUnlockAt": 1724123469,
       "perfect": true
     },
     {
@@ -134,6 +149,7 @@
       "hasStats": true,
       "unlocked": 23,
       "total": 100,
+      "firstUnlockAt": 1746715526,
       "perfect": false
     },
     {
@@ -142,6 +158,7 @@
       "hasStats": true,
       "unlocked": 51,
       "total": 188,
+      "firstUnlockAt": 1727260483,
       "perfect": false
     },
     {
@@ -150,6 +167,7 @@
       "hasStats": true,
       "unlocked": 39,
       "total": 97,
+      "firstUnlockAt": 1635218788,
       "perfect": false
     },
     {
@@ -158,6 +176,7 @@
       "hasStats": true,
       "unlocked": 10,
       "total": 11,
+      "firstUnlockAt": 1685814183,
       "perfect": false
     },
     {
@@ -166,6 +185,7 @@
       "hasStats": true,
       "unlocked": 31,
       "total": 57,
+      "firstUnlockAt": 1607583010,
       "perfect": false
     },
     {
@@ -174,6 +194,7 @@
       "hasStats": true,
       "unlocked": 68,
       "total": 80,
+      "firstUnlockAt": 1533896291,
       "perfect": false
     },
     {
@@ -182,6 +203,7 @@
       "hasStats": true,
       "unlocked": 11,
       "total": 26,
+      "firstUnlockAt": 1710664735,
       "perfect": false
     },
     {
@@ -190,6 +212,7 @@
       "hasStats": true,
       "unlocked": 50,
       "total": 83,
+      "firstUnlockAt": 1765717657,
       "perfect": false
     },
     {
@@ -198,6 +221,7 @@
       "hasStats": true,
       "unlocked": 55,
       "total": 63,
+      "firstUnlockAt": 1624711743,
       "perfect": false
     },
     {
@@ -206,6 +230,7 @@
       "hasStats": true,
       "unlocked": 61,
       "total": 101,
+      "firstUnlockAt": 1594373240,
       "perfect": false
     },
     {
@@ -214,6 +239,7 @@
       "hasStats": true,
       "unlocked": 35,
       "total": 37,
+      "firstUnlockAt": 1767023197,
       "perfect": false
     },
     {
@@ -222,6 +248,7 @@
       "hasStats": true,
       "unlocked": 30,
       "total": 55,
+      "firstUnlockAt": 1583489254,
       "perfect": false
     },
     {
@@ -230,6 +257,7 @@
       "hasStats": true,
       "unlocked": 18,
       "total": 43,
+      "firstUnlockAt": 1756043380,
       "perfect": false
     },
     {
@@ -238,6 +266,7 @@
       "hasStats": true,
       "unlocked": 44,
       "total": 44,
+      "firstUnlockAt": 1549875970,
       "perfect": true
     },
     {
@@ -257,6 +286,7 @@
       "hasStats": true,
       "unlocked": 39,
       "total": 75,
+      "firstUnlockAt": 1661837364,
       "perfect": false
     },
     {
@@ -265,6 +295,7 @@
       "hasStats": true,
       "unlocked": 39,
       "total": 46,
+      "firstUnlockAt": 1661851951,
       "perfect": false
     },
     {
@@ -273,6 +304,7 @@
       "hasStats": true,
       "unlocked": 28,
       "total": 56,
+      "firstUnlockAt": 1746291084,
       "perfect": false
     },
     {
@@ -281,6 +313,7 @@
       "hasStats": true,
       "unlocked": 39,
       "total": 46,
+      "firstUnlockAt": 1690386652,
       "perfect": false
     },
     {
@@ -289,6 +322,7 @@
       "hasStats": true,
       "unlocked": 44,
       "total": 320,
+      "firstUnlockAt": 1671011790,
       "perfect": false
     },
     {
@@ -297,6 +331,7 @@
       "hasStats": true,
       "unlocked": 24,
       "total": 88,
+      "firstUnlockAt": 1692547487,
       "perfect": false
     },
     {
@@ -305,6 +340,7 @@
       "hasStats": true,
       "unlocked": 47,
       "total": 47,
+      "firstUnlockAt": 1720767718,
       "perfect": true
     },
     {
@@ -313,6 +349,7 @@
       "hasStats": true,
       "unlocked": 33,
       "total": 282,
+      "firstUnlockAt": 1668901537,
       "perfect": false
     },
     {
@@ -321,6 +358,7 @@
       "hasStats": true,
       "unlocked": 39,
       "total": 77,
+      "firstUnlockAt": 1742395115,
       "perfect": false
     },
     {
@@ -329,6 +367,7 @@
       "hasStats": true,
       "unlocked": 30,
       "total": 30,
+      "firstUnlockAt": 1599223502,
       "perfect": true
     },
     {
@@ -337,6 +376,7 @@
       "hasStats": true,
       "unlocked": 60,
       "total": 71,
+      "firstUnlockAt": 1675002326,
       "perfect": false
     },
     {
@@ -345,6 +385,7 @@
       "hasStats": true,
       "unlocked": 16,
       "total": 37,
+      "firstUnlockAt": 1521299667,
       "perfect": false
     },
     {
@@ -353,6 +394,7 @@
       "hasStats": true,
       "unlocked": 19,
       "total": 45,
+      "firstUnlockAt": 1679462764,
       "perfect": false
     },
     {
@@ -366,6 +408,7 @@
       "hasStats": true,
       "unlocked": 43,
       "total": 50,
+      "firstUnlockAt": 1598441993,
       "perfect": false
     },
     {
@@ -374,6 +417,7 @@
       "hasStats": true,
       "unlocked": 21,
       "total": 21,
+      "firstUnlockAt": 1653297085,
       "perfect": true
     },
     {
@@ -382,6 +426,7 @@
       "hasStats": true,
       "unlocked": 29,
       "total": 50,
+      "firstUnlockAt": 1597132995,
       "perfect": false
     },
     {
@@ -390,6 +435,7 @@
       "hasStats": true,
       "unlocked": 48,
       "total": 58,
+      "firstUnlockAt": 1659500240,
       "perfect": false
     },
     {
@@ -422,6 +468,7 @@
       "hasStats": true,
       "unlocked": 33,
       "total": 78,
+      "firstUnlockAt": 1572164654,
       "perfect": false
     },
     {
@@ -430,6 +477,7 @@
       "hasStats": true,
       "unlocked": 18,
       "total": 47,
+      "firstUnlockAt": 1629380972,
       "perfect": false
     },
     {
@@ -438,6 +486,7 @@
       "hasStats": true,
       "unlocked": 30,
       "total": 38,
+      "firstUnlockAt": 1626681142,
       "perfect": false
     },
     {
@@ -446,6 +495,7 @@
       "hasStats": true,
       "unlocked": 8,
       "total": 106,
+      "firstUnlockAt": 1732798886,
       "perfect": false
     },
     {
@@ -454,6 +504,7 @@
       "hasStats": true,
       "unlocked": 35,
       "total": 37,
+      "firstUnlockAt": 1683163954,
       "perfect": false
     },
     {
@@ -462,6 +513,7 @@
       "hasStats": true,
       "unlocked": 27,
       "total": 59,
+      "firstUnlockAt": 1605758940,
       "perfect": false
     },
     {
@@ -470,6 +522,7 @@
       "hasStats": true,
       "unlocked": 27,
       "total": 55,
+      "firstUnlockAt": 1602429525,
       "perfect": false
     },
     {
@@ -478,6 +531,7 @@
       "hasStats": true,
       "unlocked": 10,
       "total": 51,
+      "firstUnlockAt": 1732340187,
       "perfect": false
     },
     {
@@ -486,6 +540,7 @@
       "hasStats": true,
       "unlocked": 3,
       "total": 44,
+      "firstUnlockAt": 1738036261,
       "perfect": false
     },
     {
@@ -494,6 +549,7 @@
       "hasStats": true,
       "unlocked": 7,
       "total": 17,
+      "firstUnlockAt": 1614264318,
       "perfect": false
     },
     {
@@ -502,6 +558,7 @@
       "hasStats": true,
       "unlocked": 28,
       "total": 135,
+      "firstUnlockAt": 1729842475,
       "perfect": false
     },
     {
@@ -510,6 +567,7 @@
       "hasStats": true,
       "unlocked": 5,
       "total": 58,
+      "firstUnlockAt": 1725341916,
       "perfect": false
     },
     {
@@ -518,6 +576,7 @@
       "hasStats": true,
       "unlocked": 19,
       "total": 138,
+      "firstUnlockAt": 1774544977,
       "perfect": false
     },
     {
@@ -526,6 +585,7 @@
       "hasStats": true,
       "unlocked": 12,
       "total": 49,
+      "firstUnlockAt": 1728485332,
       "perfect": false
     },
     {
@@ -534,6 +594,7 @@
       "hasStats": true,
       "unlocked": 17,
       "total": 21,
+      "firstUnlockAt": 1708581267,
       "perfect": false
     },
     {
@@ -542,6 +603,7 @@
       "hasStats": true,
       "unlocked": 14,
       "total": 52,
+      "firstUnlockAt": 1757170647,
       "perfect": false
     },
     {
@@ -555,6 +617,7 @@
       "hasStats": true,
       "unlocked": 5,
       "total": 99,
+      "firstUnlockAt": 1746355645,
       "perfect": false
     },
     {
@@ -563,6 +626,7 @@
       "hasStats": true,
       "unlocked": 5,
       "total": 61,
+      "firstUnlockAt": 1712759137,
       "perfect": false
     },
     {
@@ -571,6 +635,7 @@
       "hasStats": true,
       "unlocked": 10,
       "total": 58,
+      "firstUnlockAt": 1684742080,
       "perfect": false
     },
     {
@@ -579,6 +644,7 @@
       "hasStats": true,
       "unlocked": 6,
       "total": 20,
+      "firstUnlockAt": 1741788645,
       "perfect": false
     },
     {
@@ -587,6 +653,7 @@
       "hasStats": true,
       "unlocked": 27,
       "total": 39,
+      "firstUnlockAt": 1684966158,
       "perfect": false
     },
     {
@@ -600,6 +667,7 @@
       "hasStats": true,
       "unlocked": 6,
       "total": 20,
+      "firstUnlockAt": 1740150646,
       "perfect": false
     },
     {
@@ -613,6 +681,7 @@
       "hasStats": true,
       "unlocked": 15,
       "total": 54,
+      "firstUnlockAt": 1742135429,
       "perfect": false
     },
     {
@@ -621,6 +690,7 @@
       "hasStats": true,
       "unlocked": 4,
       "total": 32,
+      "firstUnlockAt": 1766838291,
       "perfect": false
     },
     {
@@ -629,6 +699,7 @@
       "hasStats": true,
       "unlocked": 20,
       "total": 69,
+      "firstUnlockAt": 1640238141,
       "perfect": false
     },
     {
@@ -637,6 +708,7 @@
       "hasStats": true,
       "unlocked": 8,
       "total": 30,
+      "firstUnlockAt": 1769700020,
       "perfect": false
     },
     {
@@ -645,6 +717,7 @@
       "hasStats": true,
       "unlocked": 29,
       "total": 80,
+      "firstUnlockAt": 1620377172,
       "perfect": false
     },
     {
@@ -653,6 +726,7 @@
       "hasStats": true,
       "unlocked": 21,
       "total": 143,
+      "firstUnlockAt": 1529079489,
       "perfect": false
     },
     {
@@ -661,6 +735,7 @@
       "hasStats": true,
       "unlocked": 10,
       "total": 69,
+      "firstUnlockAt": 1668170080,
       "perfect": false
     },
     {
@@ -669,6 +744,7 @@
       "hasStats": true,
       "unlocked": 18,
       "total": 51,
+      "firstUnlockAt": 1604396529,
       "perfect": false
     },
     {
@@ -677,6 +753,7 @@
       "hasStats": true,
       "unlocked": 13,
       "total": 42,
+      "firstUnlockAt": 1664443360,
       "perfect": false
     },
     {
@@ -685,6 +762,7 @@
       "hasStats": true,
       "unlocked": 5,
       "total": 27,
+      "firstUnlockAt": 1751294736,
       "perfect": false
     },
     {
@@ -693,6 +771,7 @@
       "hasStats": true,
       "unlocked": 4,
       "total": 31,
+      "firstUnlockAt": 1683805581,
       "perfect": false
     },
     {
@@ -701,6 +780,7 @@
       "hasStats": true,
       "unlocked": 21,
       "total": 547,
+      "firstUnlockAt": 1528458532,
       "perfect": false
     },
     {
@@ -720,6 +800,7 @@
       "hasStats": true,
       "unlocked": 2,
       "total": 77,
+      "firstUnlockAt": 1749213581,
       "perfect": false
     },
     {
@@ -736,6 +817,7 @@
       "hasStats": true,
       "unlocked": 13,
       "total": 357,
+      "firstUnlockAt": 1745769598,
       "perfect": false
     },
     {
@@ -744,6 +826,7 @@
       "hasStats": true,
       "unlocked": 13,
       "total": 34,
+      "firstUnlockAt": 1758967025,
       "perfect": false
     },
     {
@@ -757,6 +840,7 @@
       "hasStats": true,
       "unlocked": 16,
       "total": 115,
+      "firstUnlockAt": 1729829591,
       "perfect": false
     },
     {
@@ -765,6 +849,7 @@
       "hasStats": true,
       "unlocked": 14,
       "total": 57,
+      "firstUnlockAt": 1747750918,
       "perfect": false
     },
     {
@@ -773,6 +858,7 @@
       "hasStats": true,
       "unlocked": 30,
       "total": 179,
+      "firstUnlockAt": 1710345738,
       "perfect": false
     },
     {
@@ -781,6 +867,7 @@
       "hasStats": true,
       "unlocked": 13,
       "total": 26,
+      "firstUnlockAt": 1713645217,
       "perfect": false
     },
     {
@@ -789,6 +876,7 @@
       "hasStats": true,
       "unlocked": 2,
       "total": 7,
+      "firstUnlockAt": 1659089244,
       "perfect": false
     },
     {
@@ -797,6 +885,7 @@
       "hasStats": true,
       "unlocked": 9,
       "total": 50,
+      "firstUnlockAt": 1746265435,
       "perfect": false
     },
     {
@@ -805,6 +894,7 @@
       "hasStats": true,
       "unlocked": 17,
       "total": 50,
+      "firstUnlockAt": 1588260071,
       "perfect": false
     },
     {
@@ -813,6 +903,7 @@
       "hasStats": true,
       "unlocked": 6,
       "total": 19,
+      "firstUnlockAt": 1710678752,
       "perfect": false
     },
     {
@@ -821,6 +912,7 @@
       "hasStats": true,
       "unlocked": 7,
       "total": 62,
+      "firstUnlockAt": 1723108308,
       "perfect": false
     },
     {
@@ -829,6 +921,7 @@
       "hasStats": true,
       "unlocked": 8,
       "total": 26,
+      "firstUnlockAt": 1738226589,
       "perfect": false
     },
     {
@@ -837,6 +930,7 @@
       "hasStats": true,
       "unlocked": 6,
       "total": 40,
+      "firstUnlockAt": 1727158807,
       "perfect": false
     },
     {
@@ -850,6 +944,7 @@
       "hasStats": true,
       "unlocked": 7,
       "total": 51,
+      "firstUnlockAt": 1725705420,
       "perfect": false
     },
     {
@@ -858,6 +953,7 @@
       "hasStats": true,
       "unlocked": 8,
       "total": 15,
+      "firstUnlockAt": 1604154424,
       "perfect": false
     },
     {
@@ -866,6 +962,7 @@
       "hasStats": true,
       "unlocked": 5,
       "total": 709,
+      "firstUnlockAt": 1751813811,
       "perfect": false
     },
     {
@@ -890,6 +987,7 @@
       "hasStats": true,
       "unlocked": 3,
       "total": 100,
+      "firstUnlockAt": 1531065567,
       "perfect": false
     },
     {
@@ -903,6 +1001,7 @@
       "hasStats": true,
       "unlocked": 5,
       "total": 46,
+      "firstUnlockAt": 1749221512,
       "perfect": false
     },
     {
@@ -911,6 +1010,7 @@
       "hasStats": true,
       "unlocked": 10,
       "total": 15,
+      "firstUnlockAt": 1741182414,
       "perfect": false
     },
     {
@@ -919,6 +1019,7 @@
       "hasStats": true,
       "unlocked": 23,
       "total": 23,
+      "firstUnlockAt": 1648052279,
       "perfect": true
     },
     {
@@ -927,6 +1028,7 @@
       "hasStats": true,
       "unlocked": 10,
       "total": 32,
+      "firstUnlockAt": 1734963779,
       "perfect": false
     },
     {
@@ -935,6 +1037,7 @@
       "hasStats": true,
       "unlocked": 4,
       "total": 14,
+      "firstUnlockAt": 1710651473,
       "perfect": false
     },
     {
@@ -943,6 +1046,7 @@
       "hasStats": true,
       "unlocked": 2,
       "total": 32,
+      "firstUnlockAt": 1766310245,
       "perfect": false
     },
     {
@@ -951,6 +1055,7 @@
       "hasStats": true,
       "unlocked": 5,
       "total": 64,
+      "firstUnlockAt": 1771780508,
       "perfect": false
     },
     {
@@ -967,6 +1072,7 @@
       "hasStats": true,
       "unlocked": 3,
       "total": 100,
+      "firstUnlockAt": 1534225552,
       "perfect": false
     },
     {
@@ -975,6 +1081,7 @@
       "hasStats": true,
       "unlocked": 7,
       "total": 64,
+      "firstUnlockAt": 1750262654,
       "perfect": false
     },
     {
@@ -983,6 +1090,7 @@
       "hasStats": true,
       "unlocked": 1,
       "total": 152,
+      "firstUnlockAt": 1748609351,
       "perfect": false
     },
     {
@@ -991,6 +1099,7 @@
       "hasStats": true,
       "unlocked": 4,
       "total": 146,
+      "firstUnlockAt": 1544890347,
       "perfect": false
     },
     {
@@ -999,6 +1108,7 @@
       "hasStats": true,
       "unlocked": 6,
       "total": 104,
+      "firstUnlockAt": 1710616110,
       "perfect": false
     },
     {
@@ -1007,6 +1117,7 @@
       "hasStats": true,
       "unlocked": 3,
       "total": 95,
+      "firstUnlockAt": 1601872261,
       "perfect": false
     },
     {
@@ -1023,6 +1134,7 @@
       "hasStats": true,
       "unlocked": 2,
       "total": 3,
+      "firstUnlockAt": 1661351447,
       "perfect": false
     },
     {
@@ -1049,6 +1161,7 @@
       "hasStats": true,
       "unlocked": 3,
       "total": 10,
+      "firstUnlockAt": 1674273865,
       "perfect": false
     },
     {
@@ -1062,6 +1175,7 @@
       "hasStats": true,
       "unlocked": 2,
       "total": 39,
+      "firstUnlockAt": 1739701729,
       "perfect": false
     },
     {
@@ -1078,6 +1192,7 @@
       "hasStats": true,
       "unlocked": 1,
       "total": 30,
+      "firstUnlockAt": 1767016246,
       "perfect": false
     },
     {
@@ -1095,12 +1210,6 @@
       "unlocked": 0,
       "total": 15,
       "perfect": false
-    },
-    {
-      "appid": 1832640,
-      "name": "Mirror 2: Project X",
-      "hasStats": false,
-      "error": "HTTP 403"
     },
     {
       "appid": 70,
