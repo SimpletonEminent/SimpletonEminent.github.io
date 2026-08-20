@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-08-19T03:05:16.633Z",
+  "updatedAt": "2026-08-20T03:04:25.372Z",
   "games": [
     {
       "appid": 1172470,
       "name": "Apex Legends",
       "playtime_hours": 1077,
-      "playtime_2weeks_hours": 1.4,
+      "playtime_2weeks_hours": 0.6,
       "last_played": 1786164087,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1172470/library_600x900.jpg"
     },
@@ -45,7 +45,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 204.7,
-      "playtime_2weeks_hours": 6.1,
+      "playtime_2weeks_hours": 5.4,
       "last_played": 1786780899,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -164,9 +164,9 @@
     {
       "appid": 1091500,
       "name": "Cyberpunk 2077",
-      "playtime_hours": 97.2,
-      "playtime_2weeks_hours": 0.5,
-      "last_played": 1786199140,
+      "playtime_hours": 97.9,
+      "playtime_2weeks_hours": 1.2,
+      "last_played": 1787144309,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
     },
     {
