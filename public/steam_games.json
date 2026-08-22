@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-21T03:10:36.484Z",
+  "updatedAt": "2026-08-22T03:01:21.438Z",
   "games": [
     {
       "appid": 1172470,
@@ -44,9 +44,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 204.7,
-      "playtime_2weeks_hours": 5.4,
-      "last_played": 1786780899,
+      "playtime_hours": 205.7,
+      "playtime_2weeks_hours": 5.1,
+      "last_played": 1787312143,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
