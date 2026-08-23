@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-08-22T03:01:21.438Z",
+  "updatedAt": "2026-08-23T03:10:20.954Z",
   "games": [
     {
       "appid": 1172470,
       "name": "Apex Legends",
       "playtime_hours": 1077,
-      "playtime_2weeks_hours": 0.6,
+      "playtime_2weeks_hours": 0,
       "last_played": 1786164087,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1172470/library_600x900.jpg"
     },
@@ -44,9 +44,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 205.7,
-      "playtime_2weeks_hours": 5.1,
-      "last_played": 1787312143,
+      "playtime_hours": 206.4,
+      "playtime_2weeks_hours": 5.3,
+      "last_played": 1787377548,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -92,9 +92,9 @@
     {
       "appid": 1245620,
       "name": "ELDEN RING",
-      "playtime_hours": 141.5,
-      "playtime_2weeks_hours": 0.2,
-      "last_played": 1787064082,
+      "playtime_hours": 143.4,
+      "playtime_2weeks_hours": 2.1,
+      "last_played": 1787426876,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1245620/library_600x900.jpg"
     },
     {
@@ -125,7 +125,7 @@
       "appid": 2358720,
       "name": "Black Myth: Wukong",
       "playtime_hours": 105.5,
-      "playtime_2weeks_hours": 0.7,
+      "playtime_2weeks_hours": 0,
       "last_played": 1786205709,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
     },
@@ -165,7 +165,7 @@
       "appid": 1091500,
       "name": "Cyberpunk 2077",
       "playtime_hours": 97.9,
-      "playtime_2weeks_hours": 1.2,
+      "playtime_2weeks_hours": 0.7,
       "last_played": 1787144309,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
     },
@@ -1058,6 +1058,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1290490/library_600x900.jpg"
     },
     {
+      "appid": 1888160,
+      "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
+      "playtime_hours": 1,
+      "playtime_2weeks_hours": 0.6,
+      "last_played": 1787431032,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
+    },
+    {
       "appid": 365450,
       "name": "Hacknet",
       "playtime_hours": 0.9,
@@ -1112,14 +1120,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1737383191,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1967430/library_600x900.jpg"
-    },
-    {
-      "appid": 1888160,
-      "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
-      "playtime_hours": 0.4,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1767016483,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
     {
       "appid": 1875060,
