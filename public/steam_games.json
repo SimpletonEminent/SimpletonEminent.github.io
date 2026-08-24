@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-23T03:10:20.954Z",
+  "updatedAt": "2026-08-24T03:11:30.700Z",
   "games": [
     {
       "appid": 1172470,
@@ -228,9 +228,9 @@
     {
       "appid": 1364780,
       "name": "Street Fighter™ 6",
-      "playtime_hours": 72.2,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1769927786,
+      "playtime_hours": 73.1,
+      "playtime_2weeks_hours": 0.9,
+      "last_played": 1787500951,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1364780/library_600x900.jpg"
     },
     {
@@ -882,6 +882,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/212680/library_600x900.jpg"
     },
     {
+      "appid": 1888160,
+      "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
+      "playtime_hours": 4.2,
+      "playtime_2weeks_hours": 3.8,
+      "last_played": 1787489144,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
+    },
+    {
       "appid": 400,
       "name": "Portal",
       "playtime_hours": 4.1,
@@ -1056,14 +1064,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1661514414,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1290490/library_600x900.jpg"
-    },
-    {
-      "appid": 1888160,
-      "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
-      "playtime_hours": 1,
-      "playtime_2weeks_hours": 0.6,
-      "last_played": 1787431032,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
     {
       "appid": 365450,
