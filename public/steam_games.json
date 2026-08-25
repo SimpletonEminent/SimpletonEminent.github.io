@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-24T03:11:30.700Z",
+  "updatedAt": "2026-08-25T03:06:46.314Z",
   "games": [
     {
       "appid": 1172470,
@@ -874,20 +874,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/438100/library_600x900.jpg"
     },
     {
+      "appid": 1888160,
+      "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
+      "playtime_hours": 4.5,
+      "playtime_2weeks_hours": 4.1,
+      "last_played": 1787584020,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
+    },
+    {
       "appid": 212680,
       "name": "FTL: Faster Than Light",
       "playtime_hours": 4.2,
       "playtime_2weeks_hours": 0,
       "last_played": 1726063316,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/212680/library_600x900.jpg"
-    },
-    {
-      "appid": 1888160,
-      "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
-      "playtime_hours": 4.2,
-      "playtime_2weeks_hours": 3.8,
-      "last_played": 1787489144,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
     {
       "appid": 400,
