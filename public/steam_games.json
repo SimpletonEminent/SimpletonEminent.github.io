@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-25T03:06:46.314Z",
+  "updatedAt": "2026-08-26T03:13:15.492Z",
   "games": [
     {
       "appid": 1172470,
@@ -34,20 +34,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/294100/library_600x900.jpg"
     },
     {
+      "appid": 730,
+      "name": "Counter-Strike 2",
+      "playtime_hours": 207.6,
+      "playtime_2weeks_hours": 6.4,
+      "last_played": 1787670644,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
+    },
+    {
       "appid": 271590,
       "name": "Grand Theft Auto V Legacy",
       "playtime_hours": 207.2,
       "playtime_2weeks_hours": 0,
       "last_played": 1745647980,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/271590/library_600x900.jpg"
-    },
-    {
-      "appid": 730,
-      "name": "Counter-Strike 2",
-      "playtime_hours": 206.4,
-      "playtime_2weeks_hours": 5.3,
-      "last_played": 1787377548,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
       "appid": 582010,
@@ -83,7 +83,7 @@
     },
     {
       "appid": 292030,
-      "name": "The Witcher 3: Wild Hunt",
+      "name": "The Witcher 3: Wild Hunt - Complete Edition",
       "playtime_hours": 143.6,
       "playtime_2weeks_hours": 0,
       "last_played": 1673597225,
@@ -228,9 +228,9 @@
     {
       "appid": 1364780,
       "name": "Street Fighter™ 6",
-      "playtime_hours": 73.1,
-      "playtime_2weeks_hours": 0.9,
-      "last_played": 1787500951,
+      "playtime_hours": 73.7,
+      "playtime_2weeks_hours": 1.5,
+      "last_played": 1787675323,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1364780/library_600x900.jpg"
     },
     {
