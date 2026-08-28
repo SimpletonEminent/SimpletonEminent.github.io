@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-27T12:42:38.641Z",
+  "updatedAt": "2026-08-28T14:16:05.370Z",
   "games": [
     {
       "appid": 1172470,
@@ -36,9 +36,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 207.6,
-      "playtime_2weeks_hours": 6.4,
-      "last_played": 1787670644,
+      "playtime_hours": 208.2,
+      "playtime_2weeks_hours": 5.6,
+      "last_played": 1787915013,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -124,9 +124,9 @@
     {
       "appid": 2358720,
       "name": "Black Myth: Wukong",
-      "playtime_hours": 106.3,
-      "playtime_2weeks_hours": 0.8,
-      "last_played": 1787757037,
+      "playtime_hours": 107.3,
+      "playtime_2weeks_hours": 1.9,
+      "last_played": 1787842109,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
     },
     {
@@ -228,9 +228,9 @@
     {
       "appid": 1364780,
       "name": "Street Fighter™ 6",
-      "playtime_hours": 73.7,
-      "playtime_2weeks_hours": 1.5,
-      "last_played": 1787675323,
+      "playtime_hours": 74.7,
+      "playtime_2weeks_hours": 2.6,
+      "last_played": 1787916745,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1364780/library_600x900.jpg"
     },
     {
@@ -850,6 +850,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1216710/library_600x900.jpg"
     },
     {
+      "appid": 1888160,
+      "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
+      "playtime_hours": 5.3,
+      "playtime_2weeks_hours": 4.9,
+      "last_played": 1787920413,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
+    },
+    {
       "appid": 2527500,
       "name": "MiSide",
       "playtime_hours": 5.3,
@@ -872,14 +880,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1740246831,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/438100/library_600x900.jpg"
-    },
-    {
-      "appid": 1888160,
-      "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
-      "playtime_hours": 5,
-      "playtime_2weeks_hours": 4.5,
-      "last_played": 1787758685,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
     {
       "appid": 212680,
