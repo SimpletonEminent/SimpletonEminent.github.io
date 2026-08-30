@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-29T08:55:58.055Z",
+  "updatedAt": "2026-08-30T08:13:45.697Z",
   "games": [
     {
       "appid": 1172470,
@@ -36,9 +36,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 208.2,
-      "playtime_2weeks_hours": 3.6,
-      "last_played": 1787915013,
+      "playtime_hours": 208.9,
+      "playtime_2weeks_hours": 4.3,
+      "last_played": 1788076750,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -124,9 +124,9 @@
     {
       "appid": 2358720,
       "name": "Black Myth: Wukong",
-      "playtime_hours": 108.3,
-      "playtime_2weeks_hours": 2.9,
-      "last_played": 1787992749,
+      "playtime_hours": 108.7,
+      "playtime_2weeks_hours": 3.2,
+      "last_played": 1787994033,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
     },
     {
@@ -300,9 +300,9 @@
     {
       "appid": 1325200,
       "name": "Nioh 2 – The Complete Edition",
-      "playtime_hours": 55.3,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1774068657,
+      "playtime_hours": 55.7,
+      "playtime_2weeks_hours": 0.4,
+      "last_played": 1788070717,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1325200/library_600x900.jpg"
     },
     {
@@ -754,20 +754,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2427700/library_600x900.jpg"
     },
     {
+      "appid": 774181,
+      "name": "Rhythm Doctor",
+      "playtime_hours": 8,
+      "playtime_2weeks_hours": 0.6,
+      "last_played": 1788066296,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/774181/library_600x900.jpg"
+    },
+    {
       "appid": 813780,
       "name": "Age of Empires II: Definitive Edition",
       "playtime_hours": 7.5,
       "playtime_2weeks_hours": 0,
       "last_played": 1780850925,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/813780/library_600x900.jpg"
-    },
-    {
-      "appid": 774181,
-      "name": "Rhythm Doctor",
-      "playtime_hours": 7.3,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1774081453,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/774181/library_600x900.jpg"
     },
     {
       "appid": 322330,
