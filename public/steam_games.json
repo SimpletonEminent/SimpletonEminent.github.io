@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-31T08:33:51.991Z",
+  "updatedAt": "2026-09-01T07:39:46.997Z",
   "games": [
     {
       "appid": 1172470,
@@ -154,20 +154,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/435150/library_600x900.jpg"
     },
     {
+      "appid": 1091500,
+      "name": "Cyberpunk 2077",
+      "playtime_hours": 100.9,
+      "playtime_2weeks_hours": 3.7,
+      "last_played": 1788184364,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
+    },
+    {
       "appid": 1449850,
       "name": "Yu-Gi-Oh!  Master Duel",
       "playtime_hours": 100.8,
       "playtime_2weeks_hours": 0,
       "last_played": 1692970185,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1449850/library_600x900.jpg"
-    },
-    {
-      "appid": 1091500,
-      "name": "Cyberpunk 2077",
-      "playtime_hours": 100.5,
-      "playtime_2weeks_hours": 3.3,
-      "last_played": 1788094547,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
     },
     {
       "appid": 205100,
