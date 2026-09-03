@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-02T07:02:08.355Z",
+  "updatedAt": "2026-09-03T07:05:58.418Z",
   "games": [
     {
       "appid": 1172470,
@@ -138,6 +138,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
     },
     {
+      "appid": 1091500,
+      "name": "Cyberpunk 2077",
+      "playtime_hours": 104.1,
+      "playtime_2weeks_hours": 6.2,
+      "last_played": 1788356653,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
+    },
+    {
       "appid": 1158310,
       "name": "Crusader Kings III",
       "playtime_hours": 104.1,
@@ -152,14 +160,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1690270374,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/435150/library_600x900.jpg"
-    },
-    {
-      "appid": 1091500,
-      "name": "Cyberpunk 2077",
-      "playtime_hours": 102.5,
-      "playtime_2weeks_hours": 5.3,
-      "last_played": 1788277634,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
     },
     {
       "appid": 1449850,
