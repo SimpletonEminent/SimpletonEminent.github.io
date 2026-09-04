@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-03T07:05:58.418Z",
+  "updatedAt": "2026-09-04T07:10:08.436Z",
   "games": [
     {
       "appid": 1172470,
@@ -130,20 +130,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
     },
     {
+      "appid": 1091500,
+      "name": "Cyberpunk 2077",
+      "playtime_hours": 105.2,
+      "playtime_2weeks_hours": 7.3,
+      "last_played": 1788449405,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
+    },
+    {
       "appid": 1446780,
       "name": "MONSTER HUNTER RISE",
       "playtime_hours": 104.5,
       "playtime_2weeks_hours": 0,
       "last_played": 1760533882,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
-    },
-    {
-      "appid": 1091500,
-      "name": "Cyberpunk 2077",
-      "playtime_hours": 104.1,
-      "playtime_2weeks_hours": 6.2,
-      "last_played": 1788356653,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
     },
     {
       "appid": 1158310,
