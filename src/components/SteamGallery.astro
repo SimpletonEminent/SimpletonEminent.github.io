@@ -4,8 +4,9 @@
 //   - 监听 steam:select(右栏点击游戏行)→ 滚动定位该卡片并选中展开
 //   - 派发 steam:highlight(选中/收起)→ 右栏高亮/清除对应行
 // 数据由共享模块 src/lib/steam-data.ts 构建期读取合并,无运行时请求
-// 交互为原生 JS(define:vars 注入合并数据),无任何客户端框架
-import { loadMergedGames, formatHours, statusText, releaseYear, sortGames, badgesFor } from '../lib/steam-data';
+// 气泡内容由 renderBubbleContent 构建期服务端渲染(set:html),客户端不再拼接 HTML
+// 交互为原生 JS(define:vars 注入排序预设),无任何客户端框架
+import { loadMergedGames, formatHours, statusText, releaseYear, sortGames, badgesFor, renderBubbleContent } from '../lib/steam-data';
 
 const { updatedAt, games } = loadMergedGames();
 
@@ -87,7 +88,7 @@ const sortPresets = {
                 <div class="bubble" id={`bubble-${game.appid}`} hidden>
                   <div class="bubble-inner">
                     <div class="bubble-panel">
-                      <div class="bubble-content"></div>
+                      <div class="bubble-content" set:html={renderBubbleContent(game)}></div>
                     </div>
                   </div>
                 </div>
@@ -100,21 +101,16 @@ const sortPresets = {
   }
 </div>
 
-<script is:inline define:vars={{ games, sortPresets }}>
+<script is:inline define:vars={{ sortPresets }}>
   (() => {
     const gallery = document.querySelector('.steam-gallery');
     if (!gallery) return;
 
     const items = Array.from(gallery.querySelectorAll('.card-item'));
     const itemByAppid = new Map();
-    const gameByAppid = new Map();
 
     for (const item of items) {
       itemByAppid.set(Number(item.dataset.appid), item);
-    }
-    // games 由 define:vars 在构建期注入为运行时变量,TS 静态检查无法感知
-    for (const game of games) {
-      gameByAppid.set(Number(game.appid), game);
     }
 
     const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -125,133 +121,6 @@ const sortPresets = {
     // 避免手风琴切换时取消掉前一项的隐藏,导致旧气泡残留
     const closeTimers = new WeakMap();
 
-    function esc(value) {
-      return String(value)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-    }
-
-    function formatHours(hours) {
-      const h = Number(hours) || 0;
-      const rounded = Math.round(h * 10) / 10;
-      return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
-    }
-
-    // 从发售日期字符串提取年份(如 "2024 年 8 月 20 日" → "2024"),无则返回空串
-    function releaseYear(date) {
-      if (!date) return '';
-      const m = String(date).match(/\d{4}/);
-      return m ? m[0] : '';
-    }
-
-    // 最早成就解锁时间(Unix 秒)→ YYYY-MM-DD(北京时间 UTC+8,中国无夏令时)
-    function firstPlayDate(ts) {
-      const d = new Date((Number(ts) || 0) * 1000 + 8 * 3600 * 1000);
-      return d.toISOString().slice(0, 10);
-    }
-
-    // 动态渲染气泡内容(innerHTML 注入,配合 :global() 样式)
-    function renderBubble(item, game) {
-      const content = item.querySelector('.bubble-content');
-      if (!content) return;
-
-      let html = '';
-
-      // Row 1 游戏名称:EN + CN 并列
-      html += '<div class="bubble-row">';
-      html += '<span class="bubble-label">游戏名称</span>';
-      html += '<span class="bubble-value">';
-      html += esc(game.name);
-      if (game.name_zh) {
-        html += `<span class="bubble-name-zh">${esc(game.name_zh)}</span>`;
-      }
-      html += '</span></div>';
-
-      // Row 2 游戏类型:标签胶囊,无标签时整行隐藏
-      if (Array.isArray(game.tags) && game.tags.length > 0) {
-        html += '<div class="bubble-row">';
-        html += '<span class="bubble-label">游戏类型</span>';
-        html += '<span class="bubble-value bubble-tags">';
-        html += game.tags.map((tag) => `<span class="tag-pill">${esc(tag)}</span>`).join('');
-        html += '</span></div>';
-      }
-
-      // Row 3 游玩状态:徽章只复制卡片(.card)已渲染结果——查询范围必须限定在卡片,
-      // 不能是整个 .card-item(气泡旧内容也是 .status-badge,会被重复复制,每开一次翻倍)
-      // 规则只存在于 steam-data.ts badgesFor,ADR-0007 v2;is:inline 脚本无法 import 模块
-      html += '<div class="bubble-row">';
-      html += '<span class="bubble-label">游玩状态</span>';
-      html += '<span class="bubble-value">';
-      for (const badge of item.querySelector('.card').querySelectorAll('.status-badge')) {
-        const dataStatus = badge.getAttribute('data-status');
-        html += `<span class="${badge.className}"${dataStatus ? ` data-status="${dataStatus}"` : ''}>${esc(badge.textContent)}</span>`;
-      }
-      html += '</span></div>';
-
-      // Row 4 数据详情
-      html += '<div class="bubble-row">';
-      html += '<span class="bubble-label">数据详情</span>';
-      html += '<span class="bubble-value">';
-      html += `<strong>总游玩 ${formatHours(game.playtime_hours)} 小时</strong>`;
-      html += '<span class="bubble-sep">·</span>';
-      html += `近两周 ${formatHours(game.playtime_2weeks_hours)} 小时`;
-      html += '</span></div>';
-
-      // Row 5 成就进度:无成就系统(achievements 为 undefined)或总数为 0 时整行隐藏
-      if (game.achievements && game.achievements.total > 0) {
-        const { unlocked, total } = game.achievements;
-        const percent = Math.round((unlocked / total) * 100);
-        const trophy = percent === 100 ? ' 🏆' : '';
-        html += '<div class="bubble-row">';
-        html += '<span class="bubble-label">成就进度</span>';
-        html += '<span class="bubble-value">';
-        html += '<span class="achievement-wrap">';
-        html += `<span class="achievement-bar"><span class="achievement-fill" style="width:${esc(percent)}%"></span></span>`;
-        html += `<span class="achievement-text">${esc(percent)}% (${esc(unlocked)}/${esc(total)})${trophy}</span>`;
-        html += '</span></span>';
-        html += '</span></div>';
-      }
-
-      // Row 6 我的短评
-      html += '<div class="bubble-row">';
-      html += '<span class="bubble-label">我的短评</span>';
-      if (game.my_review) {
-        html += `<span class="bubble-value">${esc(game.my_review)}</span>`;
-      } else {
-        html += '<span class="bubble-value bubble-empty">暂无短评</span>';
-      }
-      html += '</div>';
-
-      // Row 6 深度评测:blog_url 为空时整行隐藏
-      if (game.blog_url) {
-        html += '<div class="bubble-row">';
-        html += '<span class="bubble-label">深度评测</span>';
-        html += '<span class="bubble-value">';
-        html += `<a class="bubble-link" href="${esc(game.blog_url)}">📄 查看我的深度评测</a>`;
-        html += '</span></div>';
-      }
-
-      // 底部:Steam 商店入口 + 元数据(发售年份/游玩年份/平台)
-      html += '<div class="bubble-footer">';
-      html += `<a class="store-link" href="https://store.steampowered.com/app/${game.appid}" target="_blank" rel="noopener noreferrer">前往 Steam 商店 ↗</a>`;
-      const meta = [];
-      const rYear = releaseYear(game.release_date);
-      if (rYear) meta.push(`发售年份: ${rYear}`);
-      // 首次游玩(估):来自成就 API 最早解锁时间(ADR-0008),无成就数据时不显示
-      if (game.first_achievement_at) meta.push(`首次游玩(估): ${firstPlayDate(game.first_achievement_at)}`);
-      if (game.play_year) meta.push(`游玩年份: ${esc(game.play_year)}`);
-      if (game.platform) meta.push(`平台: ${esc(game.platform)}`);
-      if (meta.length > 0) {
-        html += `<p class="bubble-meta">${meta.join(' · ')}</p>`;
-      }
-      html += '</div>';
-
-      content.innerHTML = html;
-    }
-
     // 气泡锚定 .gallery:top = 该卡片底边 + 0.5rem 间距
     // (.card-item 与 .card 均为静态定位,offsetParent 即 position:relative 的 .gallery)
     function positionBubble(item) {
@@ -260,7 +129,7 @@ const sortPresets = {
       bubble.style.top = `${item.offsetTop + item.offsetHeight + 8}px`;
     }
 
-    function openBubble(item, game) {
+    function openBubble(item) {
       const bubble = item.querySelector('.bubble');
       const card = item.querySelector('.card');
       if (!bubble || !card) return;
@@ -272,7 +141,7 @@ const sortPresets = {
       }
       bubble.hidden = false;
       positionBubble(item);
-      renderBubble(item, game);
+      // 气泡内容已在构建期由 renderBubbleContent 渲染到 DOM,此处只切换 display
       // 强制回流:让 0fr 基态先落地,再切 1fr 触发 grid-template-rows 过渡
       void bubble.offsetHeight;
       item.classList.add('expanded');
@@ -333,10 +202,9 @@ const sortPresets = {
       }
 
       const item = itemByAppid.get(appid);
-      const game = gameByAppid.get(appid);
-      if (!item || !game) return;
+      if (!item) return;
 
-      openBubble(item, game);
+      openBubble(item);
       setSelected(item, true);
       activeAppid = appid;
       dispatchHighlight(appid);

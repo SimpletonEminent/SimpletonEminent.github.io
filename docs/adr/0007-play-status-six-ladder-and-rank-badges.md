@@ -33,3 +33,4 @@
 
 - **2026-08-19(用户裁决,推翻原第 3 条后半)**:实际使用发现"有段位 + 持续游玩 → 段位单徽章"会吞掉《Apex 英雄》的「持续游玩」徽章(更新段位后页面上只剩铂金)。徽章规则改为:**游玩状态徽章永远显示;有段位 → 状态 + 段位双徽章**。录入与展示本就是两个独立字段,展示侧不再做"谁顶替谁"的推导。回归测试见 `scripts/test-badges.ts`(`npm test`)。
 - **2026-08-19(重构)**:气泡「游玩状态」徽章改为直接复制卡片已渲染的徽章 DOM,删除客户端脚本内的 `STATUS_TEXT` 与 `badgesHtml` 规则副本(客户端 `is:inline` 脚本无法 import 模块,复制渲染结果而非重写规则)。徽章规则因此只存在于 `src/lib/steam-data.ts` 的 `badgesFor`,四处一致由结构保证,不再依赖两处同步修改。
+- **2026-09-05(重构)**:气泡内容改为**构建期服务端渲染**(Spec: 气泡构建期渲染)。新增纯函数 `renderBubbleContent`(位于 `src/lib/steam-data.ts`),输入 `MergedGame` 输出气泡 HTML 字符串,由 `set:html` 在构建期注入。客户端 `is:inline` 脚本移除 `esc` / `formatHours` / `releaseYear` / `firstPlayDate` 四个纯函数副本与 `renderBubble` 拼接逻辑,只保留气泡 `hidden` 切换、`top` 定位、选中/收起/排序/联动事件。上述「复制卡片已渲染 DOM」的权宜 hack 随根因解决而删除——徽章(游玩状态 + 段位)与卡片改为共同直接渲染 `badgesFor`,四处一致由渲染同一函数保证。
