@@ -160,6 +160,7 @@ hero:
 - [ ] 文件名无空格/`+`
 - [ ] `npm run dev` 本地预览正常
 - [ ] 长评发布后,在 `src/data/steam_annotations.json` 对应游戏填 `blog_url`
+- [ ] **(游戏长评)** 在 `astro.config.mjs` 的「游戏评测」侧边栏组内追加该文章的 slug(手动嵌套组,见 ADR-0009)
 
 ## 常见错误
 

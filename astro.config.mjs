@@ -52,11 +52,29 @@ export default defineConfig({
         { label: '🏠 首页', link: '/' },
         // Steam 游戏画廊
         { label: '🎮 游戏画廊', link: '/games' },
-        // 博客文章(自动从 src/content/docs/blog/ 生成)
+        // 博客(手动列出:顶层技术文章 + 「游戏评测」嵌套组)
+        // 注:Starlight 无法给自动生成的子目录组改成中文名,且文件挪目录会破坏画廊 blog_url 链接,
+        // 因此采用手动嵌套组(见 docs/adr/0009)。新增文章时在此追加对应 slug。
         {
           label: '📝 博客',
           collapsed: false,
-          items: [{ autogenerate: { directory: 'blog' } }],
+          items: [
+            // 顶层技术文章(非游戏评测)
+            'blog/如何安装msst音乐音源分离工作流',
+            'blog/如何通过github-pages和astro构建个人博客',
+            // 游戏评测子分类
+            {
+              label: '游戏评测',
+              collapsed: false,
+              items: [
+                'blog/djmax_review',
+                'blog/phoenix_wright_ace_attorney_trilogy_review',
+                'blog/sanabi_review',
+                'blog/sekiro_review',
+                'blog/tts_review',
+              ],
+            },
+          ],
         },
       ],
     }),
