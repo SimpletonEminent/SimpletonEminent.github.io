@@ -7,6 +7,7 @@
 ## ✨ 特点
 
 - **Starlight 文档框架**:开箱即用的侧边栏导航、右侧目录、暗色模式
+- **🎮 Steam 游戏画廊**:Notion 风格卡片网格，自动同步 Steam 游玩时长与成就进度，支持双向高亮与多维排序
 - **内置全文搜索**:Pagefind 静态搜索,零后端依赖
 - **Markdown 写作**:纯文本写文章,排版交给主题
 - **全自动部署**:推送即发布,GitHub Actions 自动构建
@@ -22,19 +23,32 @@
 | [Pagefind](https://pagefind.app/) | 内置静态全文搜索 |
 | GitHub Pages + Actions | 免费托管 + 自动部署 |
 
-## 🚀 本地开发
+## 🚀 常用开发命令
 
 ```bash
-npm install        # 安装依赖
-npm run dev        # 启动开发服务器 http://localhost:4321/
-npm run build      # 生产构建(含搜索索引)
-npm run preview    # 预览生产构建
-npx astro check    # 类型检查
+npm install            # 安装依赖
+npm run dev            # 启动本地热更新服务器 http://localhost:4321/
+npm run updatedata     # 🎮 启动手动数据更新控制台 (Mission Control)
+npm test               # 自动化回归测试 (期望 100% PASS)
+npm run astro -- check # 静态类型检查 (期望 0 errors)
+npm run build          # 生产构建 (含 Pagefind 搜索索引)
+npm run preview        # 预览生产构建
 ```
 
-## ✍️ 写文章指南
+## 📚 核心文档索引
 
-在 `src/content/docs/blog/` 下新建 `.md` 文件:
+项目指引性文档已全景收录于 **[docs/README.md](docs/README.md)**（文档中枢）：
+
+- 📖 **[博客文章写作与排版规范](docs/blog-writing-guide.md)**：统一写作风格指纹、frontmatter 极简 3 字段铁律、发布自查清单。
+- 🛠️ **[Steam 游戏画廊与日常运维手册](docs/steam-gallery-ops.md)**：数据管线、`npm run updatedata` 操作指南、排错 FAQ。
+- 💻 **[工程与编码规范](docs/coding-standards.md)**：TypeScript 严格类型、单源化架构设计、黑盒测试纪律。
+- 🏛️ **[领域术语表 (CONTEXT.md)](CONTEXT.md)**：博客与游戏画廊核心领域用语字典与禁忌词。
+- 🏛️ **[架构决策记录 (ADR 0001-0009)](docs/README.md#三领域术语与架构决策-domain--architecture)**：历史架构决策与演进背景。
+- 🗺️ **[功能规范与路线图 (Specs 01-10)](docs/README.md#四技术规范与演进路线图-specifications--roadmap)**：特性规范与演进蓝图。
+
+## ✍️ 写文章快速入门
+
+在 `src/content/docs/blog/` 下新建 `.md` 文件（详见 [写作与排版规范](docs/blog-writing-guide.md)）:
 
 ```markdown
 ---
@@ -43,17 +57,18 @@ description: "一句话简介"
 pubDate: "2026-08-02"
 ---
 
-# 大章节标题
+# 抓人眼球的开篇 Hook 句
 
-## 小章节标题
+---
+
+## 章节标题
+
+---
 
 正文内容……
 ```
 
 写完后本地预览确认排版,按下方「[提交与推送(手动流程)](#提交与推送手动流程)」发布(推送即上线)。
-
-详细教程见博客文章
-[《如何优雅地构建个人博客网站》](https://SimpletonEminent.github.io/blog/如何通过github-pages和astro构建个人博客/)。
 
 ## 🔄 提交与推送(手动流程)
 
@@ -105,20 +120,33 @@ git push
 
 ```
 my-blog/
-├── astro.config.mjs        # Astro/Starlight 核心配置
+├── astro.config.mjs        # Astro / Starlight 核心配置
 ├── ec.config.mjs           # 代码高亮别名配置
 ├── package.json            # 依赖与脚本
-├── .github/workflows/
-│   └── deploy.yml          # GitHub Actions 自动部署
-├── public/
-│   └── favicon.svg         # 站点图标
+├── CONTEXT.md              # 领域术语表 (画廊/时长/状态/段位等权威用词)
+├── .github/workflows/      # GitHub Actions (自动部署 + 每日 Steam 时长抓取)
+├── docs/
+│   ├── README.md           # 📚 文档中枢 (全局知识图谱导航)
+│   ├── blog-writing-guide.md # 博客文章写作与排版规范
+│   ├── steam-gallery-ops.md  # 游戏画廊与日常运维手册
+│   ├── coding-standards.md   # 工程与编码规范
+│   ├── adr/                # 架构决策记录 (ADR 0001 - 0009)
+│   └── specs/              # 功能与重构规范 (Specs 01 - 10)
+├── scripts/                # 数据同步、元数据丰富、成就检查与 CLI 控制台
+├── public/                 # 静态资源 (favicon, steam_games.json, steam_achievements.json)
 └── src/
     ├── content.config.ts   # 内容集合配置
-    ├── styles/
-    │   └── theme.css       # 主题样式(强调色/排版)
+    ├── styles/theme.css    # 主题样式 (强调色 / 全局状态徽章颜色)
+    ├── lib/
+    │   ├── play-status.ts  # 游玩状态六阶梯唯一词汇模块
+    │   ├── steam-data.ts   # 画廊数据合并与排序模块 (模块单例缓存)
+    │   └── gallery-coordinator.ts # 画廊客户端交互协调器 (多端联动/排序)
+    ├── data/
+    │   └── steam_annotations.json # 人工手写注释 (状态/段位/短评/年份)
     └── content/docs/
-        ├── index.mdx       # 首页
-        └── blog/           # 博客文章(.md)
+        ├── index.mdx       # 首页 (Splash + 卡片)
+        ├── games.mdx       # 游戏画廊页 (/games)
+        └── blog/           # 博客文章 (.md)
 ```
 
 ## 🌐 部署
