@@ -33,4 +33,5 @@ my-blog-spec/
 # 本地工程指引、内部规范与架构文档 (遵循最小暴露隐私原则，不入库)
 docs/
 CONTEXT.md
+README_private.md
 .omo/
