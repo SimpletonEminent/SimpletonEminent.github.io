@@ -9,22 +9,12 @@
 // 3. 自动字段(name_zh/release_date)绝不触碰
 import { readFileSync, writeFileSync } from 'node:fs';
 import { isValidPlayYear, PLAY_YEAR_HINT } from './lib/play-year.mjs';
+// 六阶梯词汇来自唯一词汇模块(Spec 02):中文文案 → 内部键映射仅此一份。
+import { statusToKey, isStatusLabel, DEFAULT_STATUS } from '../src/lib/play-status.ts';
 
 const CSV_FILE = 'steam.csv';
 const GAMES_FILE = 'public/steam_games.json';
 const ANNOT_FILE = 'src/data/steam_annotations.json';
-
-const STATUS_VALUES = new Set(['未通关', '已通关', '全成就', '持续游玩', '暂退长草', '已退役']);
-
-// 中文状态 → 内部枚举键(ADR-0007 六阶梯)
-const STATUS_TO_KEY = {
-  '未通关': 'uncompleted',
-  '已通关': 'completed',
-  '全成就': 'perfect',
-  '持续游玩': 'ongoing',
-  '暂退长草': 'hiatus',
-  '已退役': 'retired',
-};
 
 function parseCSV(text) {
   // 去掉 BOM
@@ -148,11 +138,11 @@ for (let r = 1; r < rows.length; r++) {
   // 游玩状态:非法值回退未通关(安全保护 2)
   const status = (row[idx.my_status] ?? '').trim();
   if (status) {
-    if (STATUS_VALUES.has(status)) {
-      ann.my_status = STATUS_TO_KEY[status];
+    if (isStatusLabel(status)) {
+      ann.my_status = statusToKey(status);
     } else {
       warnings.push(`[${appid}] 游玩状态"${status}"非法,回退为未通关`);
-      ann.my_status = 'uncompleted';
+      ann.my_status = DEFAULT_STATUS;
     }
   }
 

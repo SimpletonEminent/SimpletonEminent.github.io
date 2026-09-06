@@ -3,7 +3,8 @@
 // - /games 路由 → 渲染折叠的游戏列表(替代 "On this page" 下拉),与卡片画廊联动
 // - 其他路由 → 渲染原生移动端 TOC
 import DefaultMobileTableOfContents from '@astrojs/starlight/components/MobileTableOfContents.astro';
-import { loadMergedGames, formatHours, statusText, badgesFor } from '../lib/steam-data';
+import { loadMergedGames, formatHours, badgesFor } from '../lib/steam-data';
+import { statusText } from '../lib/play-status';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
 const { games } = isGamesRoute ? loadMergedGames() : { games: [] };

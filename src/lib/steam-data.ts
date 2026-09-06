@@ -5,6 +5,7 @@
 // 三个数据源按 appid 合并,过滤掉 0h 游戏,缺失字段补默认值,按总时长降序返回。
 
 import { readFileSync } from 'node:fs';
+import { statusText, statusWeight, type Status } from './play-status.ts';
 
 export interface SteamGame {
   appid: number;
@@ -30,8 +31,9 @@ export interface Annotation {
   release_date?: string;
 }
 
-/** 游玩状态六阶梯(ADR-0007):未通关 / 已通关 / 全成就 / 持续游玩 / 暂退长草 / 已退役 */
-export type Status = 'uncompleted' | 'completed' | 'perfect' | 'ongoing' | 'hiatus' | 'retired';
+// 游玩状态类型与文案由唯一词汇模块 src/lib/play-status.ts 提供(Spec 02),
+// 此处仅导出供既有消费方(组件/测试)继续引用,词汇单一来源保证。
+export type { Status } from './play-status.ts';
 
 export interface MergedGame extends SteamGame {
   name_zh: string;
@@ -143,22 +145,8 @@ export function formatHours(hours: number): string {
   return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
 }
 
-export function statusText(status: Status): string {
-  switch (status) {
-    case 'completed':
-      return '已通关';
-    case 'perfect':
-      return '全成就🏆';
-    case 'ongoing':
-      return '持续游玩 🎮';
-    case 'hiatus':
-      return '暂退长草';
-    case 'retired':
-      return '已退役';
-    default:
-      return '未通关';
-  }
-}
+// 状态中文文案由词汇模块提供(contribute from play-status)。保留重导出供既有消费方使用。
+export { statusText, statusText as statusLabel, statusWeight, statusToKey, keyToStatus, statusKeys, isStatus, STATUS_LADDER, DEFAULT_STATUS } from './play-status.ts';
 
 /** 从发售日期字符串提取年份(如 "2024 年 8 月 20 日" → "2024"),无则返回空串 */
 export function releaseYear(date: string): string {
@@ -170,16 +158,6 @@ export function releaseYear(date: string): string {
 /** 排序维度:总时长 / 近两周 / 游玩状态 / 发售年份 / 名称(独立方向) */
 export type SortKey = 'playtime' | 'recent' | 'status' | 'release' | 'nameAsc' | 'nameDesc';
 export type SortDir = 'asc' | 'desc';
-
-/** 游玩状态权重(ADR-0007 六阶梯):全成就 > 已通关 > 持续游玩 > 未通关 > 暂退长草 > 已退役 */
-const STATUS_WEIGHT: Record<Status, number> = {
-  perfect: 6,
-  completed: 5,
-  ongoing: 4,
-  uncompleted: 3,
-  hiatus: 2,
-  retired: 1,
-};
 
 /**
  * 共享排序逻辑:画廊与右侧 TOC 用同一实现,保证两侧顺序一致。
@@ -208,7 +186,7 @@ export function sortGames(games: MergedGame[], key: SortKey, dir: SortDir): Merg
     case 'status':
       // 按状态权重排序(desc = 全成就优先);同状态按总时长降序稳定排
       sorted.sort((a, b) => {
-        const byStatus = (STATUS_WEIGHT[a.my_status] - STATUS_WEIGHT[b.my_status]) * sign;
+        const byStatus = (statusWeight(a.my_status) - statusWeight(b.my_status)) * sign;
         if (byStatus !== 0) return byStatus;
         return b.playtime_hours - a.playtime_hours;
       });

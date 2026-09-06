@@ -3,7 +3,8 @@
 // - /games 路由 → 渲染游戏列表(替代 "On this page"),与卡片画廊双向联动
 // - 其他路由 → 渲染原生 TOC
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
-import { loadMergedGames, formatHours, statusText, sortGames, badgesFor } from '../lib/steam-data';
+import { loadMergedGames, formatHours, sortGames, badgesFor } from '../lib/steam-data';
+import { statusText } from '../lib/play-status';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
 const { games } = isGamesRoute ? loadMergedGames() : { games: [] };

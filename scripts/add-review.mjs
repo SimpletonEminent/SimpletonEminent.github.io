@@ -11,20 +11,14 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { isValidPlayYear, PLAY_YEAR_HINT } from './lib/play-year.mjs';
+// 六阶梯词汇来自唯一词汇模块(Spec 02):菜单选项、状态键校验均单一来源。
+import { STATUS_LADDER, DEFAULT_STATUS, isStatus } from '../src/lib/play-status.ts';
 
 const GAMES_FILE = 'public/steam_games.json';
 const ANNOT_FILE = 'src/data/steam_annotations.json';
 
-/** 六阶梯游玩状态(ADR-0007) */
-const STATUS_OPTIONS = [
-  { key: 'uncompleted', label: '未通关' },
-  { key: 'completed', label: '已通关' },
-  { key: 'perfect', label: '全成就' },
-  { key: 'ongoing', label: '持续游玩' },
-  { key: 'hiatus', label: '暂退长草' },
-  { key: 'retired', label: '已退役' },
-];
-const STATUS_KEYS = new Set(STATUS_OPTIONS.map((s) => s.key));
+/** 六阶梯游玩状态菜单(文案与词汇模块一致) */
+const STATUS_OPTIONS = STATUS_LADDER.map((s) => ({ key: s.key, label: s.label }));
 
 function loadJson(file) {
   try {
@@ -103,7 +97,7 @@ async function promptStatus(current) {
   });
   for (;;) {
     const answer = (await ask('选择状态序号(回车保持当前/默认未通关): ')).trim();
-    if (answer === '') return STATUS_KEYS.has(current) ? current : 'uncompleted';
+    if (answer === '') return isStatus(current) ? current : DEFAULT_STATUS;
     const n = Number(answer);
     if (Number.isInteger(n) && n >= 1 && n <= STATUS_OPTIONS.length) return STATUS_OPTIONS[n - 1].key;
     console.log('请输入 1-6');
