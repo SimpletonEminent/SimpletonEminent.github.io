@@ -3,16 +3,11 @@
 // - /games 路由 → 渲染游戏列表(替代 "On this page"),与卡片画廊双向联动
 // - 其他路由 → 渲染原生 TOC
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
-import { loadMergedGames, getSortPresets, formatHours, badgesFor } from '../lib/steam-data';
+import { loadMergedGames, formatHours, badgesFor } from '../lib/steam-data';
 import { statusText } from '../lib/play-status';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
 const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
-
-// 排序预设:构建期用共享模块预计算(Spec 04),注入客户端供 steam:sort 重排。
-const sortPresets = isGamesRoute
-  ? getSortPresets()
-  : { playtime: [], recent: [], status: [], release: [], nameAsc: [], nameDesc: [] };
 ---
 
 {
@@ -146,51 +141,3 @@ const sortPresets = isGamesRoute
 		}
 	}
 </style>
-
-<script is:inline define:vars={{ sortPresets }}>
-	// 联动协议:
-	// - 点击本列表行 → 派发 `steam:select`(detail: { appid }),画廊组件监听后滚动定位 + 展开气泡
-	// - 画廊组件选中卡片 → 派发 `steam:highlight`(detail: { appid }),本组件据此高亮对应行
-	// - 画廊组件收起 → 派发 `steam:highlight`(detail: { appid: null }),清除高亮
-	// - 画廊组件切换排序 → 派发 `steam:sort`(detail: { key, dir }),本组件按 sortPresets 重排
-	const toc = document.querySelector('[data-games-toc]');
-	if (toc) {
-		const rows = Array.from(toc.querySelectorAll('.games-toc-row')).filter(
-			(el) => el instanceof HTMLElement
-		);
-		const rowByAppid = new Map();
-		for (const row of rows) {
-			rowByAppid.set(Number(row.dataset.appid), row);
-		}
-		const list = toc.querySelector('.games-toc-list');
-
-		toc.addEventListener('click', (event) => {
-			const target = event.target;
-			if (!(target instanceof HTMLElement)) return;
-			const row = target.closest('.games-toc-row');
-			if (!(row instanceof HTMLElement)) return;
-			window.dispatchEvent(
-				new CustomEvent('steam:select', { detail: { appid: Number(row.dataset.appid) } })
-			);
-		});
-
-		window.addEventListener('steam:highlight', (event) => {
-			const appid = event.detail?.appid ?? null;
-			for (const [id, row] of rowByAppid) {
-				row.classList.toggle('active', id === appid);
-			}
-		});
-
-		// 排序同步:画廊切换排序时,按预计算的 sortPresets 重排本列表的 DOM 行
-		window.addEventListener('steam:sort', (event) => {
-			const detail = event.detail ?? {};
-			const key = detail.key ?? 'playtime';
-			const order = sortPresets[key] ?? sortPresets.playtime;
-			if (!list || !Array.isArray(order)) return;
-			for (const appid of order) {
-				const row = rowByAppid.get(appid);
-				if (row) list.appendChild(row);
-			}
-		});
-	}
-</script>

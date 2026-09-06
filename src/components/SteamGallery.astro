@@ -15,7 +15,7 @@ const { updatedAt, games } = loadMergedGames();
 const sortPresets = getSortPresets();
 ---
 
-<div class="steam-gallery not-content">
+<div class="steam-gallery not-content" data-sort-presets={JSON.stringify(sortPresets)}>
   {
     games.length === 0 ? (
       <p class="empty">暂无游戏数据,正在等待下一次自动化同步...</p>
@@ -26,8 +26,8 @@ const sortPresets = getSortPresets();
         <div class="sort-toolbar">
           <label for="sort-select">排序</label>
           <select id="sort-select" class="sort-select">
-            <option value="playtime" selected>�?总时�?/option>
-            <option value="recent">🔥 近期运行�?/option>
+            <option value="playtime" selected>⏱️ 总时长</option>
+            <option value="recent">🔥 近期运行过</option>
             <option value="status">🏆 通关进度</option>
             <option value="release">📅 发售年份</option>
             <option value="nameAsc">📝 名称 A-Z</option>
@@ -93,188 +93,14 @@ const sortPresets = getSortPresets();
   }
 </div>
 
-<script is:inline define:vars={{ sortPresets }}>
-  (() => {
-    const gallery = document.querySelector('.steam-gallery');
-    if (!gallery) return;
+<script>
+  import { initGalleryCoordinator } from '../lib/gallery-coordinator';
 
-    const items = Array.from(gallery.querySelectorAll('.card-item'));
-    const itemByAppid = new Map();
-
-    for (const item of items) {
-      itemByAppid.set(Number(item.dataset.appid), item);
-    }
-
-    const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let activeAppid = null;
-    // 当前排序状�?默认总时长降�?与初始渲染一�?Q2)
-    let currentSort = { key: 'playtime', dir: 'desc' };
-    // 每项的收起隐藏定时器:openBubble 只清理自己那项的,
-    // 避免手风琴切换时取消掉前一项的隐藏,导致旧气泡残�?
-    const closeTimers = new WeakMap();
-
-    // 气泡锚定 .gallery:top = 该卡片底�?+ 0.5rem 间距
-    // (.card-item �?.card 均为静态定�?offsetParent �?position:relative �?.gallery)
-    function positionBubble(item) {
-      const bubble = item.querySelector('.bubble');
-      if (!bubble) return;
-      bubble.style.top = `${item.offsetTop + item.offsetHeight + 8}px`;
-    }
-
-    function openBubble(item) {
-      const bubble = item.querySelector('.bubble');
-      const card = item.querySelector('.card');
-      if (!bubble || !card) return;
-      // 同一项正在收起动画中:取消待触发的隐藏,直接重新展开
-      const pending = closeTimers.get(item);
-      if (pending) {
-        window.clearTimeout(pending);
-        closeTimers.delete(item);
-      }
-      bubble.hidden = false;
-      positionBubble(item);
-      // 气泡内容已在构建期由 renderBubbleContent 渲染�?DOM,此处只切�?display
-      // 强制回流:�?0fr 基态先落地,再切 1fr 触发 grid-template-rows 过渡
-      void bubble.offsetHeight;
-      item.classList.add('expanded');
-      card.setAttribute('aria-expanded', 'true');
-    }
-
-    function closeBubble(item) {
-      const bubble = item.querySelector('.bubble');
-      const card = item.querySelector('.card');
-      if (!bubble || !card) return;
-      item.classList.remove('expanded');
-      card.setAttribute('aria-expanded', 'false');
-      // 等收起动画结束后再真正隐�?避免打断过渡
-      const timer = window.setTimeout(() => {
-        if (!item.classList.contains('expanded')) {
-          bubble.hidden = true;
-        }
-        closeTimers.delete(item);
-      }, 300);
-      closeTimers.set(item, timer);
-    }
-
-    function setSelected(item, on) {
-      const card = item.querySelector('.card');
-      if (card) card.classList.toggle('selected', on);
-    }
-
-    // 收起当前展开项并清除 TOC 高亮(再点同一卡片 / 点击外部共用)
-    function closeActive() {
-      if (activeAppid === null) return;
-      const item = itemByAppid.get(activeAppid);
-      if (item) {
-        closeBubble(item);
-        setSelected(item, false);
-      }
-      activeAppid = null;
-      dispatchHighlight(null);
-    }
-
-    // 通知右侧 TOC 高亮/清除对应�?
-    function dispatchHighlight(appid) {
-      window.dispatchEvent(new CustomEvent('steam:highlight', { detail: { appid } }));
-    }
-
-    // 单开手风�?点击同一项收�?点击不同项先收起旧的再展开新的
-    function selectItem(appid) {
-      if (activeAppid === appid) {
-        closeActive();
-        return;
-      }
-
-      if (activeAppid !== null) {
-        const prev = itemByAppid.get(activeAppid);
-        if (prev) {
-          closeBubble(prev);
-          setSelected(prev, false);
-        }
-      }
-
-      const item = itemByAppid.get(appid);
-      if (!item) return;
-
-      openBubble(item);
-      setSelected(item, true);
-      activeAppid = appid;
-      dispatchHighlight(appid);
-    }
-
-    // 点击卡片 �?选中/收起(事件目标落在 .card 内才�?气泡内的链接不受影响)
-    const grid = gallery.querySelector('.gallery');
-    if (grid) {
-      grid.addEventListener('click', (event) => {
-        const target = event.target;
-        if (!(target instanceof HTMLElement)) return;
-        const card = target.closest('.card');
-        if (!(card instanceof HTMLElement)) return;
-        const item = card.closest('.card-item');
-        if (!(item instanceof HTMLElement)) return;
-        selectItem(Number(item.dataset.appid));
-      });
-    }
-
-    // 排序:sortPresets �?define:vars 注入(构建�?sortGames 预计算的四组 desc 顺序)�?
-    // 按结果重排卡�?DOM —�?appendChild 移动既有节点,不重�?监听器与 itemByAppid 映射保持有效�?
-    function reorderGrid(key) {
-      const order = sortPresets[key];
-      if (!order) return;
-      closeActive(); // Q5:切换排序时收起当前气泡,清除选中行 TOC 高亮
-      const gridEl = gallery.querySelector('.gallery');
-      if (!gridEl) return;
-      for (const appid of order) {
-        const item = itemByAppid.get(Number(appid));
-        if (item) gridEl.appendChild(item);
-      }
-      currentSort = { key, dir: 'desc' };
-      // 通知右侧 TOC 以相同顺序重排列表行
-      window.dispatchEvent(new CustomEvent('steam:sort', { detail: { key, dir: 'desc' } }));
-    }
-
-    // 排序下拉�?切换即重�?默认已选中 �?总时�?与初始渲染一�?
-    const sortSelect = gallery.querySelector('.sort-select');
-    if (sortSelect) {
-      sortSelect.addEventListener('change', () => {
-        const key = sortSelect.value;
-        if (key === currentSort.key) return;
-        reorderGrid(key);
-      });
-    }
-
-    // 监听右栏 TOC �?steam:select �?选中展开 + 平滑滚动定位
-    window.addEventListener('steam:select', (event) => {
-      const appid = event.detail?.appid;
-      if (appid === undefined || appid === null) return;
-      const id = Number(appid);
-      selectItem(id);
-      const item = itemByAppid.get(id);
-      if (item) {
-        item.scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'center' });
-      }
-    });
-
-    // 气泡是浮�?可能盖住下方卡片:点击外部任意�?�?收起当前气泡�?
-    // 卡片/TOC 内部的点击由各自的处理器接管,这里不重复处理�?
-    document.addEventListener('click', (event) => {
-      if (activeAppid === null) return;
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) return;
-      const item = itemByAppid.get(activeAppid);
-      if (!item) return;
-      if (item.contains(target)) return;
-      if (target.closest('[data-games-toc]') || target.closest('[data-games-mobile-toc]')) return;
-      closeActive();
-    });
-
-    // 窗口缩放导致网格重排(列数变化)�?保持气泡贴在卡片下方
-    window.addEventListener('resize', () => {
-      if (activeAppid === null) return;
-      const item = itemByAppid.get(activeAppid);
-      if (item) positionBubble(item);
-    });
-  })();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initGalleryCoordinator());
+  } else {
+    initGalleryCoordinator();
+  }
 </script>
 
 <style>

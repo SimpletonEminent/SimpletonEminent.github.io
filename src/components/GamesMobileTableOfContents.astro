@@ -154,36 +154,3 @@ const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
 		}
 	}
 </style>
-
-<script>
-	// 移动端联动:点击列表行 → 派发 steam:select;收到 steam:highlight → 高亮行并自动收起
-	const toc = document.querySelector('[data-games-mobile-toc]');
-	if (toc) {
-		const details = toc.querySelector('details');
-		const rows = Array.from(toc.querySelectorAll('.games-mobile-row')).filter(
-			(el): el is HTMLElement => el instanceof HTMLElement
-		);
-		const rowByAppid = new Map();
-		for (const row of rows) {
-			rowByAppid.set(Number(row.dataset.appid), row);
-		}
-
-		toc.addEventListener('click', (event) => {
-			const target = event.target;
-			if (!(target instanceof HTMLElement)) return;
-			const row = target.closest('.games-mobile-row');
-			if (!(row instanceof HTMLElement)) return;
-			window.dispatchEvent(
-				new CustomEvent('steam:select', { detail: { appid: Number(row.dataset.appid) } })
-			);
-			if (details) details.open = false; // 选择后收起折叠面板
-		});
-
-		window.addEventListener('steam:highlight', (event) => {
-			const appid = (event as CustomEvent).detail?.appid ?? null;
-			for (const [id, row] of rowByAppid) {
-				row.classList.toggle('active', id === appid);
-			}
-		});
-	}
-</script>

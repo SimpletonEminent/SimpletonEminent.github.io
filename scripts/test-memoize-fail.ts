@@ -1,7 +1,6 @@
 // 异常路径测试: 模拟读取失败
 import { loadMergedGames } from '../src/lib/steam-data.ts';
 import fs from 'node:fs';
-import path from 'node:path';
 
 // 为了测试缓存独立性，我们需要清除之前可能的缓存
 // 但在同一个模块实例中这很难，我们可以临时重命名文件来测试失败行为，
