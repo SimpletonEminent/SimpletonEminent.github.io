@@ -35,37 +35,28 @@ npm run build          # 生产构建 (含 Pagefind 搜索索引)
 npm run preview        # 预览生产构建
 ```
 
-## 📚 核心文档指南（人机协同双向索引）
+## 📚 文档与工程指引（遵循最小暴露隐私原则）
 
-项目内所有文档已建立清晰的人机分工体系，全景索引见 **[docs/README.md](docs/README.md)**（文档中枢）：
+本项目遵循**“最小暴露隐私”**原则：
+- **网站公开内容**：仅包含 `src/content/docs/blog/` 下的公开博客文章与公开画廊页面。
+- **内部工程文档**：架构决策记录（ADRs）、功能演进规范（Specs）、内部运维手册与写作规范等指引性文档完整保存在本地工作区（`docs/` 与 `CONTEXT.md`），已配置在 `.gitignore` 中，不向公共仓库公开暴露。
 
-### 🧑‍💻 给人看的操作说明 (Human Guides)
-> 供博主或人类维护者日常写文章、更新游戏数据、排查报错与推送发布使用。
-
-- 📝 **[博客文章写作与排版规范](docs/blog-writing-guide.md)**  
-  写新文章时的排版手册。包含技术教程（步骤 `N/M`）与游戏评测（`\- ` 前缀）的双套写作风格指纹、frontmatter 极简 3 字段铁律与发布前自查清单。
-- 🎮 **[Steam 游戏画廊日常运维手册](docs/steam-gallery-ops.md)**  
-  维护画廊数据时的实操指南。以 `npm run updatedata`（Mission Control）控制台为主线，涵盖新游戏元数据丰富、评测打标、Excel 批量编辑与 FAQ 排错。
-- 🔄 **[代码提交流程与检查门禁](#提交与推送手动流程)**  
-  推送到 GitHub 触发自动部署前的本地三道质量检查门禁。
+### 🧑‍💻 给人看的操作说明（本地存放在 `docs/`）
+- 📝 **博客文章写作与排版规范** (`docs/blog-writing-guide.md`)：写新文章时的排版指南、写作风格指纹、frontmatter 极简 3 字段铁律与发布前自查清单。
+- 🎮 **Steam 游戏画廊日常运维手册** (`docs/steam-gallery-ops.md`)：以 `npm run updatedata`（Mission Control）控制台为主线的实操指南、数据管线与 FAQ 排错。
+- 🔄 **代码提交流程与检查门禁**：详见下方[提交与推送(手动流程)](#提交与推送手动流程)。
 
 ---
 
-### 🤖 给 Agent 看的规范契约 (Agent Specs & Constraints)
-> 供 AI Agent 在分析、编码、重构或执行 Issue 时严格遵守的领域模型、工程纪律与架构底线。
-
-- 🏛️ **[领域术语表 (CONTEXT.md)](CONTEXT.md)**  
-  【唯一领域语言】规定了游戏画廊、游玩时长、六阶梯状态、段位等概念的官方名词，并严格定义了 Avoid 禁忌词清单。Agent 在分析与对话中严禁使用禁忌词。
-- 💻 **[工程与编码规范 (docs/coding-standards.md)](docs/coding-standards.md)**  
-  【工程编码纪律】TypeScript 严格类型（零容忍 `as any`）、单源化架构（词汇/样式/数据）、Astro 模板纯静态契约、黑盒行为测试与提交纪律。
-- 🏛️ **[架构决策记录矩阵 (docs/adr/)](docs/README.md#三领域术语与架构决策-domain--architecture)**  
-  【不可随意推翻的架构底线】ADR 0001 至 0009 决策速查，记录了样式、定时抓取、数据/注释分离、六阶梯段位、客户端协调器等核心设计决策。
-- 🗺️ **[功能演进规范库 (docs/specs/)](docs/README.md#四技术规范与演进路线图-specifications--roadmap)**  
-  【特性规格与任务输入】Specs 01 至 10，为每个 issue 开发提供标准 User Stories、实现决策与测试接缝（打有 `ready-for-agent` 标签）。
+### 🤖 给 Agent 看的规范契约（本地存放在 `docs/` 与 `CONTEXT.md`）
+- 🏛️ **领域术语表** (`CONTEXT.md`)：【唯一领域语言】规定核心业务名词与严格的 Avoid 禁忌词清单。
+- 💻 **工程与编码规范** (`docs/coding-standards.md`)：【工程编码纪律】TypeScript 严格类型（零容忍 `as any`）、单源化架构契约与黑盒测试准则。
+- 🏛️ **架构决策记录** (`docs/adr/0001-0009`)：【不可随意推翻的架构底线】记录样式、定时同步、数据/注释分离、六阶梯段位、客户端协调器等设计决策。
+- 🗺️ **功能演进规范库** (`docs/specs/01-10`)：【任务开发 Spec】为每个 issue 开发提供标准 User Stories、实现决策与测试接缝。
 
 ## ✍️ 写文章快速入门
 
-在 `src/content/docs/blog/` 下新建 `.md` 文件（详见 [写作与排版规范](docs/blog-writing-guide.md)）:
+在 `src/content/docs/blog/` 下新建 `.md` 文件（详见本地 `docs/blog-writing-guide.md`）:
 
 ```markdown
 ---
@@ -140,17 +131,11 @@ my-blog/
 ├── astro.config.mjs        # Astro / Starlight 核心配置
 ├── ec.config.mjs           # 代码高亮别名配置
 ├── package.json            # 依赖与脚本
-├── CONTEXT.md              # 领域术语表 (画廊/时长/状态/段位等权威用词)
 ├── .github/workflows/      # GitHub Actions (自动部署 + 每日 Steam 时长抓取)
-├── docs/
-│   ├── README.md           # 📚 文档中枢 (全局知识图谱导航)
-│   ├── blog-writing-guide.md # 博客文章写作与排版规范
-│   ├── steam-gallery-ops.md  # 游戏画廊与日常运维手册
-│   ├── coding-standards.md   # 工程与编码规范
-│   ├── adr/                # 架构决策记录 (ADR 0001 - 0009)
-│   └── specs/              # 功能与重构规范 (Specs 01 - 10)
 ├── scripts/                # 数据同步、元数据丰富、成就检查与 CLI 控制台
 ├── public/                 # 静态资源 (favicon, steam_games.json, steam_achievements.json)
+├── docs/                   # [本地不入库] 内部运维手册、ADR 决策、Spec 规格与编码规范
+├── CONTEXT.md              # [本地不入库] 领域术语表 (Agent 唯一权威词汇模型)
 └── src/
     ├── content.config.ts   # 内容集合配置
     ├── styles/theme.css    # 主题样式 (强调色 / 全局状态徽章颜色)
@@ -163,7 +148,7 @@ my-blog/
     └── content/docs/
         ├── index.mdx       # 首页 (Splash + 卡片)
         ├── games.mdx       # 游戏画廊页 (/games)
-        └── blog/           # 博客文章 (.md)
+        └── blog/           # 博客文章 (.md，全站公开发布内容)
 ```
 
 ## 🌐 部署
