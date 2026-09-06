@@ -1,27 +1,18 @@
 ---
 // Steam 游戏画廊:全宽卡片网格 + 点击展开气泡
-// 与右侧游戏列表(GamesTableOfContents,渲染在 Starlight 右栏)通过 CustomEvents 双向联动:
-//   - 监听 steam:select(右栏点击游戏行)→ 滚动定位该卡片并选中展开
-//   - 派发 steam:highlight(选中/收起)→ 右栏高亮/清除对应行
-// 数据由共享模块 src/lib/steam-data.ts 构建期读取合并,无运行时请求
-// 气泡内容由 renderBubbleContent 构建期服务端渲染(set:html),客户端不再拼接 HTML
-// 交互为原生 JS(define:vars 注入排序预设),无任何客户端框架
-import { loadMergedGames, formatHours, releaseYear, sortGames, badgesFor, renderBubbleContent } from '../lib/steam-data';
+// 与右侧游戏列�?GamesTableOfContents,渲染�?Starlight 右栏)通过 CustomEvents 双向联动:
+//   - 监听 steam:select(右栏点击游戏�?�?滚动定位该卡片并选中展开
+//   - 派发 steam:highlight(选中/收起)�?右栏高亮/清除对应�?
+// 数据由共享模�?src/lib/steam-data.ts 构建期读取合�?无运行时请求
+// 气泡内容�?renderBubbleContent 构建期服务端渲染(set:html),客户端不再拼�?HTML
+// 交互为原�?JS(define:vars 注入排序预设),无任何客户端框架
+import { loadMergedGames, getSortPresets, formatHours, releaseYear, badgesFor, renderBubbleContent } from '../lib/steam-data';
 import { statusText } from '../lib/play-status';
 
 const { updatedAt, games } = loadMergedGames();
 
-// 四种排序预设:构建期用共享 sortGames 预计算。客户端脚本为 is:inline,
-// 无法在运行时 import 模块(define:vars 只序列化 JSON),因此注入排序结果数组,
-// 客户端只按结果重排 DOM,不重复实现排序。方向固定 desc(见设计决策 Q1/Q3)。
-const sortPresets = {
-  playtime: sortGames(games, 'playtime', 'desc'),
-  recent: sortGames(games, 'recent', 'desc'),
-  status: sortGames(games, 'status', 'desc'),
-  release: sortGames(games, 'release', 'desc'),
-  nameAsc: sortGames(games, 'nameAsc', 'asc'),
-  nameDesc: sortGames(games, 'nameDesc', 'desc'),
-};
+// 排序预设:构建期用共享模块预计算(Spec 04)。
+const sortPresets = getSortPresets();
 ---
 
 <div class="steam-gallery not-content">
@@ -35,8 +26,8 @@ const sortPresets = {
         <div class="sort-toolbar">
           <label for="sort-select">排序</label>
           <select id="sort-select" class="sort-select">
-            <option value="playtime" selected>⌛ 总时长</option>
-            <option value="recent">🔥 近期运行过</option>
+            <option value="playtime" selected>�?总时�?/option>
+            <option value="recent">🔥 近期运行�?/option>
             <option value="status">🏆 通关进度</option>
             <option value="release">📅 发售年份</option>
             <option value="nameAsc">📝 名称 A-Z</option>
@@ -116,14 +107,14 @@ const sortPresets = {
 
     const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let activeAppid = null;
-    // 当前排序状态:默认总时长降序,与初始渲染一致(Q2)
+    // 当前排序状�?默认总时长降�?与初始渲染一�?Q2)
     let currentSort = { key: 'playtime', dir: 'desc' };
     // 每项的收起隐藏定时器:openBubble 只清理自己那项的,
-    // 避免手风琴切换时取消掉前一项的隐藏,导致旧气泡残留
+    // 避免手风琴切换时取消掉前一项的隐藏,导致旧气泡残�?
     const closeTimers = new WeakMap();
 
-    // 气泡锚定 .gallery:top = 该卡片底边 + 0.5rem 间距
-    // (.card-item 与 .card 均为静态定位,offsetParent 即 position:relative 的 .gallery)
+    // 气泡锚定 .gallery:top = 该卡片底�?+ 0.5rem 间距
+    // (.card-item �?.card 均为静态定�?offsetParent �?position:relative �?.gallery)
     function positionBubble(item) {
       const bubble = item.querySelector('.bubble');
       if (!bubble) return;
@@ -142,8 +133,8 @@ const sortPresets = {
       }
       bubble.hidden = false;
       positionBubble(item);
-      // 气泡内容已在构建期由 renderBubbleContent 渲染到 DOM,此处只切换 display
-      // 强制回流:让 0fr 基态先落地,再切 1fr 触发 grid-template-rows 过渡
+      // 气泡内容已在构建期由 renderBubbleContent 渲染�?DOM,此处只切�?display
+      // 强制回流:�?0fr 基态先落地,再切 1fr 触发 grid-template-rows 过渡
       void bubble.offsetHeight;
       item.classList.add('expanded');
       card.setAttribute('aria-expanded', 'true');
@@ -155,7 +146,7 @@ const sortPresets = {
       if (!bubble || !card) return;
       item.classList.remove('expanded');
       card.setAttribute('aria-expanded', 'false');
-      // 等收起动画结束后再真正隐藏,避免打断过渡
+      // 等收起动画结束后再真正隐�?避免打断过渡
       const timer = window.setTimeout(() => {
         if (!item.classList.contains('expanded')) {
           bubble.hidden = true;
@@ -182,12 +173,12 @@ const sortPresets = {
       dispatchHighlight(null);
     }
 
-    // 通知右侧 TOC 高亮/清除对应行
+    // 通知右侧 TOC 高亮/清除对应�?
     function dispatchHighlight(appid) {
       window.dispatchEvent(new CustomEvent('steam:highlight', { detail: { appid } }));
     }
 
-    // 单开手风琴:点击同一项收起,点击不同项先收起旧的再展开新的
+    // 单开手风�?点击同一项收�?点击不同项先收起旧的再展开新的
     function selectItem(appid) {
       if (activeAppid === appid) {
         closeActive();
@@ -211,7 +202,7 @@ const sortPresets = {
       dispatchHighlight(appid);
     }
 
-    // 点击卡片 → 选中/收起(事件目标落在 .card 内才算,气泡内的链接不受影响)
+    // 点击卡片 �?选中/收起(事件目标落在 .card 内才�?气泡内的链接不受影响)
     const grid = gallery.querySelector('.gallery');
     if (grid) {
       grid.addEventListener('click', (event) => {
@@ -225,16 +216,16 @@ const sortPresets = {
       });
     }
 
-    // 排序:sortPresets 由 define:vars 注入(构建期 sortGames 预计算的四组 desc 顺序)。
-    // 按结果重排卡片 DOM —— appendChild 移动既有节点,不重建,监听器与 itemByAppid 映射保持有效。
+    // 排序:sortPresets �?define:vars 注入(构建�?sortGames 预计算的四组 desc 顺序)�?
+    // 按结果重排卡�?DOM —�?appendChild 移动既有节点,不重�?监听器与 itemByAppid 映射保持有效�?
     function reorderGrid(key) {
       const order = sortPresets[key];
       if (!order) return;
-      closeActive(); // Q5:切换排序时收起当前气泡,清除选中与 TOC 高亮
+      closeActive(); // Q5:切换排序时收起当前气泡,清除选中行 TOC 高亮
       const gridEl = gallery.querySelector('.gallery');
       if (!gridEl) return;
-      for (const game of order) {
-        const item = itemByAppid.get(Number(game.appid));
+      for (const appid of order) {
+        const item = itemByAppid.get(Number(appid));
         if (item) gridEl.appendChild(item);
       }
       currentSort = { key, dir: 'desc' };
@@ -242,7 +233,7 @@ const sortPresets = {
       window.dispatchEvent(new CustomEvent('steam:sort', { detail: { key, dir: 'desc' } }));
     }
 
-    // 排序下拉框:切换即重排(默认已选中 ⌛ 总时长,与初始渲染一致)
+    // 排序下拉�?切换即重�?默认已选中 �?总时�?与初始渲染一�?
     const sortSelect = gallery.querySelector('.sort-select');
     if (sortSelect) {
       sortSelect.addEventListener('change', () => {
@@ -252,7 +243,7 @@ const sortPresets = {
       });
     }
 
-    // 监听右栏 TOC 的 steam:select → 选中展开 + 平滑滚动定位
+    // 监听右栏 TOC �?steam:select �?选中展开 + 平滑滚动定位
     window.addEventListener('steam:select', (event) => {
       const appid = event.detail?.appid;
       if (appid === undefined || appid === null) return;
@@ -264,8 +255,8 @@ const sortPresets = {
       }
     });
 
-    // 气泡是浮层,可能盖住下方卡片:点击外部任意处 → 收起当前气泡。
-    // 卡片/TOC 内部的点击由各自的处理器接管,这里不重复处理。
+    // 气泡是浮�?可能盖住下方卡片:点击外部任意�?�?收起当前气泡�?
+    // 卡片/TOC 内部的点击由各自的处理器接管,这里不重复处理�?
     document.addEventListener('click', (event) => {
       if (activeAppid === null) return;
       const target = event.target;
@@ -277,7 +268,7 @@ const sortPresets = {
       closeActive();
     });
 
-    // 窗口缩放导致网格重排(列数变化)时,保持气泡贴在卡片下方
+    // 窗口缩放导致网格重排(列数变化)�?保持气泡贴在卡片下方
     window.addEventListener('resize', () => {
       if (activeAppid === null) return;
       const item = itemByAppid.get(activeAppid);
@@ -289,9 +280,9 @@ const sortPresets = {
 <style>
 	@layer starlight.core {
 		/*
-		 * 根容器同时挂 not-content 类:Starlight 的 .sl-markdown-content 样式
+		 * 根容器同时挂 not-content �?Starlight �?.sl-markdown-content 样式
 		 * (markdown.css)在所有选择器里都排除了 :where(.not-content *),
-		 * 因此本子树完全由下方 scoped 规则控制,卡片内部间距不会被覆盖。
+		 * 因此本子树完全由下方 scoped 规则控制,卡片内部间距不会被覆盖�?
 		 */
 		.steam-gallery {
 			margin-top: 1rem;
@@ -303,7 +294,7 @@ const sortPresets = {
 			color: var(--sl-color-gray-3);
 		}
 
-		/* 排序工具栏:常驻、紧凑 */
+		/* 排序工具�?常驻、紧�?*/
 		.sort-toolbar {
 			display: flex;
 			align-items: center;
@@ -338,9 +329,9 @@ const sortPresets = {
 			color: var(--sl-color-gray-3);
 		}
 
-		/* 全宽卡片网格(游戏列表已移至右栏 TOC 组件) */
+		/* 全宽卡片网格(游戏列表已移至右�?TOC 组件) */
 		.gallery {
-			position: relative; /* 作为浮层气泡的定位锚点 */
+			position: relative; /* 作为浮层气泡的定位锚�?*/
 			display: grid;
 			grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 			gap: 1rem;
@@ -349,23 +340,23 @@ const sortPresets = {
 		}
 
 		/*
-		 * 网格项保持原位:任何状态下都不改变 grid 布局(这是关键约束)。
-		 * 气泡改为绝对定位浮层,锚定 .gallery(见下方 .bubble),不再参与流式布局,
-		 * 因此 .card-item 保持静态即可,不需要 position:relative。
+		 * 网格项保持原�?任何状态下都不改变 grid 布局(这是关键约束)�?
+		 * 气泡改为绝对定位浮层,锚定 .gallery(见下�?.bubble),不再参与流式布局,
+		 * 因此 .card-item 保持静态即�?不需�?position:relative�?
 		 */
 		.card-item {
 			margin: 0;
 			padding: 0;
 		}
 
-		/* 卡片:button 而非 a,拦截点击做展开联动,键盘可聚焦 */
+		/* 卡片:button 而非 a,拦截点击做展开联动,键盘可聚�?*/
 		.card {
 			display: block;
 			position: relative;
 			width: 100%;
 			padding: 0;
 			border: 1px solid var(--sl-color-hairline);
-			/* 注意:暗黑主题不存在 --sl-color-gray-7(仅亮色定义),必须用 gray-6(双主题都有) */
+			/* 注意:暗黑主题不存�?--sl-color-gray-7(仅亮色定�?,必须�?gray-6(双主题都�? */
 			background: var(--sl-color-gray-6);
 			border-radius: 0.5rem;
 			overflow: hidden;
@@ -400,7 +391,7 @@ const sortPresets = {
 			margin: 0;
 		}
 
-		/* 右上角角标:💬 短评 / 📄 深度评测 */
+		/* 右上角角�?💬 短评 / 📄 深度评测 */
 		.card-badges {
 			position: absolute;
 			top: 0.375rem;
@@ -447,7 +438,7 @@ const sortPresets = {
 			color: var(--sl-color-gray-1);
 		}
 
-		/* 发售年份:小灰字,与时长并排 */
+		/* 发售年份:小灰�?与时长并�?*/
 		.card-release {
 			margin: 0;
 			font-size: var(--sl-text-2xs);
@@ -456,9 +447,9 @@ const sortPresets = {
 		}
 
 		/*
-		 * 状态徽章(卡片静态 + 气泡内动态通用)。
-		 * 气泡内容是 JS 动态插入的,不带 Astro scoped 属性,
-		 * 因此这里用 .steam-gallery :global(...) 让静态与动态元素都能命中。
+		 * 状态徽�?卡片静�?+ 气泡内动态通用)�?
+		 * 气泡内容�?JS 动态插入的,不带 Astro scoped 属�?
+		 * 因此这里�?.steam-gallery :global(...) 让静态与动态元素都能命中�?
 		 */
 		.steam-gallery :global(.status-badge) {
 			display: inline-block;
@@ -472,11 +463,11 @@ const sortPresets = {
 
 		/*
 		 * 气泡:绝对定位浮层,锚定 .gallery(position:relative),
-		 * 水平铺满画廊整宽(left/right:0),top 由 JS 按卡片位置设置(openBubble → positionBubble)。
-		 * 高度用 grid-template-rows 0fr → 1fr 平滑展开(元素自身高度动画,与定位方式无关),
-		 * 因此它覆盖下方卡片也不会影响任何网格项的布局,卡片永远不会移动。
-		 * 注意 display:grid 会覆盖 UA 的 [hidden]{display:none},
-		 * 必须显式补回 .bubble[hidden],靠 JS 移除 hidden 来控制显示。
+		 * 水平铺满画廊整宽(left/right:0),top �?JS 按卡片位置设�?openBubble �?positionBubble)�?
+		 * 高度�?grid-template-rows 0fr �?1fr 平滑展开(元素自身高度动画,与定位方式无�?,
+		 * 因此它覆盖下方卡片也不会影响任何网格项的布局,卡片永远不会移动�?
+		 * 注意 display:grid 会覆�?UA �?[hidden]{display:none},
+		 * 必须显式补回 .bubble[hidden],�?JS 移除 hidden 来控制显示�?
 		 */
 		.bubble {
 			position: absolute;
@@ -650,3 +641,4 @@ const sortPresets = {
 		}
 	}
 </style>
+

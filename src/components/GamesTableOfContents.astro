@@ -3,23 +3,15 @@
 // - /games 路由 → 渲染游戏列表(替代 "On this page"),与卡片画廊双向联动
 // - 其他路由 → 渲染原生 TOC
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
-import { loadMergedGames, formatHours, sortGames, badgesFor } from '../lib/steam-data';
+import { loadMergedGames, getSortPresets, formatHours, badgesFor } from '../lib/steam-data';
 import { statusText } from '../lib/play-status';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
 const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
 
-// 排序预设:与画廊组件同一实现预计算,客户端 script 无法 import 模块(define:vars 只序列化 JSON)
-// 因此这里用真实数据 sortGames 跑出 4 种排序后的 appid 顺序,注入客户端供 steam:sort 重排
+// 排序预设:构建期用共享模块预计算(Spec 04),注入客户端供 steam:sort 重排。
 const sortPresets = isGamesRoute
-  ? {
-      playtime: sortGames(games, 'playtime', 'desc').map((g) => g.appid),
-      recent: sortGames(games, 'recent', 'desc').map((g) => g.appid),
-      status: sortGames(games, 'status', 'desc').map((g) => g.appid),
-      release: sortGames(games, 'release', 'desc').map((g) => g.appid),
-      nameAsc: sortGames(games, 'nameAsc', 'asc').map((g) => g.appid),
-      nameDesc: sortGames(games, 'nameDesc', 'desc').map((g) => g.appid),
-    }
+  ? getSortPresets()
   : { playtime: [], recent: [], status: [], release: [], nameAsc: [], nameDesc: [] };
 ---
 

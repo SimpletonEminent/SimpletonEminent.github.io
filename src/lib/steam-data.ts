@@ -71,8 +71,13 @@ export interface SteamGamesData {
   games: SteamGame[];
 }
 
-/** 读取并合并两个数据文件,按总时长降序返回。读取失败时返回空列表(渲染空状态)。 */
+let memoizedMergedGames: { updatedAt?: string; games: MergedGame[] } | null = null;
+let memoizedSortPresets: Record<SortKey, number[]> | null = null;
+
+/** 读取并合并两个数据文件,按总时长降序返回。读取失败时返回空列表(渲染空状态)。(模块级记忆化) */
 export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
+  if (memoizedMergedGames) return memoizedMergedGames;
+
   let updatedAt: string | undefined;
   let games: SteamGame[] = [];
 
@@ -136,7 +141,26 @@ export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
     };
   });
 
-  return { updatedAt, games: merged.sort((a, b) => b.playtime_hours - a.playtime_hours) };
+  memoizedMergedGames = { updatedAt, games: merged.sort((a, b) => b.playtime_hours - a.playtime_hours) };
+  return memoizedMergedGames;
+}
+
+/**
+ * 获取预计算的排序结果数组(存储的是 appid)
+ * 构建期复用单例结果，供画廊组件和目录组件注入到客户端脚本中(Spec 04)
+ */
+export function getSortPresets(): Record<SortKey, number[]> {
+  if (memoizedSortPresets) return memoizedSortPresets;
+  const { games } = loadMergedGames();
+  memoizedSortPresets = {
+    playtime: sortGames(games, 'playtime', 'desc').map((g) => g.appid),
+    recent: sortGames(games, 'recent', 'desc').map((g) => g.appid),
+    status: sortGames(games, 'status', 'desc').map((g) => g.appid),
+    release: sortGames(games, 'release', 'desc').map((g) => g.appid),
+    nameAsc: sortGames(games, 'nameAsc', 'asc').map((g) => g.appid),
+    nameDesc: sortGames(games, 'nameDesc', 'desc').map((g) => g.appid),
+  };
+  return memoizedSortPresets;
 }
 
 /** 游玩时长格式化:最多保留 1 位小数,整数不带小数点 */
