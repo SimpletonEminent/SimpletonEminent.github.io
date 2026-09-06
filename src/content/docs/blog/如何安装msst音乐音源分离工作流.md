@@ -2,6 +2,10 @@
 title: "如何搭建自己的音乐音源分离工作流（MSST）"
 description: "基于ZFTurbo的Music-Source-Separation-Training，把一首歌拆成伴奏、人声甚至鼓点贝斯的工作流安装教程。"
 pubDate: "2026-09-05"
+tags:
+  - "AI工具"
+  - "音频处理"
+  - "工作流"
 ---
 
 # 把一首歌拆成伴奏和人声，其实没那么难

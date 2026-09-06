@@ -2,6 +2,10 @@
 title: "如何优雅地构建个人博客网站"
 description: "Github pages+Astro构建博客和文章"
 pubDate: "2026-08-02"
+tags:
+  - "Astro"
+  - "GitHub Pages"
+  - "建站指南"
 ---
 
 # 这也是我的第一篇博客！

@@ -1,16 +1,55 @@
 ---
-// 自定义 PageTitle:在文章标题下方显示字数与阅读时间
+// 自定义 PageTitle: 在文章标题下方显示文章标签/游戏类型、发布与更新时间、以及字数与阅读时间
 // 覆盖 Starlight 默认的 PageTitle.astro
 // remark 插件注入的字段位于 entry.rendered.metadata.frontmatter
+import { resolvePostMetadata } from '../lib/blog-meta.ts';
+
 const entry = Astro.locals.starlightRoute.entry;
 const { title } = entry.data;
 
 const renderedFrontmatter = entry.rendered?.metadata?.frontmatter as Record<string, unknown> | undefined;
-const minutesRead = renderedFrontmatter?.minutesRead as string | undefined;
-const words = renderedFrontmatter?.words as number | undefined;
+const minutesRead =
+  (renderedFrontmatter?.minutesRead as string | undefined) ??
+  ((entry.data as Record<string, unknown>).minutesRead as string | undefined);
+const words =
+  (renderedFrontmatter?.words as number | undefined) ??
+  ((entry.data as Record<string, unknown>).words as number | undefined);
+
+const postMeta = resolvePostMetadata(entry.id, entry.data as Record<string, unknown>);
 ---
 
 <h1 id="_top">{title}</h1>
+
+{
+  postMeta.isBlogPost && (
+    <div class="post-meta-container">
+      {postMeta.tags.length > 0 && (
+        <div class="post-tags-row">
+          <span class="tags-prefix">{postMeta.labelPrefix}</span>
+          <span class="tags-list">
+            {postMeta.tags.map((tag) => (
+              <span class="post-tag tag-pill" data-tag={tag}>
+                {tag}
+              </span>
+            ))}
+          </span>
+        </div>
+      )}
+
+      {postMeta.pubDate && (
+        <p class="post-date-row">
+          <span class="pub-date">📅 首次发布：{postMeta.pubDate}</span>
+          {postMeta.showUpdated && (
+            <>
+              <span class="meta-sep"> · </span>
+              <span class="updated-date">🔄 最新更新：{postMeta.updatedDate}</span>
+            </>
+          )}
+        </p>
+      )}
+    </div>
+  )
+}
 
 {
   // 仅当插件注入了阅读数据时才显示
@@ -31,11 +70,61 @@ const words = renderedFrontmatter?.words as number | undefined;
 			line-height: var(--sl-line-height-headings);
 			font-weight: 600;
 			color: var(--sl-color-white);
-			margin-bottom: 0.25rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.post-meta-container {
+			margin-bottom: 0.35rem;
+		}
+
+		.post-tags-row {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.375rem 0.5rem;
+			margin: 0.25rem 0 0.4rem;
+			line-height: 1.5;
+		}
+
+		.tags-prefix {
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-3);
+			font-weight: 500;
+		}
+
+		.tags-list {
+			display: inline-flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.375rem;
+		}
+
+		.post-tag.tag-pill {
+			display: inline-block;
+			padding: 0.1em 0.6em;
+			border-radius: 999px;
+			background: color-mix(in srgb, var(--sl-color-gray-3) 18%, transparent);
+			color: var(--sl-color-gray-2);
+			border: 1px solid color-mix(in srgb, var(--sl-color-gray-3) 25%, transparent);
+			font-size: var(--sl-text-xs);
+			line-height: 1.4;
+			white-space: nowrap;
+		}
+
+		.post-date-row {
+			margin: 0 0 0.35rem;
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-3);
+			line-height: 1.5;
+		}
+
+		.meta-sep {
+			margin: 0 0.15rem;
+			color: var(--sl-color-gray-4);
 		}
 
 		.reading-time {
-			margin: 0 0 1rem;
+			margin: 0 0 1.25rem;
 			font-size: var(--sl-text-sm);
 			color: var(--sl-color-gray-3);
 		}
