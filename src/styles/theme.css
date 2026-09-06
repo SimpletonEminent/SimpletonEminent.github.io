@@ -89,3 +89,55 @@ article,
   color: #047857;
   border: 1px solid #a7f3d0;
 }
+
+/* ============================================================
+ * 首页 Hero 品牌发光标识 (Home Hero Brand Badge)
+ * ============================================================ */
+.hero-brand-badge {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 0.5rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-avatar-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 2rem;
+  background: radial-gradient(circle, var(--sl-color-accent) 0%, transparent 70%);
+  opacity: 0.35;
+  filter: blur(14px);
+  animation: hero-glow-pulse 4s ease-in-out infinite;
+}
+
+.hero-avatar-card {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 1.5rem;
+  background: var(--sl-color-gray-6);
+  border: 1.5px solid var(--sl-color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sl-color-accent);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.4), 0 0 20px rgba(20, 184, 166, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.hero-brand-badge:hover .hero-avatar-card {
+  transform: scale(1.05) translateY(-2px);
+}
+
+@keyframes hero-glow-pulse {
+  0%, 100% { transform: scale(0.95); opacity: 0.25; }
+  50% { transform: scale(1.1); opacity: 0.5; }
+}
+
+/* 首页 splash 模板隐藏底部空白页脚容器 */
+[data-has-hero] footer {
+  display: none !important;
+}

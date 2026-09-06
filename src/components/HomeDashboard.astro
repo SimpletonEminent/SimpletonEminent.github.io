@@ -1,0 +1,1087 @@
+---
+// 首页核心看板组件 (HomeDashboard)
+// 采用 Bento Grid 现代网格设计,连接全站两大核心支柱:
+// 1. Steam 游戏画廊(动态数据聚合、时长统计、迷你封面堆叠)
+// 2. 博客与深度评测文库(精选游戏长评、技术折腾实践)
+// 样式严格基于 Starlight CSS 变量与 theme.css 徽章定义,完美适配明暗主题。
+
+import { getCollection, render } from 'astro:content';
+import { loadMergedGames, formatHours } from '../lib/steam-data';
+import { type Status } from '../lib/play-status';
+
+const { games, updatedAt } = loadMergedGames();
+
+// 实时统计
+const totalGames = games.length;
+const totalHours = Math.round(games.reduce((acc, g) => acc + g.playtime_hours, 0));
+const totalUnlockedAchievements = games.reduce(
+  (acc, g) => acc + (g.achievements?.unlocked || 0),
+  0
+);
+
+// 迷你封面展示(精选自 Steam 个人主页核心代表作: 逆转裁判/只狼/黑神话/黑魂3)
+const stackCovers = [
+  'https://cdn.akamai.steamstatic.com/steam/apps/787480/library_600x900.jpg',  // 逆转裁判三部曲 (Favorite)
+  'https://cdn.akamai.steamstatic.com/steam/apps/814380/library_600x900.jpg',  // 只狼：影逝二度 (347h / Review)
+  'https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg', // 黑神话：悟空 (81/81 全成就)
+  'https://cdn.akamai.steamstatic.com/steam/apps/374320/library_600x900.jpg',  // 黑暗之魂3 (43/43 全成就)
+];
+
+interface FeaturedReview {
+  appid: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  tag: string;
+  status: Status;
+  hours: number;
+  url: string;
+  cover: string;
+}
+
+const featuredReviews: FeaturedReview[] = [
+  {
+    appid: 814380,
+    title: '只狼：影逝二度',
+    subtitle: '改变了业界 ARPG 做法的传奇神作',
+    description: '游戏名虽不带魂，但是却成为魂，超越魂！一篇关于打铁心流、挫败与战胜自我的深度拆解。',
+    tag: '魂类 · 动作',
+    status: 'completed',
+    hours: 347,
+    url: '/blog/sekiro_review/',
+    cover: 'https://cdn.akamai.steamstatic.com/steam/apps/814380/library_600x900.jpg',
+  },
+  {
+    appid: 1562700,
+    title: '闪避刺客 SANABI',
+    subtitle: '被名字耽误的赛博朋克父女物语',
+    description: '宛如电影般流畅的高速钩爪摆荡，在霓虹与雨幕交加中令人动容的顶级叙事收束。',
+    tag: '赛博朋克 · 平台动作',
+    status: 'completed',
+    hours: 15,
+    url: '/blog/sanabi_review/',
+    cover: 'https://cdn.akamai.steamstatic.com/steam/apps/1562700/library_600x900.jpg',
+  },
+  {
+    appid: 960170,
+    title: 'DJMAX RESPECT V',
+    subtitle: '二十年音游传承，PC下落式手感巅峰',
+    description: '键盘与节拍共鸣的纯粹快乐，全方位评测判定机制、曲目生态与千首歌的游玩手感。',
+    tag: '下落式 · 节奏音游',
+    status: 'completed',
+    hours: 80,
+    url: '/blog/djmax_review/',
+    cover: 'https://cdn.akamai.steamstatic.com/steam/apps/960170/library_600x900.jpg',
+  },
+];
+
+const docs = await getCollection('docs');
+
+interface GuideDefinition {
+  id: string;
+  title: string;
+  description: string;
+  tag: string;
+  url: string;
+  fallbackDate: string;
+}
+
+const guideDefinitions: GuideDefinition[] = [
+  {
+    id: 'blog/如何通过github-pages和astro构建个人博客',
+    title: '如何优雅地构建个人博客网站',
+    description: '基于 GitHub Pages 与 Astro 构建完全免费、零后端依赖、加载极致迅速的个人知识花园。',
+    tag: '工程实践 · Astro',
+    url: '/blog/如何通过github-pages和astro构建个人博客/',
+    fallbackDate: '2026-08-02',
+  },
+  {
+    id: 'blog/如何安装msst音乐音源分离工作流',
+    title: 'MSST 音乐人声音源分离工作流实操',
+    description: '把一首歌高质量拆分为伴奏与人声。全套模型对比、本地环境部署及批量音频处理指南。',
+    tag: '多媒体 · AI 工具',
+    url: '/blog/如何安装msst音乐音源分离工作流/',
+    fallbackDate: '2026-08-10',
+  },
+];
+
+const technicalGuides = await Promise.all(
+  guideDefinitions.map(async (def) => {
+    const entry = docs.find((d) => d.id === def.id);
+    let minutesRead = '';
+    let date = def.fallbackDate;
+    if (entry) {
+      const rendered = await render(entry);
+      if (rendered.remarkPluginFrontmatter?.minutesRead) {
+        minutesRead = String(rendered.remarkPluginFrontmatter.minutesRead);
+      }
+      if (entry.data.pubDate) {
+        date = String(entry.data.pubDate);
+      }
+    }
+    return {
+      title: def.title,
+      description: def.description,
+      tag: def.tag,
+      url: def.url,
+      date,
+      minutesRead,
+    };
+  })
+);
+---
+
+<div class="home-dashboard not-content">
+  {/* ============================================================
+    * 双支柱旗舰卡片 (The Two Pillars Bento Grid)
+    * ============================================================ */}
+  <section class="section-container">
+    <div class="section-header">
+      <div class="header-left">
+        <span class="section-eyebrow">CORE PILLARS</span>
+        <h3 class="section-title">🧭 我的网站内容</h3>
+      </div>
+    </div>
+
+    <div class="pillars-grid">
+      {/* 支柱 1: Steam 游戏画廊 */}
+      <a href="/games/" class="pillar-card gallery-pillar">
+        <div class="pillar-glass-layer"></div>
+        <div class="pillar-content">
+          <div class="pillar-badge">
+            <span class="pulse-dot"></span>
+            <span>{updatedAt ? `已同步至 ${updatedAt.slice(0, 10)}` : '每日自动同步'}</span>
+          </div>
+
+          <h2 class="pillar-title">
+            <span class="title-icon">🎮</span> Steam 游戏画廊
+          </h2>
+
+          <p class="pillar-desc">
+            以 Notion 风格网格全景呈现个人游戏生涯。深度打通 Steam API，实时追踪时长、六阶梯状态与成就进度，支持双向高亮与多维交互排序。
+          </p>
+
+          <div class="stat-chips">
+            <div class="chip">
+              <span class="chip-num">{totalGames}</span>
+              <span class="chip-label">款游戏记录</span>
+            </div>
+            <div class="chip">
+              <span class="chip-num">{totalHours.toLocaleString()}</span>
+              <span class="chip-label">总游玩小时</span>
+            </div>
+            <div class="chip">
+              <span class="chip-num">{totalUnlockedAchievements.toLocaleString()}</span>
+              <span class="chip-label">项达成成就</span>
+            </div>
+          </div>
+
+          <div class="card-cover-stack" aria-hidden="true">
+            {stackCovers.map((src, idx) => (
+              <img
+                src={src}
+                alt="游戏封面缩略"
+                class={`stack-img stack-img-${idx}`}
+                loading="lazy"
+                decoding="async"
+              />
+            ))}
+          </div>
+
+          <div class="pillar-action">
+            <span>进入画廊探索</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+      {/* 支柱 2: 博客与长评文库 */}
+      <a href="/blog/如何通过github-pages和astro构建个人博客/" class="pillar-card blog-pillar">
+        <div class="pillar-glass-layer"></div>
+        <div class="pillar-content">
+          <div class="pillar-badge badge-blog">
+            <span class="sparkle-icon">✨</span>
+            <span>深度长评 · 工程实践</span>
+          </div>
+
+          <h2 class="pillar-title">
+            <span class="title-icon">📝</span> 博客与深度评测
+          </h2>
+
+          <p class="pillar-desc">
+            拒绝快餐式信息碎片，沉淀真挚思考与实战手记。包含硬核长篇游戏评测、全流程技术教程与数字生活折腾记录。
+          </p>
+
+          <div class="feature-bullets">
+            <div class="bullet-item">
+              <span class="bullet-icon">⚡</span>
+              <div>
+                <strong>零 JS 极致响应</strong>
+                <p>Astro 纯静态渲染，毫秒级首屏秒开。</p>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <span class="bullet-icon">🔍</span>
+              <div>
+                <strong>Pagefind 全文检索</strong>
+                <p>无需外部网络，全站离线毫秒级搜索。</p>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <span class="bullet-icon">🛡️</span>
+              <div>
+                <strong>纯净阅读体验</strong>
+                <p>单回车优雅排版，无第三方跟踪与广告。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pillar-action">
+            <span>开始阅读长文</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  {/* ============================================================
+    * 精选游戏长评 (Featured Reviews Showcase)
+    * ============================================================ */}
+  <section class="section-container">
+    <div class="section-header">
+      <div class="header-left">
+        <span class="section-eyebrow">CURATED CRITIQUES</span>
+        <h3 class="section-title">🌟 精选游戏长评</h3>
+      </div>
+      <a href="/games/" class="section-more-link">
+        查看画廊全部游戏 <span>→</span>
+      </a>
+    </div>
+
+    <div class="reviews-grid">
+      {featuredReviews.map((rev) => (
+        <a href={rev.url} class="review-card">
+          <div class="review-cover-wrapper">
+            <img
+              src={rev.cover}
+              alt={rev.title}
+              class="review-cover"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="review-cover-overlay"></div>
+          </div>
+
+          <div class="review-body">
+            <div class="review-meta">
+              <span class="review-tag">{rev.tag}</span>
+              <span class="review-hours">⏱️ {formatHours(rev.hours)}</span>
+            </div>
+            <h4 class="review-title">{rev.title}</h4>
+            <div class="review-subtitle">{rev.subtitle}</div>
+            <p class="review-desc">{rev.description}</p>
+            <div class="review-read-link">
+              <span>阅读深度评测</span>
+              <span class="card-arrow">→</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ============================================================
+    * 技术折腾与工程手记 (Technical Guides)
+    * ============================================================ */}
+  <section class="section-container">
+    <div class="section-header">
+      <div class="header-left">
+        <span class="section-eyebrow">ENGINEERING & CRAFTS</span>
+        <h3 class="section-title">🛠️ 技术实践与折腾笔记</h3>
+      </div>
+    </div>
+
+    <div class="guides-grid">
+      {technicalGuides.map((guide) => (
+        <a href={guide.url} class="guide-card">
+          <div class="guide-header">
+            <span class="guide-tag">{guide.tag}</span>
+            <div class="guide-meta">
+              {guide.minutesRead && <span class="guide-reading-time">⏱️ {guide.minutesRead}</span>}
+              {guide.minutesRead && <span class="meta-dot">·</span>}
+              <span class="guide-date">{guide.date}</span>
+            </div>
+          </div>
+          <h4 class="guide-title">{guide.title}</h4>
+          <p class="guide-desc">{guide.description}</p>
+          <div class="guide-footer">
+            <span class="guide-read-text">阅读完整指南</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ============================================================
+    * 关于我 (About Me Showcase & Persona)
+    * ============================================================ */}
+  <section class="section-container">
+    <div class="section-header">
+      <div class="header-left">
+        <span class="section-eyebrow">WHO AM I</span>
+        <h3 class="section-title">👤 我——如果你好奇的话</h3>
+      </div>
+    </div>
+
+    <div class="about-card">
+      <div class="about-glass-layer"></div>
+      <div class="about-content">
+        <div class="about-header">
+          <div class="about-avatar-wrapper">
+            <div class="about-avatar-glow"></div>
+            <div class="about-avatar-icon">🎮</div>
+          </div>
+          <div class="about-identity">
+            <div class="about-name-row">
+              <h3 class="about-name">Simpleton</h3>
+              <span class="about-handle">@EphemeralEminence</span>
+            </div>
+            <div class="about-chips">
+              <span class="persona-chip">⚔️ 硬核单机玩家</span>
+              <span class="persona-chip">🏆 深度全成就</span>
+              <span class="persona-chip">💻 全栈技术折腾</span>
+              <span class="persona-chip">🌱 数字花园</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="about-bio">
+          欢迎来到我的个人数字自留地。在这个充斥着算法推荐与碎片短平快的时代，我始终坚持通过亲手打磨的极简静态博客，
+          记录两件事：一是对真正打动人心的硬核游戏撰写不掺水分的深度长评与通关拆解；二是沉淀全流程工程实战与开发折腾手记。
+        </p>
+
+        <div class="about-footer">
+          <div class="about-social-links">
+            <a
+              href="https://steamcommunity.com/id/EphemeralEminence/"
+              target="_blank"
+              rel="noopener"
+              class="social-pill steam-pill"
+            >
+              <span>🎮 Steam 主页</span>
+              <span class="pill-arrow">↗</span>
+            </a>
+            <a
+              href="https://github.com/SimpletonEminent"
+              target="_blank"
+              rel="noopener"
+              class="social-pill github-pill"
+            >
+              <span>🐙 GitHub</span>
+              <span class="pill-arrow">↗</span>
+            </a>
+          </div>
+
+          <a href="/about/" class="about-more-btn">
+            <span>了解更多关于我 (About Me)</span>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  /* --- 基础容器 --- */
+  .home-dashboard {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .section-container {
+    width: 100%;
+  }
+
+  /* --- 区域头部 --- */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    padding-bottom: 0.75rem;
+  }
+
+  .section-eyebrow {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--sl-color-accent);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--sl-color-white);
+    margin: 0;
+  }
+
+  .section-more-link {
+    font-size: 0.9rem;
+    color: var(--sl-color-text-accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .section-more-link:hover {
+    color: var(--sl-color-accent-high);
+    transform: translateX(3px);
+  }
+
+  /* ============================================================
+   * 双支柱网格 (Pillars Grid)
+   * ============================================================ */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+  }
+
+  @media (max-width: 860px) {
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pillar-card {
+    position: relative;
+    border-radius: 1.25rem;
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    padding: 2.25rem;
+    text-decoration: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+  }
+
+  .pillar-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--sl-color-accent);
+    box-shadow: 0 16px 36px -12px rgba(20, 184, 166, 0.18);
+  }
+
+  .pillar-glass-layer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(20, 184, 166, 0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  .pillar-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .pillar-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(20, 184, 166, 0.12);
+    color: var(--sl-color-accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: fit-content;
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(20, 184, 166, 0.25);
+  }
+
+  .badge-blog {
+    background: rgba(147, 197, 253, 0.12);
+    color: #93c5fd;
+    border-color: rgba(147, 197, 253, 0.25);
+  }
+
+  :root[data-theme='light'] .badge-blog {
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+    border-color: rgba(37, 99, 235, 0.2);
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sl-color-accent);
+    box-shadow: 0 0 6px var(--sl-color-accent);
+  }
+
+  .sparkle-icon {
+    font-size: 0.85rem;
+  }
+
+  .pillar-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--sl-color-white);
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title-icon {
+    font-size: 1.6rem;
+  }
+
+  .pillar-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--sl-color-gray-2);
+    margin-bottom: 1.5rem;
+  }
+
+  /* 统计芯片 */
+  .stat-chips {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    background: var(--sl-color-gray-5);
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--sl-color-gray-4);
+  }
+
+  .chip-num {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--sl-color-accent-high);
+  }
+
+  .chip-label {
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  /* 迷你封面堆叠 */
+  .card-cover-stack {
+    display: flex;
+    position: relative;
+    height: 90px;
+    margin-bottom: 1.75rem;
+    padding-left: 0.5rem;
+  }
+
+  .stack-img {
+    position: absolute;
+    width: 60px;
+    height: 90px;
+    border-radius: 0.4rem;
+    box-shadow: -4px 6px 12px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stack-img-0 { left: 0; transform: rotate(-6deg); z-index: 1; }
+  .stack-img-1 { left: 45px; transform: rotate(-2deg); z-index: 2; }
+  .stack-img-2 { left: 90px; transform: rotate(3deg); z-index: 3; }
+  .stack-img-3 { left: 135px; transform: rotate(7deg); z-index: 4; }
+
+  .pillar-card:hover .stack-img-0 { transform: rotate(-10deg) translateX(-6px); }
+  .pillar-card:hover .stack-img-1 { transform: rotate(-3deg) translateY(-3px); }
+  .pillar-card:hover .stack-img-2 { transform: rotate(4deg) translateY(-3px); }
+  .pillar-card:hover .stack-img-3 { transform: rotate(11deg) translateX(6px); }
+
+  /* 博客卡片特性列表 */
+  .feature-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .bullet-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .bullet-icon {
+    font-size: 1.1rem;
+    line-height: 1.3;
+  }
+
+  .bullet-item strong {
+    font-size: 0.95rem;
+    color: var(--sl-color-white);
+    display: block;
+  }
+
+  .bullet-item p {
+    margin: 0.15rem 0 0 0;
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  /* 按钮行动条 */
+  .pillar-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--sl-color-accent);
+    margin-top: auto;
+    transition: color 0.2s ease;
+  }
+
+  .pillar-card:hover .pillar-action {
+    color: var(--sl-color-accent-high);
+  }
+
+  .action-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .pillar-card:hover .action-arrow {
+    transform: translateX(4px);
+  }
+
+  /* ============================================================
+   * 精选长评卡片 (Reviews Grid)
+   * ============================================================ */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 960px) {
+    .reviews-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .review-card {
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+  }
+
+  .review-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--sl-color-accent);
+    box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.35);
+  }
+
+  .review-cover-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #0f172a;
+  }
+
+  .review-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.4s ease;
+  }
+
+  .review-card:hover .review-cover {
+    transform: scale(1.05);
+  }
+
+  .review-cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.75) 100%);
+  }
+
+  .review-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .review-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+    margin-bottom: 0.5rem;
+  }
+
+  .review-tag {
+    font-weight: 600;
+    color: var(--sl-color-accent);
+  }
+
+  .review-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--sl-color-white);
+    margin: 0 0 0.35rem 0;
+    line-height: 1.35;
+  }
+
+  .review-subtitle {
+    font-size: 0.85rem;
+    color: var(--sl-color-accent-high);
+    margin-bottom: 0.65rem;
+    font-weight: 500;
+  }
+
+  .review-desc {
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-2);
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .review-read-link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--sl-color-accent);
+  }
+
+  .card-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .review-card:hover .card-arrow,
+  .guide-card:hover .card-arrow {
+    transform: translateX(4px);
+  }
+
+  /* ============================================================
+   * 技术实践网格 (Guides Grid)
+   * ============================================================ */
+  .guides-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .guides-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .guide-card {
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+  }
+
+  .guide-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--sl-color-accent);
+    box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.35);
+  }
+
+  .guide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .guide-tag {
+    color: var(--sl-color-accent);
+    font-weight: 600;
+  }
+
+  .guide-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .guide-reading-time {
+    color: var(--sl-color-accent-high);
+    font-weight: 500;
+  }
+
+  .meta-dot {
+    opacity: 0.5;
+  }
+
+  .guide-date {
+    color: var(--sl-color-gray-3);
+  }
+
+  .guide-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--sl-color-white);
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+  }
+
+  .guide-desc {
+    font-size: 0.9rem;
+    color: var(--sl-color-gray-2);
+    line-height: 1.55;
+    margin: 0 0 1.25rem 0;
+    flex-grow: 1;
+  }
+
+  .guide-footer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--sl-color-accent);
+  }
+
+  /* ============================================================
+   * 关于我卡片 (About Me Card)
+   * ============================================================ */
+  .about-card {
+    position: relative;
+    background: var(--sl-color-gray-6);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 1.25rem;
+    padding: 2.25rem;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .about-card:hover {
+    border-color: var(--sl-color-accent);
+    box-shadow: 0 16px 36px -12px rgba(20, 184, 166, 0.15);
+  }
+
+  .about-glass-layer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at bottom left, rgba(20, 184, 166, 0.07), transparent 70%);
+    pointer-events: none;
+  }
+
+  .about-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-header {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .about-avatar-wrapper {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 1rem;
+    background: var(--sl-color-gray-5);
+    border: 1px solid var(--sl-color-gray-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .about-avatar-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 1.1rem;
+    background: linear-gradient(135deg, var(--sl-color-accent), transparent);
+    opacity: 0.4;
+    z-index: -1;
+  }
+
+  .about-avatar-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .about-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .about-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .about-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--sl-color-white);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .about-handle {
+    font-size: 0.85rem;
+    color: var(--sl-color-accent);
+    font-weight: 600;
+  }
+
+  .about-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .persona-chip {
+    font-size: 0.75rem;
+    background: var(--sl-color-gray-5);
+    border: 1px solid var(--sl-color-gray-4);
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    color: var(--sl-color-gray-2);
+  }
+
+  .about-bio {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--sl-color-gray-2);
+    margin: 0;
+  }
+
+  .about-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-gray-5);
+  }
+
+  .about-social-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .social-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.4rem 0.85rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .steam-pill {
+    background: rgba(30, 58, 95, 0.4);
+    color: #93c5fd;
+    border: 1px solid rgba(147, 197, 253, 0.25);
+  }
+
+  .steam-pill:hover {
+    background: rgba(30, 58, 95, 0.7);
+    color: #bfdbfe;
+    transform: translateY(-2px);
+  }
+
+  .github-pill {
+    background: var(--sl-color-gray-5);
+    color: var(--sl-color-white);
+    border: 1px solid var(--sl-color-gray-4);
+  }
+
+  .github-pill:hover {
+    border-color: var(--sl-color-accent);
+    color: var(--sl-color-accent-high);
+    transform: translateY(-2px);
+  }
+
+  .pill-arrow {
+    font-size: 0.75rem;
+  }
+
+  .about-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--sl-color-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .about-more-btn:hover {
+    color: var(--sl-color-accent-high);
+  }
+
+  .about-more-btn:hover .card-arrow {
+    transform: translateX(4px);
+  }
+</style>

@@ -76,6 +76,8 @@ export default defineConfig({
             },
           ],
         },
+        // 关于我
+        { label: '👤 关于我', link: '/about' },
       ],
     }),
   ],
