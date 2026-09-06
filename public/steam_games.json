@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-05T06:53:10.825Z",
+  "updatedAt": "2026-09-06T07:03:59.981Z",
   "games": [
     {
       "appid": 1172470,
@@ -93,7 +93,7 @@
       "appid": 1245620,
       "name": "ELDEN RING",
       "playtime_hours": 143.4,
-      "playtime_2weeks_hours": 1.9,
+      "playtime_2weeks_hours": 0,
       "last_played": 1787426876,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1245620/library_600x900.jpg"
     },
@@ -853,7 +853,7 @@
       "appid": 1888160,
       "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
       "playtime_hours": 5.3,
-      "playtime_2weeks_hours": 4.9,
+      "playtime_2weeks_hours": 4.3,
       "last_played": 1787920413,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
@@ -912,6 +912,14 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1771310120,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/257350/library_600x900.jpg"
+    },
+    {
+      "appid": 2592160,
+      "name": "Dispatch",
+      "playtime_hours": 4,
+      "playtime_2weeks_hours": 4,
+      "last_played": 1788678035,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
     {
       "appid": 391540,
@@ -1656,14 +1664,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2421410/library_600x900.jpg"
-    },
-    {
-      "appid": 2592160,
-      "name": "Dispatch",
-      "playtime_hours": 0,
-      "playtime_2weeks_hours": 0,
-      "last_played": 0,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
     {
       "appid": 2732960,
