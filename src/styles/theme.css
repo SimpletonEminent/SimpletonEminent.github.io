@@ -55,3 +55,37 @@ article,
   margin: auto;
   padding: 3em 1em;
 }
+
+/* ============================================================
+ * 游玩状态徽章颜色单源 (Spec 03)
+ * 全局共享,由 3 个组件(.steam-gallery, .games-toc, .games-mobile-toc)共同使用
+ * 尺寸/间距等布局样式保留在各组件内部
+ * ============================================================ */
+
+/* --- 暗色模式(默认) --- */
+.status-badge[data-status='uncompleted'] { background: #374151; color: #e5e7eb; }
+.status-badge[data-status='completed']   { background: #1e3a5f; color: #93c5fd; }
+.status-badge[data-status='perfect']     { background: #78350f; color: #fcd34d; }
+.status-badge[data-status='ongoing']     { background: #4c1d95; color: #e9d5ff; }
+.status-badge[data-status='hiatus']      { background: #365314; color: #d9f99d; }
+.status-badge[data-status='retired']     { background: #1f2937; color: #9ca3af; }
+
+.status-badge.rank-badge {
+  background: rgba(6, 78, 59, 0.4);
+  color: #6ee7b7;
+  border: 1px solid rgba(6, 95, 70, 0.5);
+}
+
+/* --- 亮色模式 --- */
+:root[data-theme='light'] .status-badge[data-status='uncompleted'] { background: #e5e7eb; color: #374151; }
+:root[data-theme='light'] .status-badge[data-status='completed']   { background: #dbeafe; color: #1d4ed8; }
+:root[data-theme='light'] .status-badge[data-status='perfect']     { background: #fef3c7; color: #92400e; }
+:root[data-theme='light'] .status-badge[data-status='ongoing']     { background: #f3e8ff; color: #6b21a8; }
+:root[data-theme='light'] .status-badge[data-status='hiatus']      { background: #f7fee7; color: #4d7c0f; }
+:root[data-theme='light'] .status-badge[data-status='retired']     { background: #f3f4f6; color: #6b7280; }
+
+:root[data-theme='light'] .status-badge.rank-badge {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
