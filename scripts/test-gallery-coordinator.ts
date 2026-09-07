@@ -168,7 +168,7 @@ function createMockFixture() {
 
   const sortSelect = new MockElement('select');
   sortSelect.classList.add('sort-select');
-  sortSelect.value = 'playtime';
+  sortSelect.value = 'recent';
   gallery.appendChild(sortSelect);
 
   const grid = new MockElement('div');
@@ -273,7 +273,7 @@ const coordinator = initGalleryCoordinator({
 
 check('coordinator 初始化成功', coordinator !== null);
 check('初始 activeAppid 为 null', coordinator?.activeAppid === null);
-check('初始 currentSortKey 为 playtime', coordinator?.currentSortKey === 'playtime');
+check('初始 currentSortKey 为 recent', coordinator?.currentSortKey === 'recent');
 
 // 2. 幂等性检验: 再次初始化返回同一实例
 const coordinator2 = initGalleryCoordinator({

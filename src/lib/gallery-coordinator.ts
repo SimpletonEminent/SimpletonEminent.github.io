@@ -111,7 +111,8 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
 
   // 状态维护(唯一事实来源)
   let activeAppid: number | null = null;
-  let currentSortKey = 'playtime';
+  const sortSelect = galleryEl.querySelector<HTMLSelectElement>('.sort-select');
+  let currentSortKey = sortSelect?.value || 'recent';
   const closeTimers = new WeakMap<HTMLElement, number>();
 
   function positionBubble(item: HTMLElement) {
@@ -253,7 +254,6 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
     }
 
     currentSortKey = key;
-    const sortSelect = galleryEl.querySelector<HTMLSelectElement>('.sort-select');
     if (sortSelect && sortSelect.value !== key) {
       sortSelect.value = key;
     }
@@ -272,7 +272,6 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
   };
   galleryEl.addEventListener('click', handleGalleryClick);
 
-  const sortSelect = galleryEl.querySelector<HTMLSelectElement>('.sort-select');
   const handleSortChange = () => {
     if (sortSelect && sortSelect.value !== currentSortKey) {
       sortBy(sortSelect.value);

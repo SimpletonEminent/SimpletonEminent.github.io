@@ -306,7 +306,7 @@ export class GameDataRepository {
 
     this.memoizedMergedGames = {
       updatedAt,
-      games: merged.sort((a, b) => b.playtime_hours - a.playtime_hours),
+      games: sortGames(merged, 'recent', 'desc'),
     };
     return this.memoizedMergedGames;
   }
@@ -319,8 +319,8 @@ export class GameDataRepository {
     if (this.memoizedSortPresets) return this.memoizedSortPresets;
     const { games } = this.loadMergedGames();
     this.memoizedSortPresets = {
-      playtime: sortGames(games, 'playtime', 'desc').map((g) => g.appid),
       recent: sortGames(games, 'recent', 'desc').map((g) => g.appid),
+      playtime: sortGames(games, 'playtime', 'desc').map((g) => g.appid),
       status: sortGames(games, 'status', 'desc').map((g) => g.appid),
       release: sortGames(games, 'release', 'desc').map((g) => g.appid),
       nameAsc: sortGames(games, 'nameAsc', 'asc').map((g) => g.appid),

@@ -130,7 +130,7 @@ const domainRepo = new GameDataRepository(domainAdapter);
 const domainResult = domainRepo.loadMergedGames();
 
 check('自动过滤 0h 游戏 (只保留 2 款)', domainResult.games.length === 2);
-check('默认按总时长降序排序 (appid 3 在前)', domainResult.games[0].appid === 3 && domainResult.games[1].appid === 2);
+check('默认按近期运行过降序排序 (appid 3 在前)', domainResult.games[0].appid === 3 && domainResult.games[1].appid === 2);
 check('正确融合注释中文名', domainResult.games[0].name_zh === '高时长游戏');
 check('正确融合段位与状态', domainResult.games[0].my_status === 'perfect' && domainResult.games[0].my_rank === '王者 👑');
 check('正确融合成就与最早解锁时间戳', domainResult.games[0].achievements?.unlocked === 50 && domainResult.games[0].first_achievement_at === 1600000000);
