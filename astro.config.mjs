@@ -60,6 +60,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             // 顶层技术文章(非游戏评测)
+            'blog/steam指南写作推荐',
             'blog/如何安装msst音乐音源分离工作流',
             'blog/如何通过github-pages和astro构建个人博客',
             // 游戏评测子分类
