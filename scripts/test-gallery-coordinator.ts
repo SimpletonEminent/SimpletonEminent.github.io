@@ -334,5 +334,66 @@ check('桌面 TOC 行不再拥有 active 类', !fixture.desktopRows[2].classList
 coordinator?.destroy();
 check('destroy 后内部实例键被清除', ((fixture.gallery as unknown as Record<string, unknown>).__galleryCoordinatorInstance) === undefined);
 
+// 10. Hash 锚点自动定位展开与 hashchange 测试 (Spec 12)
+// 10.1 初始化时带有有效游戏 Hash -> 自动展开对应卡片并高亮 TOC
+const fixtureHash = createMockFixture();
+let currentMockHash = '#game-102';
+const mockListeners = new Map<string, Array<() => void>>();
+
+(globalThis as unknown as Record<string, unknown>).window = {
+  get location() {
+    return { hash: currentMockHash };
+  },
+  addEventListener: (type: string, fn: () => void) => {
+    if (!mockListeners.has(type)) mockListeners.set(type, []);
+    mockListeners.get(type)!.push(fn);
+  },
+  removeEventListener: (type: string, fn: () => void) => {
+    const list = mockListeners.get(type);
+    if (!list) return;
+    const idx = list.indexOf(fn);
+    if (idx !== -1) list.splice(idx, 1);
+  },
+  matchMedia: () => ({ matches: true }),
+  setTimeout: (fn: () => void, ms?: number) => setTimeout(fn, ms),
+  clearTimeout: (id: NodeJS.Timeout) => clearTimeout(id),
+};
+
+const hashCoordinator = initGalleryCoordinator({
+  gallery: fixtureHash.gallery,
+  desktopToc: fixtureHash.desktopToc,
+  mobileToc: fixtureHash.mobileToc,
+  sortPresets: fixtureHash.sortPresets,
+  isReducedMotion: () => true,
+});
+
+check('初始 Hash #game-102 自动选中 102', hashCoordinator?.activeAppid === 102);
+check('初始 Hash 卡片 102 处于 expanded 状态', fixtureHash.cardItems[1].classList.contains('expanded'));
+check('初始 Hash 卡片 102 气泡 hidden 为 false', fixtureHash.cardItems[1].querySelector('.bubble')?.hidden === false);
+check('初始 Hash 桌面 TOC 102 处于 active 状态', fixtureHash.desktopRows[1].classList.contains('active'));
+
+// 10.2 模拟 hashchange 事件切换到 #game-103
+currentMockHash = '#game-103';
+const hashChangeListeners = mockListeners.get('hashchange') ?? [];
+check('已注册 hashchange 监听器', hashChangeListeners.length > 0);
+for (const fn of hashChangeListeners) {
+  fn();
+}
+check('hashchange 切换为 #game-103 后 activeAppid 为 103', hashCoordinator?.activeAppid === 103);
+check('卡片 103 处于 expanded 状态', fixtureHash.cardItems[2].classList.contains('expanded'));
+check('前一个卡片 102 失去 expanded 状态', !fixtureHash.cardItems[1].classList.contains('expanded'));
+
+// 10.3 模拟非游戏 Hash（如 #overview 或 #top）保持不变，不产生误动作
+currentMockHash = '#overview';
+for (const fn of hashChangeListeners) {
+  fn();
+}
+check('非游戏 Hash #overview 不影响当前选中状态', hashCoordinator?.activeAppid === 103);
+
+// 10.4 销毁并验证监听器移除
+hashCoordinator?.destroy();
+check('destroy 后 hashchange 监听器已被注销', (mockListeners.get('hashchange')?.length ?? 0) === 0);
+delete (globalThis as unknown as Record<string, unknown>).window;
+
 console.log(failures === 0 ? `ALL PASS (${total} checks)` : `${failures} FAILED (of ${total})`);
 process.exit(failures === 0 ? 0 : 1);

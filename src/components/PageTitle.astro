@@ -23,7 +23,7 @@ const postMeta = resolvePostMetadata(entry.id, entry.data as Record<string, unkn
 {
   postMeta.isBlogPost && (
     <div class="post-meta-container">
-      {postMeta.tags.length > 0 && (
+      {(postMeta.tags.length > 0 || (postMeta.isGameReview && postMeta.appid)) && (
         <div class="post-tags-row">
           <span class="tags-prefix">{postMeta.labelPrefix}</span>
           <span class="tags-list">
@@ -32,6 +32,15 @@ const postMeta = resolvePostMetadata(entry.id, entry.data as Record<string, unkn
                 {tag}
               </span>
             ))}
+            {postMeta.isGameReview && postMeta.appid && (
+              <a
+                href={`/games#game-${postMeta.appid}`}
+                class="post-tag action-pill"
+                title="在 Steam 游戏画廊中定位此游戏并查看完整档案"
+              >
+                🎯 在画廊中定位 ↗
+              </a>
+            )}
           </span>
         </div>
       )}
@@ -109,6 +118,34 @@ const postMeta = resolvePostMetadata(entry.id, entry.data as Record<string, unkn
 			font-size: var(--sl-text-xs);
 			line-height: 1.4;
 			white-space: nowrap;
+		}
+
+		.post-tag.action-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.25rem;
+			padding: 0.1em 0.6em;
+			border-radius: 999px;
+			background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+			color: var(--sl-color-accent-high);
+			border: 1px solid color-mix(in srgb, var(--sl-color-accent) 35%, transparent);
+			font-size: var(--sl-text-xs);
+			line-height: 1.4;
+			text-decoration: none;
+			white-space: nowrap;
+			cursor: pointer;
+			transition:
+				background-color 0.15s ease,
+				border-color 0.15s ease,
+				color 0.15s ease,
+				transform 0.15s ease;
+		}
+
+		.post-tag.action-pill:hover {
+			background: color-mix(in srgb, var(--sl-color-accent) 20%, transparent);
+			border-color: var(--sl-color-accent);
+			text-decoration: none;
+			transform: translateY(-1px);
 		}
 
 		.post-date-row {

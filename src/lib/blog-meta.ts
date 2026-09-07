@@ -11,6 +11,7 @@ export interface PostMetadata {
   isGameReview: boolean;
   labelPrefix: string;
   tags: string[];
+  appid?: number;
   pubDate?: string;
   updatedDate?: string;
   showUpdated: boolean;
@@ -72,9 +73,14 @@ export function resolvePostMetadata(
 
   // 查找是否有关联的 Steam 游戏长评
   let matchedAnnotation: AnnotationItem | undefined;
-  for (const item of Object.values(annotations)) {
+  let matchedAppid: number | undefined;
+  for (const [rawId, item] of Object.entries(annotations)) {
     if (typeof item.blog_url === 'string' && item.blog_url.trim().toLowerCase() === targetUrl) {
       matchedAnnotation = item;
+      const parsedId = Number(rawId);
+      if (!Number.isNaN(parsedId)) {
+        matchedAppid = parsedId;
+      }
       break;
     }
   }
@@ -114,6 +120,7 @@ export function resolvePostMetadata(
     isGameReview,
     labelPrefix,
     tags,
+    appid: matchedAppid,
     pubDate,
     updatedDate,
     showUpdated,

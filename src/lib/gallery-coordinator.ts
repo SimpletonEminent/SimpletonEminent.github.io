@@ -24,6 +24,8 @@ export interface GalleryCoordinatorOptions {
   sortPresets?: SortPresets;
   /** 是否偏好减少动画(测试可注入,默认从 window.matchMedia 读取) */
   isReducedMotion?: () => boolean;
+  /** 获取当前 Hash 的函数(测试可注入,默认读取 window.location.hash) */
+  getCurrentHash?: () => string;
 }
 
 export interface GalleryCoordinator {
@@ -124,7 +126,7 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
     if (!bubble || !card) return;
 
     const pending = closeTimers.get(item);
-    if (pending !== undefined && typeof window !== 'undefined') {
+    if (pending !== undefined && typeof window !== 'undefined' && typeof window.clearTimeout === 'function') {
       window.clearTimeout(pending);
       closeTimers.delete(item);
     }
@@ -145,14 +147,14 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
     item.classList.remove('expanded');
     card.setAttribute('aria-expanded', 'false');
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof window.setTimeout === 'function') {
       const timer = window.setTimeout(() => {
         if (!item.classList.contains('expanded')) {
           bubble.hidden = true;
         }
         closeTimers.delete(item);
       }, 300);
-      closeTimers.set(item, timer);
+      closeTimers.set(item, timer as unknown as number);
     } else {
       bubble.hidden = true;
     }
@@ -353,6 +355,29 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
     window.addEventListener('steam:sort', handleSteamSort);
   }
 
+  // Hash 锚点自动展开与监听 (Spec 12 / ADR 0012)
+  const getHash = options?.getCurrentHash ?? (() => (typeof window !== 'undefined' ? window.location.hash : ''));
+  const handleHash = (hashStr?: string) => {
+    const rawHash = typeof hashStr === 'string' ? hashStr : getHash();
+    const match = rawHash.match(/^#game-(\d+)$/);
+    if (!match) return;
+    const appid = Number(match[1]);
+    if (!isNaN(appid) && cardItemByAppid.has(appid)) {
+      selectGame(appid, { scrollIntoView: true });
+    }
+  };
+
+  const handleHashChange = () => {
+    handleHash();
+  };
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('hashchange', handleHashChange);
+  }
+
+  // 初始加载时若带有合法的游戏 Hash,立即执行定位与展开
+  handleHash();
+
   const coordinator: GalleryCoordinator = {
     get activeAppid() {
       return activeAppid;
@@ -373,6 +398,7 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
       }
       if (typeof window !== 'undefined') {
         window.removeEventListener('resize', handleResize);
+        window.removeEventListener('hashchange', handleHashChange);
         window.removeEventListener('steam:select', handleSteamSelect);
         window.removeEventListener('steam:sort', handleSteamSort);
       }
