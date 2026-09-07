@@ -1,11 +1,11 @@
-// 共享数据加载模块:Steam 游戏画廊与右侧游戏列表(TOC)共用
-// - 自动数据:public/steam_games.json(每日同步脚本生成,全量覆盖)
-// - 手工注释:src/data/steam_annotations.json(用户维护,脚本永不触碰)
-// - 成就进度:public/steam_achievements.json(手动跑 check-achievements.mjs 生成)
-// 三个数据源按 appid 合并,过滤掉 0h 游戏,缺失字段补默认值,按总时长降序返回。
+// 游戏数据仓库与领域计算模块 (Spec 04 / Spec 06 / ADR-0005)
+// - 自动数据: public/steam_games.json (每日同步脚本生成,全量覆盖)
+// - 手工注释: src/data/steam_annotations.json (用户维护,脚本永不触碰)
+// - 成就进度: public/steam_achievements.json (手动跑 check-achievements.mjs 生成)
+// 通过 StorageAdapter 接缝物理隔离存储层，内部封装合并、容错、过滤与排序，对外提供精简领域模型。
 
 import { readFileSync } from 'node:fs';
-import { statusText, statusWeight, type Status } from './play-status.ts';
+import { statusWeight, type Status } from './play-status.ts';
 
 export interface SteamGame {
   appid: number;
@@ -52,8 +52,8 @@ export interface MergedGame extends SteamGame {
   first_achievement_at?: number;
 }
 
-/** 成就数据文件结构(public/steam_achievements.json) */
-interface SteamAchievementsData {
+/** 成就数据文件结构 (public/steam_achievements.json) */
+export interface SteamAchievementsData {
   updatedAt?: string;
   games: Array<{
     appid: number;
@@ -71,96 +71,289 @@ export interface SteamGamesData {
   games: SteamGame[];
 }
 
-let memoizedMergedGames: { updatedAt?: string; games: MergedGame[] } | null = null;
-let memoizedSortPresets: Record<SortKey, number[]> | null = null;
+/** 排序维度:总时长 / 近两周 / 游玩状态 / 发售年份 / 名称(独立方向) */
+export type SortKey = 'playtime' | 'recent' | 'status' | 'release' | 'nameAsc' | 'nameDesc';
+export type SortDir = 'asc' | 'desc';
 
-/** 读取并合并两个数据文件,按总时长降序返回。读取失败时返回空列表(渲染空状态)。(模块级记忆化) */
-export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
-  if (memoizedMergedGames) return memoizedMergedGames;
+/**
+ * 抽象存储适配器契约 (Storage Adapter Seam, Spec 06)
+ * 规范读取游戏数据文件、注释文件与成就文件的基本抽象接口。
+ */
+export interface StorageAdapter {
+  readGamesData(): string;
+  readAnnotations(): string;
+  readAchievementsData(): string;
+}
 
-  let updatedAt: string | undefined;
-  let games: SteamGame[] = [];
-
-  try {
-    const raw = readFileSync('public/steam_games.json', 'utf-8');
-    const data = JSON.parse(raw) as SteamGamesData;
-    if (typeof data.updatedAt === 'string' && data.updatedAt) {
-      updatedAt = data.updatedAt;
-    }
-    games = Array.isArray(data.games) ? data.games : [];
-  } catch {
-    games = [];
-  }
-
-  let annotations: Record<string, Annotation> = {};
-  try {
-    annotations = JSON.parse(
-      readFileSync('src/data/steam_annotations.json', 'utf-8')
-    ) as Record<string, Annotation>;
-  } catch {
-    annotations = {};
-  }
-
-  // 成就进度:public/steam_achievements.json(手动重跑 check-achievements.mjs 生成)
-  let achievementMap = new Map<number, { unlocked: number; total: number; firstUnlockAt?: number }>();
-  try {
-    const raw = readFileSync('public/steam_achievements.json', 'utf-8');
-    const data = JSON.parse(raw) as SteamAchievementsData;
-    for (const g of data.games ?? []) {
-      if (g.hasStats && typeof g.unlocked === 'number' && typeof g.total === 'number') {
-        achievementMap.set(g.appid, {
-          unlocked: g.unlocked,
-          total: g.total,
-          firstUnlockAt: typeof g.firstUnlockAt === 'number' ? g.firstUnlockAt : undefined,
-        });
-      }
-    }
-  } catch {
-    achievementMap = new Map();
-  }
-
-  // 过滤 0h 游戏:画廊只展示玩过的(用户明确要求,0 时长游戏不重要)
-  const filteredGames = games.filter((g) => (g.playtime_hours ?? 0) > 0);
-
-  const merged: MergedGame[] = filteredGames.map((game) => {
-    const annotation = annotations[String(game.appid)] ?? {};
-    const achievements = achievementMap.get(game.appid);
-    return {
-      ...game,
-      name_zh: annotation.name_zh ?? '',
-      tags: annotation.tags ?? [],
-      my_status: annotation.my_status ?? 'uncompleted',
-      my_review: annotation.my_review ?? '',
-      blog_url: annotation.blog_url ?? '',
-      play_year: annotation.play_year ?? '',
-      platform: annotation.platform ?? '',
-      my_rank: annotation.my_rank ?? '',
-      release_date: annotation.release_date ?? '',
-      achievements,
-      first_achievement_at: achievements?.firstUnlockAt,
-    };
-  });
-
-  memoizedMergedGames = { updatedAt, games: merged.sort((a, b) => b.playtime_hours - a.playtime_hours) };
-  return memoizedMergedGames;
+export interface FileSystemStorageOptions {
+  gamesPath?: string;
+  annotationsPath?: string;
+  achievementsPath?: string;
 }
 
 /**
- * 获取预计算的排序结果数组(存储的是 appid)
- * 构建期复用单例结果，供画廊组件和目录组件注入到客户端脚本中(Spec 04)
+ * 生产环境文件系统适配器 (默认适配器)
  */
+export class FileSystemStorageAdapter implements StorageAdapter {
+  private gamesPath: string;
+  private annotationsPath: string;
+  private achievementsPath: string;
+
+  constructor(options: FileSystemStorageOptions = {}) {
+    this.gamesPath = options.gamesPath ?? 'public/steam_games.json';
+    this.annotationsPath = options.annotationsPath ?? 'src/data/steam_annotations.json';
+    this.achievementsPath = options.achievementsPath ?? 'public/steam_achievements.json';
+  }
+
+  readGamesData(): string {
+    return readFileSync(this.gamesPath, 'utf-8');
+  }
+
+  readAnnotations(): string {
+    return readFileSync(this.annotationsPath, 'utf-8');
+  }
+
+  readAchievementsData(): string {
+    return readFileSync(this.achievementsPath, 'utf-8');
+  }
+}
+
+export interface MemoryStorageOptions {
+  gamesData?: string | null;
+  annotations?: string | null;
+  achievementsData?: string | null;
+}
+
+/**
+ * 测试/扩展用内存适配器 (Spec 06)
+ * 允许在单元测试中直接注入假数据或模拟读取失败，彻底消灭破坏性磁盘文件操作。
+ */
+export class MemoryStorageAdapter implements StorageAdapter {
+  private gamesData: string | null;
+  private annotations: string | null;
+  private achievementsData: string | null;
+
+  constructor(options: MemoryStorageOptions = {}) {
+    this.gamesData = options.gamesData ?? '';
+    this.annotations = options.annotations ?? '';
+    this.achievementsData = options.achievementsData ?? '';
+  }
+
+  readGamesData(): string {
+    if (this.gamesData === null) {
+      throw new Error('MemoryStorageAdapter: 模拟游戏数据文件读取失败');
+    }
+    return this.gamesData;
+  }
+
+  readAnnotations(): string {
+    if (this.annotations === null) {
+      throw new Error('MemoryStorageAdapter: 模拟注释文件读取失败');
+    }
+    return this.annotations;
+  }
+
+  readAchievementsData(): string {
+    if (this.achievementsData === null) {
+      throw new Error('MemoryStorageAdapter: 模拟成就文件读取失败');
+    }
+    return this.achievementsData;
+  }
+
+  setGamesData(data: string | null): void {
+    this.gamesData = data;
+  }
+
+  setAnnotations(data: string | null): void {
+    this.annotations = data;
+  }
+
+  setAchievementsData(data: string | null): void {
+    this.achievementsData = data;
+  }
+
+  /** 便捷工厂方法: 从普通对象直接生成序列化内存适配器 */
+  static fromObjects(data: {
+    gamesData?: unknown | null;
+    annotations?: unknown | null;
+    achievementsData?: unknown | null;
+  }): MemoryStorageAdapter {
+    return new MemoryStorageAdapter({
+      gamesData:
+        data.gamesData === null
+          ? null
+          : data.gamesData !== undefined
+            ? JSON.stringify(data.gamesData)
+            : '',
+      annotations:
+        data.annotations === null
+          ? null
+          : data.annotations !== undefined
+            ? JSON.stringify(data.annotations)
+            : '',
+      achievementsData:
+        data.achievementsData === null
+          ? null
+          : data.achievementsData !== undefined
+            ? JSON.stringify(data.achievementsData)
+            : '',
+    });
+  }
+}
+
+/**
+ * 领域游戏数据仓库 (Game Data Repository, Spec 06)
+ * 职责:
+ * 1. 通过 StorageAdapter 加载底层数据文件；
+ * 2. 处理 JSON 解析容错与缺失字段回退；
+ * 3. 过滤 0 时长游戏并完成数据合并；
+ * 4. 维护实例级缓存，支持无副作用缓存重置与隔离测试；
+ * 5. 预计算各维度的排序序列。
+ */
+export class GameDataRepository {
+  private adapter: StorageAdapter;
+  private memoizedMergedGames: { updatedAt?: string; games: MergedGame[] } | null = null;
+  private memoizedSortPresets: Record<SortKey, number[]> | null = null;
+
+  constructor(adapter: StorageAdapter = new FileSystemStorageAdapter()) {
+    this.adapter = adapter;
+  }
+
+  /** 获取当前存储适配器 */
+  getAdapter(): StorageAdapter {
+    return this.adapter;
+  }
+
+  /** 切换存储适配器（会自动重置内部缓存） */
+  setAdapter(adapter: StorageAdapter): void {
+    this.adapter = adapter;
+    this.resetCache();
+  }
+
+  /** 重置缓存（支持单测与隔离调用） */
+  resetCache(): void {
+    this.memoizedMergedGames = null;
+    this.memoizedSortPresets = null;
+  }
+
+  /** 读取并合并数据源，按总时长降序返回。读取或解析失败时安全回退为空数据 */
+  loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
+    if (this.memoizedMergedGames) return this.memoizedMergedGames;
+
+    let updatedAt: string | undefined;
+    let games: SteamGame[] = [];
+
+    try {
+      const raw = this.adapter.readGamesData();
+      const data = JSON.parse(raw) as SteamGamesData;
+      if (typeof data.updatedAt === 'string' && data.updatedAt) {
+        updatedAt = data.updatedAt;
+      }
+      games = Array.isArray(data.games) ? data.games : [];
+    } catch {
+      games = [];
+    }
+
+    let annotations: Record<string, Annotation> = {};
+    try {
+      const raw = this.adapter.readAnnotations();
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        annotations = parsed as Record<string, Annotation>;
+      }
+    } catch {
+      annotations = {};
+    }
+
+    let achievementMap = new Map<number, { unlocked: number; total: number; firstUnlockAt?: number }>();
+    try {
+      const raw = this.adapter.readAchievementsData();
+      const data = JSON.parse(raw) as SteamAchievementsData;
+      for (const g of data.games ?? []) {
+        if (g.hasStats && typeof g.unlocked === 'number' && typeof g.total === 'number') {
+          achievementMap.set(g.appid, {
+            unlocked: g.unlocked,
+            total: g.total,
+            firstUnlockAt: typeof g.firstUnlockAt === 'number' ? g.firstUnlockAt : undefined,
+          });
+        }
+      }
+    } catch {
+      achievementMap = new Map();
+    }
+
+    // 过滤 0h 游戏: 画廊只展示玩过的(用户明确要求,0 时长游戏不重要)
+    const filteredGames = games.filter((g) => (g.playtime_hours ?? 0) > 0);
+
+    const merged: MergedGame[] = filteredGames.map((game) => {
+      const annotation = annotations[String(game.appid)] ?? {};
+      const achievements = achievementMap.get(game.appid);
+      return {
+        ...game,
+        name_zh: annotation.name_zh ?? '',
+        tags: Array.isArray(annotation.tags) ? annotation.tags : [],
+        my_status: annotation.my_status ?? 'uncompleted',
+        my_review: annotation.my_review ?? '',
+        blog_url: annotation.blog_url ?? '',
+        play_year: annotation.play_year ?? '',
+        platform: annotation.platform ?? '',
+        my_rank: annotation.my_rank ?? '',
+        release_date: annotation.release_date ?? '',
+        achievements,
+        first_achievement_at: achievements?.firstUnlockAt,
+      };
+    });
+
+    this.memoizedMergedGames = {
+      updatedAt,
+      games: merged.sort((a, b) => b.playtime_hours - a.playtime_hours),
+    };
+    return this.memoizedMergedGames;
+  }
+
+  /**
+   * 获取预计算的排序结果数组(存储的是 appid)
+   * 构建期复用单例结果，供画廊组件和目录组件注入到客户端脚本中(Spec 04)
+   */
+  getSortPresets(): Record<SortKey, number[]> {
+    if (this.memoizedSortPresets) return this.memoizedSortPresets;
+    const { games } = this.loadMergedGames();
+    this.memoizedSortPresets = {
+      playtime: sortGames(games, 'playtime', 'desc').map((g) => g.appid),
+      recent: sortGames(games, 'recent', 'desc').map((g) => g.appid),
+      status: sortGames(games, 'status', 'desc').map((g) => g.appid),
+      release: sortGames(games, 'release', 'desc').map((g) => g.appid),
+      nameAsc: sortGames(games, 'nameAsc', 'asc').map((g) => g.appid),
+      nameDesc: sortGames(games, 'nameDesc', 'desc').map((g) => g.appid),
+    };
+    return this.memoizedSortPresets;
+  }
+}
+
+// 模块级全局单例仓库（保持既有顶级函数行为兼容与构建期记忆化）
+let defaultRepository = new GameDataRepository();
+
+export function getDefaultRepository(): GameDataRepository {
+  return defaultRepository;
+}
+
+export function setDefaultRepository(repo: GameDataRepository): void {
+  defaultRepository = repo;
+}
+
+/** 重置模块默认单例缓存 */
+export function resetGameDataCache(): void {
+  defaultRepository.resetCache();
+}
+
+/** 读取并合并数据文件,按总时长降序返回。读取失败时返回空列表(渲染空状态)。(模块级单例) */
+export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
+  return defaultRepository.loadMergedGames();
+}
+
+/** 获取预计算的排序结果数组(存储的是 appid) */
 export function getSortPresets(): Record<SortKey, number[]> {
-  if (memoizedSortPresets) return memoizedSortPresets;
-  const { games } = loadMergedGames();
-  memoizedSortPresets = {
-    playtime: sortGames(games, 'playtime', 'desc').map((g) => g.appid),
-    recent: sortGames(games, 'recent', 'desc').map((g) => g.appid),
-    status: sortGames(games, 'status', 'desc').map((g) => g.appid),
-    release: sortGames(games, 'release', 'desc').map((g) => g.appid),
-    nameAsc: sortGames(games, 'nameAsc', 'asc').map((g) => g.appid),
-    nameDesc: sortGames(games, 'nameDesc', 'desc').map((g) => g.appid),
-  };
-  return memoizedSortPresets;
+  return defaultRepository.getSortPresets();
 }
 
 /** 游玩时长格式化:最多保留 1 位小数,整数不带小数点 */
@@ -170,7 +363,17 @@ export function formatHours(hours: number): string {
 }
 
 // 状态中文文案由词汇模块提供(contribute from play-status)。保留重导出供既有消费方使用。
-export { statusText, statusText as statusLabel, statusWeight, statusToKey, keyToStatus, statusKeys, isStatus, STATUS_LADDER, DEFAULT_STATUS } from './play-status.ts';
+export {
+  statusText,
+  statusText as statusLabel,
+  statusWeight,
+  statusToKey,
+  keyToStatus,
+  statusKeys,
+  isStatus,
+  STATUS_LADDER,
+  DEFAULT_STATUS,
+} from './play-status.ts';
 
 /** 从发售日期字符串提取年份(如 "2024 年 8 月 20 日" → "2024"),无则返回空串 */
 export function releaseYear(date: string): string {
@@ -178,10 +381,6 @@ export function releaseYear(date: string): string {
   const m = String(date).match(/\d{4}/);
   return m ? m[0] : '';
 }
-
-/** 排序维度:总时长 / 近两周 / 游玩状态 / 发售年份 / 名称(独立方向) */
-export type SortKey = 'playtime' | 'recent' | 'status' | 'release' | 'nameAsc' | 'nameDesc';
-export type SortDir = 'asc' | 'desc';
 
 /**
  * 共享排序逻辑:画廊与右侧 TOC 用同一实现,保证两侧顺序一致。
@@ -257,121 +456,8 @@ export function badgesFor(game: Pick<MergedGame, 'my_status' | 'my_rank'>): Badg
   ];
 }
 
-/** HTML 转义:只在服务端渲染阶段调用;客户端已无拼接行为,不再需要转义助手 */
-export function esc(value: unknown): string {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
-}
-
 /** 最早成就解锁时间(Unix 秒)→ YYYY-MM-DD(北京时间 UTC+8,中国无夏令时,固定偏移转换) */
 export function firstPlayDate(ts: number): string {
   const d = new Date((Number(ts) || 0) * 1000 + 8 * 3600 * 1000);
   return d.toISOString().slice(0, 10);
-}
-
-/**
- * 气泡内部 HTML 内容(构建期服务端渲染,唯一入口)。
- * 输入 MergedGame,输出 .bubble-content 内的 HTML 字符串。
- * 各行的有无由数据决定(有数据才输出,空行自动消失);
- * 徽章与卡片同源(badgesFor),标签在服务端转义(esc)。
- * 客户端脚本不再内联拼接、不再复制任何纯函数、不再从卡片 DOM 读取徽章。
- */
-export function renderBubbleContent(game: MergedGame): string {
-  let html = '';
-
-  // Row 1 游戏名称:EN + CN 并列
-  html += '<div class="bubble-row">';
-  html += '<span class="bubble-label">游戏名称</span>';
-  html += '<span class="bubble-value">';
-  html += esc(game.name);
-  if (game.name_zh) {
-    html += `<span class="bubble-name-zh">${esc(game.name_zh)}</span>`;
-  }
-  html += '</span></div>';
-
-  // Row 2 游戏类型:标签胶囊,无标签时整行隐藏
-  if (Array.isArray(game.tags) && game.tags.length > 0) {
-    html += '<div class="bubble-row">';
-    html += '<span class="bubble-label">游戏类型</span>';
-    html += '<span class="bubble-value bubble-tags">';
-    html += game.tags.map((tag) => `<span class="tag-pill">${esc(tag)}</span>`).join('');
-    html += '</span></div>';
-  }
-
-  // Row 3 游玩状态:直接由 badgesFor(唯一来源)渲染,与卡片同源,无 DOM 复制 hack
-  html += '<div class="bubble-row">';
-  html += '<span class="bubble-label">游玩状态</span>';
-  html += '<span class="bubble-value">';
-  for (const badge of badgesFor(game)) {
-    if (badge.kind === 'status') {
-      html += `<span class="status-badge" data-status="${esc(badge.value)}">${esc(statusText(badge.value))}</span>`;
-    } else {
-      html += `<span class="status-badge rank-badge">${esc(badge.value)}</span>`;
-    }
-  }
-  html += '</span></div>';
-
-  // Row 4 数据详情
-  html += '<div class="bubble-row">';
-  html += '<span class="bubble-label">数据详情</span>';
-  html += '<span class="bubble-value">';
-  html += `<strong>总游玩 ${formatHours(game.playtime_hours)} 小时</strong>`;
-  html += '<span class="bubble-sep">·</span>';
-  html += `近两周 ${formatHours(game.playtime_2weeks_hours)} 小时`;
-  html += '</span></div>';
-
-  // Row 5 成就进度:无成就系统(achievements 为 undefined)或总数为 0 时整行隐藏
-  if (game.achievements && game.achievements.total > 0) {
-    const { unlocked, total } = game.achievements;
-    const percent = Math.round((unlocked / total) * 100);
-    const trophy = percent === 100 ? ' 🏆' : '';
-    html += '<div class="bubble-row">';
-    html += '<span class="bubble-label">成就进度</span>';
-    html += '<span class="bubble-value">';
-    html += '<span class="achievement-wrap">';
-    html += `<span class="achievement-bar"><span class="achievement-fill" style="width:${esc(percent)}%"></span></span>`;
-    html += `<span class="achievement-text">${esc(percent)}% (${esc(unlocked)}/${esc(total)})${trophy}</span>`;
-    html += '</span></span>';
-    html += '</div>';
-  }
-
-  // Row 6 我的短评
-  html += '<div class="bubble-row">';
-  html += '<span class="bubble-label">我的短评</span>';
-  if (game.my_review) {
-    html += `<span class="bubble-value">${esc(game.my_review)}</span>`;
-  } else {
-    html += '<span class="bubble-value bubble-empty">暂无短评</span>';
-  }
-  html += '</div>';
-
-  // Row 深度评测:blog_url 为空时整行隐藏
-  if (game.blog_url) {
-    html += '<div class="bubble-row">';
-    html += '<span class="bubble-label">深度评测</span>';
-    html += '<span class="bubble-value">';
-    html += `<a class="bubble-link" href="${esc(game.blog_url)}">📄 查看我的深度评测</a>`;
-    html += '</span></div>';
-  }
-
-  // 底部:Steam 商店入口 + 元数据(发售年份/首次游玩(估)/游玩年份/平台)
-  html += '<div class="bubble-footer">';
-  html += `<a class="store-link" href="https://store.steampowered.com/app/${game.appid}" target="_blank" rel="noopener noreferrer">前往 Steam 商店 ↗</a>`;
-  const meta: string[] = [];
-  const rYear = releaseYear(game.release_date);
-  if (rYear) meta.push(`发售年份: ${rYear}`);
-  // 首次游玩(估):来自成就 API 最早解锁时间(ADR-0008),无成就数据时不显示
-  if (game.first_achievement_at) meta.push(`首次游玩(估): ${firstPlayDate(game.first_achievement_at)}`);
-  if (game.play_year) meta.push(`游玩年份: ${esc(game.play_year)}`);
-  if (game.platform) meta.push(`平台: ${esc(game.platform)}`);
-  if (meta.length > 0) {
-    html += `<p class="bubble-meta">${meta.join(' · ')}</p>`;
-  }
-  html += '</div>';
-
-  return html;
 }

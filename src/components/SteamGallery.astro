@@ -6,7 +6,8 @@
 // 数据由共享模�?src/lib/steam-data.ts 构建期读取合�?无运行时请求
 // 气泡内容�?renderBubbleContent 构建期服务端渲染(set:html),客户端不再拼�?HTML
 // 交互为原�?JS(define:vars 注入排序预设),无任何客户端框架
-import { loadMergedGames, getSortPresets, formatHours, releaseYear, badgesFor, renderBubbleContent } from '../lib/steam-data';
+import { loadMergedGames, getSortPresets, formatHours, releaseYear, badgesFor } from '../lib/steam-data';
+import { renderBubbleContent } from './bubble-render';
 import { statusText } from '../lib/play-status';
 
 const { updatedAt, games } = loadMergedGames();
