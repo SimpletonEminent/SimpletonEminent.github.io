@@ -28,7 +28,7 @@ jobs:
           node-version: 22
 
       - name: Fetch Steam games data
-        run: node scripts/fetch-steam-games.mjs
+        run: node --experimental-strip-types scripts/fetch-steam-games.mjs
         env:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
           STEAM_ID: ${{ secrets.STEAM_ID }}

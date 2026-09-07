@@ -7,28 +7,21 @@
 // - 游玩状态为六阶梯菜单(ADR-0007);平台回车默认 PC
 // - 段位/短评/长评/年份为空则不写该字段
 // 输入支持 TTY 交互与管道/重定向(测试或批处理)两种模式。
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { isValidPlayYear, PLAY_YEAR_HINT } from './lib/play-year.mjs';
 // 六阶梯词汇来自唯一词汇模块(Spec 02):菜单选项、状态键校验均单一来源。
 import { STATUS_LADDER, DEFAULT_STATUS, isStatus } from '../src/lib/play-status.ts';
-
-const GAMES_FILE = 'public/steam_games.json';
-const ANNOT_FILE = 'src/data/steam_annotations.json';
+import {
+  PATHS,
+  loadGamesData,
+  loadAnnotations,
+  saveAnnotations,
+} from './steam-pipeline-core.ts';
 
 /** 六阶梯游玩状态菜单(文案与词汇模块一致) */
 const STATUS_OPTIONS = STATUS_LADDER.map((s) => ({ key: s.key, label: s.label }));
-
-function loadJson(file) {
-  try {
-    return JSON.parse(readFileSync(file, 'utf-8'));
-  } catch (err) {
-    console.error(`读取 ${file} 失败:${err.message}`);
-    console.error('请在项目根目录运行: npm run review');
-    process.exit(1);
-  }
-}
 
 // ---- 输入层:TTY 用 readline;非 TTY(管道)一次性读入全部行逐行消费,
 //      避免 readline 在快速管道输入下丢失行的问题 ----
@@ -49,9 +42,8 @@ if (input.isTTY) {
   };
 }
 
-const gamesData = loadJson(GAMES_FILE);
-const games = Array.isArray(gamesData.games) ? gamesData.games : [];
-const annotations = loadJson(ANNOT_FILE);
+const { games } = loadGamesData();
+const annotations = loadAnnotations();
 
 /** 挑选游戏:输入名称关键词(匹配英文名/中文名)或 appid */
 async function pickGame() {
@@ -142,9 +134,9 @@ async function run() {
   if (platform) updates.platform = platform;
 
   annotations[appid] = { ...existing, ...updates };
-  writeFileSync(ANNOT_FILE, `${JSON.stringify(annotations, null, 2)}\n`, 'utf-8');
+  saveAnnotations(annotations);
 
-  console.log(`\n已写入 ${ANNOT_FILE}:`, JSON.stringify(annotations[appid], null, 2));
+  console.log(`\n已写入 ${PATHS.ANNOTATIONS}:`, JSON.stringify(annotations[appid], null, 2));
   console.log('提示:自动字段(中文名/tags/发售日期)未被触碰;推送上线用 git push。');
 }
 
