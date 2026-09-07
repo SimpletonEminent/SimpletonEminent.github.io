@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-06T07:03:59.981Z",
+  "updatedAt": "2026-09-07T07:15:13.876Z",
   "games": [
     {
       "appid": 1172470,
@@ -36,9 +36,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 211.1,
-      "playtime_2weeks_hours": 4.8,
-      "last_played": 1788519555,
+      "playtime_hours": 212.7,
+      "playtime_2weeks_hours": 6.3,
+      "last_played": 1788685857,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -221,7 +221,7 @@
       "appid": 1364780,
       "name": "Street Fighter™ 6",
       "playtime_hours": 76,
-      "playtime_2weeks_hours": 3.8,
+      "playtime_2weeks_hours": 3,
       "last_played": 1787988931,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1364780/library_600x900.jpg"
     },
@@ -634,6 +634,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/379720/library_600x900.jpg"
     },
     {
+      "appid": 2401970,
+      "name": "Ace Attorney Investigations Collection",
+      "playtime_hours": 12.7,
+      "playtime_2weeks_hours": 0.5,
+      "last_played": 1788706168,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2401970/library_600x900.jpg"
+    },
+    {
       "appid": 1326470,
       "name": "Sons Of The Forest",
       "playtime_hours": 12.3,
@@ -648,14 +656,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1658583102,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/220/library_600x900.jpg"
-    },
-    {
-      "appid": 2401970,
-      "name": "Ace Attorney Investigations Collection",
-      "playtime_hours": 12.2,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1776579311,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2401970/library_600x900.jpg"
     },
     {
       "appid": 8870,
@@ -853,7 +853,7 @@
       "appid": 1888160,
       "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
       "playtime_hours": 5.3,
-      "playtime_2weeks_hours": 4.3,
+      "playtime_2weeks_hours": 1.1,
       "last_played": 1787920413,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
@@ -916,9 +916,9 @@
     {
       "appid": 2592160,
       "name": "Dispatch",
-      "playtime_hours": 4,
-      "playtime_2weeks_hours": 4,
-      "last_played": 1788678035,
+      "playtime_hours": 4.1,
+      "playtime_2weeks_hours": 4.1,
+      "last_played": 1788678691,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
     {
