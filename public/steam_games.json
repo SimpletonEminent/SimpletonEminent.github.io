@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-07T07:15:13.876Z",
+  "updatedAt": "2026-09-08T07:10:45.241Z",
   "games": [
     {
       "appid": 1172470,
@@ -388,9 +388,9 @@
     {
       "appid": 403640,
       "name": "Dishonored 2",
-      "playtime_hours": 33.9,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1762092708,
+      "playtime_hours": 34.2,
+      "playtime_2weeks_hours": 0.3,
+      "last_played": 1788801469,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
@@ -853,7 +853,7 @@
       "appid": 1888160,
       "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
       "playtime_hours": 5.3,
-      "playtime_2weeks_hours": 1.1,
+      "playtime_2weeks_hours": 0.8,
       "last_played": 1787920413,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
