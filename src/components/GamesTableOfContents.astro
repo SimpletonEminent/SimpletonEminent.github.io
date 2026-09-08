@@ -1,13 +1,20 @@
 ---
 // 覆盖 Starlight 的桌面端 TableOfContents:
 // - /games 路由 → 渲染游戏列表(替代 "On this page"),与卡片画廊双向联动
+// - /blog 路由 → 渲染文章总览的年份归档 TOC
 // - 其他路由 → 渲染原生 TOC
+import { getCollection } from 'astro:content';
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
 import { loadMergedGames, formatHours, badgesFor } from '../lib/steam-data';
 import { statusText } from '../lib/play-status';
+import { filterAndGroupGeneralPosts } from '../lib/blog-meta';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
+const isBlogOverviewRoute = Astro.url.pathname === '/blog' || Astro.url.pathname === '/blog/';
+
 const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
+const docs = isBlogOverviewRoute ? await getCollection('docs') : [];
+const yearGroups = isBlogOverviewRoute ? filterAndGroupGeneralPosts(docs) : [];
 ---
 
 {
@@ -35,6 +42,20 @@ const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
         {games.length === 0 && <p class="games-toc-empty">暂无游戏数据</p>}
       </div>
     </nav>
+  ) : isBlogOverviewRoute ? (
+    <nav class="blog-overview-toc" aria-label="年份归档">
+      <h2>📅 年份归档</h2>
+      <ul class="overview-toc-list">
+        {yearGroups.map((group) => (
+          <li>
+            <a href={`#year-${group.year}`} class="overview-toc-link">
+              <span>{group.year} 年</span>
+              <span class="overview-toc-count">{group.posts.length} 篇</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   ) : (
     <DefaultTableOfContents />
   )
@@ -42,6 +63,48 @@ const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
 
 <style>
 	@layer starlight.core {
+		/* --- 文章总览年份归档 TOC --- */
+		.blog-overview-toc h2 {
+			margin: 0 0 0.75rem;
+			color: var(--sl-color-white);
+			font-size: var(--sl-text-h5);
+			font-weight: 600;
+			line-height: var(--sl-line-height-headings);
+		}
+
+		.overview-toc-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			flex-direction: column;
+			gap: 0.35rem;
+		}
+
+		.overview-toc-link {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.35rem 0.5rem;
+			border-radius: 6px;
+			color: var(--sl-color-gray-3);
+			text-decoration: none;
+			font-size: var(--sl-text-sm);
+			transition: all 0.15s ease;
+		}
+
+		.overview-toc-link:hover {
+			color: var(--sl-color-accent-high);
+			background: color-mix(in srgb, var(--sl-color-gray-5) 40%, transparent);
+		}
+
+		.overview-toc-count {
+			font-size: var(--sl-text-xs);
+			color: var(--sl-color-gray-4);
+			background: color-mix(in srgb, var(--sl-color-gray-6) 60%, transparent);
+			padding: 0.1rem 0.4rem;
+			border-radius: 9999px;
+		}
 		/* 视觉继承 Starlight 原生 TOC 质感:小字号、柔和灰、sticky 由 right-sidebar 容器提供 */
 		.games-toc h2 {
 			margin: 0 0 0.75rem;

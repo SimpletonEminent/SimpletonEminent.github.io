@@ -61,8 +61,8 @@ const postMeta = resolvePostMetadata(entry.id, entry.data as Record<string, unkn
 }
 
 {
-  // 仅当插件注入了阅读数据时才显示
-  minutesRead && (
+  // 仅当属于单篇博客文章且插件注入了阅读数据时才显示
+  postMeta.isBlogPost && minutesRead && (
     <p class="reading-time">
       📖 {words ? `${words} 字` : ''}
       {words && ' · '}

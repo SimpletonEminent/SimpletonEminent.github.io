@@ -1,13 +1,20 @@
 ---
 // 覆盖 Starlight 的移动端 TableOfContents:
 // - /games 路由 → 渲染折叠的游戏列表(替代 "On this page" 下拉),与卡片画廊联动
+// - /blog 路由 → 渲染折叠的文章总览年份列表
 // - 其他路由 → 渲染原生移动端 TOC
+import { getCollection } from 'astro:content';
 import DefaultMobileTableOfContents from '@astrojs/starlight/components/MobileTableOfContents.astro';
 import { loadMergedGames, formatHours, badgesFor } from '../lib/steam-data';
 import { statusText } from '../lib/play-status';
+import { filterAndGroupGeneralPosts } from '../lib/blog-meta';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
+const isBlogOverviewRoute = Astro.url.pathname === '/blog' || Astro.url.pathname === '/blog/';
+
 const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
+const docs = isBlogOverviewRoute ? await getCollection('docs') : [];
+const yearGroups = isBlogOverviewRoute ? filterAndGroupGeneralPosts(docs) : [];
 ---
 
 {
@@ -39,6 +46,23 @@ const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
         </div>
       </details>
     </nav>
+  ) : isBlogOverviewRoute ? (
+    <nav class="games-mobile-toc" aria-label="年份归档">
+      <details>
+        <summary>
+          <span class="toggle">📅 年份归档</span>
+        </summary>
+        <div class="dropdown">
+          {yearGroups.map((group) => (
+            <a href={`#year-${group.year}`} class="overview-mobile-row">
+              <span>{group.year} 年</span>
+              <span class="overview-mobile-count">{group.posts.length} 篇</span>
+            </a>
+          ))}
+          {yearGroups.length === 0 && <p class="games-mobile-empty">暂无文章记录</p>}
+        </div>
+      </details>
+    </nav>
   ) : (
     <DefaultMobileTableOfContents />
   )
@@ -46,6 +70,31 @@ const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
 
 <style>
 	@layer starlight.core {
+		.overview-mobile-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			padding: 0.5rem 1rem;
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-2);
+			text-decoration: none;
+			border-bottom: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 20%, transparent);
+			transition: all 0.15s ease;
+		}
+
+		.overview-mobile-row:hover {
+			color: var(--sl-color-accent);
+			background: color-mix(in srgb, var(--sl-color-gray-5) 25%, transparent);
+		}
+
+		.overview-mobile-count {
+			font-size: var(--sl-text-xs);
+			color: var(--sl-color-gray-3);
+			background: color-mix(in srgb, var(--sl-color-gray-6) 60%, transparent);
+			padding: 0.1rem 0.4rem;
+			border-radius: 9999px;
+		}
 		nav {
 			position: fixed;
 			z-index: var(--sl-z-index-toc);

@@ -1,0 +1,392 @@
+---
+// 文章总览时间线卡片流组件 (ArticlesOverview)
+// 职责:
+// 1. 从 docs 内容集合中动态提取所有普通文章 (排除游戏评测与自身 index)
+// 2. 解析 remark 插件注入的阅读时间与字数
+// 3. 按年份倒序分组，每组内按发布时间倒序呈现时间线微质感卡片
+// 4. 样式全面消费 Starlight CSS 变量与 theme.css 徽章定义，原生自适应明暗主题。
+
+import { getCollection, render } from 'astro:content';
+import { filterAndGroupGeneralPosts } from '../lib/blog-meta';
+
+const rawDocs = await getCollection('docs');
+
+const enrichedDocs = await Promise.all(
+  rawDocs.map(async (entry) => {
+    let minutesRead: string | undefined;
+    let words: number | undefined;
+    try {
+      const rendered = await render(entry);
+      if (rendered.remarkPluginFrontmatter?.minutesRead) {
+        minutesRead = String(rendered.remarkPluginFrontmatter.minutesRead);
+      }
+      if (typeof rendered.remarkPluginFrontmatter?.words === 'number') {
+        words = rendered.remarkPluginFrontmatter.words;
+      }
+    } catch {
+      // 忽略非 markdown 异常
+    }
+    return {
+      ...entry,
+      minutesRead,
+      words,
+    };
+  })
+);
+
+const yearGroups = filterAndGroupGeneralPosts(enrichedDocs);
+const totalArticles = yearGroups.reduce((acc, g) => acc + g.posts.length, 0);
+---
+
+<div class="articles-overview not-content">
+  {/* 顶部总览导语与统计 */}
+  <header class="overview-header">
+    <div class="header-intro">
+      <p class="intro-tagline">
+        记录技术实践、环境部署、开发踩坑与生活感悟。以纯文本沉淀经得起时间检验的思考。
+      </p>
+      <div class="overview-stats-bar">
+        <span class="stat-badge">
+          <span class="stat-dot"></span>
+          <span>已沉淀 <strong>{totalArticles}</strong> 篇常规博文</span>
+        </span>
+        <a href="/games/" class="guide-link">
+          🎮 寻找游戏长评？前往 Steam 画廊 ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  {/* 年份时间线分组列表 */}
+  <div class="timeline-container">
+    {yearGroups.length === 0 && (
+      <div class="empty-state">
+        <p>暂无普通博文记录。</p>
+      </div>
+    )}
+
+    {yearGroups.map((group) => (
+      <section class="year-section" aria-labelledby={`year-${group.year}`}>
+        <div class="year-header">
+          <h2 id={`year-${group.year}`} class="year-title">
+            <span class="year-dot"></span>
+            <span class="year-text">{group.year} 年</span>
+            <span class="year-badge">{group.posts.length} 篇</span>
+          </h2>
+          <div class="year-line"></div>
+        </div>
+
+        <div class="articles-list">
+          {group.posts.map((post) => (
+            <article class="article-card">
+              <a href={post.url} class="card-click-area" aria-label={`阅读文章：${post.title}`}>
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <span class="title-text">{post.title}</span>
+                    <span class="hover-arrow">→</span>
+                  </h3>
+                </div>
+
+                {post.description && (
+                  <p class="card-desc">{post.description}</p>
+                )}
+
+                <div class="card-footer">
+                  <div class="meta-row">
+                    {post.pubDate && (
+                      <span class="meta-item date-item">
+                        <span class="meta-icon">📅</span>
+                        <span>{post.pubDate}</span>
+                      </span>
+                    )}
+
+                    {post.minutesRead && (
+                      <span class="meta-item read-item">
+                        <span class="meta-icon">⏱️</span>
+                        <span>{post.minutesRead}</span>
+                        {post.words && <span class="word-count">({post.words} 字)</span>}
+                      </span>
+                    )}
+                  </div>
+
+                  {post.tags.length > 0 && (
+                    <div class="tags-row">
+                      {post.tags.map((tag) => (
+                        <span class="post-tag tag-pill" data-tag={tag}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</div>
+
+<style>
+  .articles-overview {
+    margin-top: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  /* --- 顶部导语 --- */
+  .overview-header {
+    margin-bottom: 2.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 50%, transparent);
+  }
+
+  .intro-tagline {
+    font-size: var(--sl-text-base);
+    color: var(--sl-color-gray-2);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .overview-stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    font-size: var(--sl-text-sm);
+  }
+
+  .stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.75rem;
+    background: color-mix(in srgb, var(--sl-color-gray-6) 60%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 40%, transparent);
+    border-radius: 9999px;
+    color: var(--sl-color-gray-2);
+  }
+
+  .stat-badge strong {
+    color: var(--sl-color-accent-high);
+    font-weight: 600;
+  }
+
+  .stat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--sl-color-accent);
+    box-shadow: 0 0 6px var(--sl-color-accent);
+  }
+
+  .guide-link {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    transition: color 0.15s ease;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .guide-link:hover {
+    color: var(--sl-color-accent);
+    text-decoration: underline;
+  }
+
+  /* --- 年份时间线节段 --- */
+  .year-section {
+    margin-bottom: 2.75rem;
+  }
+
+  .year-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .year-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    font-size: var(--sl-text-h3);
+    font-weight: 700;
+    color: var(--sl-color-white);
+    letter-spacing: -0.01em;
+  }
+
+  .year-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--sl-color-accent);
+  }
+
+  .year-badge {
+    font-size: var(--sl-text-xs);
+    font-weight: 500;
+    color: var(--sl-color-gray-3);
+    background: color-mix(in srgb, var(--sl-color-gray-6) 80%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 50%, transparent);
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+  }
+
+  .year-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--sl-color-gray-5) 50%, transparent),
+      transparent
+    );
+  }
+
+  /* --- 卡片流列表 --- */
+  .articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .article-card {
+    position: relative;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--sl-color-gray-6) 40%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 45%, transparent);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+  }
+
+  .article-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--sl-color-accent) 60%, transparent);
+    background: color-mix(in srgb, var(--sl-color-gray-6) 70%, transparent);
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.35);
+  }
+
+  .card-click-area {
+    display: block;
+    padding: 1.25rem 1.35rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .card-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--sl-color-white);
+    transition: color 0.15s ease;
+  }
+
+  .article-card:hover .card-title {
+    color: var(--sl-color-accent-high);
+  }
+
+  .hover-arrow {
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.2s ease;
+    color: var(--sl-color-accent);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .article-card:hover .hover-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .card-desc {
+    margin: 0 0 1rem 0;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+    line-height: 1.6;
+  }
+
+  .card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed color-mix(in srgb, var(--sl-color-gray-5) 30%, transparent);
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .meta-icon {
+    font-size: 0.85em;
+  }
+
+  .word-count {
+    color: var(--sl-color-gray-4);
+    margin-left: 0.2rem;
+  }
+
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* 标签胶囊基于 theme.css 中定义的规范与变量 */
+  .post-tag.tag-pill {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--sl-color-gray-5) 35%, transparent);
+    color: var(--sl-color-gray-2);
+    border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 50%, transparent);
+    transition: all 0.15s ease;
+  }
+
+  .article-card:hover .post-tag.tag-pill {
+    border-color: color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
+    color: var(--sl-color-white);
+  }
+
+  .empty-state {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--sl-color-gray-3);
+  }
+
+  @media (max-width: 640px) {
+    .card-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+  }
+</style>

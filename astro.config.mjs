@@ -52,18 +52,25 @@ export default defineConfig({
         { label: '🏠 首页', link: '/' },
         // Steam 游戏画廊
         { label: '🎮 游戏画廊', link: '/games' },
-        // 博客(手动列出:顶层技术文章 + 「游戏评测」嵌套组)
-        // 注:Starlight 无法给自动生成的子目录组改成中文名,且文件挪目录会破坏画廊 blog_url 链接,
-        // 因此采用手动嵌套组(见 docs/adr/0009)。新增文章时在此追加对应 slug。
+        // 博客(置顶文章总览 + 「技术与生活」与「游戏评测」镜像对称双子组)
+        // 见 docs/adr/0009 与 docs/adr/0013。新增文章时在对应分组追加 slug。
         {
           label: '📝 博客',
           collapsed: false,
           items: [
-            // 顶层技术文章(非游戏评测)
-            'blog/steam指南写作推荐',
-            'blog/如何安装msst音乐音源分离工作流',
-            'blog/如何通过github-pages和astro构建个人博客',
-            // 游戏评测子分类
+            // 博客聚合门户
+            { label: '📑 文章总览', link: '/blog/' },
+            // 常规博文子分类 (技术实践、工具流与生活随笔)
+            {
+              label: '技术与生活',
+              collapsed: false,
+              items: [
+                'blog/steam指南写作推荐',
+                'blog/如何安装msst音乐音源分离工作流',
+                'blog/如何通过github-pages和astro构建个人博客',
+              ],
+            },
+            // 游戏长评子分类
             {
               label: '游戏评测',
               collapsed: false,
