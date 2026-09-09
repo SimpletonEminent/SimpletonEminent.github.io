@@ -2,9 +2,8 @@
 // 职责: 构建期服务端渲染卡片点击展开的详情气泡 (.bubble-content) HTML 字符串。
 // 从数据模块中剥离，交回组件呈现层维护，使数据仓库接口完全脱离 HTML 语法细节。
 
-import { statusText } from '../lib/play-status.ts';
+import { renderBadges } from './badge-render.ts';
 import {
-  badgesFor,
   formatHours,
   releaseYear,
   firstPlayDate,
@@ -49,18 +48,11 @@ export function renderBubbleContent(game: MergedGame): string {
     html += '</span></div>';
   }
 
-  // Row 3 游玩状态:直接由 badgesFor(唯一来源)渲染,与卡片同源,无 DOM 复制 hack
+  // Row 3 游玩状态:统一由徽章展示模板单源渲染 (Spec 08)
   html += '<div class="bubble-row">';
   html += '<span class="bubble-label">游玩状态</span>';
-  html += '<span class="bubble-value">';
-  for (const badge of badgesFor(game)) {
-    if (badge.kind === 'status') {
-      html += `<span class="status-badge" data-status="${esc(badge.value)}">${esc(statusText(badge.value))}</span>`;
-    } else {
-      html += `<span class="status-badge rank-badge">${esc(badge.value)}</span>`;
-    }
-  }
-  html += '</span></div>';
+  html += `<span class="bubble-value">${renderBadges(game)}</span>`;
+  html += '</div>';
 
   // Row 4 数据详情
   html += '<div class="bubble-row">';

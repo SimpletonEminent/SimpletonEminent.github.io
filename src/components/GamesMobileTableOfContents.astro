@@ -5,8 +5,8 @@
 // - 其他路由 → 渲染原生移动端 TOC
 import { getCollection } from 'astro:content';
 import DefaultMobileTableOfContents from '@astrojs/starlight/components/MobileTableOfContents.astro';
-import { loadMergedGames, formatHours, badgesFor } from '../lib/steam-data';
-import { statusText } from '../lib/play-status';
+import { loadMergedGames, formatHours } from '../lib/steam-data';
+import StatusBadges from './StatusBadges.astro';
 import { filterAndGroupGeneralPosts } from '../lib/blog-meta';
 
 const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
@@ -29,15 +29,7 @@ const yearGroups = isBlogOverviewRoute ? filterAndGroupGeneralPosts(docs) : [];
             games.map((game) => (
               <button type="button" class="games-mobile-row" data-appid={game.appid}>
                 <span class="games-mobile-name">{game.name}</span>
-                {badgesFor(game).map((badge) =>
-                  badge.kind === 'status' ? (
-                    <span class="status-badge" data-status={badge.value}>
-                      {statusText(badge.value)}
-                    </span>
-                  ) : (
-                    <span class="status-badge rank-badge">{badge.value}</span>
-                  )
-                )}
+                <StatusBadges game={game} />
                 <span class="games-mobile-playtime">{formatHours(game.playtime_hours)}h</span>
               </button>
             ))

@@ -445,8 +445,8 @@ export type Badge =
   | { kind: 'status'; value: Status }
   | { kind: 'rank'; value: string };
 
-export function badgesFor(game: Pick<MergedGame, 'my_status' | 'my_rank'>): Badge[] {
-  const rank = game.my_rank.trim();
+export function badgesFor(game: Pick<MergedGame, 'my_status'> & { my_rank?: string }): Badge[] {
+  const rank = (game.my_rank || '').trim();
   if (!rank) {
     return [{ kind: 'status', value: game.my_status }];
   }

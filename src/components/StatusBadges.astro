@@ -1,0 +1,13 @@
+---
+// 徽章展示模板 Astro 组件 (Status Badge Component, Spec 08)
+// 职责: 消费游戏领域数据，单源渲染标准化的状态与段位徽章标记。
+// 封装内部徽章遍历与无障碍结构，供画廊卡片与各端 TOC 列表直接引用。
+import { renderBadges, type BadgeGameInput } from './badge-render';
+
+export interface Props {
+  game: BadgeGameInput;
+}
+
+const { game } = Astro.props;
+---
+<Fragment set:html={renderBadges(game)} />

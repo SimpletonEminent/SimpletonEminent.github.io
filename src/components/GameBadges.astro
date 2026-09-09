@@ -1,0 +1,7 @@
+---
+// 游戏徽章别名组件 (向后与命名风格兼容)
+import StatusBadges, { type Props as StatusBadgesProps } from './StatusBadges.astro';
+
+export type Props = StatusBadgesProps;
+---
+<StatusBadges {...Astro.props} />

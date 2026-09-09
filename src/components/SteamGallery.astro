@@ -6,9 +6,9 @@
 // 数据由共享模�?src/lib/steam-data.ts 构建期读取合�?无运行时请求
 // 气泡内容�?renderBubbleContent 构建期服务端渲染(set:html),客户端不再拼�?HTML
 // 交互为原�?JS(define:vars 注入排序预设),无任何客户端框架
-import { loadMergedGames, getSortPresets, formatHours, releaseYear, badgesFor } from '../lib/steam-data';
+import { loadMergedGames, getSortPresets, formatHours, releaseYear } from '../lib/steam-data';
 import { renderBubbleContent } from './bubble-render';
-import { statusText } from '../lib/play-status';
+import StatusBadges from './StatusBadges.astro';
 
 const { updatedAt, games } = loadMergedGames();
 
@@ -55,15 +55,7 @@ const sortPresets = getSortPresets();
                   <div class="card-info">
                     <p class="card-name" title={game.name}>{game.name_zh || game.name}</p>
                     <div class="card-meta">
-                      {badgesFor(game).map((badge) =>
-                        badge.kind === 'status' ? (
-                          <span class="status-badge" data-status={badge.value}>
-                            {statusText(badge.value)}
-                          </span>
-                        ) : (
-                          <span class="status-badge rank-badge">{badge.value}</span>
-                        )
-                      )}
+                      <StatusBadges game={game} />
                       <p class="card-playtime">
                         <strong>{formatHours(game.playtime_hours)}</strong> 小时
                       </p>
