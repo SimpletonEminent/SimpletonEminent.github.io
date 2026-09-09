@@ -4,6 +4,7 @@
 // 2. 动态继承 Steam 注释文件中的游戏类型标签 (或回退 frontmatter tags)
 // 3. 判定双日期的展示策略 (只有更新时间严格晚于首次发布时间才显示)
 // 4. 过滤并按年份分组普通文章数据 (用于 /blog/ 文章总览门户)
+// 5. 单源化解析与富化阅读指标 (minutesRead 与 words)，收敛 AST 刺探 (Spec 16)
 
 import { readFileSync } from 'node:fs';
 
@@ -17,6 +18,11 @@ export interface PostMetadata {
   pubDate?: string;
   updatedDate?: string;
   showUpdated: boolean;
+}
+
+export interface ReadingMetrics {
+  minutesRead?: string;
+  words?: number;
 }
 
 export interface AnnotationItem {
@@ -44,12 +50,11 @@ export interface YearGroup {
 export interface InputPostEntry {
   id: string;
   data: {
-    title: string;
+    title?: string;
     description?: string;
     pubDate?: string;
     updatedDate?: string;
     tags?: string[];
-    [key: string]: unknown;
   };
   minutesRead?: string;
   words?: number;
@@ -57,6 +62,7 @@ export interface InputPostEntry {
 }
 
 let memoizedAnnotations: Record<string, AnnotationItem> | null = null;
+const readingMetricsCache = new WeakMap<object, ReadingMetrics>();
 
 /** 读取并缓存 steam_annotations.json */
 export function loadBlogAnnotations(): Record<string, AnnotationItem> {
@@ -68,6 +74,135 @@ export function loadBlogAnnotations(): Record<string, AnnotationItem> {
     memoizedAnnotations = {};
   }
   return memoizedAnnotations;
+}
+
+/**
+ * 统一解析博文阅读时长与字数指标纯函数 (Spec 16)
+ *
+ * 封装对不同阶段 entry 结构的探测接缝:
+ * 1. 显式已富化的直接字段: entry.minutesRead / entry.words
+ * 2. 外部异步 render(entry) 产物: rendered.remarkPluginFrontmatter 或 rendered.metadata.frontmatter
+ * 3. Starlight 内部已渲染结构: entry.rendered.metadata.frontmatter 或 entry.rendered.remarkPluginFrontmatter
+ * 4. Frontmatter 直接声明: entry.data.minutesRead / entry.data.words
+ * 5. 模块级 WeakMap 缓存: 避免同一 entry 重复进行属性遍历
+ *
+ * @param entry 文档条目对象或包含渲染信息的对象
+ * @param rendered 可选由 await render(entry) 得到的渲染产物
+ */
+export function resolveReadingMetrics(entry: unknown, rendered?: unknown): ReadingMetrics {
+  if (!entry || typeof entry !== 'object') {
+    return {};
+  }
+
+  // 1. 优先命中 WeakMap 缓存 (若未传入外部独立 rendered 对象)
+  if (!rendered && readingMetricsCache.has(entry as object)) {
+    return readingMetricsCache.get(entry as object)!;
+  }
+
+  const e = entry as Record<string, unknown>;
+  const r = (rendered && typeof rendered === 'object' ? rendered : undefined) as Record<string, unknown> | undefined;
+  const entryRendered = (e.rendered && typeof e.rendered === 'object' ? e.rendered : undefined) as Record<string, unknown> | undefined;
+  const data = (e.data && typeof e.data === 'object' ? e.data : undefined) as Record<string, unknown> | undefined;
+
+  // 探测候选源队列 (按优先级自上而下检索)
+  const candidateSources: Array<Record<string, unknown> | undefined> = [
+    // 自身已被富化的属性
+    e,
+    // 显式传入的 rendered 对象的各结构 (AST 插件产物)
+    r?.remarkPluginFrontmatter as Record<string, unknown> | undefined,
+    (r?.metadata as { frontmatter?: Record<string, unknown> } | undefined)?.frontmatter,
+    // entry 内部挂载的 rendered 各结构 (Starlight 内部注入点)
+    (entryRendered?.metadata as { frontmatter?: Record<string, unknown> } | undefined)?.frontmatter,
+    entryRendered?.remarkPluginFrontmatter as Record<string, unknown> | undefined,
+    // entry 内部可能直接挂载的 remarkPluginFrontmatter
+    e.remarkPluginFrontmatter as Record<string, unknown> | undefined,
+    // frontmatter data 兜底声明
+    data,
+  ];
+
+  let resolvedMinutesRead: string | undefined;
+  let resolvedWords: number | undefined;
+
+  for (const src of candidateSources) {
+    if (!src) continue;
+
+    if (!resolvedMinutesRead && typeof src.minutesRead === 'string' && src.minutesRead.trim()) {
+      resolvedMinutesRead = src.minutesRead.trim();
+    }
+
+    if (resolvedWords === undefined) {
+      if (typeof src.words === 'number' && !Number.isNaN(src.words) && src.words > 0) {
+        resolvedWords = src.words;
+      } else if (typeof src.words === 'string' && /^\d+$/.test(src.words.trim())) {
+        resolvedWords = Number.parseInt(src.words.trim(), 10);
+      }
+    }
+
+    if (resolvedMinutesRead && resolvedWords !== undefined) {
+      break;
+    }
+  }
+
+  const result: ReadingMetrics = {
+    minutesRead: resolvedMinutesRead,
+    words: resolvedWords,
+  };
+
+  // 写入 WeakMap 缓存
+  readingMetricsCache.set(entry as object, result);
+
+  return result;
+}
+
+/**
+ * 异步解析阅读指标 (支持传入 render 渲染器或自动使用 entry 内部渲染状态)
+ * @param entry 文档条目
+ * @param renderer 可选的 render(entry) 异步函数
+ */
+export async function resolveReadingMetricsAsync(
+  entry: unknown,
+  renderer?: (entry: unknown) => Promise<unknown>
+): Promise<ReadingMetrics> {
+  // 1. 如果同步就能提取到有效指标，直接返回
+  const syncMetrics = resolveReadingMetrics(entry);
+  if (syncMetrics.minutesRead && syncMetrics.words !== undefined) {
+    return syncMetrics;
+  }
+
+  // 2. 如果提供了 renderer 且 entry 存在，则尝试异步渲染富化
+  if (typeof renderer === 'function' && entry) {
+    try {
+      const rendered = await renderer(entry);
+      return resolveReadingMetrics(entry, rendered);
+    } catch {
+      // 容错: 忽略非 Markdown 或渲染异常
+    }
+  }
+
+  return syncMetrics;
+}
+
+/**
+ * 批量富化文档集合条目中的阅读指标
+ * @param entries 文档集合条目数组
+ * @param renderer 可选的 render 函数 (如 astro:content 中的 render)
+ */
+export async function enrichPostEntries<T extends InputPostEntry>(
+  entries: T[],
+  renderer?: (entry: T) => Promise<unknown>
+): Promise<Array<T & ReadingMetrics>> {
+  return Promise.all(
+    entries.map(async (entry) => {
+      const metrics = await resolveReadingMetricsAsync(
+        entry,
+        renderer ? (e) => renderer(e as T) : undefined
+      );
+      return {
+        ...entry,
+        ...metrics,
+      };
+    })
+  );
 }
 
 /**
@@ -221,16 +356,8 @@ export function filterAndGroupGeneralPosts(
 
     const tags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
 
-    const renderedObj = entry.rendered as { metadata?: { frontmatter?: Record<string, unknown> } } | undefined;
-    const renderedFrontmatter = renderedObj?.metadata?.frontmatter;
-    const minutesRead =
-      entry.minutesRead ??
-      (renderedFrontmatter?.minutesRead as string | undefined) ??
-      (entry.data.minutesRead as string | undefined);
-    const words =
-      entry.words ??
-      (renderedFrontmatter?.words as number | undefined) ??
-      (entry.data.words as number | undefined);
+    // 统一通过 resolveReadingMetrics 获取阅读指标 (Spec 16)
+    const { minutesRead, words } = resolveReadingMetrics(entry);
 
     // 标准化博客访问 URL (末尾带斜杠与 Starlight 路由一致)
     const finalUrl = `/blog/${cleanSlug.replace(/^blog\//, '')}/`;
@@ -288,3 +415,4 @@ export function filterAndGroupGeneralPosts(
     posts: groupsMap.get(year) || [],
   }));
 }
+

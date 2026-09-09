@@ -7,33 +7,10 @@
 // 4. 样式全面消费 Starlight CSS 变量与 theme.css 徽章定义，原生自适应明暗主题。
 
 import { getCollection, render } from 'astro:content';
-import { filterAndGroupGeneralPosts } from '../lib/blog-meta';
+import { filterAndGroupGeneralPosts, enrichPostEntries } from '../lib/blog-meta';
 
 const rawDocs = await getCollection('docs');
-
-const enrichedDocs = await Promise.all(
-  rawDocs.map(async (entry) => {
-    let minutesRead: string | undefined;
-    let words: number | undefined;
-    try {
-      const rendered = await render(entry);
-      if (rendered.remarkPluginFrontmatter?.minutesRead) {
-        minutesRead = String(rendered.remarkPluginFrontmatter.minutesRead);
-      }
-      if (typeof rendered.remarkPluginFrontmatter?.words === 'number') {
-        words = rendered.remarkPluginFrontmatter.words;
-      }
-    } catch {
-      // 忽略非 markdown 异常
-    }
-    return {
-      ...entry,
-      minutesRead,
-      words,
-    };
-  })
-);
-
+const enrichedDocs = await enrichPostEntries(rawDocs, (e) => render(e));
 const yearGroups = filterAndGroupGeneralPosts(enrichedDocs);
 const totalArticles = yearGroups.reduce((acc, g) => acc + g.posts.length, 0);
 ---

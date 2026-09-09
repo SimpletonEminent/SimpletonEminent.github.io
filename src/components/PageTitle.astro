@@ -1,20 +1,13 @@
 ---
 // 自定义 PageTitle: 在文章标题下方显示文章标签/游戏类型、发布与更新时间、以及字数与阅读时间
 // 覆盖 Starlight 默认的 PageTitle.astro
-// remark 插件注入的字段位于 entry.rendered.metadata.frontmatter
-import { resolvePostMetadata } from '../lib/blog-meta.ts';
+// 统一通过 blog-meta 深层接口提取阅读指标与元数据 (Spec 16)
+import { resolvePostMetadata, resolveReadingMetrics } from '../lib/blog-meta.ts';
 
 const entry = Astro.locals.starlightRoute.entry;
 const { title } = entry.data;
 
-const renderedFrontmatter = entry.rendered?.metadata?.frontmatter as Record<string, unknown> | undefined;
-const minutesRead =
-  (renderedFrontmatter?.minutesRead as string | undefined) ??
-  ((entry.data as Record<string, unknown>).minutesRead as string | undefined);
-const words =
-  (renderedFrontmatter?.words as number | undefined) ??
-  ((entry.data as Record<string, unknown>).words as number | undefined);
-
+const { minutesRead, words } = resolveReadingMetrics(entry);
 const postMeta = resolvePostMetadata(entry.id, entry.data as Record<string, unknown>);
 ---
 

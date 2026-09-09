@@ -1,7 +1,14 @@
-// 回归测试: 博文元数据与标签解析纯函数 (resolvePostMetadata)
-// 契约: 给定 entryId 与 frontmatter (可选注入 annotations) → 输出解析好的 PostMetadata
+// 回归测试: 博文元数据与标签解析纯函数 (resolvePostMetadata, resolveReadingMetrics)
+// 契约:
+// 1. 给定 entryId 与 frontmatter (可选注入 annotations) → 输出解析好的 PostMetadata
+// 2. 各种阶段 entry 结构 → 准确解析出 { minutesRead, words } (Spec 16)
 // 运行: node --experimental-strip-types scripts/test-blog-meta.ts
-import { resolvePostMetadata } from '../src/lib/blog-meta.ts';
+import {
+  resolvePostMetadata,
+  resolveReadingMetrics,
+  resolveReadingMetricsAsync,
+  enrichPostEntries,
+} from '../src/lib/blog-meta.ts';
 
 let failures = 0;
 let total = 0;
@@ -158,6 +165,148 @@ const mockAnnotations = {
 {
   const res = resolvePostMetadata('blog/unlinked_review.md', {}, { 'not-a-number': { blog_url: '/blog/unlinked_review' } });
   check('未登记或非数值 appid → galleryUrl 为 undefined', res.galleryUrl, undefined);
+}
+
+// 9. 阅读指标单源解析 (resolveReadingMetrics, Spec 16)
+// 9.1 直接显式属性
+{
+  const entry = { minutesRead: '3 分钟', words: 1200 };
+  const res = resolveReadingMetrics(entry);
+  check('resolveReadingMetrics: 直接属性读取 minutesRead', res.minutesRead, '3 分钟');
+  check('resolveReadingMetrics: 直接属性读取 words', res.words, 1200);
+}
+
+// 9.2 Starlight 内部 AST 注入 (entry.rendered.metadata.frontmatter)
+{
+  const entry = {
+    rendered: {
+      metadata: {
+        frontmatter: {
+          minutesRead: '5 分钟',
+          words: 2000,
+        },
+      },
+    },
+  };
+  const res = resolveReadingMetrics(entry);
+  check('resolveReadingMetrics: Starlight AST 结构读取 minutesRead', res.minutesRead, '5 分钟');
+  check('resolveReadingMetrics: Starlight AST 结构读取 words', res.words, 2000);
+}
+
+// 9.3 异步渲染产物中的 remarkPluginFrontmatter (entry.rendered.remarkPluginFrontmatter)
+{
+  const entry = {
+    rendered: {
+      remarkPluginFrontmatter: {
+        minutesRead: '6 分钟',
+        words: 2500,
+      },
+    },
+  };
+  const res = resolveReadingMetrics(entry);
+  check('resolveReadingMetrics: entry.rendered.remarkPluginFrontmatter 读取 minutesRead', res.minutesRead, '6 分钟');
+  check('resolveReadingMetrics: entry.rendered.remarkPluginFrontmatter 读取 words', res.words, 2500);
+}
+
+// 9.4 外部传入 rendered 对象 (resolveReadingMetrics(entry, rendered))
+{
+  const entry = { id: 'blog/test.md', data: { title: '测试' } };
+  const rendered = {
+    remarkPluginFrontmatter: {
+      minutesRead: '8 分钟',
+      words: 3200,
+    },
+  };
+  const res = resolveReadingMetrics(entry, rendered);
+  check('resolveReadingMetrics(entry, rendered): 外部 rendered 产物读取 minutesRead', res.minutesRead, '8 分钟');
+  check('resolveReadingMetrics(entry, rendered): 外部 rendered 产物读取 words', res.words, 3200);
+}
+
+// 9.5 Frontmatter 数据声明兜底 (entry.data.minutesRead)
+{
+  const entry = {
+    data: {
+      title: '仅有 frontmatter',
+      minutesRead: '10 分钟',
+      words: 4500,
+    },
+  };
+  const res = resolveReadingMetrics(entry);
+  check('resolveReadingMetrics: frontmatter data 兜底读取 minutesRead', res.minutesRead, '10 分钟');
+  check('resolveReadingMetrics: frontmatter data 兜底读取 words', res.words, 4500);
+}
+
+// 9.6 WeakMap 缓存机制 (同一 entry 引用多次读取命中缓存)
+{
+  const entry = {
+    rendered: {
+      metadata: {
+        frontmatter: {
+          minutesRead: '4 分钟',
+          words: 1500,
+        },
+      },
+    },
+  };
+  const res1 = resolveReadingMetrics(entry);
+  const res2 = resolveReadingMetrics(entry);
+  check('resolveReadingMetrics: WeakMap 缓存返回相同引用', res1 === res2, true);
+}
+
+// 9.7 边界防御与异常格式容错
+{
+  check('resolveReadingMetrics: null 输入安全回退', JSON.stringify(resolveReadingMetrics(null)), '{}');
+  check('resolveReadingMetrics: undefined 输入安全回退', JSON.stringify(resolveReadingMetrics(undefined)), '{}');
+  check('resolveReadingMetrics: 空对象安全回退', JSON.stringify(resolveReadingMetrics({})), '{}');
+
+  const stringWordsEntry = { data: { words: '1800', minutesRead: '  4 分钟  ' } };
+  const res = resolveReadingMetrics(stringWordsEntry);
+  check('resolveReadingMetrics: 字符串字数解析为数值', res.words, 1800);
+  check('resolveReadingMetrics: 首尾空白自动截断', res.minutesRead, '4 分钟');
+
+  const invalidWordsEntry = { data: { words: -10 } };
+  check('resolveReadingMetrics: 非法字数忽略', resolveReadingMetrics(invalidWordsEntry).words, undefined);
+}
+
+// 10. 异步阅读指标提取与批量富化 (resolveReadingMetricsAsync & enrichPostEntries)
+{
+  let renderCallCount = 0;
+  const mockRender = async () => {
+    renderCallCount++;
+    return {
+      remarkPluginFrontmatter: {
+        minutesRead: '9 分钟',
+        words: 3600,
+      },
+    };
+  };
+
+  const rawEntry = { id: 'blog/async.md', data: { title: '异步文章' } };
+  const asyncRes = await resolveReadingMetricsAsync(rawEntry, mockRender);
+  check('resolveReadingMetricsAsync: 异步渲染并提取 minutesRead', asyncRes.minutesRead, '9 分钟');
+  check('resolveReadingMetricsAsync: 异步渲染并提取 words', asyncRes.words, 3600);
+  check('resolveReadingMetricsAsync: mockRender 被调用', renderCallCount, 1);
+
+  // 已有指标时跳过 renderer 调用
+  const cachedRes = await resolveReadingMetricsAsync(rawEntry, mockRender);
+  check('resolveReadingMetricsAsync: 已缓存时不再调用 renderer', renderCallCount, 1);
+  check('resolveReadingMetricsAsync: 已缓存时返回正确 minutesRead', cachedRes.minutesRead, '9 分钟');
+
+  // enrichPostEntries 批量处理
+  const batchEntries = [
+    { id: 'blog/batch1.md', data: { title: '批量 1' } },
+    { id: 'blog/batch2.md', data: { title: '批量 2' } },
+  ];
+  const enriched = await enrichPostEntries(batchEntries, async (entry) => ({
+    remarkPluginFrontmatter: {
+      minutesRead: `${entry.data.title}时长`,
+      words: 1000,
+    },
+  }));
+  check('enrichPostEntries: 批量数组长度一致', enriched.length, 2);
+  check('enrichPostEntries: batch1 成功富化 minutesRead', enriched[0]?.minutesRead, '批量 1时长');
+  check('enrichPostEntries: batch2 成功富化 minutesRead', enriched[1]?.minutesRead, '批量 2时长');
+  check('enrichPostEntries: 成功富化 words', enriched[0]?.words, 1000);
 }
 
 if (failures > 0) {

@@ -8,6 +8,7 @@
 import { getCollection, render } from 'astro:content';
 import { loadMergedGames, formatHours } from '../lib/steam-data';
 import { type Status } from '../lib/play-status';
+import { resolveReadingMetricsAsync } from '../lib/blog-meta';
 
 const { games, updatedAt } = loadMergedGames();
 
@@ -111,9 +112,9 @@ const technicalGuides = await Promise.all(
     let minutesRead = '';
     let date = def.fallbackDate;
     if (entry) {
-      const rendered = await render(entry);
-      if (rendered.remarkPluginFrontmatter?.minutesRead) {
-        minutesRead = String(rendered.remarkPluginFrontmatter.minutesRead);
+      const metrics = await resolveReadingMetricsAsync(entry, () => render(entry));
+      if (metrics.minutesRead) {
+        minutesRead = metrics.minutesRead;
       }
       if (entry.data.pubDate) {
         date = String(entry.data.pubDate);
