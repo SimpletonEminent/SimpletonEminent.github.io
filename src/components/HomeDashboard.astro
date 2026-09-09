@@ -6,130 +6,19 @@
 // 样式严格基于 Starlight CSS 变量与 theme.css 徽章定义,完美适配明暗主题。
 
 import { getCollection, render } from 'astro:content';
-import { loadMergedGames, formatHours } from '../lib/steam-data';
-import { type Status } from '../lib/play-status';
-import { resolveReadingMetricsAsync } from '../lib/blog-meta';
-
-const { games, updatedAt } = loadMergedGames();
-
-// 实时统计
-const totalGames = games.length;
-const totalHours = Math.round(games.reduce((acc, g) => acc + g.playtime_hours, 0));
-const totalUnlockedAchievements = games.reduce(
-  (acc, g) => acc + (g.achievements?.unlocked || 0),
-  0
-);
-
-// 迷你封面展示(精选自 Steam 个人主页核心代表作: 逆转裁判/只狼/黑神话/黑魂3)
-const stackCovers = [
-  'https://cdn.akamai.steamstatic.com/steam/apps/787480/library_600x900.jpg',  // 逆转裁判三部曲 (Favorite)
-  'https://cdn.akamai.steamstatic.com/steam/apps/814380/library_600x900.jpg',  // 只狼：影逝二度 (347h / Review)
-  'https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg', // 黑神话：悟空 (81/81 全成就)
-  'https://cdn.akamai.steamstatic.com/steam/apps/374320/library_600x900.jpg',  // 黑暗之魂3 (43/43 全成就)
-];
-
-interface FeaturedReview {
-  appid: number;
-  title: string;
-  subtitle: string;
-  description: string;
-  tag: string;
-  status: Status;
-  hours: number;
-  url: string;
-  cover: string;
-}
-
-const featuredReviews: FeaturedReview[] = [
-  {
-    appid: 814380,
-    title: '只狼：影逝二度',
-    subtitle: '改变了业界 ARPG 做法的传奇神作',
-    description: '游戏名虽不带魂，但是却成为魂，超越魂！一篇关于打铁心流、挫败与战胜自我的深度拆解。',
-    tag: '魂类 · 动作',
-    status: 'completed',
-    hours: 347,
-    url: '/blog/sekiro_review/',
-    cover: 'https://cdn.akamai.steamstatic.com/steam/apps/814380/library_600x900.jpg',
-  },
-  {
-    appid: 1562700,
-    title: '闪避刺客 SANABI',
-    subtitle: '被名字耽误的赛博朋克父女物语',
-    description: '宛如电影般流畅的高速钩爪摆荡，在霓虹与雨幕交加中令人动容的顶级叙事收束。',
-    tag: '赛博朋克 · 平台动作',
-    status: 'completed',
-    hours: 15,
-    url: '/blog/sanabi_review/',
-    cover: 'https://cdn.akamai.steamstatic.com/steam/apps/1562700/library_600x900.jpg',
-  },
-  {
-    appid: 960170,
-    title: 'DJMAX RESPECT V',
-    subtitle: '二十年音游传承，PC下落式手感巅峰',
-    description: '键盘与节拍共鸣的纯粹快乐，全方位评测判定机制、曲目生态与千首歌的游玩手感。',
-    tag: '下落式 · 节奏音游',
-    status: 'completed',
-    hours: 80,
-    url: '/blog/djmax_review/',
-    cover: 'https://cdn.akamai.steamstatic.com/steam/apps/960170/library_600x900.jpg',
-  },
-];
+import { getHomeDashboardData } from '../lib/dashboard-data';
+import { formatHours } from '../lib/steam-data';
 
 const docs = await getCollection('docs');
-
-interface GuideDefinition {
-  id: string;
-  title: string;
-  description: string;
-  tag: string;
-  url: string;
-  fallbackDate: string;
-}
-
-const guideDefinitions: GuideDefinition[] = [
-  {
-    id: 'blog/如何通过github-pages和astro构建个人博客',
-    title: '如何优雅地构建个人博客网站',
-    description: '基于 GitHub Pages 与 Astro 构建完全免费、零后端依赖、加载极致迅速的个人知识花园。',
-    tag: '工程实践 · Astro',
-    url: '/blog/如何通过github-pages和astro构建个人博客/',
-    fallbackDate: '2026-08-02',
-  },
-  {
-    id: 'blog/如何安装msst音乐音源分离工作流',
-    title: 'MSST 音乐人声音源分离工作流实操',
-    description: '把一首歌高质量拆分为伴奏与人声。全套模型对比、本地环境部署及批量音频处理指南。',
-    tag: '多媒体 · AI 工具',
-    url: '/blog/如何安装msst音乐音源分离工作流/',
-    fallbackDate: '2026-08-10',
-  },
-];
-
-const technicalGuides = await Promise.all(
-  guideDefinitions.map(async (def) => {
-    const entry = docs.find((d) => d.id === def.id);
-    let minutesRead = '';
-    let date = def.fallbackDate;
-    if (entry) {
-      const metrics = await resolveReadingMetricsAsync(entry, () => render(entry));
-      if (metrics.minutesRead) {
-        minutesRead = metrics.minutesRead;
-      }
-      if (entry.data.pubDate) {
-        date = String(entry.data.pubDate);
-      }
-    }
-    return {
-      title: def.title,
-      description: def.description,
-      tag: def.tag,
-      url: def.url,
-      date,
-      minutesRead,
-    };
-  })
-);
+const {
+  totalGames,
+  totalHours,
+  totalUnlockedAchievements,
+  updatedAt,
+  stackCovers,
+  featuredReviews,
+  technicalGuides,
+} = await getHomeDashboardData(docs, render);
 ---
 
 <div class="home-dashboard not-content">
