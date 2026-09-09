@@ -69,19 +69,6 @@
     "platform": "PC",
     "play_year": "2026"
   },
-  "570": {
-    "name_zh": "刀塔2",
-    "tags": [
-      "MOBA",
-      "竞技",
-      "联机对战"
-    ],
-    "my_status": "completed",
-    "my_review": "大学时期的天梯生涯,现在只偶尔打打活动模式。刀塔教会我的不只是游戏。",
-    "blog_url": "/blog/dota2-review",
-    "play_year": "2013",
-    "platform": "PC"
-  },
   "620": {
     "name_zh": "Portal 2",
     "tags": [
@@ -494,19 +481,6 @@
     "platform": "PC",
     "play_year": "2025"
   },
-  "252490": {
-    "name_zh": "腐蚀",
-    "tags": [
-      "生存",
-      "开放世界",
-      "沙盒"
-    ],
-    "my_status": "perfect",
-    "my_review": "和朋友度过的 300 小时基地时光,全成就达成。",
-    "blog_url": "/blog/rust-review",
-    "play_year": "2018",
-    "platform": "PC"
-  },
   "255710": {
     "name_zh": "Cities: Skylines",
     "tags": [
@@ -861,8 +835,7 @@
     ],
     "my_status": "completed",
     "play_year": "2026",
-    "platform": "PC",
-    "blog_url": "/blog/hoi4-review"
+    "platform": "PC"
   },
   "394510": {
     "name_zh": "HELLDIVERS™ Dive Harder Edition",
