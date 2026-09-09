@@ -3,22 +3,20 @@
 // - /games 路由 → 渲染折叠的游戏列表(替代 "On this page" 下拉),与卡片画廊联动
 // - /blog 路由 → 渲染折叠的文章总览年份列表
 // - 其他路由 → 渲染原生移动端 TOC
+// 统一消费 toc-resolver 深层解析接缝 (Spec 17)
 import { getCollection } from 'astro:content';
 import DefaultMobileTableOfContents from '@astrojs/starlight/components/MobileTableOfContents.astro';
-import { loadMergedGames, formatHours } from '../lib/steam-data';
+import { formatHours } from '../lib/steam-data';
 import StatusBadges from './StatusBadges.astro';
-import { filterAndGroupGeneralPosts } from '../lib/blog-meta';
+import { resolveTocContext } from '../lib/toc-resolver';
 
-const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
-const isBlogOverviewRoute = Astro.url.pathname === '/blog' || Astro.url.pathname === '/blog/';
-
-const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
-const docs = isBlogOverviewRoute ? await getCollection('docs') : [];
-const yearGroups = isBlogOverviewRoute ? filterAndGroupGeneralPosts(docs) : [];
+const tocContext = await resolveTocContext(Astro.url.pathname, {
+  getDocs: () => getCollection('docs'),
+});
 ---
 
 {
-  isGamesRoute ? (
+  tocContext.mode === 'games' ? (
     <nav class="games-mobile-toc" aria-label="游戏列表" data-games-mobile-toc>
       <details>
         <summary>
@@ -26,7 +24,7 @@ const yearGroups = isBlogOverviewRoute ? filterAndGroupGeneralPosts(docs) : [];
         </summary>
         <div class="dropdown">
           {
-            games.map((game) => (
+            tocContext.games.map((game) => (
               <button type="button" class="games-mobile-row" data-appid={game.appid}>
                 <span class="games-mobile-name">{game.name}</span>
                 <StatusBadges game={game} />
@@ -34,24 +32,24 @@ const yearGroups = isBlogOverviewRoute ? filterAndGroupGeneralPosts(docs) : [];
               </button>
             ))
           }
-          {games.length === 0 && <p class="games-mobile-empty">暂无游戏数据</p>}
+          {tocContext.games.length === 0 && <p class="games-mobile-empty">暂无游戏数据</p>}
         </div>
       </details>
     </nav>
-  ) : isBlogOverviewRoute ? (
+  ) : tocContext.mode === 'blog-overview' ? (
     <nav class="games-mobile-toc" aria-label="年份归档">
       <details>
         <summary>
           <span class="toggle">📅 年份归档</span>
         </summary>
         <div class="dropdown">
-          {yearGroups.map((group) => (
+          {tocContext.yearGroups.map((group) => (
             <a href={`#year-${group.year}`} class="overview-mobile-row">
               <span>{group.year} 年</span>
               <span class="overview-mobile-count">{group.posts.length} 篇</span>
             </a>
           ))}
-          {yearGroups.length === 0 && <p class="games-mobile-empty">暂无文章记录</p>}
+          {tocContext.yearGroups.length === 0 && <p class="games-mobile-empty">暂无文章记录</p>}
         </div>
       </details>
     </nav>

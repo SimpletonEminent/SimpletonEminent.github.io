@@ -3,27 +3,25 @@
 // - /games 路由 → 渲染游戏列表(替代 "On this page"),与卡片画廊双向联动
 // - /blog 路由 → 渲染文章总览的年份归档 TOC
 // - 其他路由 → 渲染原生 TOC
+// 统一消费 toc-resolver 深层解析接缝 (Spec 17)
 import { getCollection } from 'astro:content';
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
-import { loadMergedGames, formatHours } from '../lib/steam-data';
+import { formatHours } from '../lib/steam-data';
 import StatusBadges from './StatusBadges.astro';
-import { filterAndGroupGeneralPosts } from '../lib/blog-meta';
+import { resolveTocContext } from '../lib/toc-resolver';
 
-const isGamesRoute = Astro.url.pathname === '/games' || Astro.url.pathname.startsWith('/games/');
-const isBlogOverviewRoute = Astro.url.pathname === '/blog' || Astro.url.pathname === '/blog/';
-
-const { games } = isGamesRoute ? loadMergedGames() : { games: [] };
-const docs = isBlogOverviewRoute ? await getCollection('docs') : [];
-const yearGroups = isBlogOverviewRoute ? filterAndGroupGeneralPosts(docs) : [];
+const tocContext = await resolveTocContext(Astro.url.pathname, {
+  getDocs: () => getCollection('docs'),
+});
 ---
 
 {
-  isGamesRoute ? (
+  tocContext.mode === 'games' ? (
     <nav class="games-toc" aria-label="游戏列表" data-games-toc>
       <h2>🎮 游戏列表</h2>
       <div class="games-toc-list">
         {
-          games.map((game) => (
+          tocContext.games.map((game) => (
             <button type="button" class="games-toc-row" data-appid={game.appid}>
               <span class="games-toc-name" title={game.name}>{game.name_zh || game.name}</span>
               <StatusBadges game={game} />
@@ -31,14 +29,14 @@ const yearGroups = isBlogOverviewRoute ? filterAndGroupGeneralPosts(docs) : [];
             </button>
           ))
         }
-        {games.length === 0 && <p class="games-toc-empty">暂无游戏数据</p>}
+        {tocContext.games.length === 0 && <p class="games-toc-empty">暂无游戏数据</p>}
       </div>
     </nav>
-  ) : isBlogOverviewRoute ? (
+  ) : tocContext.mode === 'blog-overview' ? (
     <nav class="blog-overview-toc" aria-label="年份归档">
       <h2>📅 年份归档</h2>
       <ul class="overview-toc-list">
-        {yearGroups.map((group) => (
+        {tocContext.yearGroups.map((group) => (
           <li>
             <a href={`#year-${group.year}`} class="overview-toc-link">
               <span>{group.year} 年</span>
