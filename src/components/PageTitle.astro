@@ -34,7 +34,7 @@ const postMeta = resolvePostMetadata(entry.id, entry.data as Record<string, unkn
             ))}
             {postMeta.isGameReview && postMeta.appid && (
               <a
-                href={`/games#game-${postMeta.appid}`}
+                href={postMeta.galleryUrl ?? `/games#game-${postMeta.appid}`}
                 class="post-tag action-pill"
                 title="在 Steam 游戏画廊中定位此游戏并查看完整档案"
               >
@@ -128,7 +128,7 @@ const postMeta = resolvePostMetadata(entry.id, entry.data as Record<string, unkn
 			border-radius: 999px;
 			background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
 			color: var(--sl-color-accent-high);
-			border: 1px solid color-mix(in srgb, var(--sl-color-accent) 35%, transparent);
+			border: 1px solid color-mix(in srgb, var(--sl-color-accent) 40%, transparent);
 			font-size: var(--sl-text-xs);
 			line-height: 1.4;
 			text-decoration: none;

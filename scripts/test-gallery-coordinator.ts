@@ -390,7 +390,15 @@ for (const fn of hashChangeListeners) {
 }
 check('非游戏 Hash #overview 不影响当前选中状态', hashCoordinator?.activeAppid === 103);
 
-// 10.4 销毁并验证监听器移除
+// 10.4 模拟重复触发相同 Hash (#game-103) 时保持激活展开，不误触发收起关闭
+currentMockHash = '#game-103';
+for (const fn of hashChangeListeners) {
+  fn();
+}
+check('相同 Hash 再次触发时保持 activeAppid 为 103', hashCoordinator?.activeAppid === 103);
+check('相同 Hash 再次触发时卡片 103 保持 expanded 状态', fixtureHash.cardItems[2].classList.contains('expanded'));
+
+// 10.5 销毁并验证监听器移除
 hashCoordinator?.destroy();
 check('destroy 后 hashchange 监听器已被注销', (mockListeners.get('hashchange')?.length ?? 0) === 0);
 delete (globalThis as unknown as Record<string, unknown>).window;

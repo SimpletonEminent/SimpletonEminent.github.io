@@ -41,6 +41,7 @@ const mockAnnotations = {
   check('游戏评测匹配 blog_url → isBlogPost 为 true', res.isBlogPost, true);
   check('游戏评测匹配 blog_url → isGameReview 为 true', res.isGameReview, true);
   check('游戏评测匹配 blog_url → 解析出对应数值 appid', res.appid, 1001);
+  check('游戏评测 → galleryUrl 准确生成标准 Hash 锚点', res.galleryUrl, '/games#game-1001');
   check('游戏评测 → labelPrefix 为 🎮 游戏类型：', res.labelPrefix, '🎮 游戏类型：');
   check('游戏评测 → tags 继承注释文件中的 tags', res.tags, ['音游', '节奏']);
 }
@@ -82,6 +83,7 @@ const mockAnnotations = {
   check('技术文章 → isBlogPost 为 true', res.isBlogPost, true);
   check('技术文章 → isGameReview 为 false', res.isGameReview, false);
   check('技术文章 → appid 为 undefined', res.appid, undefined);
+  check('技术文章 → galleryUrl 为 undefined', res.galleryUrl, undefined);
   check('技术文章 → labelPrefix 为 🏷️ 标签：', res.labelPrefix, '🏷️ 标签：');
   check('技术文章 → tags 准确读取 frontmatter tags', res.tags, ['AI工具', '音频处理']);
 }
@@ -143,11 +145,19 @@ const mockAnnotations = {
   check('真实环境: 只狼评测识别为游戏评测', realSekiro.isGameReview, true);
   check('真实环境: 只狼评测包含魂系标签', realSekiro.tags.includes('魂系'), true);
   check('真实环境: 只狼评测解析出 appid 814380', realSekiro.appid, 814380);
+  check('真实环境: 只狼评测 galleryUrl 为 /games#game-814380', realSekiro.galleryUrl, '/games#game-814380');
 
   const realDjmax = resolvePostMetadata('blog/djmax_review.md', { pubDate: '2026-08-19' });
   check('真实环境: DJMAX 识别为游戏评测', realDjmax.isGameReview, true);
   check('真实环境: DJMAX 包含音游标签', realDjmax.tags.includes('音游'), true);
   check('真实环境: DJMAX 解析出 appid 960170', realDjmax.appid, 960170);
+  check('真实环境: DJMAX 评测 galleryUrl 为 /games#game-960170', realDjmax.galleryUrl, '/games#game-960170');
+}
+
+// 8. 游戏评测但未关联合法数值 appid (或未登记) → galleryUrl 为 undefined，杜绝死链与空链接
+{
+  const res = resolvePostMetadata('blog/unlinked_review.md', {}, { 'not-a-number': { blog_url: '/blog/unlinked_review' } });
+  check('未登记或非数值 appid → galleryUrl 为 undefined', res.galleryUrl, undefined);
 }
 
 if (failures > 0) {

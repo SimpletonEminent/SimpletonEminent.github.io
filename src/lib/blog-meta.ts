@@ -13,6 +13,7 @@ export interface PostMetadata {
   labelPrefix: string;
   tags: string[];
   appid?: number;
+  galleryUrl?: string;
   pubDate?: string;
   updatedDate?: string;
   showUpdated: boolean;
@@ -161,12 +162,15 @@ export function resolvePostMetadata(
     }
   }
 
+  const galleryUrl = isGameReview && matchedAppid ? `/games#game-${matchedAppid}` : undefined;
+
   return {
     isBlogPost: true,
     isGameReview,
     labelPrefix,
     tags,
     appid: matchedAppid,
+    galleryUrl,
     pubDate,
     updatedDate,
     showUpdated,

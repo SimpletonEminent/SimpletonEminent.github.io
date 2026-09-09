@@ -362,7 +362,9 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
     if (!match) return;
     const appid = Number(match[1]);
     if (!isNaN(appid) && cardItemByAppid.has(appid)) {
-      selectGame(appid, { scrollIntoView: true });
+      if (activeAppid !== appid) {
+        selectGame(appid, { scrollIntoView: true });
+      }
     }
   };
 
