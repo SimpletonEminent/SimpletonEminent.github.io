@@ -7,7 +7,7 @@
 // 气泡内容�?renderBubbleContent 构建期服务端渲染(set:html),客户端不再拼�?HTML
 // 交互为原�?JS(define:vars 注入排序预设),无任何客户端框架
 import { loadMergedGames, getSortPresets, formatHours, releaseYear } from '../lib/steam-data';
-import { renderBubbleContent } from './bubble-render';
+import { renderBubbleContent } from './game-presentation';
 import StatusBadges from './StatusBadges.astro';
 
 const { updatedAt, games } = loadMergedGames();

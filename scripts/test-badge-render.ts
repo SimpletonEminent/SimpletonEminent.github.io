@@ -1,4 +1,4 @@
-// 回归测试: 徽章展示模板模块 (Status Badge Module, Spec 08)
+// 回归测试: 徽章展示模板模块 (Status Badge Module, Spec 08 / Spec 15)
 // 职责: 外部黑盒断言徽章 HTML 标记结构、样式类名、词汇文案、无障碍属性 (aria-label) 与 XSS 转义。
 // 运行: npm test (node --experimental-strip-types scripts/test-badge-render.ts)
 
@@ -8,7 +8,7 @@ import {
   renderBadge,
   esc,
   type BadgeGameInput,
-} from '../src/components/badge-render.ts';
+} from '../src/components/game-presentation.ts';
 import { statusKeys, statusText } from '../src/lib/play-status.ts';
 
 let failures = 0;

@@ -1,7 +1,7 @@
-// 回归测试:气泡构建期渲染纯函数(renderBubbleContent)
+// 回归测试:气泡构建期渲染纯函数(renderBubbleContent, Spec 01 / Spec 15)
 // 规则:给定 MergedGame → 输出气泡内部 HTML;各行有无由数据决定,特殊字符在服务端转义。
 // 运行:npm test(node --experimental-strip-types scripts/test-bubble-render.ts)
-import { renderBubbleContent } from '../src/components/bubble-render.ts';
+import { renderBubbleContent } from '../src/components/game-presentation.ts';
 import type { MergedGame } from '../src/lib/steam-data.ts';
 
 /** 构造测试用 MergedGame:默认全空字段,按需覆盖 */

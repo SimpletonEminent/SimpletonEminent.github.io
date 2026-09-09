@@ -1,14 +1,22 @@
-// 气泡渲染模板模块 (Spec 01 / Spec 06)
-// 职责: 构建期服务端渲染卡片点击展开的详情气泡 (.bubble-content) HTML 字符串。
-// 从数据模块中剥离，交回组件呈现层维护，使数据仓库接口完全脱离 HTML 语法细节。
+// 游戏卡片呈现深层管线模块 (Game Card Presentation Pipeline, Spec 15)
+// 职责:
+// 1. 单源化 HTML 安全转义 (esc)，统一服务端渲染 XSS 防护标准。
+// 2. 收敛徽章 (游玩状态与段位) 与详情气泡 (.bubble-content) 的服务端静态标记渲染。
+// 3. 向画廊卡片 (SteamGallery.astro)、桌面 TOC 与移动端 TOC (StatusBadges.astro) 提供内聚纯渲染接口。
 
-import { renderBadges } from './badge-render.ts';
+import { statusText } from '../lib/play-status.ts';
 import {
+  badgesFor,
   formatHours,
   releaseYear,
   firstPlayDate,
+  type Badge,
   type MergedGame,
 } from '../lib/steam-data.ts';
+
+export type BadgeGameInput = Pick<MergedGame, 'my_status'> & {
+  my_rank?: string;
+};
 
 /** HTML 转义: 服务端渲染阶段防止 XSS */
 export function esc(value: unknown): string {
@@ -21,15 +29,37 @@ export function esc(value: unknown): string {
 }
 
 /**
- * 气泡内部 HTML 内容(构建期服务端渲染,唯一入口)。
- * 输入 MergedGame,输出 .bubble-content 内的 HTML 字符串。
- * 各行的有无由数据决定(有数据才输出,空行自动消失);
- * 徽章与卡片同源(badgesFor),标签在服务端转义(esc)。
+ * 渲染单个徽章的标准 HTML 标记
+ */
+export function renderBadge(badge: Badge): string {
+  if (badge.kind === 'status') {
+    const label = statusText(badge.value);
+    return `<span class="status-badge" data-status="${esc(badge.value)}" aria-label="游玩状态：${esc(label)}">${esc(label)}</span>`;
+  }
+  return `<span class="status-badge rank-badge" aria-label="段位：${esc(badge.value)}">${esc(badge.value)}</span>`;
+}
+
+/**
+ * 渲染指定游戏的全部徽章 HTML 标记
+ * 内部自动调用领域规则 badgesFor(game) 并结合词汇模块与无障碍标签完成单源结构输出。
+ */
+export function renderBadges(game: BadgeGameInput): string {
+  const badges = badgesFor(game);
+  return badges.map(renderBadge).join('');
+}
+
+export const renderBadgesHtml = renderBadges;
+
+/**
+ * 气泡内部 HTML 内容 (构建期服务端渲染，唯一入口)。
+ * 输入 MergedGame，输出 .bubble-content 内的 HTML 字符串。
+ * 各行的有无由数据决定 (有数据才输出，空行自动消失)；
+ * 徽章与卡片同源 (badgesFor)，标签在服务端转义 (esc)。
  */
 export function renderBubbleContent(game: MergedGame): string {
   let html = '';
 
-  // Row 1 游戏名称:EN + CN 并列
+  // Row 1 游戏名称: EN + CN 并列
   html += '<div class="bubble-row">';
   html += '<span class="bubble-label">游戏名称</span>';
   html += '<span class="bubble-value">';
@@ -39,7 +69,7 @@ export function renderBubbleContent(game: MergedGame): string {
   }
   html += '</span></div>';
 
-  // Row 2 游戏类型:标签胶囊,无标签时整行隐藏
+  // Row 2 游戏类型: 标签胶囊，无标签时整行隐藏
   if (Array.isArray(game.tags) && game.tags.length > 0) {
     html += '<div class="bubble-row">';
     html += '<span class="bubble-label">游戏类型</span>';
@@ -48,7 +78,7 @@ export function renderBubbleContent(game: MergedGame): string {
     html += '</span></div>';
   }
 
-  // Row 3 游玩状态:统一由徽章展示模板单源渲染 (Spec 08)
+  // Row 3 游玩状态: 统一由徽章展示模板单源渲染 (Spec 08)
   html += '<div class="bubble-row">';
   html += '<span class="bubble-label">游玩状态</span>';
   html += `<span class="bubble-value">${renderBadges(game)}</span>`;
@@ -63,7 +93,7 @@ export function renderBubbleContent(game: MergedGame): string {
   html += `近两周 ${formatHours(game.playtime_2weeks_hours)} 小时`;
   html += '</span></div>';
 
-  // Row 5 成就进度:无成就系统(achievements 为 undefined)或总数为 0 时整行隐藏
+  // Row 5 成就进度: 无成就系统 (achievements 为 undefined) 或总数为 0 时整行隐藏
   if (game.achievements && game.achievements.total > 0) {
     const { unlocked, total } = game.achievements;
     const percent = Math.round((unlocked / total) * 100);
@@ -88,7 +118,7 @@ export function renderBubbleContent(game: MergedGame): string {
   }
   html += '</div>';
 
-  // Row 深度评测:blog_url 为空时整行隐藏
+  // Row 深度评测: blog_url 为空时整行隐藏
   if (game.blog_url) {
     html += '<div class="bubble-row">';
     html += '<span class="bubble-label">深度评测</span>';
@@ -97,13 +127,13 @@ export function renderBubbleContent(game: MergedGame): string {
     html += '</span></div>';
   }
 
-  // 底部:Steam 商店入口 + 元数据(发售年份/首次游玩(估)/游玩年份/平台)
+  // 底部: Steam 商店入口 + 元数据 (发售年份/首次游玩(估)/游玩年份/平台)
   html += '<div class="bubble-footer">';
   html += `<a class="store-link" href="https://store.steampowered.com/app/${game.appid}" target="_blank" rel="noopener noreferrer">前往 Steam 商店 ↗</a>`;
   const meta: string[] = [];
   const rYear = releaseYear(game.release_date);
   if (rYear) meta.push(`发售年份: ${rYear}`);
-  // 首次游玩(估):来自成就 API 最早解锁时间(ADR-0008),无成就数据时不显示
+  // 首次游玩(估): 来自成就 API 最早解锁时间 (ADR-0008)，无成就数据时不显示
   if (game.first_achievement_at) meta.push(`首次游玩(估): ${firstPlayDate(game.first_achievement_at)}`);
   if (game.play_year) meta.push(`游玩年份: ${esc(game.play_year)}`);
   if (game.platform) meta.push(`平台: ${esc(game.platform)}`);
