@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-09T07:18:25.927Z",
+  "updatedAt": "2026-09-10T07:14:22.073Z",
   "games": [
     {
       "appid": 1172470,
@@ -12,9 +12,9 @@
     {
       "appid": 394360,
       "name": "Hearts of Iron IV",
-      "playtime_hours": 457.7,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1777571091,
+      "playtime_hours": 458.6,
+      "playtime_2weeks_hours": 0.9,
+      "last_played": 1788973509,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
     {
@@ -125,7 +125,7 @@
       "appid": 2358720,
       "name": "Black Myth: Wukong",
       "playtime_hours": 108.7,
-      "playtime_2weeks_hours": 3.2,
+      "playtime_2weeks_hours": 2.4,
       "last_played": 1787994033,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
     },
@@ -356,9 +356,9 @@
     {
       "appid": 403640,
       "name": "Dishonored 2",
-      "playtime_hours": 37.5,
-      "playtime_2weeks_hours": 3.6,
-      "last_played": 1788881614,
+      "playtime_hours": 39.5,
+      "playtime_2weeks_hours": 5.6,
+      "last_played": 1788960759,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
@@ -420,9 +420,9 @@
     {
       "appid": 236850,
       "name": "Europa Universalis IV",
-      "playtime_hours": 27.9,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1752999407,
+      "playtime_hours": 28,
+      "playtime_2weeks_hours": 0.1,
+      "last_played": 1788969183,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/236850/library_600x900.jpg"
     },
     {
@@ -853,7 +853,7 @@
       "appid": 1888160,
       "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
       "playtime_hours": 5.3,
-      "playtime_2weeks_hours": 0.8,
+      "playtime_2weeks_hours": 0.3,
       "last_played": 1787920413,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
