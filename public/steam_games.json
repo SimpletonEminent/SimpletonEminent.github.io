@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-10T07:14:22.073Z",
+  "updatedAt": "2026-09-11T07:13:20.567Z",
   "games": [
     {
       "appid": 1172470,
@@ -12,9 +12,9 @@
     {
       "appid": 394360,
       "name": "Hearts of Iron IV",
-      "playtime_hours": 458.6,
-      "playtime_2weeks_hours": 0.9,
-      "last_played": 1788973509,
+      "playtime_hours": 460.5,
+      "playtime_2weeks_hours": 2.8,
+      "last_played": 1789061581,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
     {
@@ -125,7 +125,7 @@
       "appid": 2358720,
       "name": "Black Myth: Wukong",
       "playtime_hours": 108.7,
-      "playtime_2weeks_hours": 2.4,
+      "playtime_2weeks_hours": 1.4,
       "last_played": 1787994033,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
     },
@@ -221,7 +221,7 @@
       "appid": 1364780,
       "name": "Street Fighter™ 6",
       "playtime_hours": 76,
-      "playtime_2weeks_hours": 2.3,
+      "playtime_2weeks_hours": 1.8,
       "last_played": 1787988931,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1364780/library_600x900.jpg"
     },
@@ -853,7 +853,7 @@
       "appid": 1888160,
       "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
       "playtime_hours": 5.3,
-      "playtime_2weeks_hours": 0.3,
+      "playtime_2weeks_hours": 0.2,
       "last_played": 1787920413,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
