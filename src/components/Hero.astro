@@ -1,0 +1,89 @@
+---
+// 自定义 Starlight Hero 组件 (Spec 14 / ADR-0014)
+// 职责:
+// 1. 拦截首页 Hero 区域的副标题 (tagline)，注入解耦的「首页语录 (Hero Quote)」静态兜底
+// 2. 注入轻量内联防重随机脚本，实现客户端进入与刷新时的无感随机抽取展示
+// 3. 对非首页普通文档的 Hero 保持 Starlight 原生默认行为透明透传
+import DefaultHero from '@astrojs/starlight/components/Hero.astro';
+import { loadQuotes, renderQuoteHtml } from '../lib/hero-quote.ts';
+
+const route = Astro.locals.starlightRoute;
+const entry = route.entry;
+
+// 判断是否为首页
+const isHomepage =
+  (route as any).slug === '' ||
+  entry.id === '' ||
+  entry.id === 'index.mdx' ||
+  entry.id === 'index.md' ||
+  entry.id === 'index' ||
+  Astro.url.pathname === '/' ||
+  Astro.url.pathname === '';
+
+let quotesPayload: ReturnType<typeof loadQuotes> = [];
+
+if (isHomepage && entry.data.hero) {
+  quotesPayload = loadQuotes();
+  const fallbackQuote = quotesPayload[0];
+  entry.data.hero.tagline = renderQuoteHtml(fallbackQuote);
+}
+---
+
+<DefaultHero {...Astro.props}>
+  <slot />
+</DefaultHero>
+
+{
+  isHomepage && quotesPayload.length > 1 && (
+    <script is:inline define:vars={{ quotes: quotesPayload }}>
+      (function () {
+        try {
+          if (!Array.isArray(quotes) || quotes.length <= 1) return;
+          var storageKey = 'myblog_hero_quote_index';
+          var prev = sessionStorage.getItem(storageKey);
+          var prevIdx = prev !== null ? parseInt(prev, 10) : -1;
+
+          var pool = [];
+          for (var i = 0; i < quotes.length; i++) {
+            if (i !== prevIdx) pool.push(i);
+          }
+          if (pool.length === 0) {
+            for (var j = 0; j < quotes.length; j++) pool.push(j);
+          }
+
+          var pick = pool[Math.floor(Math.random() * pool.length)];
+          sessionStorage.setItem(storageKey, String(pick));
+
+          var el = document.querySelector('.hero .tagline');
+          if (!el) return;
+
+          el.classList.add('hero-quote-container');
+          el.setAttribute('data-quote-index', String(pick));
+
+          var q = quotes[pick];
+          if (!q || !q.content) return;
+
+          var esc = function (str) {
+            return String(str)
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;')
+              .replace(/'/g, '&#039;');
+          };
+
+          var html = '<span class="hero-quote-content">' + esc(q.content) + '</span>';
+          if (q.source && q.source.trim().length > 0) {
+            var src = q.source.trim();
+            var cit = src.indexOf('——') === 0 || src.indexOf('--') === 0 ? src : '——' + src;
+            html += ' <cite class="hero-quote-source">' + esc(cit) + '</cite>';
+          }
+
+          el.innerHTML = html;
+        } catch (e) {
+          // 容错降级：静默保持构建期静态渲染的兜底语录
+        }
+      })();
+    </script>
+  )
+}

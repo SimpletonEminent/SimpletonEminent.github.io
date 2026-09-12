@@ -163,6 +163,24 @@ article,
   margin-top: 0.25rem !important;
   font-size: clamp(0.95rem, 1.2vw, 1.15rem) !important;
   line-height: 1.6 !important;
+  min-height: clamp(3rem, 4.5vw, 3.6rem);
+  text-wrap: balance;
+  transition: opacity 0.25s ease;
+}
+
+/* 首页语录 (Hero Quote) 优雅文献出处排版 */
+.hero-quote-content {
+  color: var(--sl-color-gray-2);
+}
+
+.hero-quote-source {
+  display: inline-block;
+  font-style: normal;
+  font-size: 0.88em;
+  color: var(--sl-color-gray-3);
+  margin-left: 0.4rem;
+  letter-spacing: -0.01em;
+  opacity: 0.85;
 }
 
 [data-has-hero] .sl-markdown-content {

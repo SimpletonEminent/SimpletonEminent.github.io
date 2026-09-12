@@ -40,11 +40,12 @@ export default defineConfig({
       // 右侧目录(TOC):默认只收录 h2-h3,这里改为收录 h1-h4 全部
       tableOfContents: { minHeadingLevel: 1, maxHeadingLevel: 4 },
 
-      // 组件覆盖:文章标题下方显示字数和阅读时间;TOC 在 /games 路由替换为游戏列表(双向联动)
+      // 组件覆盖:文章标题下方显示字数和阅读时间;TOC 在 /games 路由替换为游戏列表(双向联动);Hero 首页副标题注入动态语录
       components: {
         PageTitle: './src/components/PageTitle.astro',
         TableOfContents: './src/components/GamesTableOfContents.astro',
         MobileTableOfContents: './src/components/GamesMobileTableOfContents.astro',
+        Hero: './src/components/Hero.astro',
       },
 
       sidebar: [
