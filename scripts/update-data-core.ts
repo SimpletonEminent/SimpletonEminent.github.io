@@ -86,6 +86,13 @@ export const TASKS: TaskItem[] = [
     script: 'scripts/fetch-steam-games.mjs',
     requiresEnv: ['STEAM_API_KEY', 'STEAM_ID'],
   },
+  {
+    key: '8',
+    title: '交互式录入首页语录 (add-quote)',
+    category: '元数据与注释',
+    desc: '随时执行: 命令行交互录入格言正文与文献出处，追加至 src/data/quotes.json',
+    script: 'scripts/add-quote.ts',
+  },
 ];
 
 /** 根据数字键查找任务 */

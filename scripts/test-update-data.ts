@@ -36,12 +36,16 @@ check('任务键包含 1 至 6', ['1', '2', '3', '4', '5', '6'].every((k) => key
 const task1 = getTaskByKey('1');
 check('getTaskByKey(1) 成功匹配到元数据丰富任务', task1?.script.includes('enrich-metadata') === true);
 
+const taskQuote = getTaskByKey('8');
+check('getTaskByKey(8) 成功匹配到语录录入任务', taskQuote?.script.includes('add-quote.ts') === true);
+
 const taskInvalid = getTaskByKey('999');
 check('getTaskByKey(999) 返回 undefined', taskInvalid === undefined);
 
 // 3. 前置环境要求自检 (Prerequisites Check)
 const taskEnrich = getTaskByKey('1')!;
 check('元数据丰富脚本无需额外环境变量', checkPrerequisites(taskEnrich, {}).length === 0);
+check('语录录入脚本无需额外环境变量', checkPrerequisites(taskQuote!, {}).length === 0);
 
 const taskAchievements = getTaskByKey('6')!;
 const missingBoth = checkPrerequisites(taskAchievements, {});
