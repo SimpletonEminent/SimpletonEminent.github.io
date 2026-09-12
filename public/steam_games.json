@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-11T07:13:20.567Z",
+  "updatedAt": "2026-09-12T07:05:31.695Z",
   "games": [
     {
       "appid": 1172470,
@@ -12,9 +12,9 @@
     {
       "appid": 394360,
       "name": "Hearts of Iron IV",
-      "playtime_hours": 460.5,
-      "playtime_2weeks_hours": 2.8,
-      "last_played": 1789061581,
+      "playtime_hours": 463.7,
+      "playtime_2weeks_hours": 6,
+      "last_played": 1789149250,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
     {
@@ -37,7 +37,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 212.7,
-      "playtime_2weeks_hours": 5.1,
+      "playtime_2weeks_hours": 4.5,
       "last_played": 1788685857,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -221,7 +221,7 @@
       "appid": 1364780,
       "name": "Street Fighter™ 6",
       "playtime_hours": 76,
-      "playtime_2weeks_hours": 1.8,
+      "playtime_2weeks_hours": 0.5,
       "last_played": 1787988931,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1364780/library_600x900.jpg"
     },
@@ -853,7 +853,7 @@
       "appid": 1888160,
       "name": "ARMORED CORE™ VI FIRES OF RUBICON™",
       "playtime_hours": 5.3,
-      "playtime_2weeks_hours": 0.2,
+      "playtime_2weeks_hours": 0,
       "last_played": 1787920413,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1888160/library_600x900.jpg"
     },
