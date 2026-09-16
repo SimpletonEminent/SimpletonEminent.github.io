@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-15T07:35:23.578Z",
+  "updatedAt": "2026-09-16T07:34:38.175Z",
   "games": [
     {
       "appid": 1172470,
@@ -36,9 +36,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 213.9,
-      "playtime_2weeks_hours": 3.4,
-      "last_played": 1789387329,
+      "playtime_hours": 215.5,
+      "playtime_2weeks_hours": 5,
+      "last_played": 1789484559,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -133,7 +133,7 @@
       "appid": 1091500,
       "name": "Cyberpunk 2077",
       "playtime_hours": 105.5,
-      "playtime_2weeks_hours": 4.6,
+      "playtime_2weeks_hours": 3.1,
       "last_played": 1788523517,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
     },
