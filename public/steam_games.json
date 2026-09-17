@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-16T07:34:38.175Z",
+  "updatedAt": "2026-09-17T07:31:16.217Z",
   "games": [
     {
       "appid": 1172470,
@@ -12,9 +12,9 @@
     {
       "appid": 394360,
       "name": "Hearts of Iron IV",
-      "playtime_hours": 467,
-      "playtime_2weeks_hours": 9.3,
-      "last_played": 1789316853,
+      "playtime_hours": 467.3,
+      "playtime_2weeks_hours": 9.6,
+      "last_played": 1789569228,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
     {
@@ -133,7 +133,7 @@
       "appid": 1091500,
       "name": "Cyberpunk 2077",
       "playtime_hours": 105.5,
-      "playtime_2weeks_hours": 3.1,
+      "playtime_2weeks_hours": 1.5,
       "last_played": 1788523517,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
     },
@@ -348,9 +348,9 @@
     {
       "appid": 403640,
       "name": "Dishonored 2",
-      "playtime_hours": 41.6,
-      "playtime_2weeks_hours": 7.7,
-      "last_played": 1789395615,
+      "playtime_hours": 42.1,
+      "playtime_2weeks_hours": 8.2,
+      "last_played": 1789566939,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
