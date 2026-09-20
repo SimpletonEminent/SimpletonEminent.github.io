@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-19T07:15:44.497Z",
+  "updatedAt": "2026-09-20T07:41:00.905Z",
   "games": [
     {
       "appid": 1172470,
@@ -37,7 +37,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 215.5,
-      "playtime_2weeks_hours": 4.3,
+      "playtime_2weeks_hours": 4.2,
       "last_played": 1789484559,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -917,7 +917,7 @@
       "appid": 2592160,
       "name": "Dispatch",
       "playtime_hours": 4.1,
-      "playtime_2weeks_hours": 4.1,
+      "playtime_2weeks_hours": 0,
       "last_played": 1788678691,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
