@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-20T07:41:00.905Z",
+  "updatedAt": "2026-09-21T07:53:16.756Z",
   "games": [
     {
       "appid": 1172470,
@@ -37,7 +37,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 215.5,
-      "playtime_2weeks_hours": 4.2,
+      "playtime_2weeks_hours": 2.8,
       "last_played": 1789484559,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -637,7 +637,7 @@
       "appid": 2401970,
       "name": "Ace Attorney Investigations Collection",
       "playtime_hours": 12.7,
-      "playtime_2weeks_hours": 0.5,
+      "playtime_2weeks_hours": 0,
       "last_played": 1788706168,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2401970/library_600x900.jpg"
     },
