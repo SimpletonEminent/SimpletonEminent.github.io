@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-23T07:39:18.988Z",
+  "updatedAt": "2026-09-24T07:31:30.304Z",
   "games": [
     {
       "appid": 1172470,
@@ -13,7 +13,7 @@
       "appid": 394360,
       "name": "Hearts of Iron IV",
       "playtime_hours": 467.3,
-      "playtime_2weeks_hours": 9.6,
+      "playtime_2weeks_hours": 8.7,
       "last_played": 1789569228,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
@@ -349,7 +349,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 42.6,
-      "playtime_2weeks_hours": 5.1,
+      "playtime_2weeks_hours": 3.1,
       "last_played": 1789735923,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -421,7 +421,7 @@
       "appid": 236850,
       "name": "Europa Universalis IV",
       "playtime_hours": 28,
-      "playtime_2weeks_hours": 0.1,
+      "playtime_2weeks_hours": 0,
       "last_played": 1788969183,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/236850/library_600x900.jpg"
     },
