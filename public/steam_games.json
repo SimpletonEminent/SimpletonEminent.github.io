@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-25T07:35:43.389Z",
+  "updatedAt": "2026-09-26T07:28:40.273Z",
   "games": [
     {
       "appid": 1172470,
@@ -13,7 +13,7 @@
       "appid": 394360,
       "name": "Hearts of Iron IV",
       "playtime_hours": 467.3,
-      "playtime_2weeks_hours": 6.8,
+      "playtime_2weeks_hours": 3.6,
       "last_played": 1789569228,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
