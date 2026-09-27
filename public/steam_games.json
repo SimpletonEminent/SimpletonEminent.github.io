@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-26T07:28:40.273Z",
+  "updatedAt": "2026-09-27T07:58:33.712Z",
   "games": [
     {
       "appid": 1172470,
@@ -12,9 +12,9 @@
     {
       "appid": 394360,
       "name": "Hearts of Iron IV",
-      "playtime_hours": 467.3,
+      "playtime_hours": 467.4,
       "playtime_2weeks_hours": 3.6,
-      "last_played": 1789569228,
+      "last_played": 1790428454,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
     {
@@ -348,9 +348,9 @@
     {
       "appid": 403640,
       "name": "Dishonored 2",
-      "playtime_hours": 42.6,
-      "playtime_2weeks_hours": 3.1,
-      "last_played": 1789735923,
+      "playtime_hours": 44.9,
+      "playtime_2weeks_hours": 5.5,
+      "last_played": 1790419180,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
@@ -1133,7 +1133,7 @@
       "appid": 4603730,
       "name": "Probably Stolen Playtest",
       "playtime_hours": 0.4,
-      "playtime_2weeks_hours": 0.4,
+      "playtime_2weeks_hours": 0,
       "last_played": 1789216487,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4603730/library_600x900.jpg"
     },
