@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-27T07:58:33.712Z",
+  "updatedAt": "2026-09-28T08:35:12.341Z",
   "games": [
     {
       "appid": 1172470,
@@ -13,7 +13,7 @@
       "appid": 394360,
       "name": "Hearts of Iron IV",
       "playtime_hours": 467.4,
-      "playtime_2weeks_hours": 3.6,
+      "playtime_2weeks_hours": 0.4,
       "last_played": 1790428454,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
@@ -986,6 +986,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1585220/library_600x900.jpg"
     },
     {
+      "appid": 1054490,
+      "name": "Wingspan",
+      "playtime_hours": 2.5,
+      "playtime_2weeks_hours": 0.6,
+      "last_played": 1790523006,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1054490/library_600x900.jpg"
+    },
+    {
       "appid": 2187220,
       "name": "Apollo Justice: Ace Attorney Trilogy",
       "playtime_hours": 2.5,
@@ -1016,14 +1024,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1613037945,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/222880/library_600x900.jpg"
-    },
-    {
-      "appid": 1054490,
-      "name": "Wingspan",
-      "playtime_hours": 1.9,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1751125432,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1054490/library_600x900.jpg"
     },
     {
       "appid": 594570,
