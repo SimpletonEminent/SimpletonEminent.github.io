@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-29T08:18:14.889Z",
+  "updatedAt": "2026-09-30T08:18:21.769Z",
   "games": [
     {
       "appid": 1172470,
@@ -37,7 +37,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 217.9,
-      "playtime_2weeks_hours": 4,
+      "playtime_2weeks_hours": 2.4,
       "last_played": 1790593610,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -83,7 +83,7 @@
     },
     {
       "appid": 292030,
-      "name": "The Witcher 3: Wild Hunt - Complete Edition",
+      "name": "The Witcher 3: Wild Hunt — Remastered",
       "playtime_hours": 143.6,
       "playtime_2weeks_hours": 0,
       "last_played": 1673597225,
