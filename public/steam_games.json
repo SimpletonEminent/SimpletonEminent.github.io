@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-30T08:18:21.769Z",
+  "updatedAt": "2026-10-01T08:41:48.988Z",
   "games": [
     {
       "appid": 1172470,
@@ -13,7 +13,7 @@
       "appid": 394360,
       "name": "Hearts of Iron IV",
       "playtime_hours": 467.4,
-      "playtime_2weeks_hours": 0.4,
+      "playtime_2weeks_hours": 0.1,
       "last_played": 1790428454,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
@@ -349,7 +349,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 44.9,
-      "playtime_2weeks_hours": 3.3,
+      "playtime_2weeks_hours": 2.8,
       "last_played": 1790419180,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
