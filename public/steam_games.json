@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-01T08:41:48.988Z",
+  "updatedAt": "2026-10-02T08:20:15.434Z",
   "games": [
     {
       "appid": 1172470,
@@ -122,6 +122,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/601150/library_600x900.jpg"
     },
     {
+      "appid": 1158310,
+      "name": "Crusader Kings III",
+      "playtime_hours": 109.3,
+      "playtime_2weeks_hours": 5.2,
+      "last_played": 1790920754,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1158310/library_600x900.jpg"
+    },
+    {
       "appid": 2358720,
       "name": "Black Myth: Wukong",
       "playtime_hours": 108.7,
@@ -130,28 +138,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
     },
     {
+      "appid": 1446780,
+      "name": "MONSTER HUNTER RISE",
+      "playtime_hours": 107.4,
+      "playtime_2weeks_hours": 2.9,
+      "last_played": 1790928549,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
+    },
+    {
       "appid": 1091500,
       "name": "Cyberpunk 2077",
       "playtime_hours": 105.5,
       "playtime_2weeks_hours": 0,
       "last_played": 1788523517,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1091500/library_600x900.jpg"
-    },
-    {
-      "appid": 1446780,
-      "name": "MONSTER HUNTER RISE",
-      "playtime_hours": 104.5,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1760533882,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
-    },
-    {
-      "appid": 1158310,
-      "name": "Crusader Kings III",
-      "playtime_hours": 104.1,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1777982212,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1158310/library_600x900.jpg"
     },
     {
       "appid": 435150,
