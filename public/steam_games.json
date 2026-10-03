@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-02T08:20:15.434Z",
+  "updatedAt": "2026-10-03T07:55:56.706Z",
   "games": [
     {
       "appid": 1172470,
@@ -124,10 +124,18 @@
     {
       "appid": 1158310,
       "name": "Crusader Kings III",
-      "playtime_hours": 109.3,
-      "playtime_2weeks_hours": 5.2,
-      "last_played": 1790920754,
+      "playtime_hours": 111.6,
+      "playtime_2weeks_hours": 7.5,
+      "last_played": 1790941562,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1158310/library_600x900.jpg"
+    },
+    {
+      "appid": 1446780,
+      "name": "MONSTER HUNTER RISE",
+      "playtime_hours": 108.7,
+      "playtime_2weeks_hours": 4.3,
+      "last_played": 1790933274,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
     },
     {
       "appid": 2358720,
@@ -136,14 +144,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1787994033,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2358720/library_600x900.jpg"
-    },
-    {
-      "appid": 1446780,
-      "name": "MONSTER HUNTER RISE",
-      "playtime_hours": 107.4,
-      "playtime_2weeks_hours": 2.9,
-      "last_played": 1790928549,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
     },
     {
       "appid": 1091500,
@@ -349,7 +349,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 44.9,
-      "playtime_2weeks_hours": 2.8,
+      "playtime_2weeks_hours": 2.3,
       "last_played": 1790419180,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -682,6 +682,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/548430/library_600x900.jpg"
     },
     {
+      "appid": 2592160,
+      "name": "Dispatch",
+      "playtime_hours": 10.8,
+      "playtime_2weeks_hours": 6.6,
+      "last_played": 1791013882,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
+    },
+    {
       "appid": 620,
       "name": "Portal 2",
       "playtime_hours": 10.4,
@@ -912,14 +920,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1771310120,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/257350/library_600x900.jpg"
-    },
-    {
-      "appid": 2592160,
-      "name": "Dispatch",
-      "playtime_hours": 4.1,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1788678691,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
     {
       "appid": 391540,
