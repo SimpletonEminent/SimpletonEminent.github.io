@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-03T07:55:56.706Z",
+  "updatedAt": "2026-10-04T08:17:44.476Z",
   "games": [
     {
       "appid": 1172470,
@@ -626,6 +626,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/3330/library_600x900.jpg"
     },
     {
+      "appid": 2592160,
+      "name": "Dispatch",
+      "playtime_hours": 13,
+      "playtime_2weeks_hours": 8.9,
+      "last_played": 1791033074,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
+    },
+    {
       "appid": 379720,
       "name": "DOOM",
       "playtime_hours": 12.9,
@@ -680,14 +688,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1718782251,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/548430/library_600x900.jpg"
-    },
-    {
-      "appid": 2592160,
-      "name": "Dispatch",
-      "playtime_hours": 10.8,
-      "playtime_2weeks_hours": 6.6,
-      "last_played": 1791013882,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
     {
       "appid": 620,
