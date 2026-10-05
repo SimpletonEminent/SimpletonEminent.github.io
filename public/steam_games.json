@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-04T08:17:44.476Z",
+  "updatedAt": "2026-10-05T08:49:34.020Z",
   "games": [
     {
       "appid": 1172470,
@@ -630,7 +630,7 @@
       "name": "Dispatch",
       "playtime_hours": 13,
       "playtime_2weeks_hours": 8.9,
-      "last_played": 1791033074,
+      "last_played": 1791135183,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
     {
@@ -890,6 +890,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/438100/library_600x900.jpg"
     },
     {
+      "appid": 244210,
+      "name": "Assetto Corsa",
+      "playtime_hours": 4.4,
+      "playtime_2weeks_hours": 0.3,
+      "last_played": 1791133643,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/244210/library_600x900.jpg"
+    },
+    {
       "appid": 212680,
       "name": "FTL: Faster Than Light",
       "playtime_hours": 4.2,
@@ -904,14 +912,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1620130238,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/400/library_600x900.jpg"
-    },
-    {
-      "appid": 244210,
-      "name": "Assetto Corsa",
-      "playtime_hours": 4.1,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1776004661,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/244210/library_600x900.jpg"
     },
     {
       "appid": 257350,
