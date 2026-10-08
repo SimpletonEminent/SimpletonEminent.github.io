@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-07T08:30:26.565Z",
+  "updatedAt": "2026-10-08T08:46:50.537Z",
   "games": [
     {
       "appid": 1172470,
@@ -810,6 +810,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1942280/library_600x900.jpg"
     },
     {
+      "appid": 4349200,
+      "name": "Probably Stolen Demo",
+      "playtime_hours": 6.4,
+      "playtime_2weeks_hours": 6.4,
+      "last_played": 1791399859,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
+    },
+    {
       "appid": 204450,
       "name": "Call of Juarez Gunslinger",
       "playtime_hours": 6,
@@ -1368,6 +1376,14 @@
       "playtime_2weeks_hours": 0,
       "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/362890/library_600x900.jpg"
+    },
+    {
+      "appid": 372210,
+      "name": "Spooky Cats",
+      "playtime_hours": 0,
+      "playtime_2weeks_hours": 0,
+      "last_played": 0,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/372210/library_600x900.jpg"
     },
     {
       "appid": 383270,
