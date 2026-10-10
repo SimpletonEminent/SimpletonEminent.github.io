@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-09T08:50:12.931Z",
+  "updatedAt": "2026-10-10T08:22:24.017Z",
   "games": [
     {
       "appid": 1172470,
@@ -706,6 +706,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1222680/library_600x900.jpg"
     },
     {
+      "appid": 4349200,
+      "name": "Probably Stolen Demo",
+      "playtime_hours": 10.4,
+      "playtime_2weeks_hours": 10.4,
+      "last_played": 1791566218,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
+    },
+    {
       "appid": 648580,
       "name": "428 Shibuya Scramble",
       "playtime_hours": 10.2,
@@ -768,14 +776,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1788066296,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/774181/library_600x900.jpg"
-    },
-    {
-      "appid": 4349200,
-      "name": "Probably Stolen Demo",
-      "playtime_hours": 7.6,
-      "playtime_2weeks_hours": 7.6,
-      "last_played": 1791473966,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
     },
     {
       "appid": 813780,
