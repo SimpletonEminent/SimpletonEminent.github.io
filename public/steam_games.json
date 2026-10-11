@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-10T08:22:24.017Z",
+  "updatedAt": "2026-10-11T08:38:37.995Z",
   "games": [
     {
       "appid": 1172470,
@@ -13,7 +13,7 @@
       "appid": 394360,
       "name": "Hearts of Iron IV",
       "playtime_hours": 467.4,
-      "playtime_2weeks_hours": 0.1,
+      "playtime_2weeks_hours": 0,
       "last_played": 1790428454,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
@@ -349,7 +349,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 44.9,
-      "playtime_2weeks_hours": 2.3,
+      "playtime_2weeks_hours": 0,
       "last_played": 1790419180,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -578,6 +578,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/247080/library_600x900.jpg"
     },
     {
+      "appid": 4349200,
+      "name": "Probably Stolen Demo",
+      "playtime_hours": 15.5,
+      "playtime_2weeks_hours": 15.5,
+      "last_played": 1791706839,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
+    },
+    {
       "appid": 976310,
       "name": "Mortal Kombat 11",
       "playtime_hours": 15.3,
@@ -704,14 +712,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1672132468,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1222680/library_600x900.jpg"
-    },
-    {
-      "appid": 4349200,
-      "name": "Probably Stolen Demo",
-      "playtime_hours": 10.4,
-      "playtime_2weeks_hours": 10.4,
-      "last_played": 1791566218,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
     },
     {
       "appid": 648580,
