@@ -77,6 +77,7 @@ export default defineConfig({
               collapsed: false,
               items: [
                 'blog/djmax_review',
+                'blog/kcd2_review',
                 'blog/phoenix_wright_ace_attorney_trilogy_review',
                 'blog/sanabi_review',
                 'blog/sekiro_review',
