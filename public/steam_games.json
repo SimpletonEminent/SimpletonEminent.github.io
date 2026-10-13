@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-12T09:01:39.160Z",
+  "updatedAt": "2026-10-13T09:15:56.374Z",
   "games": [
     {
       "appid": 1172470,
@@ -36,9 +36,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 219.7,
-      "playtime_2weeks_hours": 2.1,
-      "last_played": 1791354449,
+      "playtime_hours": 220.9,
+      "playtime_2weeks_hours": 3,
+      "last_played": 1791810793,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -418,6 +418,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1128920/library_600x900.jpg"
     },
     {
+      "appid": 1142710,
+      "name": "Total War: WARHAMMER III",
+      "playtime_hours": 29,
+      "playtime_2weeks_hours": 7.8,
+      "last_played": 1791806474,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1142710/library_600x900.jpg"
+    },
+    {
       "appid": 236850,
       "name": "Europa Universalis IV",
       "playtime_hours": 28,
@@ -464,14 +472,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1692973538,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1057090/library_600x900.jpg"
-    },
-    {
-      "appid": 1142710,
-      "name": "Total War: WARHAMMER III",
-      "playtime_hours": 25.6,
-      "playtime_2weeks_hours": 4.4,
-      "last_played": 1791794250,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1142710/library_600x900.jpg"
     },
     {
       "appid": 927380,
