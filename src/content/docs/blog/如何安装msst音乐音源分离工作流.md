@@ -10,165 +10,136 @@ tags:
 
 # 把一首歌拆成伴奏和人声，其实没那么难
 
-> 作为一位音游玩家和折腾党，我最近迷上了"音源分离"这个魔法 —— 让 AI 把一首歌拆成伴奏、人声、贝斯、鼓点……甚至还能让人声"去混响"变成干音。这套魔法背后的引擎叫做 **MSST**，今天就带你在本地把它跑起来。
+音游玩家或者做二创的朋友经常需要从音乐里提取伴奏或纯人声。基于 ZFTurbo 开源的 **MSST**（Music Source Separation Training），可以在本地用显卡把一首歌拆成伴奏、人声、贝斯，甚至还能做人声去混响。下面记录一下完整的本地环境搭建与推理命令。
 
-这里我默认你已经对 **Python**、**命令行** 以及 **Git** 有一定的认知。如果你只想"拿来就能用的傻瓜画图界面"，可以直接跳到文末的 **善后工作**，我用的是更适合折腾党的命令行方案。
+这里默认你对 Python、命令行以及 Git 有一定了解。如果你只想用开箱即用的图形界面，可以直接翻到文末的 Q&A，文末有官方继任工具的指引。
 
-本地环境需求如下（缺一不可）：
+本地运行环境需求：
 
 1. **Python 3.11**（MSST 官方推荐 **3.11.6**）
-   * 前往 [Python 官网](https://www.python.org/downloads/)，或用 `conda` 创建
-2. **NVIDIA 显卡 + 正确的显卡驱动**（有 `nvidia-smi` 就行）
-   * 没有 GPU 也能跑推理，只是会慢到怀疑人生
-3. **Git**（用于克隆项目）：
-   * 前往 [Git 官网](https://git-scm.com/) 下载安装
+   * 前往 [Python 官网](https://www.python.org/downloads/) 下载，或者用 `conda` 创建环境。
+2. **NVIDIA 显卡与驱动**（能在终端里敲出 `nvidia-smi` 即可）
+   * 没有 GPU 也能用 CPU 跑，但处理速度会非常慢。
+3. **Git**
+   * 前往 [Git 官网](https://git-scm.com/) 下载安装。
 
-> **⚠️ 先看这条**：这套引擎的图形界面 **MSST-WebUI** 官方已停止开发/维护，团队整体转向了更适合新手的 **[Pymss-Studio](https://github.com/pymss-project/pymss-studio)**。这篇教程讲的 MSST 命令行底层依然可用、也依然是最"原味"的方案；但如果你只想要图形界面，文末 **善后工作** 里有官方继任者的三件套指引，直接跳过去更省事。
+> **提示**：这套引擎原先的网页界面 **MSST-WebUI** 已经停止维护，开发团队转向了更适合新手的 **[Pymss-Studio](https://github.com/pymss-project/pymss-studio)**。如果你想要开箱即用的图形界面，文末提供了 Pymss-Studio 的安装指引；如果想走纯命令行批量处理，继续往下看即可。
 
-# 这个框架是干嘛的
+## MSST 是干什么用的
 
----
+**MSST** 全称是 **Music Source Separation Training**，由开发者 [ZFTurbo](https://github.com/ZFTurbo) 开源，[MVSep.com](https://mvsep.com) 提供支持。它把当下主流的几种音频分离模型整合到了一个工程里，你只需要修改一行命令参数，就能切换不同的算法模型：
 
-首先介绍 **MSST**，全称 **Music Source Separation Training**，是 [ZFTurbo](https://github.com/ZFTurbo) 开发的一个**训练+推理一体**的音乐音源分离框架，由 [MVSep.com](https://mvsep.com) 提供支持。它的秘诀在于：底层封装了多套分离引擎，你只要用一条命令换一个参数，就能在**不同的 AI 模型**之间自由切换。
+- **Demucs**：Meta 团队出品的经典模型，支持拆分 4 轨或 6 轨。
+- **BS Roformer**：目前提取人声最干净的模型之一，社区口碑很好。
+- **Mel-Roformer**：适合卡拉 OK 伴奏提取的老牌模型。
+- **SCNet**：新一代的多轨分离算法。
 
-所以你会听到一堆名词，其实它们都是 MSST 支持的**同一类引擎**：
+你可以把它理解成一个统一的调度器，配好模型权重，它就调对应的模型去处理音频。
 
-- **Demucs**：法国 Meta 团队出品的经典模型，能把歌拆成 4 轨甚至 6 轨
-- **BS Roformer**：当下最流行的人声分离模型，效果最好的那批基本都能带它
-- **Mel-Roformer**：经典卡拉 OK / 人声分离元老
-- **SCNet**：新一代多轨分离，效果越来越能打
+## 本地搭建步骤
 
-一句话，**MSST 是个"引擎停车场"**，你配一个模型参数，它就开哪辆车出来干活。
+### 1. 克隆代码仓库
 
-# 开始本地搭建
-
----
-
-## 1/4：克隆代码仓库
-
----
-
-1. 打开命令行（Windows 用终端、Linux 用 Bash 都行），敲入：
+打开终端，输入：
 
 ```bash
 git clone https://github.com/ZFTurbo/Music-Source-Separation-Training.git
 cd Music-Source-Separation-Training
 ```
 
-**(这一步没有任何技巧，等进度条走到 100% 就好)**
+等待代码拉取完成即可。
 
-## 2/4：创建 Python 环境
+### 2. 创建 Python 独立环境
 
----
+MSST 依赖较多，强烈建议单独创建一个虚拟环境，避免和系统里的 Python 包冲突。官方推荐 Python **3.11.6**。
 
-MSST 依赖较多，**强烈建议**建一个独立环境，别污染你系统里已装的 Python。官方文档指名的 Python 版本是 **3.11.6**。
-
-用哪些方式都行，推荐用 `conda`（隔离最干净）：
+推荐使用 `conda` 管理：
 
 ```bash
-# 创建一个名叫 msst 的独立环境
+# 创建独立环境
 conda create -n msst python=3.11 -y
 conda activate msst
 ```
 
-如果你用的是 Windows 又懒得装 conda，也可以直接下载 [Python 3.11.6](https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe) 安装包，装完在命令行里：
+如果不习惯用 conda，也可以去下载 [Python 3.11.6](https://www.python.org/ftp/python/3.11.6/python-3.11.6-amd64.exe) 安装包，装完后在终端检查版本：
 
 ```bash
 python --version
-# 只要输出的版本是 3.11.x 即可
+# 输出 3.11.x 即可
 ```
 
-## 3/4：安装 PyTorch（内存肥肉，先装它）
+### 3. 安装带 CUDA 的 PyTorch
 
----
+这一步是配置的核心，顺序不能弄错。
 
-这是**最关键的一步**，也是新手最容易踩坑的地方。
+**必须先手动安装带 CUDA 支持的 PyTorch，然后再安装项目的 requirements.txt。** 如果直接装 requirements，pip 会默认安装 CPU 版 PyTorch，导致显卡无法调用。
 
-**一定要先单独装带 CUDA 的 PyTorch，再装 requirements。** 因为 `requirements.txt` 里只写了 `torch>=2.0.1`，如果你直接 `pip install -r requirements.txt`，它会默认给你装**CPU 版**，你的显卡直接沦为摆设。
-
-* 先确认你的显卡驱动支持 CUDA：命令行输入 `nvidia-smi`，能看到显卡信息就说明 OK
-
-然后按你的 CUDA 版本选择：
+先在终端运行 `nvidia-smi` 确认显卡驱动正常，然后根据驱动选择对应的安装命令：
 
 ```bash
-# 推荐：CUDA 12.1 版（对应最新主流驱动）
+# 推荐：CUDA 12.1 版（对应较新的驱动）
 pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# 如果你的驱动较老，试试 CUDA 11.8
+# 驱动较老时可换 CUDA 11.8
 pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu118
 
-# 实在没有显卡，装 CPU 版（能跑，但很慢）
+# 无独立显卡时装 CPU 版
 pip install torch torchaudio
 ```
 
-装完检查一下显卡有没有被认出来：
+安装完成后，在终端验证 PyTorch 是否能正确识别显卡：
 
 ```bash
 python -c "import torch; print(torch.cuda.is_available())"
-# 输出 True 说明 PyTorch 成功用上显卡了
+# 正常应输出 True
 ```
 
-**(如果输出 False，多半是 CUDA 版本和驱动不匹配，回去重新选 cu121/cu118)**
+如果输出 False，说明安装的 CUDA 版本与本地显卡驱动不匹配，需要重新核对驱动支持的 CUDA 版本。
 
-## 4/4：安装项目依赖
+### 4. 安装项目依赖
 
----
-
-回到项目根目录，装剩下的依赖：
+回到项目根目录，安装其余 Python 依赖：
 
 ```bash
 pip install -r requirements.txt
 ```
 
-这一步会下载一堆东西（PyTorch 之外还有 `librosa`、`demucs`、`transformers` 等等），耐心等它跑完。**期间出现红色的进度条或警告很正常，只要最后没有 ERROR 就行。**
+#### Windows 用户避坑注意
+在 Windows 下，`requirements.txt` 里的某些库（如 `wxpython`）在编译时如果缺少 C++ 环境会直接报错，建议提前装好微软的运行组件：
+- [Microsoft Visual C++ 2015-2022 (x64) 运行库](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)（安装时勾选 "Desktop development with C++"）
 
-### Windows 用户必读（少这一步必挂）
-
-如果你在 Windows，`requirements.txt` 里有个叫 `wxpython` 的东西是桌面界面用的，编译它在缺东西时会报错。所以**先装两样微软的组件**：
-
-* [Microsoft Visual C++ 2015-2022 (x64) 运行库](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-* [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)（安装时勾选 "Desktop development with C++"）
-
-**(不装这两个，你不是在装 MSST，而是在体验"编译错误大赏")**
-
-### 让音频格式识别更全
-
-MSST 读音频主要靠 `librosa` 和 `soundfile`。要想畅读 MP3 / FLAC 等非 WAV 格式，建议顺手装个 **ffmpeg**：
+#### 安装 ffmpeg 扩充格式支持
+MSST 读取音频主要依赖 `librosa` 和 `soundfile`。为了能正常读取 MP3、FLAC 等常见格式，建议顺手安装 **ffmpeg**：
 
 ```bash
-# Windows（用包管理器，如果是 brew/choco 用法类似）
+# Windows 用 choco 安装，或者去官网下载解压并把 bin 目录加入系统环境变量
 choco install ffmpeg
 ```
 
-# 准备模型权重
+## 准备模型权重
 
----
+MSST 不会自动在后台拉取模型文件。每次跑模型之前，需要**手动准备好两个配套文件**：
 
-MSST **不会自动帮你下载模型**，这点和很多傻瓜画图软件不一样。你需要**手动下载两个文件**，配合一条命令使用：
+1. **配置文件（`.yaml`）**：定义模型的网络结构。
+2. **权重文件（`.ckpt` 或 `.th`）**：训练好的模型参数。
 
-1. **Config 文件（`.yaml`）**：告诉 MSST 这个模型是什么架构
-2. **权重文件（`.ckpt` / `.th`）**：模型真正的"大脑"
+下载完成后，在项目根目录下新建一个 `weights/` 文件夹，把两个文件丢进去，推理时在参数里填上路径即可。
 
-下载后建议全部丢进项目根目录下的 `weights/` 文件夹（没有就自己建一个），用的时候指定路径即可。
+### 推荐人声分离模型配置
 
-## 最推荐的人声分离模型
+如果日常需求是**剥离人声与伴奏**，推荐优先使用 **BS Roformer**：
 
-如果只想把**伴奏和人声分开**，首选 **BS Roformer**（社区口碑最好）：
+- 配置文件：[model_bs_roformer_ep_317_sdr_12.9755.yaml](https://raw.githubusercontent.com/ZFTurbo/Music-Source-Separation-Training/main/configs/viperx/model_bs_roformer_ep_317_sdr_12.9755.yaml)
+- 权重文件：[model_bs_roformer_ep_317_sdr_12.9755.ckpt](https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/model_bs_roformer_ep_317_sdr_12.9755.ckpt)
 
-* Config：[model_bs_roformer_ep_317_sdr_12.9755.yaml](https://raw.githubusercontent.com/ZFTurbo/Music-Source-Separation-Training/main/configs/viperx/model_bs_roformer_ep_317_sdr_12.9755.yaml)
-* 权重：[model_bs_roformer_ep_317_sdr_12.9755.ckpt](https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/model_bs_roformer_ep_317_sdr_12.9755.ckpt)
+权重文件普遍在几百兆到 1GB 以上，下载前注意确认硬盘空间。完整模型列表可以在项目仓库的 `docs/pretrained_models.md` 中查阅。
 
-**(注意权重文件很大，RoFormer 类普遍在 100MB 到 1GB 以上，下载前先看下磁盘空间)**
+## 运行推理：分离音频
 
-完整的模型列表（人声 / 单轨 / 多轨都有）都在项目文档 `docs/pretrained_models.md` 里，表格里的 Config 和 Checkpoint 两头链接点开就是。
+### 基本命令
 
-# 跑起来！一条命令分离音频
-
----
-
-## 基本用法
-
-把你想分离的歌曲放进一个文件夹（比如 `input/songs/`），然后：
+把需要处理的音频文件放到一个文件夹里（比如 `input/songs/`），然后运行：
 
 ```bash
 python inference.py \
@@ -179,60 +150,44 @@ python inference.py \
     --store_dir output/separated/
 ```
 
-跑完后，`output/separated/` 里会出现类似这样的结构：
+处理完成后，输出目录结构如下：
 
 ```
 output/separated/
 └── song1/
-    ├── vocals.wav          # 人声
-    └── instrumental.wav    # 伴奏
+    ├── vocals.wav          # 人声轨
+    └── instrumental.wav    # 伴奏轨
 ```
 
-**(要是想连伴奏一起输出来，在命令里加上 `--extract_instrumental` 就行)**
+如果需要额外导出消音伴奏，在命令后追加 `--extract_instrumental` 即可。
 
-## 常用参数速查
+### 常用参数一览
 
-| 参数 | 作用 |
-|---|---|
-| `--model_type` | 选引擎：`bs_roformer` / `mel_band_roformer` / `htdemucs` / `mdx23c` / `scnet` … |
-| `--extract_instrumental` | 额外输出伴奏（原曲 - 人声） |
-| `--use_tta` | 测试时增强，效果更干净但慢三倍 |
-| `--force_cpu` | 强制用 CPU 跑（没显卡的人保命用） |
-| `--device_ids 0` | 指定使用哪块显卡 |
-| `--flac_file` | 输出 FLAC 而非 WAV 格式 |
-| `--filename_template "{file_name}/{instr}"` | 自定义输出文件命名 |
+| 参数 | 作用说明 |
+| :--- | :--- |
+| `--model_type` | 指定算法架构（如 `bs_roformer`、`mel_band_roformer`、`htdemucs` 等） |
+| `--extract_instrumental` | 同步输出原曲减去人声后的伴奏轨 |
+| `--use_tta` | 开启测试时增强，提取结果更干净，但处理耗时增加两到三倍 |
+| `--force_cpu` | 强制使用 CPU 计算 |
+| `--device_ids 0` | 多卡环境下指定使用的显卡编号 |
+| `--flac_file` | 输出为无损 FLAC 格式代替默认的 WAV |
 
----
+## 常见问题与替代方案
 
-# 一些善后工作
+### Q：不想敲命令行，有没有开箱即用的图形界面？
+原作者自带一个简单的桌面脚本 `python gui-wx.py`，社区也做过打包好的 [MSST-WebUI](https://github.com/SUC-DriverOld/MSST-WebUI)。
 
----
+但 MSST-WebUI 目前已停止维护，团队正在全力开发新项目 **[Pymss-Studio](https://github.com/pymss-project/pymss-studio)**。它同样完全开源，界面更现代化，且初次运行会自动下载缺失的模型权重，不需要手动搬运 YAML 和 CKPT 文件。追求省心界面的朋友可以直接转向 Pymss-Studio。
 
-Q：我不想敲命令行，有没有图形界面？
-A：有。ZFTurbo 官方有个 `python gui-wx.py` 桌面程序，社区大佬也做了 [SUC-DriverOld/MSST-WebUI](https://github.com/SUC-DriverOld/MSST-WebUI)，把 MSST 和 UVR 打包成了网页界面——**我本机那套"音轨分离"就是这个**。
+### Q：安装依赖时提示缺少 C++ 编译器？
+参考步骤 4 的说明，安装 Microsoft C++ Build Tools 并勾选 "Desktop development with C++"，安装完毕后重新开一个终端窗口运行 pip 安装。
 
-**但是请注意！** MSST-WebUI 的官方语雀文档已经声明：**即将停止开发/维护 MSST-WebUI，转向开发 Pymss-Studio**。如果你正准备从头装图形界面，强烈建议直接看下面的 Pymss-Studio，免得刚上手就撞上停止维护的坑。
+### Q：提取出来的人声不够干净怎么办？
+可以尝试换用 `mel_band_roformer` 这类大模型，或者在推理命令后追加 `--use_tta` 参数。开启后处理时间会变长，但能有效过滤杂音。
 
-[Pymss-Studio](https://github.com/pymss-project/pymss-studio) 是官方钦定的继任者，**同样完全开源免费**，但处处更强：支持**更多模型**、**推理速度更快**、GUI **更美观**、还**跨平台**（Windows / macOS / Linux / 甚至 Apple Silicon 用 MLX 加速）。它拆成三件套：
-
-* [pymss-studio](https://github.com/pymss-project/pymss-studio)：跨平台桌面软件（下载安装包即用，直接给你图形界面）
-* [pymss](https://github.com/pymss-project/pymss)：Python 核心依赖包（走命令行 / API，一句话调用、模型按名自动下载）
-* [comfy-mss](https://github.com/pymss-project/comfy-mss)：给 ComfyUI 用的音频分离自定义节点
-
-而且 Pymss-Studio 安装起来比 MSST 省心得多——不像 MSST 那样要手动下载模型再手动指定路径，它 `pip install pymss` 之后，第一次运行会自动下载缺失的模型。如果你的机器是 NVIDIA 显卡，装 **Windows CUDA 版**能比 MSST-WebUI 快出一截；苹果 M 系芯片（M1/M2/M3/M4）还有专吃的 **MLX 后端**。
-
-Q：`requirements.txt` 装到一半报错，说缺什么 C++ 编译器？
-A：回看第 4 步的 **Windows 必读**。去装 Microsoft C++ Build Tools，勾选 "Desktop development with C++"，装完重开命令行再 `pip install -r requirements.txt`。
-
-Q：为什么我分离出来的音乐有噪声，或者人声不干净？
-A：两个可能。一是换更强的模型（试试 `mel_band_roformer`）；二是加 `--use_tta` 让它在三个方向上各跑一遍再平均，代价是慢，但质量肉眼可见地提升。
-
-Q：分离一个文件要多久？
-A：看你显卡。有 8GB+ 显存的显卡，一首 5 分钟的歌通常几秒到十几秒；用 CPU 的话，可能要几分钟到十几分钟。别急，第一次跑时它要先加载模型，会卡在 0% 一小会儿，那是正常的。
+### Q：分离一首歌需要耗费多长时间？
+取决于显卡算力。在 8GB 以上显存的显卡上，一首 4 分钟的歌曲通常在 10 到 30 秒内完成；纯靠 CPU 处理则可能需要几分钟。首次运行时加载模型会有片刻停顿，属于正常现象。
 
 ---
 
-- 这篇教程献给 **只是想干干净净地把一首歌拆开，却不知道该从哪台"引擎"开始折腾的你** 。
-
-- 本站基于开源框架 **Astro** 和其组件 **Starlight** 搭建，托管于 **GitHub Pages**。
-  在此，特别感谢 **Gemini (AI)** 在本地环境配置、网络镜像调优及 CI/CD 自动化工作流规划中提供的全方位技术支持与陪伴。
+这篇教程献给只是想干干净净地把一首歌拆开，却不知道该从哪个引擎开始折腾的你。
