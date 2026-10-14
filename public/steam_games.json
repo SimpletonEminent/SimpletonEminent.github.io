@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-13T09:15:56.374Z",
+  "updatedAt": "2026-10-14T07:26:13.548Z",
   "games": [
     {
       "appid": 1172470,
@@ -1066,6 +1066,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1493520/library_600x900.jpg"
     },
     {
+      "appid": 812140,
+      "name": "Assassin's Creed Odyssey",
+      "playtime_hours": 1.3,
+      "playtime_2weeks_hours": 1.3,
+      "last_played": 1791896568,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/812140/library_600x900.jpg"
+    },
+    {
       "appid": 1147550,
       "name": "Not For Broadcast",
       "playtime_hours": 1.2,
@@ -1600,14 +1608,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 0,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/760620/library_600x900.jpg"
-    },
-    {
-      "appid": 812140,
-      "name": "Assassin's Creed Odyssey",
-      "playtime_hours": 0,
-      "playtime_2weeks_hours": 0,
-      "last_played": 0,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/812140/library_600x900.jpg"
     },
     {
       "appid": 814200,
