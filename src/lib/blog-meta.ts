@@ -5,8 +5,9 @@
 // 3. 判定双日期的展示策略 (只有更新时间严格晚于首次发布时间才显示)
 // 4. 过滤并按年份分组普通文章数据 (用于 /blog/ 文章总览门户)
 // 5. 单源化解析与富化阅读指标 (minutesRead 与 words)，收敛 AST 刺探 (Spec 16)
+// 6. 统一通过 steam-data 模块单源访问注释数据，消除私有文件读取与缓存 (Spec 21)
 
-import { readFileSync } from 'node:fs';
+import { loadAnnotations, type Annotation } from './steam-data.ts';
 
 export interface PostMetadata {
   isBlogPost: boolean;
@@ -25,10 +26,7 @@ export interface ReadingMetrics {
   words?: number;
 }
 
-export interface AnnotationItem {
-  tags?: string[];
-  blog_url?: string;
-}
+export type AnnotationItem = Annotation;
 
 export interface GeneralPostSummary {
   id: string;
@@ -61,20 +59,7 @@ export interface InputPostEntry {
   rendered?: unknown;
 }
 
-let memoizedAnnotations: Record<string, AnnotationItem> | null = null;
 const readingMetricsCache = new WeakMap<object, ReadingMetrics>();
-
-/** 读取并缓存 steam_annotations.json */
-export function loadBlogAnnotations(): Record<string, AnnotationItem> {
-  if (memoizedAnnotations) return memoizedAnnotations;
-  try {
-    const raw = readFileSync('src/data/steam_annotations.json', 'utf-8');
-    memoizedAnnotations = JSON.parse(raw) as Record<string, AnnotationItem>;
-  } catch {
-    memoizedAnnotations = {};
-  }
-  return memoizedAnnotations;
-}
 
 /**
  * 统一解析博文阅读时长与字数指标纯函数 (Spec 16)
@@ -251,7 +236,7 @@ export function resolvePostMetadata(
 
   const targetUrl = '/' + cleanSlug.toLowerCase();
 
-  const annotations = injectedAnnotations ?? loadBlogAnnotations();
+  const annotations = injectedAnnotations ?? loadAnnotations();
 
   // 查找是否有关联的 Steam 游戏长评
   let matchedAnnotation: AnnotationItem | undefined;
@@ -321,7 +306,7 @@ export function filterAndGroupGeneralPosts(
   entries: InputPostEntry[],
   injectedAnnotations?: Record<string, AnnotationItem>
 ): YearGroup[] {
-  const annotations = injectedAnnotations ?? loadBlogAnnotations();
+  const annotations = injectedAnnotations ?? loadAnnotations();
 
   // 收集已登记为游戏长评的 URL 集合 (全小写标准化)
   const reviewUrls = new Set<string>();

@@ -47,5 +47,22 @@ for (const sym of FORBIDDEN_SYMBOLS) {
   check(`steam-data.ts 不透传重导出 ${sym}`, !(sym in steamData));
 }
 
+// 4. Spec 21 (Issue #21): loadAnnotations 记忆化与统一查询方法
+const ann1 = steamData.loadAnnotations();
+const ann2 = steamData.loadAnnotations();
+
+check('loadAnnotations() 多次调用返回相同对象引用', ann1 === ann2);
+check('loadAnnotations() 返回非空注释对象', typeof ann1 === 'object' && Object.keys(ann1).length > 0);
+
+// 查询方法验证
+const sekiroAnn = steamData.getAnnotation(814380);
+check('getAnnotation(814380) 成功命中只狼注释', sekiroAnn !== undefined && sekiroAnn.name_zh === '只狼：影逝二度');
+
+const foundSekiro = steamData.findAnnotationByBlogUrl('/blog/sekiro_review');
+check('findAnnotationByBlogUrl("/blog/sekiro_review") 成功匹配 appid 814380', foundSekiro !== undefined && foundSekiro.appid === 814380);
+
+const notFound = steamData.findAnnotationByBlogUrl('/blog/non_existent_url');
+check('findAnnotationByBlogUrl 未知 URL 返回 undefined', notFound === undefined);
+
 console.log(failures === 0 ? `ALL PASS (${total} checks)` : `${failures} FAILED (of ${total})`);
 process.exit(failures === 0 ? 0 : 1);

@@ -17,11 +17,14 @@ import {
   STATUS_LADDER,
 } from '../src/lib/play-status.ts';
 import { isValidPlayYear, PLAY_YEAR_HINT } from './lib/play-year.mjs';
-import type {
-  SteamGame,
-  Annotation,
-  SteamGamesData,
-  SteamAchievementsData,
+import {
+  loadAnnotations as loadAnnotationsFromRepo,
+  resetGameDataCache,
+  FileSystemStorageAdapter,
+  type SteamGame,
+  type Annotation,
+  type SteamGamesData,
+  type SteamAchievementsData,
 } from '../src/lib/steam-data.ts';
 
 /** 集中维护的公共数据与注释文件路径常量 */
@@ -62,8 +65,12 @@ export function saveGamesData(data: SteamGamesData, path: string = PATHS.GAMES):
 }
 
 export function loadAnnotations(path: string = PATHS.ANNOTATIONS): Record<string, Annotation> {
+  if (path === PATHS.ANNOTATIONS) {
+    return loadAnnotationsFromRepo();
+  }
   try {
-    const raw = readFileSync(path, 'utf-8');
+    const adapter = new FileSystemStorageAdapter({ annotationsPath: path });
+    const raw = adapter.readAnnotations();
     const data = JSON.parse(raw);
     if (data && typeof data === 'object' && !Array.isArray(data)) {
       return data as Record<string, Annotation>;
@@ -79,6 +86,9 @@ export function saveAnnotations(
   path: string = PATHS.ANNOTATIONS
 ): void {
   writeFileSync(path, `${JSON.stringify(annotations, null, 2)}\n`, 'utf-8');
+  if (path === PATHS.ANNOTATIONS) {
+    resetGameDataCache();
+  }
 }
 
 export function loadAchievementsData(path: string = PATHS.ACHIEVEMENTS): SteamAchievementsData {

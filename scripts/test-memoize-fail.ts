@@ -159,6 +159,28 @@ check('未 resetCache 时读取依然命中旧缓存', isolatedRepo.loadMergedGa
 isolatedRepo.resetCache();
 check('调用 resetCache 后重新加载数据生效', isolatedRepo.loadMergedGames().games.length === 0);
 
+// ==========================================
+// 5. Spec 21: 注释文件 MemoryStorageAdapter 隔离与容错测试
+// ==========================================
+check('failAdapter (annotations: null) 时 loadAnnotations 安全回退为 {}', Object.keys(failRepo.loadAnnotations()).length === 0);
+
+const corruptOnlyAnnoAdapter = new MemoryStorageAdapter({ annotations: '<<< NOT VALID JSON >>>' });
+const corruptOnlyAnnoRepo = new GameDataRepository(corruptOnlyAnnoAdapter);
+check('注释文件损坏时 loadAnnotations 安全回退为 {}', Object.keys(corruptOnlyAnnoRepo.loadAnnotations()).length === 0);
+
+check('domainRepo 成功解析内存注入的注释', domainRepo.loadAnnotations()['3']?.name_zh === '高时长游戏');
+check('domainRepo.getAnnotation(3) 成功读取单款游戏注释', domainRepo.getAnnotation(3)?.my_rank === '王者 👑');
+check('domainRepo.getAnnotation(999) 未存在游戏返回 undefined', domainRepo.getAnnotation(999) === undefined);
+
+// 验证注释缓存重置
+isolatedAdapter.setAnnotations(JSON.stringify({ '888': { name_zh: 'Cached Game' } }));
+isolatedRepo.resetCache();
+check('isolatedRepo 读取新设置的内存注释', isolatedRepo.loadAnnotations()['888']?.name_zh === 'Cached Game');
+isolatedAdapter.setAnnotations(JSON.stringify({ '888': { name_zh: 'Updated Game' } }));
+check('未 resetCache 时 loadAnnotations 命中旧缓存', isolatedRepo.loadAnnotations()['888']?.name_zh === 'Cached Game');
+isolatedRepo.resetCache();
+check('resetCache 后 loadAnnotations 重新解析并更新', isolatedRepo.loadAnnotations()['888']?.name_zh === 'Updated Game');
+
 // 验证模块级单例缓存重置
 resetGameDataCache();
 const defaultCall = loadMergedGames();

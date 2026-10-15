@@ -309,6 +309,55 @@ const mockAnnotations = {
   check('enrichPostEntries: 成功富化 words', enriched[0]?.words, 1000);
 }
 
+// 11. Spec 21: 通过 MemoryStorageAdapter 完全隔离测试，无物理磁盘文件读取
+{
+  const {
+    GameDataRepository,
+    MemoryStorageAdapter,
+    getDefaultRepository,
+    setDefaultRepository,
+    resetGameDataCache,
+  } = await import('../src/lib/steam-data.ts');
+  const { filterAndGroupGeneralPosts } = await import('../src/lib/blog-meta.ts');
+
+  const prevRepo = getDefaultRepository();
+
+  try {
+    const memoryAdapter = MemoryStorageAdapter.fromObjects({
+      annotations: {
+        '777777': {
+          blog_url: '/blog/memory_isolated_review',
+          tags: ['内存隔离', '测试标签'],
+        },
+      },
+    });
+    setDefaultRepository(new GameDataRepository(memoryAdapter));
+
+    // 调用 resolvePostMetadata，不传第 3 个参数 injectedAnnotations
+    const res = resolvePostMetadata('blog/memory_isolated_review.md', { pubDate: '2026-08-19' });
+    check('MemoryStorageAdapter 隔离测试: 识别为游戏评测', res.isGameReview, true);
+    check('MemoryStorageAdapter 隔离测试: 解析出 appid 777777', res.appid, 777777);
+    check('MemoryStorageAdapter 隔离测试: 继承内存中的标签', res.tags, ['内存隔离', '测试标签']);
+    check('MemoryStorageAdapter 隔离测试: galleryUrl 为 /games#game-777777', res.galleryUrl, '/games#game-777777');
+
+    // 调用 filterAndGroupGeneralPosts，不传 injectedAnnotations
+    const groups = filterAndGroupGeneralPosts([
+      {
+        id: 'blog/memory_isolated_review.md',
+        data: { title: '内存评测文章', pubDate: '2026-08-19' },
+      },
+      {
+        id: 'blog/isolated_general.md',
+        data: { title: '普通技术文章', pubDate: '2026-08-19' },
+      },
+    ]);
+    check('MemoryStorageAdapter 隔离测试: 准确过滤内存长评', groups.length === 1 && groups[0]?.posts.length === 1 && groups[0]?.posts[0]?.id === 'blog/isolated_general.md', true);
+  } finally {
+    setDefaultRepository(prevRepo);
+    resetGameDataCache();
+  }
+}
+
 if (failures > 0) {
   console.error(`\n❌ 测试未通过: ${failures}/${total} 个检查失败`);
   process.exit(1);

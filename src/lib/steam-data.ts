@@ -210,6 +210,7 @@ export class GameDataRepository {
   private adapter: StorageAdapter;
   private memoizedMergedGames: { updatedAt?: string; games: MergedGame[] } | null = null;
   private memoizedSortPresets: Record<SortKey, number[]> | null = null;
+  private memoizedAnnotations: Record<string, Annotation> | null = null;
 
   constructor(adapter: StorageAdapter = new FileSystemStorageAdapter()) {
     this.adapter = adapter;
@@ -230,6 +231,49 @@ export class GameDataRepository {
   resetCache(): void {
     this.memoizedMergedGames = null;
     this.memoizedSortPresets = null;
+    this.memoizedAnnotations = null;
+  }
+
+  /** 读取并解析注释文件，维护实例级缓存。读取或解析失败时安全回退为空对象 (Spec 21) */
+  loadAnnotations(): Record<string, Annotation> {
+    if (this.memoizedAnnotations) return this.memoizedAnnotations;
+
+    let annotations: Record<string, Annotation> = {};
+    try {
+      const raw = this.adapter.readAnnotations();
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        annotations = parsed as Record<string, Annotation>;
+      }
+    } catch {
+      annotations = {};
+    }
+
+    this.memoizedAnnotations = annotations;
+    return this.memoizedAnnotations;
+  }
+
+  /** 获取单款游戏的注释信息 (Spec 21) */
+  getAnnotation(appid: number | string): Annotation | undefined {
+    const annotations = this.loadAnnotations();
+    return annotations[String(appid)];
+  }
+
+  /** 根据博客文章 URL 查找关联的游戏注释与 AppID (Spec 21) */
+  findAnnotationByBlogUrl(blogUrl: string): { appid: number; annotation: Annotation } | undefined {
+    if (!blogUrl) return undefined;
+    const target = blogUrl.trim().toLowerCase();
+    const annotations = this.loadAnnotations();
+    for (const [rawId, item] of Object.entries(annotations)) {
+      if (typeof item.blog_url === 'string' && item.blog_url.trim().toLowerCase() === target) {
+        const parsedId = Number(rawId);
+        return {
+          appid: Number.isNaN(parsedId) ? 0 : parsedId,
+          annotation: item,
+        };
+      }
+    }
+    return undefined;
   }
 
   /** 读取并合并数据源，按总时长降序返回。读取或解析失败时安全回退为空数据 */
@@ -250,16 +294,7 @@ export class GameDataRepository {
       games = [];
     }
 
-    let annotations: Record<string, Annotation> = {};
-    try {
-      const raw = this.adapter.readAnnotations();
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
-        annotations = parsed as Record<string, Annotation>;
-      }
-    } catch {
-      annotations = {};
-    }
+    const annotations = this.loadAnnotations();
 
     let achievementMap = new Map<number, { unlocked: number; total: number; firstUnlockAt?: number }>();
     try {
@@ -345,6 +380,23 @@ export function resetGameDataCache(): void {
 /** 读取并合并数据文件,按总时长降序返回。读取失败时返回空列表(渲染空状态)。(模块级单例) */
 export function loadMergedGames(): { updatedAt?: string; games: MergedGame[] } {
   return defaultRepository.loadMergedGames();
+}
+
+/** 读取并解析注释文件 (模块级单例缓存，由 StorageAdapter 接管，Spec 21) */
+export function loadAnnotations(): Record<string, Annotation> {
+  return defaultRepository.loadAnnotations();
+}
+
+/** 获取单款游戏的注释信息 (Spec 21) */
+export function getAnnotation(appid: number | string): Annotation | undefined {
+  return defaultRepository.getAnnotation(appid);
+}
+
+/** 根据博客文章 URL 查找关联的游戏注释与 AppID (Spec 21) */
+export function findAnnotationByBlogUrl(
+  blogUrl: string
+): { appid: number; annotation: Annotation } | undefined {
+  return defaultRepository.findAnnotationByBlogUrl(blogUrl);
 }
 
 /** 获取预计算的排序结果数组(存储的是 appid) */
