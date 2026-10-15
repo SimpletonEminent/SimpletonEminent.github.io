@@ -7,7 +7,7 @@
 import { getCollection } from 'astro:content';
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
 import { formatHours } from '../lib/steam-data';
-import StatusBadges from './StatusBadges.astro';
+import { renderBadges } from './game-presentation';
 import { resolveTocContext } from '../lib/toc-resolver';
 
 const tocContext = await resolveTocContext(Astro.url.pathname, {
@@ -24,7 +24,7 @@ const tocContext = await resolveTocContext(Astro.url.pathname, {
           tocContext.games.map((game) => (
             <button type="button" class="games-toc-row" data-appid={game.appid}>
               <span class="games-toc-name" title={game.name}>{game.name_zh || game.name}</span>
-              <StatusBadges game={game} />
+              <Fragment set:html={renderBadges(game)} />
               <span class="games-toc-playtime">{formatHours(game.playtime_hours)}h</span>
             </button>
           ))

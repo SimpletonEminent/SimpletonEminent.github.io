@@ -2,7 +2,7 @@
 // 职责:
 // 1. 单源化 HTML 安全转义 (esc)，统一服务端渲染 XSS 防护标准。
 // 2. 收敛徽章 (游玩状态与段位) 与详情气泡 (.bubble-content) 的服务端静态标记渲染。
-// 3. 向画廊卡片 (SteamGallery.astro)、桌面 TOC 与移动端 TOC (StatusBadges.astro) 提供内聚纯渲染接口。
+// 3. 向画廊卡片 (SteamGallery.astro)、桌面 TOC 与移动端 TOC 提供内聚纯渲染接口。
 
 import { statusText } from '../lib/play-status.ts';
 import {
