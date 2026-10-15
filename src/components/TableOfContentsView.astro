@@ -1,0 +1,218 @@
+---
+// 统一目录展示模块 (TableOfContentsView, Spec 24)
+// 职责:
+// 1. 集中渲染游戏列表行与年份归档列表项，支持桌面端与移动端响应式布局
+// 2. 统一支持中文名称 (name_zh) 优先展示与英文原名 title 悬浮提示 (修复移动端中文缺失)
+// 3. 集中收敛双端 TOC 的行级 JSX 结构与 CSS 样式规范，消除重复代码
+import { formatHours, type MergedGame } from '../lib/steam-data';
+import { renderBadges } from './game-presentation';
+import type { TocContext, TocMode } from '../lib/toc-resolver';
+import type { YearGroup } from '../lib/blog-meta';
+
+interface Props {
+  context?: TocContext;
+  mode?: TocMode;
+  games?: MergedGame[];
+  yearGroups?: YearGroup[];
+  isMobile?: boolean;
+}
+
+const { context, isMobile = false } = Astro.props;
+
+const mode: TocMode = context?.mode ?? Astro.props.mode ?? 'default';
+const games: MergedGame[] =
+  (context && context.mode === 'games' ? context.games : Astro.props.games) ?? [];
+const yearGroups: YearGroup[] =
+  (context && context.mode === 'blog-overview' ? context.yearGroups : Astro.props.yearGroups) ?? [];
+---
+
+{
+  mode === 'games' ? (
+    <>
+      {games.map((game) => (
+        <button
+          type="button"
+          class:list={['games-toc-row', 'games-mobile-row', isMobile ? 'is-mobile' : 'is-desktop']}
+          data-appid={game.appid}
+        >
+          <span
+            class:list={['games-toc-name', 'games-mobile-name']}
+            title={game.name}
+          >
+            {game.name_zh || game.name}
+          </span>
+          <Fragment set:html={renderBadges(game)} />
+          <span class:list={['games-toc-playtime', 'games-mobile-playtime']}>
+            {formatHours(game.playtime_hours)}h
+          </span>
+        </button>
+      ))}
+      {games.length === 0 && (
+        <p class:list={['games-toc-empty', 'games-mobile-empty']}>暂无游戏数据</p>
+      )}
+    </>
+  ) : mode === 'blog-overview' ? (
+    <>
+      {isMobile ? (
+        <>
+          {yearGroups.map((group) => (
+            <a
+              href={`#year-${group.year}`}
+              class="overview-mobile-row"
+            >
+              <span>{group.year} 年</span>
+              <span class="overview-mobile-count">{group.posts.length} 篇</span>
+            </a>
+          ))}
+          {yearGroups.length === 0 && (
+            <p class="games-mobile-empty">暂无文章记录</p>
+          )}
+        </>
+      ) : (
+        <>
+          {yearGroups.map((group) => (
+            <li>
+              <a
+                href={`#year-${group.year}`}
+                class="overview-toc-link"
+              >
+                <span>{group.year} 年</span>
+                <span class="overview-toc-count">{group.posts.length} 篇</span>
+              </a>
+            </li>
+          ))}
+          {yearGroups.length === 0 && (
+            <li class="games-toc-empty">暂无文章记录</li>
+          )}
+        </>
+      )}
+    </>
+  ) : null
+}
+
+<style>
+	@layer starlight.core {
+		/* --- 游戏列表行 (双端通用基础) --- */
+		.games-toc-row {
+			display: flex;
+			align-items: center;
+			gap: 0.375rem;
+			width: 100%;
+			padding: 0.3rem 0.5rem;
+			border: none;
+			border-radius: 0.375rem;
+			background: transparent;
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-xs);
+			text-align: left;
+			cursor: pointer;
+			font-family: inherit;
+			line-height: 1.5;
+			transition: color 0.15s ease, background 0.15s ease;
+		}
+
+		.games-toc-row.is-mobile {
+			padding: 0.35rem 0.5rem;
+		}
+
+		.games-toc-row:hover {
+			color: var(--sl-color-white);
+			background: color-mix(in srgb, var(--sl-color-accent) 8%, transparent);
+		}
+
+		.games-toc-row.active {
+			color: var(--sl-color-white);
+			background: color-mix(in srgb, var(--sl-color-accent) 14%, transparent);
+		}
+
+		.games-toc-row.is-desktop.active {
+			box-shadow: inset 2px 0 0 var(--sl-color-accent);
+		}
+
+		.games-toc-name {
+			flex: 1;
+			min-width: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.games-toc-playtime {
+			flex-shrink: 0;
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-2xs);
+		}
+
+		.games-toc-empty,
+		.games-mobile-empty {
+			margin: 0;
+			color: var(--sl-color-gray-3);
+			font-size: var(--sl-text-xs);
+			padding: 0.5rem;
+		}
+
+		/* 状态徽章:胶囊标签 (与画廊卡片一致) */
+		:global(.status-badge) {
+			display: inline-block;
+			flex-shrink: 0;
+			border-radius: 999px;
+			padding: 0.05em 0.5em;
+			font-size: var(--sl-text-2xs);
+			line-height: 1.6;
+			white-space: nowrap;
+		}
+
+		/* --- 年份归档链接 - 桌面端 --- */
+		.overview-toc-link {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.35rem 0.5rem;
+			border-radius: 6px;
+			color: var(--sl-color-gray-3);
+			text-decoration: none;
+			font-size: var(--sl-text-sm);
+			transition: all 0.15s ease;
+		}
+
+		.overview-toc-link:hover {
+			color: var(--sl-color-accent-high);
+			background: color-mix(in srgb, var(--sl-color-gray-5) 40%, transparent);
+		}
+
+		.overview-toc-count {
+			font-size: var(--sl-text-xs);
+			color: var(--sl-color-gray-4);
+			background: color-mix(in srgb, var(--sl-color-gray-6) 60%, transparent);
+			padding: 0.1rem 0.4rem;
+			border-radius: 9999px;
+		}
+
+		/* --- 年份归档链接 - 移动端 --- */
+		.overview-mobile-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			padding: 0.5rem 1rem;
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-2);
+			text-decoration: none;
+			border-bottom: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 20%, transparent);
+			transition: all 0.15s ease;
+		}
+
+		.overview-mobile-row:hover {
+			color: var(--sl-color-accent);
+			background: color-mix(in srgb, var(--sl-color-gray-5) 25%, transparent);
+		}
+
+		.overview-mobile-count {
+			font-size: var(--sl-text-xs);
+			color: var(--sl-color-gray-3);
+			background: color-mix(in srgb, var(--sl-color-gray-6) 60%, transparent);
+			padding: 0.1rem 0.4rem;
+			border-radius: 9999px;
+		}
+	}
+</style>

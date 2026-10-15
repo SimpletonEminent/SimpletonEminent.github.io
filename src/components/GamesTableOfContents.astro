@@ -3,12 +3,11 @@
 // - /games 路由 → 渲染游戏列表(替代 "On this page"),与卡片画廊双向联动
 // - /blog 路由 → 渲染文章总览的年份归档 TOC
 // - 其他路由 → 渲染原生 TOC
-// 统一消费 toc-resolver 深层解析接缝 (Spec 17)
+// 统一消费 toc-resolver 深层解析接缝与 TableOfContentsView 通用展示模块 (Spec 24)
 import { getCollection } from 'astro:content';
 import DefaultTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
-import { formatHours } from '../lib/steam-data';
-import { renderBadges } from './game-presentation';
 import { resolveTocContext } from '../lib/toc-resolver';
+import TableOfContentsView from './TableOfContentsView.astro';
 
 const tocContext = await resolveTocContext(Astro.url.pathname, {
   getDocs: () => getCollection('docs'),
@@ -20,30 +19,14 @@ const tocContext = await resolveTocContext(Astro.url.pathname, {
     <nav class="games-toc" aria-label="游戏列表" data-games-toc>
       <h2>🎮 游戏列表</h2>
       <div class="games-toc-list">
-        {
-          tocContext.games.map((game) => (
-            <button type="button" class="games-toc-row" data-appid={game.appid}>
-              <span class="games-toc-name" title={game.name}>{game.name_zh || game.name}</span>
-              <Fragment set:html={renderBadges(game)} />
-              <span class="games-toc-playtime">{formatHours(game.playtime_hours)}h</span>
-            </button>
-          ))
-        }
-        {tocContext.games.length === 0 && <p class="games-toc-empty">暂无游戏数据</p>}
+        <TableOfContentsView context={tocContext} />
       </div>
     </nav>
   ) : tocContext.mode === 'blog-overview' ? (
     <nav class="blog-overview-toc" aria-label="年份归档">
       <h2>📅 年份归档</h2>
       <ul class="overview-toc-list">
-        {tocContext.yearGroups.map((group) => (
-          <li>
-            <a href={`#year-${group.year}`} class="overview-toc-link">
-              <span>{group.year} 年</span>
-              <span class="overview-toc-count">{group.posts.length} 篇</span>
-            </a>
-          </li>
-        ))}
+        <TableOfContentsView context={tocContext} />
       </ul>
     </nav>
   ) : (
@@ -71,30 +54,6 @@ const tocContext = await resolveTocContext(Astro.url.pathname, {
 			gap: 0.35rem;
 		}
 
-		.overview-toc-link {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 0.35rem 0.5rem;
-			border-radius: 6px;
-			color: var(--sl-color-gray-3);
-			text-decoration: none;
-			font-size: var(--sl-text-sm);
-			transition: all 0.15s ease;
-		}
-
-		.overview-toc-link:hover {
-			color: var(--sl-color-accent-high);
-			background: color-mix(in srgb, var(--sl-color-gray-5) 40%, transparent);
-		}
-
-		.overview-toc-count {
-			font-size: var(--sl-text-xs);
-			color: var(--sl-color-gray-4);
-			background: color-mix(in srgb, var(--sl-color-gray-6) 60%, transparent);
-			padding: 0.1rem 0.4rem;
-			border-radius: 9999px;
-		}
 		/* 视觉继承 Starlight 原生 TOC 质感:小字号、柔和灰、sticky 由 right-sidebar 容器提供 */
 		.games-toc h2 {
 			margin: 0 0 0.75rem;
@@ -132,65 +91,6 @@ const tocContext = await resolveTocContext(Astro.url.pathname, {
 
 		.games-toc-list::-webkit-scrollbar-thumb:hover {
 			background: var(--sl-color-gray-4);
-		}
-
-		.games-toc-row {
-			display: flex;
-			align-items: center;
-			gap: 0.375rem;
-			width: 100%;
-			padding: 0.3rem 0.5rem;
-			border: none;
-			border-radius: 0.375rem;
-			background: transparent;
-			color: var(--sl-color-gray-3);
-			font-size: var(--sl-text-xs);
-			text-align: left;
-			cursor: pointer;
-			font-family: inherit;
-			line-height: 1.5;
-		}
-
-		.games-toc-row:hover {
-			color: var(--sl-color-white);
-			background: color-mix(in srgb, var(--sl-color-accent) 8%, transparent);
-		}
-
-		.games-toc-row.active {
-			color: var(--sl-color-white);
-			background: color-mix(in srgb, var(--sl-color-accent) 14%, transparent);
-			box-shadow: inset 2px 0 0 var(--sl-color-accent);
-		}
-
-		.games-toc-name {
-			flex: 1;
-			min-width: 0;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-
-		.games-toc-playtime {
-			flex-shrink: 0;
-			color: var(--sl-color-gray-3);
-			font-size: var(--sl-text-2xs);
-		}
-
-		.games-toc-empty {
-			margin: 0;
-			color: var(--sl-color-gray-3);
-			font-size: var(--sl-text-xs);
-		}
-
-		/* 状态徽章:三态胶囊,明暗双套(与画廊卡片一致) */
-		.games-toc :global(.status-badge) {
-			display: inline-block;
-			flex-shrink: 0;
-			border-radius: 999px;
-			padding: 0.05em 0.5em;
-			font-size: var(--sl-text-2xs);
-			line-height: 1.6;
-			white-space: nowrap;
 		}
 	}
 </style>
