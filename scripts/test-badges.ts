@@ -1,8 +1,8 @@
 // 回归测试:徽章组合规则(ADR-0007 v2)
 // 规则:游玩状态徽章永远显示;填了段位则追加段位徽章,段位绝不顶替状态。
 // 运行:npm test(node --experimental-strip-types scripts/test-badges.ts)
-import { badgesFor, type Status } from '../src/lib/steam-data.ts';
-import { statusKeys } from '../src/lib/play-status.ts';
+import { badgesFor } from '../src/lib/steam-data.ts';
+import { statusKeys, type Status } from '../src/lib/play-status.ts';
 
 // 枚举值从唯一词汇模块取,避免测试数组与真实枚举漂移(Spec 02)
 const STATUSES: Status[] = statusKeys();

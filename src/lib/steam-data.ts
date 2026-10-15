@@ -31,10 +31,6 @@ export interface Annotation {
   release_date?: string;
 }
 
-// 游玩状态类型与文案由唯一词汇模块 src/lib/play-status.ts 提供(Spec 02),
-// 此处仅导出供既有消费方(组件/测试)继续引用,词汇单一来源保证。
-export type { Status } from './play-status.ts';
-
 export interface MergedGame extends SteamGame {
   name_zh: string;
   tags: string[];
@@ -361,19 +357,6 @@ export function formatHours(hours: number): string {
   const rounded = Math.round(hours * 10) / 10;
   return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
 }
-
-// 状态中文文案由词汇模块提供(contribute from play-status)。保留重导出供既有消费方使用。
-export {
-  statusText,
-  statusText as statusLabel,
-  statusWeight,
-  statusToKey,
-  keyToStatus,
-  statusKeys,
-  isStatus,
-  STATUS_LADDER,
-  DEFAULT_STATUS,
-} from './play-status.ts';
 
 /** 从发售日期字符串提取年份(如 "2024 年 8 月 20 日" → "2024"),无则返回空串 */
 export function releaseYear(date: string): string {
