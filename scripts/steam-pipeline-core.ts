@@ -6,10 +6,13 @@
 // 4. 收敛 Steam API 抓取、元数据丰富、成就检查与表格转换的底层编排。
 
 import { readFileSync, writeFileSync } from 'node:fs';
+import { createInterface } from 'node:readline/promises';
+import { stdin as defaultInput, stdout as defaultOutput } from 'node:process';
 import {
   statusLabel,
   statusToKey,
   isStatusLabel,
+  isStatus,
   DEFAULT_STATUS,
   STATUS_LADDER,
 } from '../src/lib/play-status.ts';
@@ -710,3 +713,548 @@ export function importAnnotationsFromCsv(
     warnings,
   };
 }
+
+// ==========================================
+// 5. 进程内可调用数据维护操作 (In-process Pipeline Operations)
+// ==========================================
+
+export function resolveLogger(customLogger?: Logger): Required<Logger> {
+  return {
+    log: customLogger?.log ?? ((msg: string) => console.log(msg)),
+    warn: customLogger?.warn ?? ((msg: string) => console.warn(msg)),
+    error: customLogger?.error ?? ((msg: string) => console.error(msg)),
+  };
+}
+
+export interface EnrichMetadataOptions {
+  gamesPath?: string;
+  annotationsPath?: string;
+  client?: ResilientHttpClient;
+  logger?: Logger;
+}
+
+export interface EnrichMetadataResult {
+  enriched: number;
+  skipped: number;
+  annotations: Record<string, Annotation>;
+}
+
+export async function runEnrichMetadata(
+  options: EnrichMetadataOptions = {}
+): Promise<EnrichMetadataResult> {
+  const gamesPath = options.gamesPath ?? PATHS.GAMES;
+  const annotationsPath = options.annotationsPath ?? PATHS.ANNOTATIONS;
+  const logger = resolveLogger(options.logger);
+
+  const { games } = loadGamesData(gamesPath);
+  if (games.length === 0) {
+    const msg = `读取 ${gamesPath} 失败或游戏列表为空`;
+    logger.error(msg);
+    throw new Error(msg);
+  }
+
+  const annotations = loadAnnotations(annotationsPath);
+  const client = options.client ?? new ResilientHttpClient({ requestIntervalMs: 1600 });
+  let enriched = 0;
+  let skipped = 0;
+
+  for (const game of games) {
+    const key = String(game.appid);
+    const ann = annotations[key] ?? {};
+    const hasNameZh = Boolean(ann.name_zh);
+    const hasTags = Array.isArray(ann.tags) && ann.tags.length > 0;
+    const hasReleaseDate = Boolean(ann.release_date);
+
+    if (hasNameZh && hasTags && hasReleaseDate) {
+      skipped++;
+      continue;
+    }
+
+    try {
+      const detail = await fetchAppDetails(game.appid, client);
+      if (!detail) {
+        logger.warn(`appid ${game.appid} 无详情数据, 跳过`);
+        skipped++;
+        continue;
+      }
+      if (!hasNameZh && detail.name_zh) ann.name_zh = detail.name_zh;
+      if (!hasTags && detail.genres.length > 0) ann.tags = detail.genres;
+      if (!hasReleaseDate && detail.release_date) ann.release_date = detail.release_date;
+      annotations[key] = ann;
+      enriched++;
+      logger.log(
+        `[${key}] ${game.name} -> 中文名:${ann.name_zh ?? '-'} tags:[${(ann.tags ?? []).join(', ')}] 发售:${ann.release_date ?? '-'}`
+      );
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      logger.warn(`appid ${game.appid} 请求失败:${msg}, 跳过(可重跑)`);
+      skipped++;
+    }
+  }
+
+  saveAnnotations(annotations, annotationsPath);
+  logger.log(`完成: 丰富 ${enriched} 款, 跳过 ${skipped} 款 -> ${annotationsPath}`);
+  return { enriched, skipped, annotations };
+}
+
+export interface SyncGamesOptions {
+  apiKey?: string;
+  steamId?: string;
+  gamesPath?: string;
+  client?: ResilientHttpClient;
+  logger?: Logger;
+}
+
+export interface SyncGamesResult {
+  count: number;
+  data: SteamGamesData;
+}
+
+export async function runSyncGames(
+  options: SyncGamesOptions = {}
+): Promise<SyncGamesResult> {
+  const apiKey = options.apiKey || process.env.STEAM_API_KEY;
+  const steamId = options.steamId || process.env.STEAM_ID;
+  const gamesPath = options.gamesPath ?? PATHS.GAMES;
+  const logger = resolveLogger(options.logger);
+
+  if (!apiKey || !steamId) {
+    const msg = '缺少环境变量 STEAM_API_KEY 或 STEAM_ID';
+    logger.error(msg);
+    throw new Error(msg);
+  }
+
+  const client = options.client ?? new ResilientHttpClient();
+  const data = await syncSteamGames({ apiKey, steamId, client });
+  saveGamesData(data, gamesPath);
+  logger.log(`同步完成: ${data.games.length} 款游戏 -> ${gamesPath}`);
+  return { count: data.games.length, data };
+}
+
+export interface CheckAchievementsOptions {
+  apiKey?: string;
+  steamId?: string;
+  gamesPath?: string;
+  achievementsPath?: string;
+  onlyAppid?: number | string;
+  client?: ResilientHttpClient;
+  logger?: Logger;
+}
+
+export interface CheckAchievementsResult {
+  total: number;
+  perfectCount: number;
+  data: SteamAchievementsData;
+}
+
+export async function runCheckAchievements(
+  options: CheckAchievementsOptions = {}
+): Promise<CheckAchievementsResult> {
+  const apiKey = options.apiKey || process.env.STEAM_API_KEY;
+  const steamId = options.steamId || process.env.STEAM_ID;
+  const gamesPath = options.gamesPath ?? PATHS.GAMES;
+  const achievementsPath = options.achievementsPath ?? PATHS.ACHIEVEMENTS;
+  const logger = resolveLogger(options.logger);
+
+  if (!apiKey || !steamId) {
+    const msg = '缺少环境变量 STEAM_API_KEY 或 STEAM_ID';
+    logger.error(msg);
+    throw new Error(msg);
+  }
+
+  let { games } = loadGamesData(gamesPath);
+  const onlyAppid = options.onlyAppid ? String(options.onlyAppid) : undefined;
+  if (onlyAppid) {
+    games = games.filter((g) => String(g.appid) === onlyAppid);
+  }
+
+  if (games.length === 0) {
+    const msg = `${gamesPath} 中没有可检查的游戏`;
+    logger.error(msg);
+    throw new Error(msg);
+  }
+
+  const client = options.client ?? new ResilientHttpClient({ requestIntervalMs: 1300 });
+  const results: any[] = [];
+  let perfectCount = 0;
+  let noStatsCount = 0;
+
+  for (let i = 0; i < games.length; i++) {
+    const { appid, name } = games[i];
+    let entry: any;
+    try {
+      const r = await fetchPlayerAchievements(apiKey, steamId, appid, client);
+      entry = { appid, name };
+      if ('error' in r) {
+        if (/no stats/i.test(r.error)) {
+          entry.hasStats = false;
+          noStatsCount++;
+        } else if (/not public|private/i.test(r.error)) {
+          const msg = `隐私设置阻止成就查询: ${r.error}。请将 Steam 个人资料与“游戏详情”隐私设为 Public 后重试。`;
+          logger.error(msg);
+          throw new Error(msg);
+        } else {
+          entry.hasStats = false;
+          entry.error = r.error;
+          logger.warn(`appid ${appid}(${name}) 无成就数据: ${r.error}`);
+          noStatsCount++;
+        }
+      } else {
+        entry.hasStats = true;
+        entry.unlocked = r.unlocked;
+        entry.total = r.total;
+        if (r.firstUnlockAt) entry.firstUnlockAt = r.firstUnlockAt;
+        entry.perfect = r.total > 0 && r.unlocked === r.total;
+        if (entry.perfect) perfectCount++;
+      }
+    } catch (err) {
+      if (err instanceof Error && err.message.includes('隐私设置阻止成就查询')) {
+        throw err;
+      }
+      const msg = err instanceof Error ? err.message : String(err);
+      entry = { appid, name, hasStats: false, error: msg };
+      logger.warn(`appid ${appid}(${name}) 查询失败: ${msg}, 已跳过(可重跑补)`);
+      noStatsCount++;
+    }
+
+    results.push(entry);
+    const flag = entry.perfect ? ' [全成就]' : '';
+    logger.log(`[${i + 1}/${games.length}] ${name} (${appid})${flag}`);
+  }
+
+  const output: SteamAchievementsData & { total?: number; perfectCount?: number } = {
+    updatedAt: new Date().toISOString(),
+    total: results.length,
+    perfectCount,
+    games: results,
+  };
+
+  saveAchievementsData(output, achievementsPath);
+
+  logger.log('');
+  logger.log(
+    `检查完成: ${results.length} 款, 有成就 ${results.filter((g: any) => g.hasStats).length} 款, 全成就 ${perfectCount} 款`
+  );
+  logger.log('全成就(perfect 候选)清单:');
+  for (const g of results.filter((g: any) => g.perfect)) {
+    logger.log(`  [${g.appid}] ${g.name} (${g.unlocked}/${g.total})`);
+  }
+  logger.log(`完整结果 -> ${achievementsPath}`);
+
+  return { total: results.length, perfectCount, data: output };
+}
+
+export interface FillPlayYearOptions {
+  gamesPath?: string;
+  annotationsPath?: string;
+  logger?: Logger;
+}
+
+export interface FillPlayYearResult {
+  filled: number;
+  cleared: number;
+  preserved: number;
+  annotations: Record<string, Annotation>;
+}
+
+export async function runFillPlayYear(
+  options: FillPlayYearOptions = {}
+): Promise<FillPlayYearResult> {
+  const gamesPath = options.gamesPath ?? PATHS.GAMES;
+  const annotationsPath = options.annotationsPath ?? PATHS.ANNOTATIONS;
+  const logger = resolveLogger(options.logger);
+
+  const { games } = loadGamesData(gamesPath);
+  if (games.length === 0) {
+    const msg = `读取 ${gamesPath} 失败或为空`;
+    logger.error(msg);
+    throw new Error(msg);
+  }
+
+  const annotations = loadAnnotations(annotationsPath);
+
+  let filled = 0;
+  let cleared = 0;
+  let preserved = 0;
+
+  for (const game of games) {
+    const key = String(game.appid);
+    const ann = annotations[key];
+    if (!ann) continue;
+
+    // 区间值(含 '-')是策展数据: 既不覆盖也不清空
+    if (typeof ann.play_year === 'string' && ann.play_year.includes('-')) {
+      preserved++;
+      continue;
+    }
+
+    const ts = game.last_played ?? 0;
+    if (ts > 0) {
+      const year = String(new Date(ts * 1000).getUTCFullYear());
+      if (ann.play_year !== year) {
+        ann.play_year = year;
+        filled++;
+      }
+    } else if (ann.play_year) {
+      // 从未运行过: 清空 play_year(没有最后运行年份可填)
+      delete ann.play_year;
+      cleared++;
+    }
+  }
+
+  saveAnnotations(annotations, annotationsPath);
+  logger.log(
+    `完成: 填充 ${filled} 条, 清空 ${cleared} 条(从未运行), 保留区间 ${preserved} 条 -> ${annotationsPath}`
+  );
+  return { filled, cleared, preserved, annotations };
+}
+
+export interface JsonToCsvOptions {
+  gamesPath?: string;
+  annotationsPath?: string;
+  csvPath?: string;
+  logger?: Logger;
+}
+
+export interface JsonToCsvResult {
+  rowCount: number;
+  csvPath: string;
+}
+
+export async function runJsonToCsv(
+  options: JsonToCsvOptions = {}
+): Promise<JsonToCsvResult> {
+  const gamesPath = options.gamesPath ?? PATHS.GAMES;
+  const annotationsPath = options.annotationsPath ?? PATHS.ANNOTATIONS;
+  const csvPath = options.csvPath ?? PATHS.CSV;
+  const logger = resolveLogger(options.logger);
+
+  const { games } = loadGamesData(gamesPath);
+  const annotations = loadAnnotations(annotationsPath);
+  const csvContent = exportAnnotationsToCsv(games, annotations);
+
+  writeFileSync(csvPath, csvContent, 'utf-8');
+  logger.log(`已导出 ${games.length} 行 -> ${csvPath}`);
+  logger.log('在 Excel/WPS 中打开编辑, 填完后保存为 CSV(UTF-8), 再运行 csv-to-json');
+  return { rowCount: games.length, csvPath };
+}
+export const runExportCsv = runJsonToCsv;
+
+export interface CsvToJsonOptions {
+  gamesPath?: string;
+  annotationsPath?: string;
+  csvPath?: string;
+  logger?: Logger;
+}
+
+export async function runCsvToJson(
+  options: CsvToJsonOptions = {}
+): Promise<CsvImportResult> {
+  const gamesPath = options.gamesPath ?? PATHS.GAMES;
+  const annotationsPath = options.annotationsPath ?? PATHS.ANNOTATIONS;
+  const csvPath = options.csvPath ?? PATHS.CSV;
+  const logger = resolveLogger(options.logger);
+
+  let csvText: string;
+  try {
+    csvText = readFileSync(csvPath, 'utf-8');
+  } catch (err) {
+    const msg = `读取 ${csvPath} 失败: ${err instanceof Error ? err.message : String(err)}`;
+    logger.error(msg);
+    logger.error('请先运行 json-to-csv 导出表格, 编辑后再运行本脚本。');
+    throw new Error(msg);
+  }
+
+  const currentAnnotations = loadAnnotations(annotationsPath);
+  const { games } = loadGamesData(gamesPath);
+  const knownAppids =
+    games.length > 0
+      ? new Set(games.map((g) => String(g.appid)))
+      : new Set(Object.keys(currentAnnotations));
+
+  const result = importAnnotationsFromCsv(csvText, currentAnnotations, knownAppids);
+  saveAnnotations(result.annotations, annotationsPath);
+
+  logger.log(
+    `完成: 更新 ${result.updated} 款, 忽略 ${result.ignored} 行(未知 appid 或空行) -> ${annotationsPath}`
+  );
+
+  if (result.warnings.length > 0) {
+    logger.log(`\n警告(${result.warnings.length}):`);
+    result.warnings.slice(0, 10).forEach((w) => logger.log(`  ${w}`));
+    if (result.warnings.length > 10) logger.log(`  ...等共 ${result.warnings.length} 条`);
+  }
+
+  return result;
+}
+export const runImportCsv = runCsvToJson;
+
+export interface AddReviewOptions {
+  gamesPath?: string;
+  annotationsPath?: string;
+  ask?: (query: string) => Promise<string>;
+  input?: NodeJS.ReadableStream;
+  output?: NodeJS.WritableStream;
+  logger?: Logger;
+}
+
+export interface AddReviewResult {
+  appid: string;
+  updated: boolean;
+  annotation: Annotation;
+}
+
+export async function runAddReview(
+  options: AddReviewOptions = {}
+): Promise<AddReviewResult | null> {
+  const gamesPath = options.gamesPath ?? PATHS.GAMES;
+  const annotationsPath = options.annotationsPath ?? PATHS.ANNOTATIONS;
+  const logger = resolveLogger(options.logger);
+
+  const { games } = loadGamesData(gamesPath);
+  if (games.length === 0) {
+    const msg = `读取 ${gamesPath} 失败或游戏列表为空`;
+    logger.error(msg);
+    throw new Error(msg);
+  }
+  const annotations = loadAnnotations(annotationsPath);
+
+  let rl: ReturnType<typeof createInterface> | null = null;
+  let ask: (q: string) => Promise<string>;
+
+  if (options.ask) {
+    ask = options.ask;
+  } else {
+    const inStream = options.input ?? defaultInput;
+    const outStream = options.output ?? defaultOutput;
+    if ((inStream as any).isTTY) {
+      rl = createInterface({ input: inStream, output: outStream });
+      ask = (q: string) => rl!.question(q);
+    } else {
+      let allLines: string[] = [];
+      let cursor = 0;
+      try {
+        allLines = readFileSync(0, 'utf-8').split(/\r?\n/);
+      } catch {
+        // 管道读取若不可用则跳过
+      }
+      ask = async (q: string) => {
+        outStream.write(q);
+        const line = allLines[cursor] ?? '';
+        cursor += 1;
+        outStream.write(line + '\n');
+        return line;
+      };
+    }
+  }
+
+  const STATUS_OPTIONS = STATUS_LADDER.map((s) => ({ key: s.key, label: s.label }));
+
+  try {
+    let selectedGame: SteamGame | null = null;
+    while (!selectedGame) {
+      const raw = (await ask('输入游戏名关键词或 appid(直接回车退出): ')).trim();
+      if (!raw) return null;
+      if (/^\d+$/.test(raw)) {
+        const appid = Number(raw);
+        const game = games.find((g) => g.appid === appid);
+        if (game) {
+          selectedGame = game;
+          break;
+        }
+        logger.log(`appid ${appid} 不在 ${gamesPath} 中,请重试`);
+        continue;
+      }
+      const q = raw.toLowerCase();
+      const matches = games.filter((g) => {
+        const nameZh = annotations[String(g.appid)]?.name_zh ?? '';
+        return g.name.toLowerCase().includes(q) || nameZh.toLowerCase().includes(q);
+      });
+      if (matches.length === 0) {
+        logger.log('没有匹配的游戏,换个关键词试试');
+        continue;
+      }
+      if (matches.length === 1) {
+        selectedGame = matches[0];
+        break;
+      }
+      const shown = matches.slice(0, 10);
+      shown.forEach((g, i) => {
+        const nameZh = annotations[String(g.appid)]?.name_zh ?? '';
+        const display = nameZh ? `${nameZh} (${g.name})` : g.name;
+        logger.log(`  ${i + 1}. ${display}  [${g.appid}]  ${g.playtime_hours}h`);
+      });
+      const pick = (await ask('选择序号(回车选第 1 个): ')).trim();
+      const n = pick === '' ? 1 : Number(pick);
+      if (Number.isInteger(n) && n >= 1 && n <= shown.length) {
+        selectedGame = shown[n - 1];
+        break;
+      }
+      logger.log('序号无效,重试');
+    }
+
+    const appid = String(selectedGame.appid);
+    const existing = annotations[appid] ?? {};
+    const nameZh = existing.name_zh ?? '';
+    const display = nameZh ? `${nameZh} (${selectedGame.name})` : selectedGame.name;
+    logger.log(`\n已选中:${display}  [${appid}]  ${selectedGame.playtime_hours}h`);
+    if (Object.keys(existing).length > 0) {
+      logger.log(`当前注释: ${JSON.stringify(existing)}`);
+    } else {
+      logger.log('当前注释: (无)');
+    }
+
+    logger.log('\n游玩状态(六阶梯):');
+    STATUS_OPTIONS.forEach((s, i) => {
+      const mark = s.key === existing.my_status ? ' (当前)' : '';
+      logger.log(`  ${i + 1}. ${s.label}${mark}`);
+    });
+    let status = existing.my_status ?? DEFAULT_STATUS;
+    while (true) {
+      const answer = (await ask('选择状态序号(回车保持当前/默认未通关): ')).trim();
+      if (answer === '') {
+        status = existing.my_status && isStatus(existing.my_status) ? existing.my_status : DEFAULT_STATUS;
+        break;
+      }
+      const n = Number(answer);
+      if (Number.isInteger(n) && n >= 1 && n <= STATUS_OPTIONS.length) {
+        status = STATUS_OPTIONS[n - 1].key;
+        break;
+      }
+      logger.log('请输入 1-6');
+    }
+
+    const rank = (await ask('🎮 如果这是竞技/网络游戏,请输入你的历史最高段位 (直接回车跳过): ')).trim();
+    const review = (await ask('短评内容 (直接回车跳过): ')).trim();
+    const blogUrl = (await ask('长评链接 (直接回车跳过,注意用小写路由): ')).trim();
+    const playYear = (await ask('游玩年份 (直接回车跳过;单年如 2024 或区间如 2021-2026): ')).trim();
+    if (playYear && !isValidPlayYear(playYear)) {
+      logger.log(`游玩年份"${playYear}"非法(需 ${PLAY_YEAR_HINT}),已跳过不写入`);
+    }
+    const platform = (await ask('平台 (直接回车默认 PC): ')).trim() || 'PC';
+
+    const updates: Partial<Annotation> = { my_status: status };
+    if (rank) updates.my_rank = rank;
+    if (review) updates.my_review = review;
+    if (blogUrl) updates.blog_url = blogUrl;
+    if (playYear && isValidPlayYear(playYear)) updates.play_year = playYear;
+    if (platform) updates.platform = platform;
+
+    annotations[appid] = { ...existing, ...updates };
+    saveAnnotations(annotations, annotationsPath);
+
+    logger.log(`\n已写入 ${annotationsPath}: ${JSON.stringify(annotations[appid], null, 2)}`);
+    logger.log('提示:自动字段(中文名/tags/发售日期)未被触碰;推送上线用 git push。');
+
+    return {
+      appid,
+      updated: true,
+      annotation: annotations[appid],
+    };
+  } finally {
+    if (rl) rl.close();
+  }
+}
+
+// 统一导出语录录入操作供更新中心直接调度
+export { runAddQuote, type AddQuoteOptions } from './add-quote.ts';

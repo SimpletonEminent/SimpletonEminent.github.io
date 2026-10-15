@@ -5,6 +5,9 @@
 // 3. RFC 兼容 CSV 编解码器在多行、逗号、引号、Emoji 复杂场景下的往返无损性;
 // 4. CSV 导回时的三重安全保护 (未知 appid 忽略、非法状态回退、非法年份拦截)。
 
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { writeFileSync, unlinkSync, existsSync, readFileSync } from 'node:fs';
 import {
   PATHS,
   ResilientHttpClient,
@@ -16,6 +19,14 @@ import {
   syncSteamGames,
   fetchAppDetails,
   fetchPlayerAchievements,
+  runEnrichMetadata,
+  runSyncGames,
+  runCheckAchievements,
+  runFillPlayYear,
+  runJsonToCsv,
+  runCsvToJson,
+  runAddReview,
+  runAddQuote,
   type HttpTransport,
 } from './steam-pipeline-core.ts';
 import type { SteamGame, Annotation } from '../src/lib/steam-data.ts';
@@ -313,6 +324,380 @@ async function runTests() {
   check('空短评单元格删除 my_review 字段', !('my_review' in clearedAnn));
   check('空段位单元格删除 my_rank 字段', !('my_rank' in clearedAnn));
   check('空标签单元格删除 tags 字段', !('tags' in clearedAnn));
+
+  // ==========================================
+  // 5. 进程内可调用操作函数契约测试 (In-Process Operations)
+  // ==========================================
+  const testDir = tmpdir();
+  const makeTemp = (name: string) => join(testDir, `test_pipeline_${Date.now()}_${Math.random().toString(36).slice(2)}_${name}`);
+  const silentLogger = { log: () => {}, warn: () => {}, error: () => {} };
+
+  // 5.1 runEnrichMetadata (成功与异常)
+  const tmpGames1 = makeTemp('games1.json');
+  const tmpAnn1 = makeTemp('ann1.json');
+  try {
+    writeFileSync(tmpGames1, JSON.stringify({ games: [{ appid: 814380, name: 'Sekiro' }] }), 'utf-8');
+    writeFileSync(tmpAnn1, JSON.stringify({ '814380': {} }), 'utf-8');
+
+    const transportEnrich: HttpTransport = async () => {
+      return new Response(
+        JSON.stringify({
+          '814380': {
+            success: true,
+            data: {
+              name: '只狼：影逝二度',
+              genres: [{ description: '动作' }, { description: '魂系' }],
+              release_date: { date: '2019年3月22日' },
+            },
+          },
+        }),
+        { status: 200 }
+      );
+    };
+    const clientEnrich = new ResilientHttpClient({ transport: transportEnrich, initialDelayMs: 1 });
+
+    const enrichRes = await runEnrichMetadata({
+      gamesPath: tmpGames1,
+      annotationsPath: tmpAnn1,
+      client: clientEnrich,
+      logger: silentLogger,
+    });
+    check('runEnrichMetadata 成功丰富 1 款游戏', enrichRes.enriched === 1 && enrichRes.skipped === 0);
+    const updatedAnn1 = JSON.parse(readFileSync(tmpAnn1, 'utf-8'));
+    check('runEnrichMetadata 成功写入中文名', updatedAnn1['814380'].name_zh === '只狼：影逝二度');
+    check('runEnrichMetadata 成功写入 tags', Array.isArray(updatedAnn1['814380'].tags) && updatedAnn1['814380'].tags.includes('动作'));
+    check('runEnrichMetadata 成功写入发售日期', updatedAnn1['814380'].release_date === '2019年3月22日');
+
+    // 异常分支: 空 games 抛出异常
+    writeFileSync(tmpGames1, JSON.stringify({ games: [] }), 'utf-8');
+    let enrichThrew = false;
+    try {
+      await runEnrichMetadata({ gamesPath: tmpGames1, annotationsPath: tmpAnn1, logger: silentLogger });
+    } catch {
+      enrichThrew = true;
+    }
+    check('runEnrichMetadata 游戏列表为空时抛出异常', enrichThrew === true);
+  } finally {
+    if (existsSync(tmpGames1)) unlinkSync(tmpGames1);
+    if (existsSync(tmpAnn1)) unlinkSync(tmpAnn1);
+  }
+
+  // 5.2 runSyncGames (成功与异常)
+  const tmpGames2 = makeTemp('games2.json');
+  try {
+    const transportSync: HttpTransport = async (url) => {
+      if (url.includes('GetOwnedGames')) {
+        return new Response(
+          JSON.stringify({
+            response: {
+              games: [{ appid: 814380, name: 'Sekiro', playtime_forever: 1800, rtime_last_played: 1718000000 }],
+            },
+          }),
+          { status: 200 }
+        );
+      }
+      return new Response(
+        JSON.stringify({
+          response: {
+            games: [{ appid: 814380, playtime_2weeks: 120 }],
+          },
+        }),
+        { status: 200 }
+      );
+    };
+    const clientSync = new ResilientHttpClient({ transport: transportSync, initialDelayMs: 1 });
+
+    const syncRes = await runSyncGames({
+      apiKey: 'test-key',
+      steamId: 'test-id',
+      gamesPath: tmpGames2,
+      client: clientSync,
+      logger: silentLogger,
+    });
+    check('runSyncGames 成功同步并持久化数据', syncRes.count === 1 && existsSync(tmpGames2));
+    const savedSync = JSON.parse(readFileSync(tmpGames2, 'utf-8'));
+    check('runSyncGames 计算 playtime_hours', savedSync.games[0].playtime_hours === 30);
+    check('runSyncGames 关联近两周时长', savedSync.games[0].playtime_2weeks_hours === 2);
+
+    // 异常分支: 缺少环境变量抛出异常
+    let syncThrew = false;
+    const oldKey = process.env.STEAM_API_KEY;
+    const oldId = process.env.STEAM_ID;
+    delete process.env.STEAM_API_KEY;
+    delete process.env.STEAM_ID;
+    try {
+      await runSyncGames({ apiKey: '', steamId: '', gamesPath: tmpGames2, logger: silentLogger });
+    } catch {
+      syncThrew = true;
+    } finally {
+      if (oldKey) process.env.STEAM_API_KEY = oldKey;
+      if (oldId) process.env.STEAM_ID = oldId;
+    }
+    check('runSyncGames 缺少凭据时抛出异常', syncThrew === true);
+  } finally {
+    if (existsSync(tmpGames2)) unlinkSync(tmpGames2);
+  }
+
+  // 5.3 runCheckAchievements (成功与异常)
+  const tmpGames3 = makeTemp('games3.json');
+  const tmpAch3 = makeTemp('ach3.json');
+  try {
+    writeFileSync(
+      tmpGames3,
+      JSON.stringify({ games: [{ appid: 814380, name: 'Sekiro' }] }),
+      'utf-8'
+    );
+    const transportAch: HttpTransport = async () => {
+      return new Response(
+        JSON.stringify({
+          playerstats: {
+            achievements: [
+              { apiname: 'ACH_1', achieved: 1, unlocktime: 1553200000 },
+              { apiname: 'ACH_2', achieved: 1, unlocktime: 1553300000 },
+            ],
+          },
+        }),
+        { status: 200 }
+      );
+    };
+    const clientAch = new ResilientHttpClient({ transport: transportAch, initialDelayMs: 1 });
+
+    const achRes = await runCheckAchievements({
+      apiKey: 'test-key',
+      steamId: 'test-id',
+      gamesPath: tmpGames3,
+      achievementsPath: tmpAch3,
+      client: clientAch,
+      logger: silentLogger,
+    });
+    check('runCheckAchievements 成功统计成就', achRes.total === 1 && achRes.perfectCount === 1);
+    const savedAch = JSON.parse(readFileSync(tmpAch3, 'utf-8'));
+    check('runCheckAchievements 提取 firstUnlockAt', savedAch.games[0].firstUnlockAt === 1553200000);
+    check('runCheckAchievements 标记 perfect', savedAch.games[0].perfect === true);
+
+    // 异常分支: 隐私受限抛出错误
+    const transportPrivate: HttpTransport = async () => {
+      return new Response(JSON.stringify({ playerstats: { error: 'Profile is not public' } }), { status: 200 });
+    };
+    const clientPrivate = new ResilientHttpClient({ transport: transportPrivate, initialDelayMs: 1 });
+    let privateThrew = false;
+    try {
+      await runCheckAchievements({
+        apiKey: 'test-key',
+        steamId: 'test-id',
+        gamesPath: tmpGames3,
+        achievementsPath: tmpAch3,
+        client: clientPrivate,
+        logger: silentLogger,
+      });
+    } catch (err: any) {
+      privateThrew = err.message.includes('隐私设置阻止成就查询');
+    }
+    check('runCheckAchievements 隐私阻止时抛出明确指引错误', privateThrew === true);
+  } finally {
+    if (existsSync(tmpGames3)) unlinkSync(tmpGames3);
+    if (existsSync(tmpAch3)) unlinkSync(tmpAch3);
+  }
+
+  // 5.4 runFillPlayYear (成功与异常)
+  const tmpGames4 = makeTemp('games4.json');
+  const tmpAnn4 = makeTemp('ann4.json');
+  try {
+    writeFileSync(
+      tmpGames4,
+      JSON.stringify({
+        games: [
+          { appid: 101, name: 'G1', last_played: 1718000000 }, // 2024
+          { appid: 102, name: 'G2', last_played: 0 },          // 未运行
+          { appid: 103, name: 'G3', last_played: 1718000000 }, // 区间
+        ],
+      }),
+      'utf-8'
+    );
+    writeFileSync(
+      tmpAnn4,
+      JSON.stringify({
+        '101': { play_year: '2020' },
+        '102': { play_year: '2019' },
+        '103': { play_year: '2021-2026' },
+      }),
+      'utf-8'
+    );
+
+    const fillRes = await runFillPlayYear({
+      gamesPath: tmpGames4,
+      annotationsPath: tmpAnn4,
+      logger: silentLogger,
+    });
+    check('runFillPlayYear 填充 1 条', fillRes.filled === 1);
+    check('runFillPlayYear 清空 1 条', fillRes.cleared === 1);
+    check('runFillPlayYear 保留区间 1 条', fillRes.preserved === 1);
+    const savedAnn4 = JSON.parse(readFileSync(tmpAnn4, 'utf-8'));
+    check('runFillPlayYear 覆盖为 2024', savedAnn4['101'].play_year === '2024');
+    check('runFillPlayYear 未运行清空', savedAnn4['102'].play_year === undefined);
+    check('runFillPlayYear 区间不变', savedAnn4['103'].play_year === '2021-2026');
+
+    // 异常分支: 空 games 抛出异常
+    writeFileSync(tmpGames4, JSON.stringify({ games: [] }), 'utf-8');
+    let fillThrew = false;
+    try {
+      await runFillPlayYear({ gamesPath: tmpGames4, annotationsPath: tmpAnn4, logger: silentLogger });
+    } catch {
+      fillThrew = true;
+    }
+    check('runFillPlayYear games 为空时抛出异常', fillThrew === true);
+  } finally {
+    if (existsSync(tmpGames4)) unlinkSync(tmpGames4);
+    if (existsSync(tmpAnn4)) unlinkSync(tmpAnn4);
+  }
+
+  // 5.5 runJsonToCsv 与 runCsvToJson 往返测试
+  const tmpGames5 = makeTemp('games5.json');
+  const tmpAnn5 = makeTemp('ann5.json');
+  const tmpCsv5 = makeTemp('steam5.csv');
+  try {
+    writeFileSync(
+      tmpGames5,
+      JSON.stringify({
+        games: [{ appid: 814380, name: 'Sekiro: Shadows Die Twice' }],
+      }),
+      'utf-8'
+    );
+    writeFileSync(
+      tmpAnn5,
+      JSON.stringify({
+        '814380': {
+          name_zh: '只狼：影逝二度',
+          my_status: 'perfect',
+          my_rank: '全成就达成 💎',
+          my_review: '打铁神作，动作游戏巅峰。',
+          play_year: '2024',
+        },
+      }),
+      'utf-8'
+    );
+
+    const expRes = await runJsonToCsv({
+      gamesPath: tmpGames5,
+      annotationsPath: tmpAnn5,
+      csvPath: tmpCsv5,
+      logger: silentLogger,
+    });
+    check('runJsonToCsv 成功导出表格文件', expRes.rowCount === 1 && existsSync(tmpCsv5));
+
+    // 导回测试
+    const impRes = await runCsvToJson({
+      gamesPath: tmpGames5,
+      annotationsPath: tmpAnn5,
+      csvPath: tmpCsv5,
+      logger: silentLogger,
+    });
+    check('runCsvToJson 成功导回 1 款', impRes.updated === 1 && impRes.ignored === 0);
+    const reloadedAnn5 = JSON.parse(readFileSync(tmpAnn5, 'utf-8'));
+    check('runCsvToJson 导回数据完整保持', reloadedAnn5['814380'].my_status === 'perfect');
+
+    // 异常分支: 读取不存在的 CSV 抛出异常
+    let csvThrew = false;
+    try {
+      await runCsvToJson({
+        gamesPath: tmpGames5,
+        annotationsPath: tmpAnn5,
+        csvPath: join(testDir, 'non_existent_file.csv'),
+        logger: silentLogger,
+      });
+    } catch {
+      csvThrew = true;
+    }
+    check('runCsvToJson CSV 文件不存在时抛出异常', csvThrew === true);
+  } finally {
+    if (existsSync(tmpGames5)) unlinkSync(tmpGames5);
+    if (existsSync(tmpAnn5)) unlinkSync(tmpAnn5);
+    if (existsSync(tmpCsv5)) unlinkSync(tmpCsv5);
+  }
+
+  // 5.6 runAddReview (成功与取消分支)
+  const tmpGames6 = makeTemp('games6.json');
+  const tmpAnn6 = makeTemp('ann6.json');
+  try {
+    writeFileSync(
+      tmpGames6,
+      JSON.stringify({
+        games: [{ appid: 814380, name: 'Sekiro', playtime_hours: 300 }],
+      }),
+      'utf-8'
+    );
+    writeFileSync(tmpAnn6, JSON.stringify({}), 'utf-8');
+
+    // 模拟用户交互输入
+    const answers = [
+      '814380',       // 关键词/appid
+      '3',            // 状态 3: 全成就
+      '修罗',         // 最高段位
+      '死得痛快！',   // 短评
+      '/blog/sekiro', // 长评链接
+      '2024',         // 游玩年份
+      'PC',           // 平台
+    ];
+    let askIdx = 0;
+    const mockAsk = async () => answers[askIdx++] ?? '';
+
+    const reviewRes = await runAddReview({
+      gamesPath: tmpGames6,
+      annotationsPath: tmpAnn6,
+      ask: mockAsk,
+      logger: silentLogger,
+    });
+    check('runAddReview 成功录入并返回结果', reviewRes?.appid === '814380' && reviewRes.updated === true);
+    const savedReview = JSON.parse(readFileSync(tmpAnn6, 'utf-8'));
+    check('runAddReview 游玩状态写入为 perfect', savedReview['814380'].my_status === 'perfect');
+    check('runAddReview 短评内容正确写入', savedReview['814380'].my_review === '死得痛快！');
+    check('runAddReview 最高段位正确写入', savedReview['814380'].my_rank === '修罗');
+
+    // 取消分支: 直接回车退出
+    const exitAsk = async () => '';
+    const exitRes = await runAddReview({
+      gamesPath: tmpGames6,
+      annotationsPath: tmpAnn6,
+      ask: exitAsk,
+      logger: silentLogger,
+    });
+    check('runAddReview 用户回车退出返回 null', exitRes === null);
+  } finally {
+    if (existsSync(tmpGames6)) unlinkSync(tmpGames6);
+    if (existsSync(tmpAnn6)) unlinkSync(tmpAnn6);
+  }
+
+  // 5.7 runAddQuote (成功与取消分支)
+  const tmpQuotes7 = makeTemp('quotes7.json');
+  try {
+    const quoteAnswers = [
+      '不积跬步，无以至千里。', // 正文
+      '《荀子·劝学》',        // 出处
+    ];
+    let qIdx = 0;
+    const mockQuoteAsk = async () => quoteAnswers[qIdx++] ?? '';
+
+    const quoteRes = await runAddQuote({
+      quotesPath: tmpQuotes7,
+      ask: mockQuoteAsk,
+      logger: silentLogger,
+    });
+    check('runAddQuote 成功录入语录', quoteRes?.content === '不积跬步，无以至千里。');
+    check('runAddQuote 成功记录文献出处', quoteRes?.source === '《荀子·劝学》');
+    const savedQuotes = JSON.parse(readFileSync(tmpQuotes7, 'utf-8'));
+    check('runAddQuote 成功写入数据文件', savedQuotes.length === 1);
+
+    // 取消分支: 输入 q 退出
+    const cancelAsk = async () => 'q';
+    const cancelRes = await runAddQuote({
+      quotesPath: tmpQuotes7,
+      ask: cancelAsk,
+      logger: silentLogger,
+    });
+    check('runAddQuote 输入 q 取消返回 null', cancelRes === null);
+  } finally {
+    if (existsSync(tmpQuotes7)) unlinkSync(tmpQuotes7);
+  }
 
   console.log(failures === 0 ? `ALL PASS (${total} checks)` : `${failures} FAILED (of ${total})`);
   process.exit(failures === 0 ? 0 : 1);

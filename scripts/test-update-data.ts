@@ -6,9 +6,10 @@ import {
   getTaskByKey,
   checkPrerequisites,
   resolveTaskCommand,
+  executeTask,
   dispatchTask,
   parseEnvContent,
-  type ProcessRunner,
+  type TaskItem,
 } from './update-data-core.ts';
 
 let failures = 0;
@@ -62,22 +63,52 @@ const cmd1 = resolveTaskCommand(task1!);
 check('命令包含 node 执行器', cmd1.command === 'node');
 check('参数包含对应脚本路径', cmd1.args.some((a) => a.includes('enrich-metadata.mjs')));
 
-// 5. 进程调度派发接缝 (Dispatch Seam with Mock Runner)
-let calledCmd = '';
-let calledArgs: string[] = [];
-let calledEnv: Record<string, string | undefined> | undefined;
+// 5. 进程内操作与任务调度接缝 (In-Process Execution & Error Handling)
+check('全量 8 个任务均已挂载进程内 action 函数', TASKS.every((t) => typeof t.action === 'function'));
 
-const mockRunner: ProcessRunner = async (command, args, options) => {
-  calledCmd = command;
-  calledArgs = args;
-  calledEnv = options?.env;
-  return 0; // 模拟成功
+let inProcessCalled: boolean = false;
+let capturedCtx: any = null;
+const mockSuccessTask: TaskItem = {
+  key: '99',
+  title: 'Mock 成功任务',
+  category: '元数据与注释',
+  desc: '测试进程内调用',
+  script: 'scripts/mock.ts',
+  action: async (ctx) => {
+    inProcessCalled = true;
+    capturedCtx = ctx;
+    return 0;
+  },
 };
 
-await dispatchTask(task1!, mockRunner, { FOO: 'bar' });
-check('dispatchTask 调用了 mockRunner 的 command', calledCmd === 'node');
-check('dispatchTask 传递了正确的脚本路径参数', calledArgs.some((a) => a.includes('enrich-metadata.mjs')));
-check('dispatchTask 透传了自定义环境变量', calledEnv?.FOO === 'bar');
+const codeSuccess = await executeTask(mockSuccessTask, { env: { FOO: 'bar' } });
+check('executeTask 进程内操作正常执行并返回 0', codeSuccess === 0 && Boolean(inProcessCalled));
+check('executeTask 正确透传 context 环境变量', capturedCtx?.env?.FOO === 'bar');
+
+let errorLogCaptured = '';
+const mockFailingTask: TaskItem = {
+  key: '100',
+  title: 'Mock 失败任务',
+  category: '元数据与注释',
+  desc: '测试进程内异常拦截',
+  script: 'scripts/mock-fail.ts',
+  action: async () => {
+    throw new Error('测试抛错拦截');
+  },
+};
+
+const codeFail = await executeTask(mockFailingTask, {
+  logger: {
+    error: (msg) => {
+      errorLogCaptured = msg;
+    },
+  },
+});
+check('executeTask 捕获 action 内部异常并安全返回退出码 1', codeFail === 1);
+check('executeTask 异常信息被正确格式化输出', errorLogCaptured.includes('测试抛错拦截'));
+
+const dispatchRes = await dispatchTask(mockSuccessTask);
+check('dispatchTask 进程内调度返回退出码 0', dispatchRes === 0);
 
 // 6. 本地 .env 文件解析 (无需第三方库)
 const envText = `

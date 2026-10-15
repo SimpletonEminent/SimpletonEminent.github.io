@@ -1,22 +1,20 @@
-// 命令行交互式数据更新菜单 (Spec 09 / Issue #9)
+// 命令行交互式数据更新菜单 (Spec 09 / Spec 07 / Issue #22)
 // 运行命令: npm run updatedata
 //
 // 架构要点:
-// 1. 纯解耦子进程派发: 底层脚本 100% 独立运行, 脚本退出或异常不影响菜单生命周期。
+// 1. 进程内直接调度: 消除 child_process.spawn 进程派发与跨平台 Shell 差异。
 // 2. 交互循环机制: 任务完成后提示按回车返回主菜单, 输入 0 退出。
 // 3. 环境变量自检与引导: 自动加载本地 .env (已 gitignore), 缺失时提供友好提示。
 
 import { existsSync, readFileSync } from 'node:fs';
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
-import { spawn } from 'node:child_process';
 import {
   TASKS,
   getTaskByKey,
   checkPrerequisites,
-  resolveTaskCommand,
+  executeTask,
   parseEnvContent,
-  type ProcessRunner,
 } from './update-data-core.ts';
 
 // 自动加载根目录未入库的 .env 文件 (若存在)
@@ -34,21 +32,6 @@ if (existsSync(ENV_FILE)) {
     // 忽略读取错误
   }
 }
-
-const defaultRunner: ProcessRunner = (command, args, options) => {
-  return new Promise((resolve) => {
-    const child = spawn(command, args, {
-      stdio: 'inherit',
-      shell: process.platform === 'win32',
-      env: { ...process.env, ...options?.env },
-    });
-    child.on('close', (code) => resolve(code ?? 0));
-    child.on('error', (err) => {
-      console.error(`\n❌ 子进程启动失败: ${err.message}`);
-      resolve(1);
-    });
-  });
-};
 
 function renderMenu() {
   console.log('\n============================================================');
@@ -124,10 +107,9 @@ async function main() {
         }
       }
 
-      // 派发执行任务
-      console.log(`\n▶ 正在调起: ${task.title} ...\n`);
-      const { command, args } = resolveTaskCommand(task);
-      const code = await defaultRunner(command, args);
+      // 进程内直接执行任务
+      console.log(`\n▶ 正在执行: ${task.title} ...\n`);
+      const code = await executeTask(task, { env: process.env, ask });
 
       console.log('\n------------------------------------------------------------');
       if (code === 0) {

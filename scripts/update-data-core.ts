@@ -1,6 +1,27 @@
-// 交互式数据更新菜单核心逻辑与任务注册清单 (Spec 09 / Issue #9)
-// 纯逻辑模块: 负责任务清单声明、命令行指令拼装、环境变量解析与派发接缝。
+// 交互式数据更新菜单核心逻辑与任务注册清单 (Spec 09 / Spec 07 / Issue #22)
+// 纯逻辑模块: 负责任务清单声明、进程内可调用操作绑定、命令行指令拼装与环境变量解析。
 // 保持 100% 声明式,未来新增/删除任务只需修改 TASKS 数组。
+
+import {
+  runEnrichMetadata,
+  runAddReview,
+  runFillPlayYear,
+  runJsonToCsv,
+  runCsvToJson,
+  runCheckAchievements,
+  runSyncGames,
+  runAddQuote,
+  type Logger,
+} from './steam-pipeline-core.ts';
+
+export interface TaskContext {
+  env?: Record<string, string | undefined>;
+  ask?: (query: string) => Promise<string>;
+  logger?: Logger;
+  [key: string]: unknown;
+}
+
+export type TaskAction = (context?: TaskContext) => Promise<unknown>;
 
 export interface TaskItem {
   /** 菜单选项数字键 (如 '1', '2') */
@@ -17,6 +38,8 @@ export interface TaskItem {
   args?: string[];
   /** 必需的环境变量凭证 (缺省时触发引导) */
   requiresEnv?: Array<'STEAM_API_KEY' | 'STEAM_ID'>;
+  /** 进程内可调用的直接执行操作 */
+  action?: TaskAction;
 }
 
 export interface ResolvedCommand {
@@ -41,6 +64,7 @@ export const TASKS: TaskItem[] = [
     category: '元数据与注释',
     desc: '买了新游戏后执行: 增量抓取中文名、官方 genres 与发售日期写入注释文件',
     script: 'scripts/enrich-metadata.mjs',
+    action: async (ctx) => runEnrichMetadata({ logger: ctx?.logger }),
   },
   {
     key: '2',
@@ -48,6 +72,7 @@ export const TASKS: TaskItem[] = [
     category: '元数据与注释',
     desc: '随时执行: 命令行交互打标六阶梯游玩状态、最高段位、短评、长评与年份',
     script: 'scripts/add-review.mjs',
+    action: async (ctx) => runAddReview({ ask: ctx?.ask, logger: ctx?.logger }),
   },
   {
     key: '3',
@@ -55,6 +80,7 @@ export const TASKS: TaskItem[] = [
     category: '元数据与注释',
     desc: '按需执行: 提取 Steam 最后运行年份批量填入 play_year (保护区间年份)',
     script: 'scripts/fill-play-year.mjs',
+    action: async (ctx) => runFillPlayYear({ logger: ctx?.logger }),
   },
   {
     key: '4',
@@ -62,6 +88,7 @@ export const TASKS: TaskItem[] = [
     category: '表格批量编辑',
     desc: '集中整理时执行: 导出 steam.csv (UTF-8 BOM), 供 Excel/WPS 打开修改',
     script: 'scripts/json-to-csv.mjs',
+    action: async (ctx) => runJsonToCsv({ logger: ctx?.logger }),
   },
   {
     key: '5',
@@ -69,6 +96,7 @@ export const TASKS: TaskItem[] = [
     category: '表格批量编辑',
     desc: '表格编辑完成后执行: 读取 steam.csv, 校验状态与年份后安全写回注释文件',
     script: 'scripts/csv-to-json.mjs',
+    action: async (ctx) => runCsvToJson({ logger: ctx?.logger }),
   },
   {
     key: '6',
@@ -77,6 +105,11 @@ export const TASKS: TaskItem[] = [
     desc: '刷新成就时执行: 逐款抓取成就解锁率, 产出全成就清单与首次游玩(估)时间戳',
     script: 'scripts/check-achievements.mjs',
     requiresEnv: ['STEAM_API_KEY', 'STEAM_ID'],
+    action: async (ctx) => {
+      const apiKey = ctx?.env?.STEAM_API_KEY || process.env.STEAM_API_KEY || '';
+      const steamId = ctx?.env?.STEAM_ID || process.env.STEAM_ID || '';
+      return runCheckAchievements({ apiKey, steamId, logger: ctx?.logger });
+    },
   },
   {
     key: '7',
@@ -85,6 +118,11 @@ export const TASKS: TaskItem[] = [
     desc: '本地测试或刚打完想立即更新时执行 (平时由 GitHub Actions 每日自动完成)',
     script: 'scripts/fetch-steam-games.mjs',
     requiresEnv: ['STEAM_API_KEY', 'STEAM_ID'],
+    action: async (ctx) => {
+      const apiKey = ctx?.env?.STEAM_API_KEY || process.env.STEAM_API_KEY || '';
+      const steamId = ctx?.env?.STEAM_ID || process.env.STEAM_ID || '';
+      return runSyncGames({ apiKey, steamId, logger: ctx?.logger });
+    },
   },
   {
     key: '8',
@@ -92,6 +130,7 @@ export const TASKS: TaskItem[] = [
     category: '元数据与注释',
     desc: '随时执行: 命令行交互录入格言正文与文献出处，追加至 src/data/quotes.json',
     script: 'scripts/add-quote.ts',
+    action: async (ctx) => runAddQuote({ ask: ctx?.ask, logger: ctx?.logger }),
   },
 ];
 
@@ -116,7 +155,7 @@ export function checkPrerequisites(
   return missing;
 }
 
-/** 解析任务对应的命令行执行器与参数 */
+/** 解析任务对应的命令行执行器与参数 (保留供命令行包装入口使用) */
 export function resolveTaskCommand(task: TaskItem): ResolvedCommand {
   const isTs = task.script.endsWith('.ts');
   const args = isTs ? ['--experimental-strip-types', task.script] : [task.script];
@@ -129,14 +168,45 @@ export function resolveTaskCommand(task: TaskItem): ResolvedCommand {
   };
 }
 
-/** 派发任务给执行器 */
+/**
+ * 进程内直接执行任务操作
+ * 消除 child_process 进程派发与跨平台 Shell 差异
+ */
+export async function executeTask(
+  task: TaskItem,
+  context: TaskContext = {}
+): Promise<number> {
+  if (task.action) {
+    try {
+      const res = await task.action(context);
+      if (typeof res === 'number') {
+        return res;
+      }
+      return 0;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (context.logger?.error) {
+        context.logger.error(`\n❌ 任务执行失败: ${msg}`);
+      } else {
+        console.error(`\n❌ 任务执行失败: ${msg}`);
+      }
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/** 派发任务给执行器 (兼容支持旧版 ProcessRunner 及直接进程内执行) */
 export async function dispatchTask(
   task: TaskItem,
-  runner: ProcessRunner,
+  runnerOrContext?: ProcessRunner | TaskContext,
   env?: Record<string, string | undefined>
 ): Promise<number> {
-  const { command, args } = resolveTaskCommand(task);
-  return runner(command, args, { env });
+  if (typeof runnerOrContext === 'function') {
+    const { command, args } = resolveTaskCommand(task);
+    return runnerOrContext(command, args, { env });
+  }
+  return executeTask(task, runnerOrContext);
 }
 
 /**
