@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-15T07:16:48.840Z",
+  "updatedAt": "2026-10-16T07:00:15.501Z",
   "games": [
     {
       "appid": 1172470,
@@ -36,9 +36,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 220.9,
-      "playtime_2weeks_hours": 3,
-      "last_played": 1791810793,
+      "playtime_hours": 221.9,
+      "playtime_2weeks_hours": 4,
+      "last_played": 1792066879,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -125,7 +125,7 @@
       "appid": 1158310,
       "name": "Crusader Kings III",
       "playtime_hours": 111.6,
-      "playtime_2weeks_hours": 7.5,
+      "playtime_2weeks_hours": 2.3,
       "last_played": 1790941562,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1158310/library_600x900.jpg"
     },
@@ -133,7 +133,7 @@
       "appid": 1446780,
       "name": "MONSTER HUNTER RISE",
       "playtime_hours": 109.1,
-      "playtime_2weeks_hours": 4.6,
+      "playtime_2weeks_hours": 1.7,
       "last_played": 1791356458,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
     },
@@ -572,9 +572,9 @@
     {
       "appid": 4349200,
       "name": "Probably Stolen Demo",
-      "playtime_hours": 16.8,
-      "playtime_2weeks_hours": 16.8,
-      "last_played": 1791711488,
+      "playtime_hours": 17.2,
+      "playtime_2weeks_hours": 17.2,
+      "last_played": 1792077452,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
     },
     {
