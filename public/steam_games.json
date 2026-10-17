@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-16T07:00:15.501Z",
+  "updatedAt": "2026-10-17T06:49:55.454Z",
   "games": [
     {
       "appid": 1172470,
@@ -125,7 +125,7 @@
       "appid": 1158310,
       "name": "Crusader Kings III",
       "playtime_hours": 111.6,
-      "playtime_2weeks_hours": 2.3,
+      "playtime_2weeks_hours": 0,
       "last_played": 1790941562,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1158310/library_600x900.jpg"
     },
@@ -133,7 +133,7 @@
       "appid": 1446780,
       "name": "MONSTER HUNTER RISE",
       "playtime_hours": 109.1,
-      "playtime_2weeks_hours": 1.7,
+      "playtime_2weeks_hours": 0.4,
       "last_played": 1791356458,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
     },
@@ -637,7 +637,7 @@
       "appid": 2592160,
       "name": "Dispatch",
       "playtime_hours": 13,
-      "playtime_2weeks_hours": 8.9,
+      "playtime_2weeks_hours": 2.7,
       "last_played": 1791135183,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
