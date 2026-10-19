@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-18T07:09:51.991Z",
+  "updatedAt": "2026-10-19T07:38:16.845Z",
   "games": [
     {
       "appid": 1172470,
@@ -314,6 +314,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/524220/library_600x900.jpg"
     },
     {
+      "appid": 403640,
+      "name": "Dishonored 2",
+      "playtime_hours": 52.2,
+      "playtime_2weeks_hours": 7.3,
+      "last_played": 1792329492,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
+    },
+    {
       "appid": 960170,
       "name": "DJMAX RESPECT V",
       "playtime_hours": 49.8,
@@ -344,14 +352,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1709960333,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1817230/library_600x900.jpg"
-    },
-    {
-      "appid": 403640,
-      "name": "Dishonored 2",
-      "playtime_hours": 48.1,
-      "playtime_2weeks_hours": 3.2,
-      "last_played": 1792240934,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
       "appid": 578080,
@@ -637,7 +637,7 @@
       "appid": 2592160,
       "name": "Dispatch",
       "playtime_hours": 13,
-      "playtime_2weeks_hours": 0.1,
+      "playtime_2weeks_hours": 0,
       "last_played": 1791135183,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2592160/library_600x900.jpg"
     },
@@ -901,7 +901,7 @@
       "appid": 244210,
       "name": "Assetto Corsa",
       "playtime_hours": 4.4,
-      "playtime_2weeks_hours": 0.3,
+      "playtime_2weeks_hours": 0,
       "last_played": 1791133643,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/244210/library_600x900.jpg"
     },
