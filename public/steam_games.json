@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-19T07:38:16.845Z",
+  "updatedAt": "2026-10-20T07:23:58.904Z",
   "games": [
     {
       "appid": 1172470,
@@ -298,6 +298,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/289070/library_600x900.jpg"
     },
     {
+      "appid": 403640,
+      "name": "Dishonored 2",
+      "playtime_hours": 56.3,
+      "playtime_2weeks_hours": 11.3,
+      "last_played": 1792423690,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
+    },
+    {
       "appid": 1325200,
       "name": "Nioh 2 – The Complete Edition",
       "playtime_hours": 55.7,
@@ -312,14 +320,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1722839476,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/524220/library_600x900.jpg"
-    },
-    {
-      "appid": 403640,
-      "name": "Dishonored 2",
-      "playtime_hours": 52.2,
-      "playtime_2weeks_hours": 7.3,
-      "last_played": 1792329492,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
       "appid": 960170,
