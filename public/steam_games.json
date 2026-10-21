@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-20T07:23:58.904Z",
+  "updatedAt": "2026-10-21T07:25:18.781Z",
   "games": [
     {
       "appid": 1172470,
@@ -37,7 +37,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 221.9,
-      "playtime_2weeks_hours": 4,
+      "playtime_2weeks_hours": 2.2,
       "last_played": 1792066879,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -133,7 +133,7 @@
       "appid": 1446780,
       "name": "MONSTER HUNTER RISE",
       "playtime_hours": 109.1,
-      "playtime_2weeks_hours": 0.4,
+      "playtime_2weeks_hours": 0,
       "last_played": 1791356458,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1446780/library_600x900.jpg"
     },
