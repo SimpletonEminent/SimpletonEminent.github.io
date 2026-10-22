@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-21T07:25:18.781Z",
+  "updatedAt": "2026-10-22T07:25:52.947Z",
   "games": [
     {
       "appid": 1172470,
@@ -282,6 +282,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2384580/library_600x900.jpg"
     },
     {
+      "appid": 403640,
+      "name": "Dishonored 2",
+      "playtime_hours": 58.7,
+      "playtime_2weeks_hours": 13.8,
+      "last_played": 1792599518,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
+    },
+    {
       "appid": 2050650,
       "name": "Resident Evil 4",
       "playtime_hours": 57.2,
@@ -296,14 +304,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1781884396,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/289070/library_600x900.jpg"
-    },
-    {
-      "appid": 403640,
-      "name": "Dishonored 2",
-      "playtime_hours": 56.3,
-      "playtime_2weeks_hours": 11.3,
-      "last_played": 1792423690,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
       "appid": 1325200,
@@ -573,7 +573,7 @@
       "appid": 4349200,
       "name": "Probably Stolen Demo",
       "playtime_hours": 17.2,
-      "playtime_2weeks_hours": 17.2,
+      "playtime_2weeks_hours": 10.8,
       "last_played": 1792077452,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
     },
