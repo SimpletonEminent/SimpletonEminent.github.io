@@ -69,6 +69,7 @@ export default defineConfig({
                 'blog/steam指南写作推荐',
                 'blog/如何安装msst音乐音源分离工作流',
                 'blog/如何通过github-pages和astro构建个人博客',
+                'blog/微pe安装win11卡在等待清理完成白屏报错解决',
               ],
             },
             // 游戏长评子分类
