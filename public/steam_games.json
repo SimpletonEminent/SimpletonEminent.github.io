@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-23T07:19:44.779Z",
+  "updatedAt": "2026-10-24T07:08:22.063Z",
   "games": [
     {
       "appid": 1172470,
@@ -573,7 +573,7 @@
       "appid": 4349200,
       "name": "Probably Stolen Demo",
       "playtime_hours": 17.2,
-      "playtime_2weeks_hours": 9.6,
+      "playtime_2weeks_hours": 6.9,
       "last_played": 1792077452,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
     },
