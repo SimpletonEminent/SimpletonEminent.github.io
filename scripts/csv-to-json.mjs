@@ -3,7 +3,7 @@
 // 读取: steam.csv (PATHS.CSV)
 // 写入: src/data/steam_annotations.json (PATHS.ANNOTATIONS, 合并更新, 自动字段永不触碰)
 
-import { runCsvToJson } from './steam-pipeline-core.ts';
+import { runCsvToJson } from './lib/steam-pipeline-core.ts';
 
 runCsvToJson().catch((err) => {
   console.error(err.message);

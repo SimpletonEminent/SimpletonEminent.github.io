@@ -8,9 +8,9 @@
 
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { formatHours, type MergedGame } from '../src/lib/steam-data.ts';
-import { renderBadges } from '../src/components/game-presentation.ts';
-import type { YearGroup } from '../src/lib/blog-meta.ts';
+import { formatHours, type MergedGame } from '../../src/lib/steam-data.ts';
+import { renderBadges } from '../../src/lib/game-presentation.ts';
+import type { YearGroup } from '../../src/lib/blog-meta.ts';
 
 let failures = 0;
 let total = 0;

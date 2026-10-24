@@ -1,7 +1,7 @@
 // 回归测试:游玩年份格式(scripts/lib/play-year.mjs)
 // 规则:单年(如 "2024")或区间(如 "2021-2026",起点 ≤ 终点)。
 // 运行:npm test(node scripts/test-play-year.mjs)
-import { isValidPlayYear } from './lib/play-year.mjs';
+import { isValidPlayYear } from '../lib/play-year.mjs';
 
 const cases = [
   ['2024', true],

@@ -28,9 +28,9 @@ import {
   runAddReview,
   runAddQuote,
   type HttpTransport,
-} from './steam-pipeline-core.ts';
-import type { SteamGame, Annotation } from '../src/lib/steam-data.ts';
-import { DEFAULT_STATUS } from '../src/lib/play-status.ts';
+} from '../lib/steam-pipeline-core.ts';
+import type { SteamGame, Annotation } from '../../src/lib/steam-data.ts';
+import { DEFAULT_STATUS } from '../../src/lib/play-status.ts';
 
 let failures = 0;
 let total = 0;

@@ -1,5 +1,5 @@
 // 回归测试: 数据装载记忆化 (Spec 04)
-import { loadMergedGames, getSortPresets } from '../src/lib/steam-data.ts';
+import { loadMergedGames, getSortPresets } from '../../src/lib/steam-data.ts';
 
 let failures = 0;
 let total = 0;
@@ -29,7 +29,7 @@ check('getSortPresets() 多次调用返回相同对象引用', presets1 === pres
 check('sortPresets.playtime 数组引用相同', presets1.playtime === presets2.playtime);
 
 // 3. Spec 19 (Issue #19): steam-data.ts 严禁透传重导出游玩状态领域词汇符号
-import * as steamData from '../src/lib/steam-data.ts';
+import * as steamData from '../../src/lib/steam-data.ts';
 
 const FORBIDDEN_SYMBOLS = [
   'statusText',

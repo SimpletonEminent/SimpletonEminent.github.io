@@ -8,8 +8,8 @@ import {
   renderBadge,
   esc,
   type BadgeGameInput,
-} from '../src/components/game-presentation.ts';
-import { statusKeys, statusText } from '../src/lib/play-status.ts';
+} from '../../src/lib/game-presentation.ts';
+import { statusKeys, statusText } from '../../src/lib/play-status.ts';
 
 let failures = 0;
 let total = 0;

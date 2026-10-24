@@ -1,7 +1,7 @@
 // 回归测试: 画廊客户端协调器 (Spec 05 / Issue #5)
 // 验证外部行为: 单开手风琴展开、TOC 双向联动、外部点击关闭、三处 DOM 排序同步与幂等性。
 // 运行: npm test
-import { initGalleryCoordinator } from '../src/lib/gallery-coordinator.ts';
+import { initGalleryCoordinator } from '../../src/lib/gallery-coordinator.ts';
 
 let failures = 0;
 let total = 0;

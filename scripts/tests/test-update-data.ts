@@ -10,7 +10,7 @@ import {
   dispatchTask,
   parseEnvContent,
   type TaskItem,
-} from './update-data-core.ts';
+} from '../lib/update-data-core.ts';
 
 let failures = 0;
 let total = 0;

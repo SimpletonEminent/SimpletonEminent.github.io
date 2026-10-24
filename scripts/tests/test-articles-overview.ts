@@ -7,7 +7,7 @@
 // 5. 按发布年份分组，年份分组按倒序排列
 // 运行: node --experimental-strip-types scripts/test-articles-overview.ts
 
-import { resolvePostMetadata, filterAndGroupGeneralPosts, type InputPostEntry } from '../src/lib/blog-meta.ts';
+import { resolvePostMetadata, filterAndGroupGeneralPosts, type InputPostEntry } from '../../src/lib/blog-meta.ts';
 
 let failures = 0;
 let total = 0;

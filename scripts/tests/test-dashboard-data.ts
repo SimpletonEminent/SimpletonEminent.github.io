@@ -18,8 +18,8 @@ import {
   DEFAULT_STACK_COVERS,
   type FeaturedReviewDefinition,
   type TechnicalGuideDefinition,
-} from '../src/lib/dashboard-data.ts';
-import type { MergedGame } from '../src/lib/steam-data.ts';
+} from '../../src/lib/dashboard-data.ts';
+import type { MergedGame } from '../../src/lib/steam-data.ts';
 
 let failures = 0;
 let total = 0;

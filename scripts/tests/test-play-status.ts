@@ -13,7 +13,7 @@ import {
   isStatusLabel,
   statusKeys,
   type Status,
-} from '../src/lib/play-status.ts';
+} from '../../src/lib/play-status.ts';
 
 let failures = 0;
 let total = 0;

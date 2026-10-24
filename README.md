@@ -77,7 +77,7 @@ npm run build            # 生产打包验证
 
 ```bash
 git status               # 改动清单
-git diff                 # 具体差异 (重点核对 src/data/steam_annotations.json)
+git diff                 # 核对代码与数据改动差异
 ```
 
 ### 3. 提交与推送
@@ -88,33 +88,26 @@ git commit -m "feat: 补充新文章/更新内容"
 git push
 ```
 
-## 📦 项目结构
+## 📦 项目结构概要
+
+本项目采用标准 Astro + Starlight 架构，遵循最小隐私暴露原则，公开的核心模块结构如下：
 
 ```
 my-blog/
-├── astro.config.mjs        # Astro / Starlight 核心配置
-├── ec.config.mjs           # 代码高亮别名配置
-├── package.json            # 依赖与脚本
-├── .github/workflows/      # GitHub Actions (自动部署 + 每日 Steam 时长抓取)
-├── scripts/                # 数据同步、元数据丰富、成就检查与 CLI 控制台
-├── public/                 # 静态资源 (favicon, steam_games.json, steam_achievements.json)
+├── astro.config.mjs        # Astro 与 Starlight 核心配置
+├── package.json            # 项目依赖与开发脚本
+├── .github/workflows/      # 自动化 CI/CD 工作流 (自动构建部署与数据抓取)
+├── public/                 # 静态资源与运行时数据源
+├── scripts/                # 自动化运维与测试脚本
 └── src/
-    ├── content.config.ts   # 内容集合配置
-    ├── styles/theme.css    # 主题样式 (强调色 / 全局状态徽章颜色)
-    ├── lib/
-    │   ├── play-status.ts  # 游玩状态六阶梯唯一词汇模块
-    │   ├── steam-data.ts   # 画廊数据合并与排序模块 (模块单例缓存)
-    │   └── gallery-coordinator.ts # 画廊客户端交互协调器 (多端联动/排序)
-    ├── data/
-    │   └── steam_annotations.json # 人工手写注释 (状态/段位/短评/年份)
-    └── content/docs/
-        ├── index.mdx       # 首页 (Splash + 卡片)
-        ├── games.mdx       # 游戏画廊页 (/games)
-        ├── about.md        # 关于我主页 (/about)
-        └── blog/
-            ├── index.mdx   # 文章总览独立门户 (/blog)
-            └── *.md        # 常规博文与游戏长评
+    ├── components/         # 页面看板与画廊交互组件
+    ├── content/docs/       # Markdown/MDX 博文与页面内容
+    ├── data/               # 结构化数据源
+    ├── lib/                # 核心逻辑、数据处理与客户端协调器
+    └── styles/             # 主题与全局样式
 ```
+
+> 💡 架构设计决策记录 (ADR)、特性设计规范 (Specs) 与深层目录说明维护于本地私有文档体系中，不入库公开。
 
 ## 🌐 部署
 

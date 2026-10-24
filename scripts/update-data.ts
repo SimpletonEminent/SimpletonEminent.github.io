@@ -15,7 +15,7 @@ import {
   checkPrerequisites,
   executeTask,
   parseEnvContent,
-} from './update-data-core.ts';
+} from './lib/update-data-core.ts';
 
 // 自动加载根目录未入库的 .env 文件 (若存在)
 const ENV_FILE = '.env';
@@ -82,7 +82,7 @@ async function main() {
   try {
     while (true) {
       renderMenu();
-      const rawChoice = await ask('\n请选择操作编号 [0-7]: ');
+      const rawChoice = await ask('\n请选择操作编号 [0-8]: ');
       const choice = rawChoice.trim().toLowerCase();
 
       if (choice === '0' || choice === 'q' || choice === 'exit') {

@@ -9,7 +9,7 @@ import {
   loadMergedGames,
   type SteamGame,
   type Annotation,
-} from '../src/lib/steam-data.ts';
+} from '../../src/lib/steam-data.ts';
 
 let failures = 0;
 let total = 0;

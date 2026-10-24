@@ -2,7 +2,7 @@
 // 用法: node --experimental-strip-types scripts/json-to-csv.mjs
 // 产物: steam.csv (UTF-8 BOM, Excel 打开中文不乱码)
 
-import { runJsonToCsv } from './steam-pipeline-core.ts';
+import { runJsonToCsv } from './lib/steam-pipeline-core.ts';
 
 runJsonToCsv().catch((err) => {
   console.error(`json-to-csv 导出失败: ${err.message}`);

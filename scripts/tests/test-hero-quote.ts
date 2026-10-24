@@ -16,7 +16,7 @@ import {
   escapeHtml,
   renderQuoteHtml,
   type QuoteItem,
-} from '../src/lib/hero-quote.ts';
+} from '../../src/lib/hero-quote.ts';
 
 let failures = 0;
 let total = 0;

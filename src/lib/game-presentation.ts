@@ -4,7 +4,7 @@
 // 2. 收敛徽章 (游玩状态与段位) 与详情气泡 (.bubble-content) 的服务端静态标记渲染。
 // 3. 向画廊卡片 (SteamGallery.astro)、桌面 TOC 与移动端 TOC 提供内聚纯渲染接口。
 
-import { statusText } from '../lib/play-status.ts';
+import { statusText } from './play-status.ts';
 import {
   badgesFor,
   formatHours,
@@ -12,7 +12,7 @@ import {
   firstPlayDate,
   type Badge,
   type MergedGame,
-} from '../lib/steam-data.ts';
+} from './steam-data.ts';
 
 export type BadgeGameInput = Pick<MergedGame, 'my_status'> & {
   my_rank?: string;

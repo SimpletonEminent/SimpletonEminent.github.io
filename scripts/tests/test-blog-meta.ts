@@ -8,7 +8,7 @@ import {
   resolveReadingMetrics,
   resolveReadingMetricsAsync,
   enrichPostEntries,
-} from '../src/lib/blog-meta.ts';
+} from '../../src/lib/blog-meta.ts';
 
 let failures = 0;
 let total = 0;
@@ -317,8 +317,8 @@ const mockAnnotations = {
     getDefaultRepository,
     setDefaultRepository,
     resetGameDataCache,
-  } = await import('../src/lib/steam-data.ts');
-  const { filterAndGroupGeneralPosts } = await import('../src/lib/blog-meta.ts');
+  } = await import('../../src/lib/steam-data.ts');
+  const { filterAndGroupGeneralPosts } = await import('../../src/lib/blog-meta.ts');
 
   const prevRepo = getDefaultRepository();
 

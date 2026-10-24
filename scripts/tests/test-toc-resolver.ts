@@ -8,9 +8,9 @@ import {
   resolveTocMode,
   resolveTocContext,
   resolveTocContextSync,
-} from '../src/lib/toc-resolver.ts';
-import type { InputPostEntry, YearGroup } from '../src/lib/blog-meta.ts';
-import type { MergedGame } from '../src/lib/steam-data.ts';
+} from '../../src/lib/toc-resolver.ts';
+import type { InputPostEntry, YearGroup } from '../../src/lib/blog-meta.ts';
+import type { MergedGame } from '../../src/lib/steam-data.ts';
 
 function makeGame(partial: Partial<MergedGame> = {}): MergedGame {
   return {

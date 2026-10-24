@@ -15,8 +15,8 @@ import {
   isStatus,
   DEFAULT_STATUS,
   STATUS_LADDER,
-} from '../src/lib/play-status.ts';
-import { isValidPlayYear, PLAY_YEAR_HINT } from './lib/play-year.mjs';
+} from '../../src/lib/play-status.ts';
+import { isValidPlayYear, PLAY_YEAR_HINT } from './play-year.mjs';
 import {
   loadAnnotations as loadAnnotationsFromRepo,
   resetGameDataCache,
@@ -25,7 +25,7 @@ import {
   type Annotation,
   type SteamGamesData,
   type SteamAchievementsData,
-} from '../src/lib/steam-data.ts';
+} from '../../src/lib/steam-data.ts';
 
 /** 集中维护的公共数据与注释文件路径常量 */
 export const PATHS = {
@@ -1267,4 +1267,4 @@ export async function runAddReview(
 }
 
 // 统一导出语录录入操作供更新中心直接调度
-export { runAddQuote, type AddQuoteOptions } from './add-quote.ts';
+export { runAddQuote, type AddQuoteOptions } from '../add-quote.ts';
