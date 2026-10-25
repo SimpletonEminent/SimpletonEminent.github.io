@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T07:08:22.063Z",
+  "updatedAt": "2026-10-25T07:30:36.953Z",
   "games": [
     {
       "appid": 1172470,
@@ -258,6 +258,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2868840/library_600x900.jpg"
     },
     {
+      "appid": 403640,
+      "name": "Dishonored 2",
+      "playtime_hours": 63.9,
+      "playtime_2weeks_hours": 19,
+      "last_played": 1792838898,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
+    },
+    {
       "appid": 22380,
       "name": "Fallout: New Vegas",
       "playtime_hours": 63.1,
@@ -272,14 +280,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1777119916,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/646570/library_600x900.jpg"
-    },
-    {
-      "appid": 403640,
-      "name": "Dishonored 2",
-      "playtime_hours": 60.6,
-      "playtime_2weeks_hours": 15.6,
-      "last_played": 1792675178,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
       "appid": 2384580,
@@ -410,6 +410,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/447040/library_600x900.jpg"
     },
     {
+      "appid": 236850,
+      "name": "Europa Universalis IV",
+      "playtime_hours": 29.2,
+      "playtime_2weeks_hours": 1.3,
+      "last_played": 1792911830,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/236850/library_600x900.jpg"
+    },
+    {
       "appid": 1128920,
       "name": "EVERSPACE™ 2",
       "playtime_hours": 29,
@@ -424,14 +432,6 @@
       "playtime_2weeks_hours": 7.8,
       "last_played": 1791806474,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1142710/library_600x900.jpg"
-    },
-    {
-      "appid": 236850,
-      "name": "Europa Universalis IV",
-      "playtime_hours": 28,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1788969183,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/236850/library_600x900.jpg"
     },
     {
       "appid": 239140,
@@ -573,7 +573,7 @@
       "appid": 4349200,
       "name": "Probably Stolen Demo",
       "playtime_hours": 17.2,
-      "playtime_2weeks_hours": 6.9,
+      "playtime_2weeks_hours": 2.5,
       "last_played": 1792077452,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4349200/library_600x900.jpg"
     },
