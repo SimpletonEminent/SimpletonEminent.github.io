@@ -9,6 +9,8 @@
 // 3. 补全移动端 Overview 列表在画廊排序切换时的 DOM 重排同步(修复原有不同步缺陷)。
 // 4. 组件模板完全退化为纯静态声明式结构,交互与状态集中在单一深模块。
 
+export const MOBILE_VIEWPORT_MEDIA_QUERY = '(max-width: 50rem)' as const;
+
 export interface SortPresets {
   [key: string]: number[];
 }
@@ -24,6 +26,8 @@ export interface GalleryCoordinatorOptions {
   sortPresets?: SortPresets;
   /** 是否偏好减少动画(测试可注入,默认从 window.matchMedia 读取) */
   isReducedMotion?: () => boolean;
+  /** 是否处于移动端窄视口(测试可注入,默认从 window.matchMedia('(max-width: 50rem)') 读取) */
+  isMobileViewport?: () => boolean;
   /** 获取当前 Hash 的函数(测试可注入,默认读取 window.location.hash) */
   getCurrentHash?: () => string;
 }
@@ -80,6 +84,11 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
   const isReducedMotion = options?.isReducedMotion ?? (() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false;
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
+
+  const isMobileViewport = options?.isMobileViewport ?? (() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false;
+    return window.matchMedia(MOBILE_VIEWPORT_MEDIA_QUERY).matches;
   });
 
   // 索引 DOM 节点,消除各组件维护的独立 Map
@@ -211,7 +220,7 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
     if (selectOptions?.scrollIntoView && typeof item.scrollIntoView === 'function') {
       item.scrollIntoView({
         behavior: isReducedMotion() ? 'auto' : 'smooth',
-        block: 'center',
+        block: isMobileViewport() ? 'start' : 'center',
       });
     }
   }
@@ -301,11 +310,11 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
     if (!isHtmlElement(row)) return;
     const appid = Number(row.dataset.appid);
     if (!isNaN(appid)) {
-      selectGame(appid, { scrollIntoView: true });
       if (mobileTocEl) {
         const details = mobileTocEl.querySelector('details');
         if (details) details.open = false;
       }
+      selectGame(appid, { scrollIntoView: true });
     }
   };
   if (mobileTocEl) {
@@ -355,7 +364,7 @@ export function initGalleryCoordinator(options?: GalleryCoordinatorOptions): Gal
   }
 
   // Hash 锚点自动展开与监听 (Spec 12 / ADR 0012)
-  const getHash = options?.getCurrentHash ?? (() => (typeof window !== 'undefined' ? window.location.hash : ''));
+  const getHash = options?.getCurrentHash ?? (() => (typeof window !== 'undefined' ? (window.location?.hash ?? '') : ''));
   const handleHash = (hashStr?: string) => {
     const rawHash = typeof hashStr === 'string' ? hashStr : getHash();
     const match = rawHash.match(/^#game-(\d+)$/);

@@ -1,7 +1,7 @@
 // 回归测试: 画廊客户端协调器 (Spec 05 / Issue #5)
 // 验证外部行为: 单开手风琴展开、TOC 双向联动、外部点击关闭、三处 DOM 排序同步与幂等性。
 // 运行: npm test
-import { initGalleryCoordinator } from '../../src/lib/gallery-coordinator.ts';
+import { initGalleryCoordinator, MOBILE_VIEWPORT_MEDIA_QUERY } from '../../src/lib/gallery-coordinator.ts';
 
 let failures = 0;
 let total = 0;
@@ -152,8 +152,10 @@ class MockElement {
     return results;
   }
 
-  scrollIntoView() {
-    // mock no-op
+  scrollIntoViewOptions: ScrollIntoViewOptions | null = null;
+
+  scrollIntoView(options?: ScrollIntoViewOptions) {
+    this.scrollIntoViewOptions = options ?? null;
   }
 }
 
@@ -401,6 +403,74 @@ check('相同 Hash 再次触发时卡片 103 保持 expanded 状态', fixtureHas
 // 10.5 销毁并验证监听器移除
 hashCoordinator?.destroy();
 check('destroy 后 hashchange 监听器已被注销', (mockListeners.get('hashchange')?.length ?? 0) === 0);
+delete (globalThis as unknown as Record<string, unknown>).window;
+
+check('移动端断点媒体查询常量为 (max-width: 50rem)', MOBILE_VIEWPORT_MEDIA_QUERY === '(max-width: 50rem)');
+
+const fixtureDesktopScroll = createMockFixture();
+const desktopScrollCoordinator = initGalleryCoordinator({
+  gallery: fixtureDesktopScroll.gallery,
+  desktopToc: fixtureDesktopScroll.desktopToc,
+  mobileToc: fixtureDesktopScroll.mobileToc,
+  sortPresets: fixtureDesktopScroll.sortPresets,
+  isReducedMotion: () => false,
+  isMobileViewport: () => false,
+});
+fixtureDesktopScroll.desktopRows[0].dispatchEvent({ type: 'click' });
+check(
+  '桌面端视口点击 TOC 定位时使用 smooth + center 居中对齐',
+  fixtureDesktopScroll.cardItems[0].scrollIntoViewOptions?.behavior === 'smooth' &&
+    fixtureDesktopScroll.cardItems[0].scrollIntoViewOptions?.block === 'center'
+);
+desktopScrollCoordinator?.destroy();
+
+const fixtureMobileScroll = createMockFixture();
+const mobileDetailsEl = fixtureMobileScroll.mobileToc.querySelector('details') as unknown as MockElement;
+mobileDetailsEl.open = true;
+const mobileScrollCoordinator = initGalleryCoordinator({
+  gallery: fixtureMobileScroll.gallery,
+  desktopToc: fixtureMobileScroll.desktopToc,
+  mobileToc: fixtureMobileScroll.mobileToc,
+  sortPresets: fixtureMobileScroll.sortPresets,
+  isReducedMotion: () => false,
+  isMobileViewport: () => true,
+  getCurrentHash: () => '#game-101',
+});
+check(
+  '移动端视口通过 Hash 锚点定位时使用 smooth + start 顶部安全对齐',
+  fixtureMobileScroll.cardItems[0].scrollIntoViewOptions?.behavior === 'smooth' &&
+    fixtureMobileScroll.cardItems[0].scrollIntoViewOptions?.block === 'start'
+);
+fixtureMobileScroll.mobileRows[2].dispatchEvent({ type: 'click' });
+check('移动端点击列表项后折叠目录收起', (mobileDetailsEl.open as boolean) === false);
+check(
+  '移动端视口点击 Overview 列表项时使用 smooth + start 顶部安全对齐',
+  fixtureMobileScroll.cardItems[2].scrollIntoViewOptions?.behavior === 'smooth' &&
+    fixtureMobileScroll.cardItems[2].scrollIntoViewOptions?.block === 'start'
+);
+mobileScrollCoordinator?.destroy();
+
+const fixtureReducedMobile = createMockFixture();
+(globalThis as unknown as Record<string, unknown>).window = {
+  matchMedia: (query: string) => ({
+    matches: query === '(max-width: 50rem)' || query === '(prefers-reduced-motion: reduce)',
+  }),
+  addEventListener: () => {},
+  removeEventListener: () => {},
+};
+const reducedMobileCoordinator = initGalleryCoordinator({
+  gallery: fixtureReducedMobile.gallery,
+  desktopToc: fixtureReducedMobile.desktopToc,
+  mobileToc: fixtureReducedMobile.mobileToc,
+  sortPresets: fixtureReducedMobile.sortPresets,
+});
+reducedMobileCoordinator?.selectGame(102, { scrollIntoView: true });
+check(
+  '默认 matchMedia 在移动端且开启减少动画时使用 auto + start',
+  fixtureReducedMobile.cardItems[1].scrollIntoViewOptions?.behavior === 'auto' &&
+    fixtureReducedMobile.cardItems[1].scrollIntoViewOptions?.block === 'start'
+);
+reducedMobileCoordinator?.destroy();
 delete (globalThis as unknown as Record<string, unknown>).window;
 
 console.log(failures === 0 ? `ALL PASS (${total} checks)` : `${failures} FAILED (of ${total})`);

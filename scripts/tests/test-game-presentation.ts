@@ -8,8 +8,14 @@ import {
   renderBadges,
   renderBadgesHtml,
   renderBubbleContent,
+  resolveCoverImageAttrs,
+  COVER_WIDTH,
+  COVER_HEIGHT,
+  EAGER_COVER_COUNT,
   type BadgeGameInput,
 } from '../../src/lib/game-presentation.ts';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { statusKeys, statusText } from '../../src/lib/play-status.ts';
 import type { MergedGame } from '../../src/lib/steam-data.ts';
 
@@ -150,6 +156,53 @@ const dirtyText = '<script>alert(1)</script> & "bad" \'tag\'';
 const dirtyBubble = renderBubbleContent(makeGame({ name: dirtyText, my_review: dirtyText, tags: [dirtyText] }));
 check('Bubble XSS: 名称/短评/标签全部安全转义', dirtyBubble.includes('&lt;script&gt;alert(1)&lt;/script&gt; &amp; &quot;bad&quot; &#39;tag&#39;'), true);
 check('Bubble XSS: 原始 script 标签不裸输出', dirtyBubble.includes('<script>'), false);
+
+check('封面固有尺寸常量为 600x900', `${COVER_WIDTH}x${COVER_HEIGHT}`, '600x900');
+check('首屏 eager 卡片数量上限为 8', EAGER_COVER_COUNT, 8);
+
+const firstCover = resolveCoverImageAttrs(0);
+check('第 1 张封面 (index=0) 宽度为 600', firstCover.width, 600);
+check('第 1 张封面 (index=0) 高度为 900', firstCover.height, 900);
+check('第 1 张封面 (index=0) decoding 为 async', firstCover.decoding, 'async');
+check('第 1 张封面 (index=0) loading 为 eager', firstCover.loading, 'eager');
+check('第 1 张封面 (index=0) fetchpriority 为 high', firstCover.fetchpriority, 'high');
+
+for (let i = 1; i < 8; i++) {
+  const attrs = resolveCoverImageAttrs(i);
+  check(`首屏封面 index=${i} loading 为 eager`, attrs.loading, 'eager');
+  check(`首屏封面 index=${i} 不附加 fetchpriority`, attrs.fetchpriority, undefined);
+}
+
+const ninthCover = resolveCoverImageAttrs(8);
+check('第 9 张封面 (index=8) loading 为 lazy', ninthCover.loading, 'lazy');
+check('第 9 张封面 (index=8) decoding 为 async', ninthCover.decoding, 'async');
+check('第 9 张封面 (index=8) 尺寸为 600x900', `${ninthCover.width}x${ninthCover.height}`, '600x900');
+check('第 9 张封面 (index=8) fetchpriority 为 undefined', ninthCover.fetchpriority, undefined);
+
+const bubbleSameName = renderBubbleContent(makeGame({ name: 'Dishonored 2', name_zh: 'Dishonored 2' }));
+check('Bubble 同名去重: 中英文名完全相同时不渲染 bubble-name-zh', bubbleSameName.includes('bubble-name-zh'), false);
+check('Bubble 同名去重: 原始名称正常输出一次', bubbleSameName.includes('<span class="bubble-value">Dishonored 2</span>'), true);
+
+const bubbleTrimmedSameName = renderBubbleContent(makeGame({ name: 'Portal 2', name_zh: '  Portal 2  ' }));
+check('Bubble 同名去重: 忽略首尾空白后相同时不渲染 bubble-name-zh', bubbleTrimmedSameName.includes('bubble-name-zh'), false);
+
+const bubbleBlankZhName = renderBubbleContent(makeGame({ name: 'Portal 2', name_zh: '   ' }));
+check('Bubble 同名去重: 中文名为纯空白字符时不渲染 bubble-name-zh', bubbleBlankZhName.includes('bubble-name-zh'), false);
+
+const bubbleDiffName = renderBubbleContent(makeGame({ name: 'Counter-Strike 2', name_zh: '反恐精英2' }));
+check('Bubble 异名并列: 中英文名不同时渲染 bubble-name-zh', bubbleDiffName.includes('<span class="bubble-name-zh">反恐精英2</span>'), true);
+check('Bubble 异名并列: 同时保留英文原名与中文名', bubbleDiffName.includes('Counter-Strike 2<span class="bubble-name-zh">反恐精英2</span>'), true);
+
+const galleryAstroRaw = readFileSync(resolve(process.cwd(), 'src/components/SteamGallery.astro'), 'utf-8');
+check('SteamGallery.astro 接入 resolveCoverImageAttrs', galleryAstroRaw.includes('resolveCoverImageAttrs'), true);
+check('SteamGallery.astro 绑定 decoding={coverAttrs.decoding}', galleryAstroRaw.includes('decoding={coverAttrs.decoding}'), true);
+check('SteamGallery.astro 绑定 fetchpriority={coverAttrs.fetchpriority}', galleryAstroRaw.includes('fetchpriority={coverAttrs.fetchpriority}'), true);
+check('SteamGallery.astro 移动端双列网格 repeat(2, minmax(0, 1fr))', galleryAstroRaw.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), true);
+check('SteamGallery.astro 卡片等高对齐 height: 100%', galleryAstroRaw.includes('height: 100%'), true);
+check('SteamGallery.astro 移动端预留折叠目录栏高度 --sl-mobile-toc-height', galleryAstroRaw.includes('--sl-mobile-toc-height'), true);
+
+const themeCssRaw = readFileSync(resolve(process.cwd(), 'src/styles/theme.css'), 'utf-8');
+check('theme.css 移动端收敛外层容器内边距', themeCssRaw.includes('@media (max-width: 50rem)') && themeCssRaw.includes('padding: 1.25rem 0.25rem'), true);
 
 console.log(failures === 0 ? `\n✅ 全部通过: ${total} 个检查通过` : `\n❌ 失败: ${failures} / ${total} 个检查未通过`);
 process.exit(failures === 0 ? 0 : 1);

@@ -18,6 +18,32 @@ export type BadgeGameInput = Pick<MergedGame, 'my_status'> & {
   my_rank?: string;
 };
 
+export const COVER_WIDTH = 600 as const;
+export const COVER_HEIGHT = 900 as const;
+export const EAGER_COVER_COUNT = 8 as const;
+
+export interface CoverImageAttributes {
+  width: typeof COVER_WIDTH;
+  height: typeof COVER_HEIGHT;
+  decoding: 'async';
+  loading: 'eager' | 'lazy';
+  fetchpriority?: 'high';
+}
+
+export function resolveCoverImageAttrs(index: number): CoverImageAttributes {
+  const isEager = Number.isInteger(index) && index >= 0 && index < EAGER_COVER_COUNT;
+  const attrs: CoverImageAttributes = {
+    width: COVER_WIDTH,
+    height: COVER_HEIGHT,
+    decoding: 'async',
+    loading: isEager ? 'eager' : 'lazy',
+  };
+  if (index === 0) {
+    attrs.fetchpriority = 'high';
+  }
+  return attrs;
+}
+
 /** HTML 转义: 服务端渲染阶段防止 XSS */
 export function esc(value: unknown): string {
   return String(value)
@@ -60,12 +86,14 @@ export function renderBubbleContent(game: MergedGame): string {
   let html = '';
 
   // Row 1 游戏名称: EN + CN 并列
+  const primaryName = game.name.trim();
+  const zhName = (game.name_zh ?? '').trim();
   html += '<div class="bubble-row">';
   html += '<span class="bubble-label">游戏名称</span>';
   html += '<span class="bubble-value">';
   html += esc(game.name);
-  if (game.name_zh) {
-    html += `<span class="bubble-name-zh">${esc(game.name_zh)}</span>`;
+  if (zhName && zhName !== primaryName) {
+    html += `<span class="bubble-name-zh">${esc(zhName)}</span>`;
   }
   html += '</span></div>';
 

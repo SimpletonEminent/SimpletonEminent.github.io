@@ -56,6 +56,15 @@ article,
   padding: 3em 1em;
 }
 
+@media (max-width: 50rem) {
+  main,
+  article,
+  .prose,
+  .content {
+    padding: 1.25rem 0.25rem;
+  }
+}
+
 /* ============================================================
  * 游玩状态徽章颜色单源 (Spec 03)
  * 全局共享,由 3 个组件(.steam-gallery, .games-toc, .games-mobile-toc)共同使用

@@ -7,7 +7,7 @@
 // 气泡内容�?renderBubbleContent 构建期服务端渲染(set:html),客户端不再拼�?HTML
 // 交互为原�?JS(define:vars 注入排序预设),无任何客户端框架
 import { loadMergedGames, getSortPresets, formatHours, releaseYear } from '../lib/steam-data';
-import { renderBadges, renderBubbleContent } from '../lib/game-presentation';
+import { renderBadges, renderBubbleContent, resolveCoverImageAttrs } from '../lib/game-presentation';
 
 const { updatedAt, games } = loadMergedGames();
 
@@ -37,7 +37,9 @@ const sortPresets = getSortPresets();
 
         <div class="gallery">
           {
-            games.map((game) => (
+            games.map((game, index) => {
+              const coverAttrs = resolveCoverImageAttrs(index);
+              return (
               <div class="card-item" id={`game-${game.appid}`} data-appid={game.appid}>
                 <button
                   type="button"
@@ -48,7 +50,11 @@ const sortPresets = getSortPresets();
                   <img
                     src={game.cover}
                     alt={game.name_zh || game.name}
-                    loading="lazy"
+                    width={coverAttrs.width}
+                    height={coverAttrs.height}
+                    decoding={coverAttrs.decoding}
+                    loading={coverAttrs.loading}
+                    fetchpriority={coverAttrs.fetchpriority}
                     onerror={'this.onerror=null;this.src=\'https://placehold.co/600x900?text=No+Cover\';'}
                   />
                   <div class="card-info">
@@ -77,7 +83,8 @@ const sortPresets = getSortPresets();
                   </div>
                 </div>
               </div>
-            ))
+              );
+            })
           }
         </div>
       </>
@@ -165,12 +172,17 @@ const sortPresets = getSortPresets();
 		.card-item {
 			margin: 0;
 			padding: 0;
+			display: flex;
+			flex-direction: column;
 			scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem);
 		}
 
 		/* 卡片:button 而非 a,拦截点击做展开联动,键盘可聚�?*/
 		.card {
-			display: block;
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			height: 100%;
 			position: relative;
 			width: 100%;
 			padding: 0;
@@ -232,6 +244,9 @@ const sortPresets = getSortPresets();
 
 		.card-info {
 			padding: 0.75rem;
+			display: flex;
+			flex-direction: column;
+			flex: 1;
 		}
 
 		.card-name {
@@ -249,6 +264,7 @@ const sortPresets = getSortPresets();
 			align-items: center;
 			flex-wrap: wrap;
 			gap: 0.375rem;
+			margin-top: auto;
 		}
 
 		.card-playtime {
@@ -450,6 +466,57 @@ const sortPresets = getSortPresets();
 			margin: 0;
 			color: var(--sl-color-gray-3);
 			font-size: var(--sl-text-xs);
+		}
+
+		@media (max-width: 50rem) {
+			.gallery {
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 0.75rem;
+			}
+
+			.card-item {
+				scroll-margin-top: calc(var(--sl-nav-height, 3.5rem) + var(--sl-mobile-toc-height, 3rem) + 0.75rem);
+			}
+
+			.card-info {
+				padding: 0.5rem 0.625rem;
+			}
+
+			.card-name {
+				margin-bottom: 0.25rem;
+				font-size: var(--sl-text-xs);
+			}
+
+			.card-meta {
+				gap: 0.25rem;
+			}
+
+			.card-playtime {
+				font-size: var(--sl-text-xs);
+			}
+
+			.steam-gallery :global(.status-badge) {
+				padding: 0.05em 0.45em;
+				font-size: var(--sl-text-2xs);
+			}
+
+			.bubble-panel {
+				padding: 0.75rem 0.875rem;
+			}
+
+			.bubble :global(.bubble-row) {
+				grid-template-columns: 4.5em 1fr;
+				gap: 0.5rem;
+				padding: 0.35rem 0;
+			}
+
+			.bubble :global(.bubble-value) {
+				font-size: var(--sl-text-xs);
+			}
+
+			.bubble :global(.achievement-bar) {
+				width: 80px;
+			}
 		}
 
 		@media (prefers-reduced-motion: reduce) {
