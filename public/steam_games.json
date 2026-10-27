@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-26T07:41:37.871Z",
+  "updatedAt": "2026-10-27T07:38:47.296Z",
   "games": [
     {
       "appid": 1172470,
@@ -36,9 +36,9 @@
     {
       "appid": 730,
       "name": "Counter-Strike 2",
-      "playtime_hours": 223.1,
-      "playtime_2weeks_hours": 3.4,
-      "last_played": 1792933993,
+      "playtime_hours": 224,
+      "playtime_2weeks_hours": 3.1,
+      "last_played": 1793014708,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
     {
@@ -250,20 +250,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/17480/library_600x900.jpg"
     },
     {
+      "appid": 403640,
+      "name": "Dishonored 2",
+      "playtime_hours": 65.7,
+      "playtime_2weeks_hours": 20.8,
+      "last_played": 1793032306,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
+    },
+    {
       "appid": 2868840,
       "name": "Slay the Spire 2",
       "playtime_hours": 64.3,
       "playtime_2weeks_hours": 0,
       "last_played": 1782658558,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2868840/library_600x900.jpg"
-    },
-    {
-      "appid": 403640,
-      "name": "Dishonored 2",
-      "playtime_hours": 63.9,
-      "playtime_2weeks_hours": 19,
-      "last_played": 1792838898,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
       "appid": 22380,
@@ -429,7 +429,7 @@
       "appid": 1142710,
       "name": "Total War: WARHAMMER III",
       "playtime_hours": 29,
-      "playtime_2weeks_hours": 3.9,
+      "playtime_2weeks_hours": 0,
       "last_played": 1791806474,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1142710/library_600x900.jpg"
     },
