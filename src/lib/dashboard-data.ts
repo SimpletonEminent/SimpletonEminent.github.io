@@ -7,7 +7,7 @@
 
 import { loadMergedGames, type MergedGame } from './steam-data.ts';
 import { type Status } from './play-status.ts';
-import { resolveReadingMetricsAsync } from './blog-meta.ts';
+import { resolveReadingMetricsAsync, normalizeDocEntrySlug } from './blog-meta.ts';
 
 /** 精选游戏评测配置标识 */
 export interface FeaturedReviewDefinition {
@@ -210,9 +210,7 @@ export async function resolveTechnicalGuides(
     (definitions || []).map(async (def) => {
       const entry = (docs || []).find((d) => {
         if (!d || typeof d.id !== 'string') return false;
-        const normalizedId = d.id.replace(/\\/g, '/').replace(/\.(md|mdx)$/, '');
-        const targetId = def.id.replace(/\\/g, '/').replace(/\.(md|mdx)$/, '');
-        return normalizedId === targetId || d.id === def.id;
+        return normalizeDocEntrySlug(d.id) === normalizeDocEntrySlug(def.id) || d.id === def.id;
       });
 
       let minutesRead = '';

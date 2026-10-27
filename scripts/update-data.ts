@@ -7,8 +7,8 @@
 // 3. 环境变量自检与引导: 自动加载本地 .env (已 gitignore), 缺失时提供友好提示。
 
 import { existsSync, readFileSync } from 'node:fs';
-import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
+import { createPromptSession } from './lib/cli-prompt.ts';
 import {
   TASKS,
   getTaskByKey,
@@ -76,13 +76,13 @@ async function promptMissingEnv(
 }
 
 async function main() {
-  const rl = createInterface({ input, output });
-  const ask = (q: string) => rl.question(q);
+  const promptSession = createPromptSession({ input, output });
+  const { ask } = promptSession;
 
   try {
     while (true) {
       renderMenu();
-      const rawChoice = await ask('\n请选择操作编号 [0-8]: ');
+      const rawChoice = await ask('\n请选择操作编号 [0-9]: ');
       const choice = rawChoice.trim().toLowerCase();
 
       if (choice === '0' || choice === 'q' || choice === 'exit') {
@@ -122,7 +122,7 @@ async function main() {
       await ask('按 Enter 键返回主菜单...');
     }
   } finally {
-    rl.close();
+    promptSession.close();
   }
 }
 

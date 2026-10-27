@@ -23,7 +23,7 @@ Astro 的格式真的非常整齐统一！
 3. **下载并安装 Git**（用于把本地文件上传到 GitHub）：
    * 前往 [Git 官网](https://git-scm.com/) 下载安装。*(如果你不喜欢命令行，也可以下载更直观的图形化工具 [GitHub Desktop](https://desktop.github.com/))。*
 
-# 从零开始
+## 从零开始
 
 ---
 
@@ -41,11 +41,11 @@ Astro 的格式真的非常整齐统一！
 
 [Astro 官方](https://astro.build/)的教程[部署你的 Astro 站点至 GitHub Pages](https://docs.astro.build/zh-cn/guides/deploy/github/)写的很详细，这种原生支持直接部署到 [GitHub Pages](https://pages.github.com/)的优势使得它非常适合用来制作你的个人网站。
 
-# 开始本地构建
+## 开始本地构建
 
 ---
 
-## 1/5：新建代码仓库
+### 1/5：新建代码仓库
 
 ---
 
@@ -54,7 +54,7 @@ Astro 的格式真的非常整齐统一！
 3. 关键步骤：在 **Repository name**（仓库名称）中，输入 `你的GitHub用户名.github.io`（例如：如果你的用户名是 `zhangsan` ，仓库名必须填 `zhangsan.github.io` ）
 4. 点击最下方的**Create repository** 创建仓库。
 
-## 2/5：在本地电脑创建 Astro 项目
+### 2/5：在本地电脑创建 Astro 项目
 
 ---
 
@@ -74,7 +74,7 @@ How would you like to start?-> 选择 **Include sample files**（包含示例博
 Install dependencies?-> 选择 **Yes**
 Initialize a new git repository?-> 选择 **Yes**
 
-## 3/5：修改两个关键配置文件
+### 3/5：修改两个关键配置文件
 
 ---
 
@@ -143,7 +143,7 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-## 4/5：关联 GitHub 并一键推送
+### 4/5：关联 GitHub 并一键推送
 
 ---
 
@@ -165,7 +165,7 @@ git push -u origin main
 
 (首次推送时，电脑可能会弹窗要求你登录或授权 GitHub 账号，按提示登录即可)
 
-## 5/5：在 GitHub 网页端开启开关
+### 5/5：在 GitHub 网页端开启开关
 
 ---
 
@@ -174,7 +174,7 @@ git push -u origin main
 * 在 `Build and deployment`区域，找到 `Source`
 * **关键：** 将默认的 `Deploy from a branch` 改为 `GitHub Actions`
 
-# 以后日常怎么在本地新建、修改文章并更新网站
+## 以后日常怎么在本地新建、修改文章并更新网站
 
 ---
 
@@ -182,7 +182,7 @@ git push -u origin main
 
 你不需要写任何代码，只需要记住 **“写文章 -> 本地预览 -> 一键推送”** 这三步走战略。
 
-#### 第一步：新建与编写文章（原材料准备）
+### 第一步：新建与编写文章（原材料准备）
 
 1. 用**VS Code** 打开你的博客项目文件夹。
 2. 在左侧文件树中，找到 **`src/content/blog/`** 目录。
@@ -203,7 +203,7 @@ git push -u origin main
    Astro 的格式真的非常整齐统一！
    ```
 
-#### 第二步：本地预览（大厨尝菜）
+### 第二步：本地预览（大厨尝菜）
 
 在把文章发到网上之前，你肯定想先看看排版对不对。
 
@@ -217,7 +217,7 @@ git push -u origin main
 
 ---
 
-#### 第三步：一键推送（Actions 自动炒菜发布）
+### 第三步：一键推送（Actions 自动炒菜发布）
 
 当你对文章内容完全满意后，关闭本地预览（在终端按 `Ctrl + C` 退出），然后执行以下“无脑三连”命令，将文章推送到 GitHub：
 
@@ -239,7 +239,7 @@ git push
 1. **GitHub Actions 自动接管**：GitHub 此时会默默派出一个云端机器人。它看到你写了一篇新文章，会自动用 Linux 服务器帮你把项目编译、打包成精美的网页。
 2. **自动同步**：大约过 40 秒到 1 分钟，访问你的个人网址 `https://zhangsan/github.io`，你会发现新文章已经整整齐齐地挂在互联网上了。
 
-# 一些善后工作
+## 一些善后工作
 
 ---
 

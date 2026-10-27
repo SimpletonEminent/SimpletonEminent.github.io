@@ -116,7 +116,7 @@ check('两端空白自动裁剪', formatCitation('  毛泽东选集  '), '——
 check('escapeHtml 普通文本原样保留', escapeHtml('普通文本'), '普通文本');
 check('escapeHtml 转义 & 符号', escapeHtml('A&B'), 'A&amp;B');
 check('escapeHtml 转义 < 与 > 标签', escapeHtml('<script>alert(1)</script>'), '&lt;script&gt;alert(1)&lt;/script&gt;');
-check('escapeHtml 转义双引号与单引号', escapeHtml('"hello" \'world\''), '&quot;hello&quot; &#039;world&#039;');
+check('escapeHtml 转义双引号与单引号', escapeHtml('"hello" \'world\''), '&quot;hello&quot; &#39;world&#39;');
 
 // 8. renderQuoteHtml HTML 组装
 const simpleQuote: QuoteItem = { content: '单纯的一句话' };

@@ -5,9 +5,10 @@
 // 3. 符合 RFC 规范的双向 CSV 表格编解码器 (支持 UTF-8 BOM、单元格转义与安全校验)；
 // 4. 收敛 Steam API 抓取、元数据丰富、成就检查与表格转换的底层编排。
 
-import { readFileSync, writeFileSync } from 'node:fs';
-import { createInterface } from 'node:readline/promises';
-import { stdin as defaultInput, stdout as defaultOutput } from 'node:process';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { createPromptSession } from './cli-prompt.ts';
+import { type QuoteItem } from '../../src/lib/hero-quote.ts';
 import {
   statusLabel,
   statusToKey,
@@ -16,7 +17,7 @@ import {
   DEFAULT_STATUS,
   STATUS_LADDER,
 } from '../../src/lib/play-status.ts';
-import { isValidPlayYear, PLAY_YEAR_HINT } from './play-year.mjs';
+import { isValidPlayYear, PLAY_YEAR_HINT } from './play-year.ts';
 import {
   loadAnnotations as loadAnnotationsFromRepo,
   resetGameDataCache,
@@ -1129,34 +1130,12 @@ export async function runAddReview(
   }
   const annotations = loadAnnotations(annotationsPath);
 
-  let rl: ReturnType<typeof createInterface> | null = null;
-  let ask: (q: string) => Promise<string>;
-
-  if (options.ask) {
-    ask = options.ask;
-  } else {
-    const inStream = options.input ?? defaultInput;
-    const outStream = options.output ?? defaultOutput;
-    if ((inStream as any).isTTY) {
-      rl = createInterface({ input: inStream, output: outStream });
-      ask = (q: string) => rl!.question(q);
-    } else {
-      let allLines: string[] = [];
-      let cursor = 0;
-      try {
-        allLines = readFileSync(0, 'utf-8').split(/\r?\n/);
-      } catch {
-        // 管道读取若不可用则跳过
-      }
-      ask = async (q: string) => {
-        outStream.write(q);
-        const line = allLines[cursor] ?? '';
-        cursor += 1;
-        outStream.write(line + '\n');
-        return line;
-      };
-    }
-  }
+  const promptSession = createPromptSession({
+    ask: options.ask,
+    input: options.input,
+    output: options.output,
+  });
+  const { ask } = promptSession;
 
   const STATUS_OPTIONS = STATUS_LADDER.map((s) => ({ key: s.key, label: s.label }));
 
@@ -1164,7 +1143,7 @@ export async function runAddReview(
     let selectedGame: SteamGame | null = null;
     while (!selectedGame) {
       const raw = (await ask('输入游戏名关键词或 appid(直接回车退出): ')).trim();
-      if (!raw) return null;
+      if (!raw || raw === '0') return null;
       if (/^\d+$/.test(raw)) {
         const appid = Number(raw);
         const game = games.find((g) => g.appid === appid);
@@ -1262,9 +1241,89 @@ export async function runAddReview(
       annotation: annotations[appid],
     };
   } finally {
-    if (rl) rl.close();
+    promptSession.close();
   }
 }
 
-// 统一导出语录录入操作供更新中心直接调度
-export { runAddQuote, type AddQuoteOptions } from '../add-quote.ts';
+export interface AddQuoteOptions {
+  quotesPath?: string;
+  ask?: (query: string) => Promise<string>;
+  input?: NodeJS.ReadableStream;
+  output?: NodeJS.WritableStream;
+  logger?: Logger;
+}
+
+export async function runAddQuote(options: AddQuoteOptions = {}): Promise<QuoteItem | null> {
+  const quotesFile = options.quotesPath ?? resolve(process.cwd(), 'src/data/quotes.json');
+  const logger = resolveLogger(options.logger);
+  const promptSession = createPromptSession({
+    ask: options.ask,
+    input: options.input,
+    output: options.output,
+  });
+  const { ask } = promptSession;
+
+  try {
+    logger.log('\n============================================================');
+    logger.log('         💬 首页语录交互式录入控制台 (Add Hero Quote)');
+    logger.log('============================================================');
+    logger.log('提示: 输入 "q" 或 "exit" 可随时退出录入。\n');
+
+    let content = '';
+    while (!content) {
+      const raw = (await ask('📝 请输入语录正文内容: ')).trim();
+      if (raw.toLowerCase() === 'q' || raw.toLowerCase() === 'exit' || raw === '0') {
+        logger.log('已取消录入。');
+        return null;
+      }
+      if (raw.length === 0) {
+        logger.log('⚠️ 语录正文不能为空，请重新输入。');
+        continue;
+      }
+      content = raw;
+    }
+
+    const rawSource = (await ask('📖 请输入文献出处/作者 (可选，直接回车跳过): ')).trim();
+    const source = rawSource.length > 0 ? rawSource : undefined;
+
+    let existingQuotes: QuoteItem[] = [];
+    if (existsSync(quotesFile)) {
+      try {
+        const raw = readFileSync(quotesFile, 'utf-8');
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          existingQuotes = parsed;
+        }
+      } catch {
+        logger.error('⚠️ 读取现有语录文件失败，将新建数组。');
+      }
+    }
+
+    const duplicate = existingQuotes.some((q) => q.content.trim() === content);
+    if (duplicate) {
+      logger.log('\n⚠️ 检测到语录库中已存在完全相同的正文内容！');
+      const confirm = (await ask('是否依然确认追加？(y/N): ')).trim().toLowerCase();
+      if (confirm !== 'y' && confirm !== 'yes') {
+        logger.log('已取消追加。');
+        return null;
+      }
+    }
+
+    const newQuote: QuoteItem = { content };
+    if (source) {
+      newQuote.source = source;
+    }
+
+    existingQuotes.push(newQuote);
+    writeFileSync(quotesFile, JSON.stringify(existingQuotes, null, 2) + '\n', 'utf-8');
+
+    logger.log('\n✨ 录入成功！');
+    logger.log(`📌 新增条目: "${content}"${source ? ` (${source})` : ''}`);
+    logger.log(`📊 当前语录库总数: ${existingQuotes.length} 条`);
+    logger.log(`📁 数据文件已更新: ${quotesFile}\n`);
+
+    return newQuote;
+  } finally {
+    promptSession.close();
+  }
+}

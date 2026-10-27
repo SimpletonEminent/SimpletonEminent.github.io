@@ -31,6 +31,7 @@ import {
 } from '../lib/steam-pipeline-core.ts';
 import type { SteamGame, Annotation } from '../../src/lib/steam-data.ts';
 import { DEFAULT_STATUS } from '../../src/lib/play-status.ts';
+import { isValidPlayYear } from '../lib/play-year.ts';
 
 let failures = 0;
 let total = 0;
@@ -697,6 +698,26 @@ async function runTests() {
     check('runAddQuote 输入 q 取消返回 null', cancelRes === null);
   } finally {
     if (existsSync(tmpQuotes7)) unlinkSync(tmpQuotes7);
+  }
+
+  const playYearCases: Array<[unknown, boolean]> = [
+    ['2024', true],
+    ['2021-2026', true],
+    ['2021-2021', true],
+    ['2013', true],
+    ['202', false],
+    ['2021-', false],
+    ['-2026', false],
+    ['2021-2026x', false],
+    ['2026-2021', false],
+    ['', false],
+    ['abcd', false],
+    ['2021 2026', false],
+    [null, false],
+    [2024, false],
+  ];
+  for (const [input, expected] of playYearCases) {
+    check(`isValidPlayYear(${JSON.stringify(input)}) === ${expected}`, isValidPlayYear(input) === expected);
   }
 
   console.log(failures === 0 ? `ALL PASS (${total} checks)` : `${failures} FAILED (of ${total})`);

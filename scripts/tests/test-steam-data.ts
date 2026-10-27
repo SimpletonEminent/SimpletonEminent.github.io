@@ -1,15 +1,15 @@
-// 回归测试: 游戏数据仓库与存储接缝 (Spec 06)
-// 验证使用 MemoryStorageAdapter 注入正常、空、损坏数据与读取异常时的行为；
-// 彻底消灭原先在磁盘上真实重命名数据文件的破坏性测试手段。
-
+import * as steamData from '../../src/lib/steam-data.ts';
 import {
+  badgesFor,
+  loadMergedGames,
+  getSortPresets,
   GameDataRepository,
   MemoryStorageAdapter,
   resetGameDataCache,
-  loadMergedGames,
   type SteamGame,
   type Annotation,
 } from '../../src/lib/steam-data.ts';
+import { statusKeys, type Status } from '../../src/lib/play-status.ts';
 
 let failures = 0;
 let total = 0;
@@ -24,25 +24,83 @@ function check(label: string, condition: boolean) {
   }
 }
 
-// ==========================================
-// 1. 模拟数据文件读取失败（替代原磁盘重命名黑魔法）
-// ==========================================
+function checkEq(label: string, actual: unknown, expected: unknown) {
+  total++;
+  const a = JSON.stringify(actual);
+  const e = JSON.stringify(expected);
+  if (a === e) {
+    console.log('PASS', label);
+  } else {
+    failures++;
+    console.error('FAIL', label, '| actual:', a, '| expected:', e);
+  }
+}
+
+console.log('--- 测试游戏数据仓库、记忆化与徽章模型 (Steam Data Repository) ---');
+
+const STATUSES: Status[] = statusKeys();
+for (const status of STATUSES) {
+  checkEq('无段位 / ' + status, badgesFor({ my_status: status, my_rank: '' }), [
+    { kind: 'status', value: status },
+  ]);
+  checkEq('有段位 / ' + status, badgesFor({ my_status: status, my_rank: '铂金' }), [
+    { kind: 'status', value: status },
+    { kind: 'rank', value: '铂金' },
+  ]);
+}
+checkEq('空白段位', badgesFor({ my_status: 'ongoing', my_rank: '   ' }), [
+  { kind: 'status', value: 'ongoing' },
+]);
+
+const call1 = loadMergedGames();
+const call2 = loadMergedGames();
+check('loadMergedGames() 多次调用返回相同对象引用', call1 === call2);
+check('games 数组引用相同', call1.games === call2.games);
+
+const presets1 = getSortPresets();
+const presets2 = getSortPresets();
+check('getSortPresets() 多次调用返回相同对象引用', presets1 === presets2);
+check('sortPresets.playtime 数组引用相同', presets1.playtime === presets2.playtime);
+
+const FORBIDDEN_SYMBOLS = [
+  'statusText',
+  'statusLabel',
+  'statusWeight',
+  'statusToKey',
+  'keyToStatus',
+  'statusKeys',
+  'isStatus',
+  'STATUS_LADDER',
+  'DEFAULT_STATUS',
+];
+for (const sym of FORBIDDEN_SYMBOLS) {
+  check(`steam-data.ts 不透传重导出 ${sym}`, !(sym in steamData));
+}
+
+const ann1 = steamData.loadAnnotations();
+const ann2 = steamData.loadAnnotations();
+check('loadAnnotations() 多次调用返回相同对象引用', ann1 === ann2);
+check('loadAnnotations() 返回非空注释对象', typeof ann1 === 'object' && Object.keys(ann1).length > 0);
+
+const sekiroAnn = steamData.getAnnotation(814380);
+check('getAnnotation(814380) 成功命中只狼注释', sekiroAnn !== undefined && sekiroAnn.name_zh === '只狼：影逝二度');
+
+const foundSekiro = steamData.findAnnotationByBlogUrl('/blog/sekiro_review');
+check('findAnnotationByBlogUrl("/blog/sekiro_review") 成功匹配 appid 814380', foundSekiro !== undefined && foundSekiro.appid === 814380);
+
+const notFound = steamData.findAnnotationByBlogUrl('/blog/non_existent_url');
+check('findAnnotationByBlogUrl 未知 URL 返回 undefined', notFound === undefined);
+
 const failAdapter = new MemoryStorageAdapter({ gamesData: null });
 const failRepo = new GameDataRepository(failAdapter);
 const failResult = failRepo.loadMergedGames();
-
 check('游戏数据读取失败(抛出异常)时安全回退返回 games: []', Array.isArray(failResult.games) && failResult.games.length === 0);
 
-// ==========================================
-// 2. 模拟 JSON 格式损坏容错
-// ==========================================
 const corruptGamesAdapter = new MemoryStorageAdapter({ gamesData: '<<< NOT VALID JSON >>>' });
 const corruptGamesRepo = new GameDataRepository(corruptGamesAdapter);
 const corruptGamesResult = corruptGamesRepo.loadMergedGames();
-
 check('游戏数据 JSON 损坏时安全回退返回 games: []', Array.isArray(corruptGamesResult.games) && corruptGamesResult.games.length === 0);
 
-// 游戏数据正常，但注释文件损坏
 const mockGames: SteamGame[] = [
   {
     appid: 101,
@@ -56,8 +114,8 @@ const mockGames: SteamGame[] = [
 
 const corruptAnnoAdapter = MemoryStorageAdapter.fromObjects({
   gamesData: { updatedAt: '2026-09-01T00:00:00Z', games: mockGames },
-  annotations: null, // 注释读取失败
-  achievementsData: '<<< INVALID ACHIEVEMENTS JSON >>>', // 成就损坏
+  annotations: null,
+  achievementsData: '<<< INVALID ACHIEVEMENTS JSON >>>',
 });
 const corruptAnnoRepo = new GameDataRepository(corruptAnnoAdapter);
 const corruptAnnoResult = corruptAnnoRepo.loadMergedGames();
@@ -67,14 +125,11 @@ check('注释损坏时状态默认回退为 uncompleted', corruptAnnoResult.game
 check('注释损坏时 tags 默认为空数组', Array.isArray(corruptAnnoResult.games[0].tags) && corruptAnnoResult.games[0].tags.length === 0);
 check('成就损坏时 achievements 安全回退为 undefined', corruptAnnoResult.games[0].achievements === undefined);
 
-// ==========================================
-// 3. 领域合并规则验证 (0h过滤、字段融合、默认降序)
-// ==========================================
 const domainGames: SteamGame[] = [
   {
     appid: 1,
     name: 'Never Played',
-    playtime_hours: 0, // 0h 应该被过滤
+    playtime_hours: 0,
     playtime_2weeks_hours: 0,
     last_played: 0,
     cover: '',
@@ -135,15 +190,10 @@ check('正确融合注释中文名', domainResult.games[0].name_zh === '高时�
 check('正确融合段位与状态', domainResult.games[0].my_status === 'perfect' && domainResult.games[0].my_rank === '王者 👑');
 check('正确融合成就与最早解锁时间戳', domainResult.games[0].achievements?.unlocked === 50 && domainResult.games[0].first_achievement_at === 1600000000);
 
-// 验证排序预设
 const presets = domainRepo.getSortPresets();
 check('排序预设 playtime 顺序符合预期', presets.playtime[0] === 3 && presets.playtime[1] === 2);
 check('排序预设 nameAsc 字母排序符合预期', presets.nameAsc.length === 2);
 
-// ==========================================
-// 4. 实例隔离与缓存重置测试
-// ==========================================
-// 验证独立实例不共享缓存
 const isolatedAdapter = MemoryStorageAdapter.fromObjects({
   gamesData: { games: [{ appid: 999, name: 'Isolated Game', playtime_hours: 5, playtime_2weeks_hours: 0, last_played: 0, cover: '' }] },
 });
@@ -153,15 +203,11 @@ const isolatedResult = isolatedRepo.loadMergedGames();
 check('独立仓库实例数据相互隔离', isolatedResult.games.length === 1 && isolatedResult.games[0].appid === 999);
 check('先前的 domainRepo 缓存未受影响', domainRepo.loadMergedGames().games.length === 2);
 
-// 验证 resetCache 生效
 isolatedAdapter.setGamesData(JSON.stringify({ games: [] }));
 check('未 resetCache 时读取依然命中旧缓存', isolatedRepo.loadMergedGames().games.length === 1);
 isolatedRepo.resetCache();
 check('调用 resetCache 后重新加载数据生效', isolatedRepo.loadMergedGames().games.length === 0);
 
-// ==========================================
-// 5. Spec 21: 注释文件 MemoryStorageAdapter 隔离与容错测试
-// ==========================================
 check('failAdapter (annotations: null) 时 loadAnnotations 安全回退为 {}', Object.keys(failRepo.loadAnnotations()).length === 0);
 
 const corruptOnlyAnnoAdapter = new MemoryStorageAdapter({ annotations: '<<< NOT VALID JSON >>>' });
@@ -172,7 +218,6 @@ check('domainRepo 成功解析内存注入的注释', domainRepo.loadAnnotations
 check('domainRepo.getAnnotation(3) 成功读取单款游戏注释', domainRepo.getAnnotation(3)?.my_rank === '王者 👑');
 check('domainRepo.getAnnotation(999) 未存在游戏返回 undefined', domainRepo.getAnnotation(999) === undefined);
 
-// 验证注释缓存重置
 isolatedAdapter.setAnnotations(JSON.stringify({ '888': { name_zh: 'Cached Game' } }));
 isolatedRepo.resetCache();
 check('isolatedRepo 读取新设置的内存注释', isolatedRepo.loadAnnotations()['888']?.name_zh === 'Cached Game');
@@ -181,7 +226,6 @@ check('未 resetCache 时 loadAnnotations 命中旧缓存', isolatedRepo.loadAnn
 isolatedRepo.resetCache();
 check('resetCache 后 loadAnnotations 重新解析并更新', isolatedRepo.loadAnnotations()['888']?.name_zh === 'Updated Game');
 
-// 验证模块级单例缓存重置
 resetGameDataCache();
 const defaultCall = loadMergedGames();
 check('全局单例 loadMergedGames 在 resetGameDataCache 后正常加载', Array.isArray(defaultCall.games));

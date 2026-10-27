@@ -1,0 +1,28 @@
+---
+// 自定义 Starlight Pagination 组件 (Ticket 04 / ADR-0015)
+// 职责:
+// 1. 基于侧边栏 (sidebar) 的叶子嵌套子组计算同栏目内部的 prev / next 链接
+// 2. 严禁「技术与生活」与「游戏评测」跨栏目串流
+// 3. 在独立门户与顶层单页 (/, /games, /blog/, /about) 或无相邻文章时隐藏底部翻页容器
+import DefaultPagination from '@astrojs/starlight/components/Pagination.astro';
+import { resolveSectionalPagination } from '../lib/pagination-isolation.ts';
+
+const starlightRoute = Astro.locals.starlightRoute;
+type RouteSidebarLink = NonNullable<typeof starlightRoute.pagination.prev>;
+const isolated = resolveSectionalPagination<RouteSidebarLink>(
+  starlightRoute.sidebar,
+  Astro.url.pathname
+);
+
+const frontmatterPrev = starlightRoute.entry?.data?.prev;
+const frontmatterNext = starlightRoute.entry?.data?.next;
+
+starlightRoute.pagination = {
+  prev: frontmatterPrev === false ? undefined : isolated.prev,
+  next: frontmatterNext === false ? undefined : isolated.next,
+};
+
+const hasPagination = Boolean(starlightRoute.pagination.prev || starlightRoute.pagination.next);
+---
+
+{hasPagination && <DefaultPagination {...Astro.props} />}

@@ -261,19 +261,7 @@ export class GameDataRepository {
 
   /** 根据博客文章 URL 查找关联的游戏注释与 AppID (Spec 21) */
   findAnnotationByBlogUrl(blogUrl: string): { appid: number; annotation: Annotation } | undefined {
-    if (!blogUrl) return undefined;
-    const target = blogUrl.trim().toLowerCase();
-    const annotations = this.loadAnnotations();
-    for (const [rawId, item] of Object.entries(annotations)) {
-      if (typeof item.blog_url === 'string' && item.blog_url.trim().toLowerCase() === target) {
-        const parsedId = Number(rawId);
-        return {
-          appid: Number.isNaN(parsedId) ? 0 : parsedId,
-          annotation: item,
-        };
-      }
-    }
-    return undefined;
+    return findAnnotationInRecord(this.loadAnnotations(), blogUrl);
   }
 
   /** 读取并合并数据源，按总时长降序返回。读取或解析失败时安全回退为空数据 */
@@ -390,6 +378,27 @@ export function loadAnnotations(): Record<string, Annotation> {
 /** 获取单款游戏的注释信息 (Spec 21) */
 export function getAnnotation(appid: number | string): Annotation | undefined {
   return defaultRepository.getAnnotation(appid);
+}
+
+export function findAnnotationInRecord(
+  annotations: Record<string, Annotation>,
+  blogUrl: string
+): { appid: number; annotation: Annotation } | undefined {
+  if (!blogUrl) return undefined;
+  const target = blogUrl.trim().toLowerCase().replace(/\/+$/, '');
+  for (const [rawId, item] of Object.entries(annotations)) {
+    if (typeof item.blog_url === 'string') {
+      const candidate = item.blog_url.trim().toLowerCase().replace(/\/+$/, '');
+      if (candidate === target) {
+        const parsedId = Number(rawId);
+        return {
+          appid: Number.isNaN(parsedId) ? 0 : parsedId,
+          annotation: item,
+        };
+      }
+    }
+  }
+  return undefined;
 }
 
 /** 根据博客文章 URL 查找关联的游戏注释与 AppID (Spec 21) */

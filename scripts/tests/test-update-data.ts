@@ -40,6 +40,9 @@ check('getTaskByKey(1) 成功匹配到元数据丰富任务', task1?.script.incl
 const taskQuote = getTaskByKey('8');
 check('getTaskByKey(8) 成功匹配到语录录入任务', taskQuote?.script.includes('add-quote.ts') === true);
 
+const taskExportBbcode = getTaskByKey('9');
+check('getTaskByKey(9) 成功匹配到 Steam BBCode 导出任务', taskExportBbcode?.script.includes('export-steam-review.ts') === true);
+
 const taskInvalid = getTaskByKey('999');
 check('getTaskByKey(999) 返回 undefined', taskInvalid === undefined);
 
@@ -47,6 +50,7 @@ check('getTaskByKey(999) 返回 undefined', taskInvalid === undefined);
 const taskEnrich = getTaskByKey('1')!;
 check('元数据丰富脚本无需额外环境变量', checkPrerequisites(taskEnrich, {}).length === 0);
 check('语录录入脚本无需额外环境变量', checkPrerequisites(taskQuote!, {}).length === 0);
+check('Steam BBCode 导出脚本无需额外环境变量', checkPrerequisites(taskExportBbcode!, {}).length === 0);
 
 const taskAchievements = getTaskByKey('6')!;
 const missingBoth = checkPrerequisites(taskAchievements, {});
@@ -64,7 +68,7 @@ check('命令包含 node 执行器', cmd1.command === 'node');
 check('参数包含对应脚本路径', cmd1.args.some((a) => a.includes('enrich-metadata.mjs')));
 
 // 5. 进程内操作与任务调度接缝 (In-Process Execution & Error Handling)
-check('全量 8 个任务均已挂载进程内 action 函数', TASKS.every((t) => typeof t.action === 'function'));
+check('全量 9 个任务均已挂载进程内 action 函数', TASKS.length === 9 && TASKS.every((t) => typeof t.action === 'function'));
 
 let inProcessCalled: boolean = false;
 let capturedCtx: any = null;

@@ -37,15 +37,16 @@ export default defineConfig({
       // 内置搜索(Pagefind,默认开启,无需额外配置)
       pagefind: true,
 
-      // 右侧目录(TOC):默认只收录 h2-h3,这里改为收录 h1-h4 全部
-      tableOfContents: { minHeadingLevel: 1, maxHeadingLevel: 4 },
+      // 右侧目录(TOC):从 H2 开始收录至 H4,顶部 # 开篇引语(Opening Hook)不入右侧目录(ADR-0016)
+      tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 4 },
 
-      // 组件覆盖:文章标题下方显示字数和阅读时间;TOC 在 /games 路由替换为游戏列表(双向联动);Hero 首页副标题注入动态语录
+      // 组件覆盖:文章标题下方显示字数和阅读时间;TOC 在 /games 路由替换为游戏列表(双向联动);Hero 首页副标题注入动态语录;Pagination 按侧边栏叶子子组隔离翻页(ADR-0015)
       components: {
         PageTitle: './src/components/PageTitle.astro',
         TableOfContents: './src/components/GamesTableOfContents.astro',
         MobileTableOfContents: './src/components/GamesMobileTableOfContents.astro',
         Hero: './src/components/Hero.astro',
+        Pagination: './src/components/Pagination.astro',
       },
 
       sidebar: [

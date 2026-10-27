@@ -7,7 +7,26 @@
 // 5. 单源化解析与富化阅读指标 (minutesRead 与 words)，收敛 AST 刺探 (Spec 16)
 // 6. 统一通过 steam-data 模块单源访问注释数据，消除私有文件读取与缓存 (Spec 21)
 
-import { loadAnnotations, type Annotation } from './steam-data.ts';
+import {
+  findAnnotationByBlogUrl,
+  findAnnotationInRecord,
+  type Annotation,
+} from './steam-data.ts';
+
+export function normalizeDocEntrySlug(entryId: string): string {
+  return entryId
+    .replace(/\\/g, '/')
+    .replace(/\.(md|mdx)$/i, '')
+    .replace(/^\/+|\/+$/g, '');
+}
+
+export function isSingleBlogPostSlug(cleanSlug: string): boolean {
+  return (
+    cleanSlug.startsWith('blog/') &&
+    cleanSlug !== 'blog/index' &&
+    cleanSlug !== 'blog'
+  );
+}
 
 export interface PostMetadata {
   isBlogPost: boolean;
@@ -206,25 +225,8 @@ export function resolvePostMetadata(
   } = {},
   injectedAnnotations?: Record<string, AnnotationItem>
 ): PostMetadata {
-  // 仅在 /blog/* 路径下生效,其他页面 (如 about.md, games.mdx) 保持纯净
-  const normalizedId = entryId.replace(/\\/g, '/');
-  const isBlogPost = normalizedId.startsWith('blog/');
-
-  if (!isBlogPost) {
-    return {
-      isBlogPost: false,
-      isGameReview: false,
-      labelPrefix: '',
-      tags: [],
-      showUpdated: false,
-    };
-  }
-
-  // 提取标准化 URL,例如 "blog/djmax_review.md" -> "/blog/djmax_review"
-  const cleanSlug = normalizedId.replace(/\.(md|mdx)$/, '');
-
-  // 文章总览页 (/blog 或 /blog/index) 是聚合门户，不当作单篇博文渲染文章标签与字数
-  if (cleanSlug === 'blog/index' || cleanSlug === 'blog') {
+  const cleanSlug = normalizeDocEntrySlug(entryId);
+  if (!isSingleBlogPostSlug(cleanSlug)) {
     return {
       isBlogPost: false,
       isGameReview: false,
@@ -235,22 +237,12 @@ export function resolvePostMetadata(
   }
 
   const targetUrl = '/' + cleanSlug.toLowerCase();
+  const matched = injectedAnnotations
+    ? findAnnotationInRecord(injectedAnnotations, targetUrl)
+    : findAnnotationByBlogUrl(targetUrl);
 
-  const annotations = injectedAnnotations ?? loadAnnotations();
-
-  // 查找是否有关联的 Steam 游戏长评
-  let matchedAnnotation: AnnotationItem | undefined;
-  let matchedAppid: number | undefined;
-  for (const [rawId, item] of Object.entries(annotations)) {
-    if (typeof item.blog_url === 'string' && item.blog_url.trim().toLowerCase() === targetUrl) {
-      matchedAnnotation = item;
-      const parsedId = Number(rawId);
-      if (!Number.isNaN(parsedId)) {
-        matchedAppid = parsedId;
-      }
-      break;
-    }
-  }
+  const matchedAnnotation = matched?.annotation;
+  const matchedAppid = matched && matched.appid > 0 ? matched.appid : undefined;
 
   const isGameReview = Boolean(matchedAnnotation);
   const labelPrefix = isGameReview ? '🎮 游戏类型：' : '🏷️ 标签：';
@@ -306,28 +298,17 @@ export function filterAndGroupGeneralPosts(
   entries: InputPostEntry[],
   injectedAnnotations?: Record<string, AnnotationItem>
 ): YearGroup[] {
-  const annotations = injectedAnnotations ?? loadAnnotations();
-
-  // 收集已登记为游戏长评的 URL 集合 (全小写标准化)
-  const reviewUrls = new Set<string>();
-  for (const item of Object.values(annotations)) {
-    if (typeof item.blog_url === 'string' && item.blog_url.trim()) {
-      reviewUrls.add(item.blog_url.trim().toLowerCase());
-    }
-  }
-
   const generalPosts: GeneralPostSummary[] = [];
 
   for (const entry of entries) {
-    const normalizedId = entry.id.replace(/\\/g, '/');
-    if (!normalizedId.startsWith('blog/')) continue;
-
-    const cleanSlug = normalizedId.replace(/\.(md|mdx)$/, '');
-    if (cleanSlug === 'blog/index' || cleanSlug === 'blog') continue;
+    const cleanSlug = normalizeDocEntrySlug(entry.id);
+    if (!isSingleBlogPostSlug(cleanSlug)) continue;
 
     const targetUrl = '/' + cleanSlug.toLowerCase();
-    if (reviewUrls.has(targetUrl)) {
-      // 属于游戏评测长评，严格排除
+    const matched = injectedAnnotations
+      ? findAnnotationInRecord(injectedAnnotations, targetUrl)
+      : findAnnotationByBlogUrl(targetUrl);
+    if (matched) {
       continue;
     }
 

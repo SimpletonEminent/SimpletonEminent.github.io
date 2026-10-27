@@ -2,6 +2,8 @@
 // 职责: 黑盒断言路由判定与强类型 TocContext 解析行为，覆盖 games / blog-overview / default 各种典型路由。
 // 运行: node --experimental-strip-types scripts/test-toc-resolver.ts
 
+import { readFileSync, existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import {
   isGamesPath,
   isBlogOverviewPath,
@@ -9,6 +11,8 @@ import {
   resolveTocContext,
   resolveTocContextSync,
 } from '../../src/lib/toc-resolver.ts';
+import { formatHours } from '../../src/lib/steam-data.ts';
+import { renderBadges } from '../../src/lib/game-presentation.ts';
 import type { InputPostEntry, YearGroup } from '../../src/lib/blog-meta.ts';
 import type { MergedGame } from '../../src/lib/steam-data.ts';
 
@@ -194,6 +198,70 @@ check('resolveTocMode: "/404" -> default', resolveTocMode('/404'), 'default');
 
   const syncDefault = resolveTocContextSync('/about');
   check('resolveTocContextSync(/about): mode 为 default', syncDefault.mode, 'default');
+}
+
+{
+  const rootDir = process.cwd();
+  const viewPath = resolve(rootDir, 'src/components/TableOfContentsView.astro');
+  const desktopPath = resolve(rootDir, 'src/components/GamesTableOfContents.astro');
+  const mobilePath = resolve(rootDir, 'src/components/GamesMobileTableOfContents.astro');
+
+  check('TableOfContentsView.astro 文件存在', existsSync(viewPath), true);
+  check('GamesTableOfContents.astro 文件存在', existsSync(desktopPath), true);
+  check('GamesMobileTableOfContents.astro 文件存在', existsSync(mobilePath), true);
+
+  const viewContent = readFileSync(viewPath, 'utf-8');
+  const desktopContent = readFileSync(desktopPath, 'utf-8');
+  const mobileContent = readFileSync(mobilePath, 'utf-8');
+
+  check('桌面端 TOC 导入 TableOfContentsView', desktopContent.includes("import TableOfContentsView from './TableOfContentsView.astro'"), true);
+  check('桌面端 TOC 使用 TableOfContentsView 标签', desktopContent.includes('<TableOfContentsView'), true);
+  check('移动端 TOC 导入 TableOfContentsView', mobileContent.includes("import TableOfContentsView from './TableOfContentsView.astro'"), true);
+  check('移动端 TOC 使用 TableOfContentsView 标签并传递 isMobile', mobileContent.includes('<TableOfContentsView') && mobileContent.includes('isMobile'), true);
+  check('桌面端 TOC 已消除 games.map 循环', !desktopContent.includes('games.map'), true);
+  check('移动端 TOC 已消除 games.map 循环', !mobileContent.includes('games.map'), true);
+  check('桌面端 TOC 已消除 yearGroups.map 循环', !desktopContent.includes('yearGroups.map'), true);
+  check('移动端 TOC 已消除 yearGroups.map 循环', !mobileContent.includes('yearGroups.map'), true);
+  check('桌面端 TOC 已消除 .games-toc-row 规则', !desktopContent.includes('.games-toc-row {'), true);
+  check('移动端 TOC 已消除 .games-mobile-row 规则', !mobileContent.includes('.games-mobile-row {'), true);
+  check('桌面端 TOC 已消除 .overview-toc-link 规则', !desktopContent.includes('.overview-toc-link {'), true);
+  check('移动端 TOC 已消除 .overview-mobile-row 规则', !mobileContent.includes('.overview-mobile-row {'), true);
+  check('TableOfContentsView 包含 .games-toc-row 基础样式', viewContent.includes('.games-toc-row'), true);
+  check('TableOfContentsView 包含 :global(.status-badge) 徽章样式', viewContent.includes(':global(.status-badge)'), true);
+  check('TableOfContentsView 包含 .overview-toc-link 桌面年份链接样式', viewContent.includes('.overview-toc-link'), true);
+  check('TableOfContentsView 包含 .overview-mobile-row 移动年份链接样式', viewContent.includes('.overview-mobile-row'), true);
+
+  const gameWithZh = makeGame({ appid: 814380, name: 'Sekiro: Shadows Die Twice', name_zh: '只狼：影逝二度', playtime_hours: 320.5, my_status: 'perfect' });
+  const gameWithoutZh = makeGame({ appid: 1002, name: 'Pure English Title', name_zh: '' });
+  const displayWithZh = gameWithZh.name_zh || gameWithZh.name;
+  const displayWithoutZh = gameWithoutZh.name_zh || gameWithoutZh.name;
+
+  check('有中文名时优先展示中文名 (只狼：影逝二度)', displayWithZh, '只狼：影逝二度');
+  check('hover title 始终保留英文原名 (Sekiro: Shadows Die Twice)', gameWithZh.name, 'Sekiro: Shadows Die Twice');
+  check('无中文名时回退展示英文原名', displayWithoutZh, 'Pure English Title');
+  check('无中文名时 hover title 为英文原名', gameWithoutZh.name, 'Pure English Title');
+  check('游玩时长格式化为 320.5h', `${formatHours(gameWithZh.playtime_hours)}h`, '320.5h');
+
+  const badgesHtml = renderBadges(gameWithZh);
+  check('徽章包含全成就 perfect', badgesHtml.includes('data-status="perfect"'), true);
+
+  const sampleGroups: YearGroup[] = [
+    {
+      year: '2026',
+      posts: [
+        { id: 'blog/a', title: 'A', description: '', pubDate: '2026-08-01', tags: [], url: '/blog/a/' },
+        { id: 'blog/b', title: 'B', description: '', pubDate: '2026-08-02', tags: [], url: '/blog/b/' },
+      ],
+    },
+  ];
+  check('年份锚点生成为 #year-2026', `#year-${sampleGroups[0].year}`, '#year-2026');
+  check('年份文本生成为 2026 年', `${sampleGroups[0].year} 年`, '2026 年');
+  check('年份文章计数生成为 2 篇', `${sampleGroups[0].posts.length} 篇`, '2 篇');
+  check('TableOfContentsView 模板同时声明 games-toc-row 与 games-mobile-row', viewContent.includes('games-toc-row') && viewContent.includes('games-mobile-row'), true);
+  check('TableOfContentsView 模板同时声明 games-toc-name 与 games-mobile-name', viewContent.includes('games-toc-name') && viewContent.includes('games-mobile-name'), true);
+  check('TableOfContentsView 模板同时声明 games-toc-playtime 与 games-mobile-playtime', viewContent.includes('games-toc-playtime') && viewContent.includes('games-mobile-playtime'), true);
+  check('包含游戏空状态提示 "暂无游戏数据"', viewContent.includes('暂无游戏数据'), true);
+  check('包含文章空状态提示 "暂无文章记录"', viewContent.includes('暂无文章记录'), true);
 }
 
 if (failures > 0) {

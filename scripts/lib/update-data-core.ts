@@ -13,6 +13,7 @@ import {
   runAddQuote,
   type Logger,
 } from './steam-pipeline-core.ts';
+import { runExportSteamReview } from '../export-steam-review.ts';
 
 export interface TaskContext {
   env?: Record<string, string | undefined>;
@@ -131,6 +132,14 @@ export const TASKS: TaskItem[] = [
     desc: '随时执行: 命令行交互录入格言正文与文献出处，追加至 src/data/quotes.json',
     script: 'scripts/add-quote.ts',
     action: async (ctx) => runAddQuote({ ask: ctx?.ask, logger: ctx?.logger }),
+  },
+  {
+    key: '9',
+    title: '导出博客长评为 Steam BBCode (export-steam-review)',
+    category: '元数据与注释',
+    desc: '发布评测时执行: 将标准 Markdown 博文一键转码为 Steam 商店评测 BBCode，校验 8000 字符上限并写入剪贴板',
+    script: 'scripts/export-steam-review.ts',
+    action: async (ctx) => runExportSteamReview({ ask: ctx?.ask, logger: ctx?.logger }),
   },
 ];
 

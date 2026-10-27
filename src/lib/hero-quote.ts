@@ -6,6 +6,7 @@
 
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { esc } from './game-presentation.ts';
 
 /** 首页语录数据结构 */
 export interface QuoteItem {
@@ -122,16 +123,8 @@ export function formatCitation(source?: string): string {
   return `——${trimmed}`;
 }
 
-/**
- * 安全 HTML 实体转义 (抵御 XSS 风险)
- */
 export function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  return esc(str);
 }
 
 /**
