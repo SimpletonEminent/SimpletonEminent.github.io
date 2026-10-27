@@ -198,6 +198,7 @@ check('SteamGallery.astro 接入 resolveCoverImageAttrs', galleryAstroRaw.includ
 check('SteamGallery.astro 绑定 decoding={coverAttrs.decoding}', galleryAstroRaw.includes('decoding={coverAttrs.decoding}'), true);
 check('SteamGallery.astro 绑定 fetchpriority={coverAttrs.fetchpriority}', galleryAstroRaw.includes('fetchpriority={coverAttrs.fetchpriority}'), true);
 check('SteamGallery.astro 移动端双列网格 repeat(2, minmax(0, 1fr))', galleryAstroRaw.includes('grid-template-columns: repeat(2, minmax(0, 1fr))'), true);
+check('SteamGallery.astro 封面图片声明 height: auto 防止 HTML height="900" 破坏 2:3 比例', galleryAstroRaw.includes('height: auto;'), true);
 check('SteamGallery.astro 卡片等高对齐 height: 100%', galleryAstroRaw.includes('height: 100%'), true);
 check('SteamGallery.astro 移动端预留折叠目录栏高度 --sl-mobile-toc-height', galleryAstroRaw.includes('--sl-mobile-toc-height'), true);
 
