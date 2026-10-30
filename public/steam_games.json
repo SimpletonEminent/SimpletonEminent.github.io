@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-29T08:19:39.516Z",
+  "updatedAt": "2026-10-30T08:28:02.450Z",
   "games": [
     {
       "appid": 1172470,
@@ -37,7 +37,7 @@
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 224,
-      "playtime_2weeks_hours": 3.1,
+      "playtime_2weeks_hours": 2.1,
       "last_played": 1793014708,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -252,9 +252,9 @@
     {
       "appid": 403640,
       "name": "Dishonored 2",
-      "playtime_hours": 67,
-      "playtime_2weeks_hours": 22.1,
-      "last_played": 1793205463,
+      "playtime_hours": 68.4,
+      "playtime_2weeks_hours": 23.5,
+      "last_played": 1793342632,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
