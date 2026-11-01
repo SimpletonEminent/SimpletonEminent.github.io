@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-31T08:17:52.727Z",
+  "updatedAt": "2026-11-01T09:01:21.038Z",
   "games": [
     {
       "appid": 1172470,
@@ -242,20 +242,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/418240/library_600x900.jpg"
     },
     {
+      "appid": 403640,
+      "name": "Dishonored 2",
+      "playtime_hours": 71.5,
+      "playtime_2weeks_hours": 23.4,
+      "last_played": 1793508774,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
+    },
+    {
       "appid": 17480,
       "name": "Command & Conquer™ Red Alert™ 3",
       "playtime_hours": 69.9,
       "playtime_2weeks_hours": 0,
       "last_played": 1746456494,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/17480/library_600x900.jpg"
-    },
-    {
-      "appid": 403640,
-      "name": "Dishonored 2",
-      "playtime_hours": 68.9,
-      "playtime_2weeks_hours": 24,
-      "last_played": 1793370141,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
       "appid": 2868840,
