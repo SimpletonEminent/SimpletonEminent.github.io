@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T09:01:21.038Z",
+  "updatedAt": "2026-11-02T09:17:05.012Z",
   "games": [
     {
       "appid": 1172470,
@@ -234,20 +234,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/638970/library_600x900.jpg"
     },
     {
+      "appid": 403640,
+      "name": "Dishonored 2",
+      "playtime_hours": 71.9,
+      "playtime_2weeks_hours": 19.7,
+      "last_played": 1793597173,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
+    },
+    {
       "appid": 418240,
       "name": "Shadow Tactics: Blades of the Shogun",
       "playtime_hours": 71.9,
       "playtime_2weeks_hours": 0,
       "last_played": 1661393359,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/418240/library_600x900.jpg"
-    },
-    {
-      "appid": 403640,
-      "name": "Dishonored 2",
-      "playtime_hours": 71.5,
-      "playtime_2weeks_hours": 23.4,
-      "last_played": 1793508774,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
       "appid": 17480,
@@ -608,6 +608,14 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1755341015,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/993090/library_600x900.jpg"
+    },
+    {
+      "appid": 4115450,
+      "name": "Phantom Blade Zero",
+      "playtime_hours": 14,
+      "playtime_2weeks_hours": 14,
+      "last_played": 1793543897,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
       "appid": 1426210,
