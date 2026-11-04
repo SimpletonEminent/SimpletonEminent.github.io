@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-03T09:22:23.575Z",
+  "updatedAt": "2026-11-04T08:55:50.332Z",
   "games": [
     {
       "appid": 1172470,
@@ -546,6 +546,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1562700/library_600x900.jpg"
     },
     {
+      "appid": 4115450,
+      "name": "Phantom Blade Zero",
+      "playtime_hours": 19.3,
+      "playtime_2weeks_hours": 19.3,
+      "last_played": 1793776056,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
+    },
+    {
       "appid": 1030300,
       "name": "Hollow Knight: Silksong",
       "playtime_hours": 18.3,
@@ -592,14 +600,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1748161165,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2001120/library_600x900.jpg"
-    },
-    {
-      "appid": 4115450,
-      "name": "Phantom Blade Zero",
-      "playtime_hours": 14.6,
-      "playtime_2weeks_hours": 14.6,
-      "last_played": 1793629738,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
       "appid": 774171,
