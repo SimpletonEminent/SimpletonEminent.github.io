@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T08:55:50.332Z",
+  "updatedAt": "2026-11-05T09:19:38.059Z",
   "games": [
     {
       "appid": 1172470,
@@ -237,7 +237,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 15.6,
+      "playtime_2weeks_hours": 13.2,
       "last_played": 1793597173,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -498,6 +498,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/457140/library_600x900.jpg"
     },
     {
+      "appid": 4115450,
+      "name": "Phantom Blade Zero",
+      "playtime_hours": 23.7,
+      "playtime_2weeks_hours": 23.7,
+      "last_played": 1793806794,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
+    },
+    {
       "appid": 278080,
       "name": "DYNASTY WARRIORS 8: Xtreme Legends Complete Edition",
       "playtime_hours": 23.4,
@@ -544,14 +552,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1722075421,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1562700/library_600x900.jpg"
-    },
-    {
-      "appid": 4115450,
-      "name": "Phantom Blade Zero",
-      "playtime_hours": 19.3,
-      "playtime_2weeks_hours": 19.3,
-      "last_played": 1793776056,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
       "appid": 1030300,
