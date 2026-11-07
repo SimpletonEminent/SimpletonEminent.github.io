@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T09:12:58.781Z",
+  "updatedAt": "2026-11-07T08:38:12.354Z",
   "games": [
     {
       "appid": 1172470,
@@ -237,7 +237,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 11.4,
+      "playtime_2weeks_hours": 10.2,
       "last_played": 1793597173,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -484,9 +484,9 @@
     {
       "appid": 4115450,
       "name": "Phantom Blade Zero",
-      "playtime_hours": 24.5,
-      "playtime_2weeks_hours": 24.5,
-      "last_played": 1793882804,
+      "playtime_hours": 25,
+      "playtime_2weeks_hours": 25,
+      "last_played": 1794039789,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
@@ -1048,6 +1048,14 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1748865587,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/594570/library_600x900.jpg"
+    },
+    {
+      "appid": 2448570,
+      "name": "Road Rash™: 30th Anniversary Edition",
+      "playtime_hours": 1.6,
+      "playtime_2weeks_hours": 1.6,
+      "last_played": 1794037954,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
     },
     {
       "appid": 863550,
