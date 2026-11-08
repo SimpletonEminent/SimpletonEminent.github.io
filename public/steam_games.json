@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-07T08:38:12.354Z",
+  "updatedAt": "2026-11-08T08:51:25.400Z",
   "games": [
     {
       "appid": 1172470,
@@ -28,9 +28,9 @@
     {
       "appid": 294100,
       "name": "RimWorld",
-      "playtime_hours": 318.1,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1753517934,
+      "playtime_hours": 318.3,
+      "playtime_2weeks_hours": 0.1,
+      "last_played": 1794124051,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/294100/library_600x900.jpg"
     },
     {
@@ -237,7 +237,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 10.2,
+      "playtime_2weeks_hours": 8,
       "last_played": 1793597173,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -397,7 +397,7 @@
       "appid": 236850,
       "name": "Europa Universalis IV",
       "playtime_hours": 35.9,
-      "playtime_2weeks_hours": 7.9,
+      "playtime_2weeks_hours": 4.9,
       "last_played": 1792941071,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/236850/library_600x900.jpg"
     },
@@ -450,6 +450,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/413420/library_600x900.jpg"
     },
     {
+      "appid": 4115450,
+      "name": "Phantom Blade Zero",
+      "playtime_hours": 27.3,
+      "playtime_2weeks_hours": 27.3,
+      "last_played": 1794048312,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
+    },
+    {
       "appid": 413410,
       "name": "Danganronpa: Trigger Happy Havoc",
       "playtime_hours": 26.9,
@@ -480,14 +488,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1607062785,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/927380/library_600x900.jpg"
-    },
-    {
-      "appid": 4115450,
-      "name": "Phantom Blade Zero",
-      "playtime_hours": 25,
-      "playtime_2weeks_hours": 25,
-      "last_played": 1794039789,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
       "appid": 834530,
@@ -1010,6 +1010,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2187220/library_600x900.jpg"
     },
     {
+      "appid": 2448570,
+      "name": "Road Rash™: 30th Anniversary Edition",
+      "playtime_hours": 2.5,
+      "playtime_2weeks_hours": 2.5,
+      "last_played": 1794102320,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
+    },
+    {
       "appid": 3527290,
       "name": "PEAK",
       "playtime_hours": 2.5,
@@ -1048,14 +1056,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1748865587,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/594570/library_600x900.jpg"
-    },
-    {
-      "appid": 2448570,
-      "name": "Road Rash™: 30th Anniversary Edition",
-      "playtime_hours": 1.6,
-      "playtime_2weeks_hours": 1.6,
-      "last_played": 1794037954,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
     },
     {
       "appid": 863550,
