@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-08T08:51:25.400Z",
+  "updatedAt": "2026-11-09T09:35:47.601Z",
   "games": [
     {
       "appid": 1172470,
@@ -28,16 +28,16 @@
     {
       "appid": 294100,
       "name": "RimWorld",
-      "playtime_hours": 318.3,
-      "playtime_2weeks_hours": 0.1,
-      "last_played": 1794124051,
+      "playtime_hours": 328.2,
+      "playtime_2weeks_hours": 10,
+      "last_played": 1794214784,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/294100/library_600x900.jpg"
     },
     {
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 224,
-      "playtime_2weeks_hours": 2.1,
+      "playtime_2weeks_hours": 0.9,
       "last_played": 1793014708,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -397,7 +397,7 @@
       "appid": 236850,
       "name": "Europa Universalis IV",
       "playtime_hours": 35.9,
-      "playtime_2weeks_hours": 4.9,
+      "playtime_2weeks_hours": 0,
       "last_played": 1792941071,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/236850/library_600x900.jpg"
     },
@@ -994,6 +994,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1585220/library_600x900.jpg"
     },
     {
+      "appid": 2448570,
+      "name": "Road Rash™: 30th Anniversary Edition",
+      "playtime_hours": 2.6,
+      "playtime_2weeks_hours": 2.6,
+      "last_played": 1794205055,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
+    },
+    {
       "appid": 1054490,
       "name": "Wingspan",
       "playtime_hours": 2.5,
@@ -1008,14 +1016,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1766507643,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2187220/library_600x900.jpg"
-    },
-    {
-      "appid": 2448570,
-      "name": "Road Rash™: 30th Anniversary Edition",
-      "playtime_hours": 2.5,
-      "playtime_2weeks_hours": 2.5,
-      "last_played": 1794102320,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
     },
     {
       "appid": 3527290,
