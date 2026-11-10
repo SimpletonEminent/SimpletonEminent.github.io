@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-09T09:35:47.601Z",
+  "updatedAt": "2026-11-10T09:36:12.014Z",
   "games": [
     {
       "appid": 1172470,
@@ -28,16 +28,16 @@
     {
       "appid": 294100,
       "name": "RimWorld",
-      "playtime_hours": 328.2,
-      "playtime_2weeks_hours": 10,
-      "last_played": 1794214784,
+      "playtime_hours": 328.7,
+      "playtime_2weeks_hours": 10.6,
+      "last_played": 1794265470,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/294100/library_600x900.jpg"
     },
     {
       "appid": 730,
       "name": "Counter-Strike 2",
       "playtime_hours": 224,
-      "playtime_2weeks_hours": 0.9,
+      "playtime_2weeks_hours": 0,
       "last_played": 1793014708,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/730/library_600x900.jpg"
     },
@@ -237,7 +237,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 8,
+      "playtime_2weeks_hours": 6.2,
       "last_played": 1793597173,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -434,6 +434,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1142710/library_600x900.jpg"
     },
     {
+      "appid": 4115450,
+      "name": "Phantom Blade Zero",
+      "playtime_hours": 28.5,
+      "playtime_2weeks_hours": 28.5,
+      "last_played": 1794232467,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
+    },
+    {
       "appid": 239140,
       "name": "Dying Light",
       "playtime_hours": 27.8,
@@ -448,14 +456,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1629958425,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/413420/library_600x900.jpg"
-    },
-    {
-      "appid": 4115450,
-      "name": "Phantom Blade Zero",
-      "playtime_hours": 27.3,
-      "playtime_2weeks_hours": 27.3,
-      "last_played": 1794048312,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
       "appid": 413410,
