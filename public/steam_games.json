@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-12T09:40:01.269Z",
+  "updatedAt": "2026-11-13T09:24:01.275Z",
   "games": [
     {
       "appid": 1172470,
@@ -237,7 +237,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 4.9,
+      "playtime_2weeks_hours": 3.5,
       "last_played": 1793597173,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -437,7 +437,7 @@
       "appid": 4115450,
       "name": "Phantom Blade Zero",
       "playtime_hours": 28.5,
-      "playtime_2weeks_hours": 28.5,
+      "playtime_2weeks_hours": 26.7,
       "last_played": 1794232467,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
