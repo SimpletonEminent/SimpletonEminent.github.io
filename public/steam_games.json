@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-13T09:24:01.275Z",
+  "updatedAt": "2026-11-14T08:51:22.179Z",
   "games": [
     {
       "appid": 1172470,
@@ -237,7 +237,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 3.5,
+      "playtime_2weeks_hours": 3,
       "last_played": 1793597173,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
