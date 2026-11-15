@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-14T08:51:22.179Z",
+  "updatedAt": "2026-11-15T09:07:58.120Z",
   "games": [
     {
       "appid": 1172470,
@@ -12,9 +12,9 @@
     {
       "appid": 394360,
       "name": "Hearts of Iron IV",
-      "playtime_hours": 467.4,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1790428454,
+      "playtime_hours": 469.3,
+      "playtime_2weeks_hours": 1.9,
+      "last_played": 1794679716,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/394360/library_600x900.jpg"
     },
     {
@@ -237,7 +237,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 3,
+      "playtime_2weeks_hours": 0.4,
       "last_played": 1793597173,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -294,7 +294,7 @@
       "name": "Resident Evil 4",
       "playtime_hours": 57.2,
       "playtime_2weeks_hours": 0,
-      "last_played": 1772952743,
+      "last_played": 1794732772,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2050650/library_600x900.jpg"
     },
     {
@@ -437,7 +437,7 @@
       "appid": 4115450,
       "name": "Phantom Blade Zero",
       "playtime_hours": 28.5,
-      "playtime_2weeks_hours": 26.7,
+      "playtime_2weeks_hours": 19.3,
       "last_played": 1794232467,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
@@ -1104,6 +1104,14 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1619975575,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/365450/library_600x900.jpg"
+    },
+    {
+      "appid": 1422450,
+      "name": "Deadlock",
+      "playtime_hours": 0.9,
+      "playtime_2weeks_hours": 0.9,
+      "last_played": 1794684848,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1422450/library_600x900.jpg"
     },
     {
       "appid": 24790,
