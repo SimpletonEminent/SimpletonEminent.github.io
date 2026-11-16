@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-15T09:07:58.120Z",
+  "updatedAt": "2026-11-16T09:24:18.998Z",
   "games": [
     {
       "appid": 1172470,
@@ -28,9 +28,9 @@
     {
       "appid": 294100,
       "name": "RimWorld",
-      "playtime_hours": 328.7,
-      "playtime_2weeks_hours": 10.6,
-      "last_played": 1794265470,
+      "playtime_hours": 328.9,
+      "playtime_2weeks_hours": 10.8,
+      "last_played": 1794757393,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/294100/library_600x900.jpg"
     },
     {
@@ -237,7 +237,7 @@
       "appid": 403640,
       "name": "Dishonored 2",
       "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 0.4,
+      "playtime_2weeks_hours": 0,
       "last_played": 1793597173,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
@@ -292,9 +292,9 @@
     {
       "appid": 2050650,
       "name": "Resident Evil 4",
-      "playtime_hours": 57.2,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1794732772,
+      "playtime_hours": 58,
+      "playtime_2weeks_hours": 0.8,
+      "last_played": 1794735659,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2050650/library_600x900.jpg"
     },
     {
@@ -437,7 +437,7 @@
       "appid": 4115450,
       "name": "Phantom Blade Zero",
       "playtime_hours": 28.5,
-      "playtime_2weeks_hours": 19.3,
+      "playtime_2weeks_hours": 14.4,
       "last_played": 1794232467,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
