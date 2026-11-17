@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-16T09:24:18.998Z",
+  "updatedAt": "2026-11-17T10:29:43.502Z",
   "games": [
     {
       "appid": 1172470,
@@ -418,6 +418,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/447040/library_600x900.jpg"
     },
     {
+      "appid": 4115450,
+      "name": "Phantom Blade Zero",
+      "playtime_hours": 29.4,
+      "playtime_2weeks_hours": 14.8,
+      "last_played": 1794833454,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
+    },
+    {
       "appid": 1128920,
       "name": "EVERSPACE™ 2",
       "playtime_hours": 29,
@@ -432,14 +440,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1791806474,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1142710/library_600x900.jpg"
-    },
-    {
-      "appid": 4115450,
-      "name": "Phantom Blade Zero",
-      "playtime_hours": 28.5,
-      "playtime_2weeks_hours": 14.4,
-      "last_played": 1794232467,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
       "appid": 239140,
