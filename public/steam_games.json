@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-18T09:59:16.063Z",
+  "updatedAt": "2026-11-19T10:08:00.683Z",
   "games": [
     {
       "appid": 1172470,
@@ -28,9 +28,9 @@
     {
       "appid": 294100,
       "name": "RimWorld",
-      "playtime_hours": 328.9,
+      "playtime_hours": 329,
       "playtime_2weeks_hours": 10.8,
-      "last_played": 1794757393,
+      "last_played": 1795078854,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/294100/library_600x900.jpg"
     },
     {
@@ -236,9 +236,9 @@
     {
       "appid": 403640,
       "name": "Dishonored 2",
-      "playtime_hours": 71.9,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1793597173,
+      "playtime_hours": 74.1,
+      "playtime_2weeks_hours": 2.2,
+      "last_played": 1795075955,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
@@ -260,9 +260,9 @@
     {
       "appid": 2868840,
       "name": "Slay the Spire 2",
-      "playtime_hours": 64.3,
-      "playtime_2weeks_hours": 0,
-      "last_played": 1782658558,
+      "playtime_hours": 65,
+      "playtime_2weeks_hours": 0.7,
+      "last_played": 1795018909,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2868840/library_600x900.jpg"
     },
     {
@@ -420,9 +420,9 @@
     {
       "appid": 4115450,
       "name": "Phantom Blade Zero",
-      "playtime_hours": 29.4,
-      "playtime_2weeks_hours": 10.1,
-      "last_played": 1794833454,
+      "playtime_hours": 29.8,
+      "playtime_2weeks_hours": 6,
+      "last_played": 1795001989,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
@@ -682,20 +682,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/8870/library_600x900.jpg"
     },
     {
+      "appid": 2448570,
+      "name": "Road Rash™: 30th Anniversary Edition",
+      "playtime_hours": 11.4,
+      "playtime_2weeks_hours": 11.4,
+      "last_played": 1795004528,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
+    },
+    {
       "appid": 391220,
       "name": "Rise of the Tomb Raider",
       "playtime_hours": 11.2,
       "playtime_2weeks_hours": 0,
       "last_played": 1599309091,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/391220/library_600x900.jpg"
-    },
-    {
-      "appid": 2448570,
-      "name": "Road Rash™: 30th Anniversary Edition",
-      "playtime_hours": 11.2,
-      "playtime_2weeks_hours": 11.2,
-      "last_played": 1794958803,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
     },
     {
       "appid": 548430,
