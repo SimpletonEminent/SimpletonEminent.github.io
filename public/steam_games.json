@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-19T10:08:00.683Z",
+  "updatedAt": "2026-11-20T09:55:12.261Z",
   "games": [
     {
       "appid": 1172470,
@@ -28,9 +28,9 @@
     {
       "appid": 294100,
       "name": "RimWorld",
-      "playtime_hours": 329,
-      "playtime_2weeks_hours": 10.8,
-      "last_played": 1795078854,
+      "playtime_hours": 329.6,
+      "playtime_2weeks_hours": 11.5,
+      "last_played": 1795092757,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/294100/library_600x900.jpg"
     },
     {
@@ -218,6 +218,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2622380/library_600x900.jpg"
     },
     {
+      "appid": 403640,
+      "name": "Dishonored 2",
+      "playtime_hours": 76,
+      "playtime_2weeks_hours": 4.1,
+      "last_played": 1795103051,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
+    },
+    {
       "appid": 1364780,
       "name": "Street Fighter™ 6",
       "playtime_hours": 76,
@@ -232,14 +240,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1734962885,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/638970/library_600x900.jpg"
-    },
-    {
-      "appid": 403640,
-      "name": "Dishonored 2",
-      "playtime_hours": 74.1,
-      "playtime_2weeks_hours": 2.2,
-      "last_played": 1795075955,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/403640/library_600x900.jpg"
     },
     {
       "appid": 418240,
@@ -410,20 +410,20 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/1252330/library_600x900.jpg"
     },
     {
+      "appid": 4115450,
+      "name": "Phantom Blade Zero",
+      "playtime_hours": 30.1,
+      "playtime_2weeks_hours": 5.7,
+      "last_played": 1795165417,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
+    },
+    {
       "appid": 447040,
       "name": "Watch_Dogs 2",
       "playtime_hours": 29.8,
       "playtime_2weeks_hours": 0,
       "last_played": 1695453852,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/447040/library_600x900.jpg"
-    },
-    {
-      "appid": 4115450,
-      "name": "Phantom Blade Zero",
-      "playtime_hours": 29.8,
-      "playtime_2weeks_hours": 6,
-      "last_played": 1795001989,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
     {
       "appid": 1128920,
@@ -658,6 +658,14 @@
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2401970/library_600x900.jpg"
     },
     {
+      "appid": 2448570,
+      "name": "Road Rash™: 30th Anniversary Edition",
+      "playtime_hours": 12.6,
+      "playtime_2weeks_hours": 12.6,
+      "last_played": 1795162833,
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
+    },
+    {
       "appid": 1326470,
       "name": "Sons Of The Forest",
       "playtime_hours": 12.3,
@@ -680,14 +688,6 @@
       "playtime_2weeks_hours": 0,
       "last_played": 1626670746,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/8870/library_600x900.jpg"
-    },
-    {
-      "appid": 2448570,
-      "name": "Road Rash™: 30th Anniversary Edition",
-      "playtime_hours": 11.4,
-      "playtime_2weeks_hours": 11.4,
-      "last_played": 1795004528,
-      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
     },
     {
       "appid": 391220,
