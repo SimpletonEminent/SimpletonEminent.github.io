@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-20T09:55:12.261Z",
+  "updatedAt": "2026-11-21T09:33:04.709Z",
   "games": [
     {
       "appid": 1172470,
@@ -413,7 +413,7 @@
       "appid": 4115450,
       "name": "Phantom Blade Zero",
       "playtime_hours": 30.1,
-      "playtime_2weeks_hours": 5.7,
+      "playtime_2weeks_hours": 4,
       "last_played": 1795165417,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/4115450/library_600x900.jpg"
     },
@@ -661,7 +661,7 @@
       "appid": 2448570,
       "name": "Road Rash™: 30th Anniversary Edition",
       "playtime_hours": 12.6,
-      "playtime_2weeks_hours": 12.6,
+      "playtime_2weeks_hours": 11.1,
       "last_played": 1795162833,
       "cover": "https://cdn.akamai.steamstatic.com/steam/apps/2448570/library_600x900.jpg"
     },
